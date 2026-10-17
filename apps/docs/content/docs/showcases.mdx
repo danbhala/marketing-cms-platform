@@ -1,0 +1,16 @@
+---
+title: Showcases
+description: "Six brands on the same blocks, restyled with CSS variables alone: fonts, colours, radius, spacing and real photography."
+---
+
+Every showcase below is the same `PageTemplate` and the same blocks as the demo site. Nothing in `@platform/ui` changes between them; each one is a preset in the [theme studio](/theme) that sets the variables from [theming](/docs/theming). Fonts are self-hosted from Fontsource, photos are placeholders (see `public/showcases/CREDITS.md`).
+
+Open any of them full-page, or press "Edit in studio" to start from it.
+
+<ShowcaseGallery />
+
+## Making your own
+
+1. Open one in the [studio](/theme), change what you like, and copy the CSS (it includes the Fontsource imports).
+2. Paste it into your app after `@platform/ui/globals.css`; keep `:root` for the whole site, or rename it to a class and add the name to `themeNames` to use it per page or block.
+3. Run `pnpm --filter @platform/ui test`: the Storybook axe checks will catch a primary colour that fails contrast.

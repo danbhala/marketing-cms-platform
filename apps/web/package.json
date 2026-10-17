@@ -17,6 +17,7 @@
     "@platform/cms-storyblok": "workspace:*",
     "@platform/cms-optimizely": "workspace:*",
     "@platform/cms-sanity": "workspace:*",
+    "@platform/cms-drupal": "workspace:*",
     "@platform/cms-wagtail": "workspace:*",
     "@platform/component-registry": "workspace:*",
     "@platform/content-model": "workspace:*",

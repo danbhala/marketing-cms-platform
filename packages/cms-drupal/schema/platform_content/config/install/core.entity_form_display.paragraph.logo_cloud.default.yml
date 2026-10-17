@@ -1,0 +1,84 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.logo_cloud.field_anchor
+    - field.field.paragraph.logo_cloud.field_grayscale
+    - field.field.paragraph.logo_cloud.field_logo_cloud_layout
+    - field.field.paragraph.logo_cloud.field_logos
+    - field.field.paragraph.logo_cloud.field_spacing
+    - field.field.paragraph.logo_cloud.field_theme
+    - field.field.paragraph.logo_cloud.field_title
+    - paragraphs.paragraphs_type.logo_cloud
+  module:
+    - options
+    - paragraphs
+id: paragraph.logo_cloud.default
+targetEntityType: paragraph
+bundle: logo_cloud
+mode: default
+content:
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_logos:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_logo_cloud_layout:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_grayscale:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_theme:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_spacing:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_anchor:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

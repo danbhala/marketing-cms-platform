@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: pricing_plan
+label: Pricing plan
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

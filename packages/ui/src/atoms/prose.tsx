@@ -12,9 +12,9 @@ const proseVariants = cva(
   [
     "max-w-(--container-prose) text-pretty",
     "[&_p]:my-4 [&_p]:leading-7",
-    "[&_h2]:font-heading [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:tracking-tight",
-    "[&_h3]:font-heading [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:tracking-tight",
-    "[&_h4]:font-heading [&_h4]:mt-6 [&_h4]:mb-2 [&_h4]:text-xl [&_h4]:font-semibold",
+    "[&_h2]:font-heading [&_h2]:heading-style [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-3xl",
+    "[&_h3]:font-heading [&_h3]:heading-style [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-2xl",
+    "[&_h4]:font-heading [&_h4]:heading-style [&_h4]:mt-6 [&_h4]:mb-2 [&_h4]:text-xl",
     "[&_h5]:mt-6 [&_h5]:mb-2 [&_h5]:text-lg [&_h5]:font-semibold",
     "[&_h6]:mt-6 [&_h6]:mb-2 [&_h6]:text-base [&_h6]:font-semibold",
     "[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/80",

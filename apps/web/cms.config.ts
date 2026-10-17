@@ -18,6 +18,7 @@ const providers: Record<string, () => Promise<CmsAdapter>> = {
   storyblok: () => import("@platform/cms-storyblok").then((m) => m.storyblokAdapter),
   optimizely: () => import("@platform/cms-optimizely").then((m) => m.optimizelyAdapter),
   sanity: () => import("@platform/cms-sanity").then((m) => m.sanityAdapter),
+  drupal: () => import("@platform/cms-drupal").then((m) => m.drupalAdapter),
   wagtail: () => import("@platform/cms-wagtail").then((m) => m.wagtailAdapter),
 }
 

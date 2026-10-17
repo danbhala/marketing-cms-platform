@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_fields
+    - paragraphs.paragraphs_type.form
+    - paragraphs.paragraphs_type.form_field
+  module:
+    - entity_reference_revisions
+id: paragraph.form.field_fields
+field_name: field_fields
+entity_type: paragraph
+bundle: form
+label: Fields
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      form_field: form_field
+    negate: 0
+    target_bundles_drag_drop:
+      form_field:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

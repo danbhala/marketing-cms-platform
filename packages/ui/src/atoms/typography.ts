@@ -11,19 +11,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 export const typographyVariants = cva("", {
   variants: {
     size: {
-      display: "font-heading text-5xl font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl",
-      h1: "font-heading text-4xl font-semibold tracking-tight text-balance sm:text-5xl",
-      h2: "font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl",
-      h3: "font-heading text-2xl font-semibold tracking-tight",
-      h4: "font-heading text-xl font-semibold",
-      h5: "font-heading text-lg font-semibold",
-      h6: "font-heading text-base font-semibold",
+      display: "font-heading heading-style text-5xl text-balance sm:text-6xl lg:text-7xl",
+      h1: "font-heading heading-style text-4xl text-balance sm:text-5xl",
+      h2: "font-heading heading-style text-3xl text-balance sm:text-4xl",
+      h3: "font-heading heading-style text-2xl",
+      h4: "font-heading heading-style text-xl",
+      h5: "font-heading heading-style text-lg",
+      h6: "font-heading heading-style text-base",
       lead: "text-lg text-pretty sm:text-xl",
       lg: "text-lg",
       base: "text-base",
       sm: "text-sm",
       xs: "text-xs",
-      eyebrow: "text-sm font-medium tracking-wide uppercase",
+      eyebrow: "font-eyebrow text-sm font-medium tracking-wide uppercase",
     },
     tone: {
       default: "",

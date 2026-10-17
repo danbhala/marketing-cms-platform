@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_tabs
+    - paragraphs.paragraphs_type.tab
+    - paragraphs.paragraphs_type.tabs
+  module:
+    - entity_reference_revisions
+id: paragraph.tabs.field_tabs
+field_name: field_tabs
+entity_type: paragraph
+bundle: tabs
+label: Tabs
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      tab: tab
+    negate: 0
+    target_bundles_drag_drop:
+      tab:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

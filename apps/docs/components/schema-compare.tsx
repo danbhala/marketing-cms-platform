@@ -1,15 +1,19 @@
-import { readFile } from "node:fs/promises"
+import { readdir, readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock"
 import { Tab, Tabs } from "fumadocs-ui/components/tabs"
 
 const packagesDir = join(process.cwd(), "..", "..", "packages")
 
-const sources: Record<string, { label: string; file: string; lang: string }> = {
+type Source = { label: string; lang: string } & ({ file: string } | { dir: string })
+
+const sources: Record<string, Source> = {
   contentful: { label: "Contentful", file: "cms-contentful/schema/content-types.json", lang: "json" },
   storyblok: { label: "Storyblok", file: "cms-storyblok/schema/components.json", lang: "json" },
   optimizely: { label: "Optimizely", file: "cms-optimizely/schema/content-types.json", lang: "json" },
   sanity: { label: "Sanity", file: "cms-sanity/schema/schema.json", lang: "json" },
+  // Drupal config is one YAML file per object; the type's own file and its field instances are shown together.
+  drupal: { label: "Drupal", dir: "cms-drupal/schema/platform_content/config/install", lang: "yaml" },
   wagtail: { label: "Wagtail", file: "cms-wagtail/schema/schema.json", lang: "json" },
 }
 
@@ -48,6 +52,22 @@ function pick(raw: string, type: string): string {
   }
 }
 
+/** Drupal: the paragraph or node type file plus every `field.field.*` instance of that bundle, concatenated. */
+async function pickDir(dir: string, type: string): Promise<string | null> {
+  const bundle = type.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase()
+  let names: string[]
+  try {
+    names = await readdir(dir)
+  } catch {
+    return null
+  }
+  const own = names.filter((name) => name === `paragraphs.paragraphs_type.${bundle}.yml` || name === `node.type.${bundle}.yml`)
+  const fields = names.filter((name) => name.startsWith(`field.field.paragraph.${bundle}.`) || name.startsWith(`field.field.node.${bundle}.`)).sort()
+  if (own.length === 0) return `# type ${type} not found`
+  const parts = await Promise.all([...own, ...fields].map(async (name) => `# ${name}\n${(await readFile(join(dir, name), "utf8")).trimEnd()}`))
+  return parts.join("\n\n")
+}
+
 /**
  * Shows the canonical definition of a block or item next to what each CMS
  * schema generator produced for it. Reads the generated files at build time.
@@ -58,9 +78,11 @@ export async function SchemaCompare({ type }: { type: string }) {
   const canonicalSnippet = extractDefinition(`${canonical ?? ""}\n${items ?? ""}`, type)
 
   const tabs: { label: string; code: string; lang: string }[] = [{ label: "Canonical", code: canonicalSnippet, lang: "ts" }]
-  for (const { label, file, lang } of Object.values(sources)) {
-    const raw = await readOptional(join(packagesDir, file))
-    tabs.push({ label, code: raw ? pick(raw, type) : `// run \`pnpm schema:generate\` in packages/${file.split("/")[0]}`, lang })
+  for (const source of Object.values(sources)) {
+    const location = "file" in source ? source.file : source.dir
+    const raw = "file" in source ? await readOptional(join(packagesDir, source.file)) : await pickDir(join(packagesDir, source.dir), type)
+    const code = raw === null ? `// run \`pnpm schema:generate\` in packages/${location.split("/")[0]}` : "file" in source ? pick(raw, type) : raw
+    tabs.push({ label: source.label, code, lang: source.lang })
   }
 
   return (

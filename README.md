@@ -1,6 +1,6 @@
 # Marketing CMS Platform
 
-One marketing front-end that renders from any CMS. Content from Contentful, Storyblok, Optimizely SaaS CMS, Sanity or Wagtail is normalised into a single canonical content model, rendered by one set of shadcn-based components, and served by a Next.js app that never imports a CMS SDK. Switching CMS is one environment variable.
+One marketing front-end that renders from any CMS. Content from Contentful, Storyblok, Optimizely SaaS CMS, Sanity, Drupal or Wagtail is normalised into a single canonical content model, rendered by one set of shadcn-based components, and served by a Next.js app that never imports a CMS SDK. Switching CMS is one environment variable.
 
 ## Layout
 
@@ -12,7 +12,7 @@ One marketing front-end that renders from any CMS. Content from Contentful, Stor
 | `packages/content-model` | `@platform/content-model` | Field DSL and the canonical definitions every CMS maps to; types, zod validators, fixtures. |
 | `packages/cms-core` | `@platform/cms-core` | The `CmsAdapter` contract, cache-tag scheme and `$edit` helpers. The only CMS package the app imports. |
 | `packages/cms-local` | `@platform/cms-local` | Adapter over the in-repo fixtures; the default for development and tests. |
-| `packages/cms-contentful` · `cms-storyblok` · `cms-optimizely` · `cms-sanity` · `cms-wagtail` | `@platform/cms-*` | One adapter per CMS: schema generator, transform, preview, live-edit bridge, webhook. |
+| `packages/cms-contentful` · `cms-storyblok` · `cms-optimizely` · `cms-sanity` · `cms-drupal` · `cms-wagtail` | `@platform/cms-*` | One adapter per CMS: schema generator, transform, preview, live-edit bridge, webhook. |
 | `packages/component-registry` | `@platform/component-registry` | Maps block types to components; the app renders through it. |
 | `packages/eslint-config` · `typescript-config` | `@platform/*-config` | Shared lint and TS settings. |
 | `.claude/skills` | | Vendor-installed Claude skills (Next.js, Contentful, Optimizely, shadcn, Storybook, Turborepo). |

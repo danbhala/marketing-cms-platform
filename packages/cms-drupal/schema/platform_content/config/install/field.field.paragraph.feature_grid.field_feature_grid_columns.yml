@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_feature_grid_columns
+    - paragraphs.paragraphs_type.feature_grid
+  module:
+    - options
+id: paragraph.feature_grid.field_feature_grid_columns
+field_name: field_feature_grid_columns
+entity_type: paragraph
+bundle: feature_grid
+label: Columns
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: '3'
+default_value_callback: ''
+settings: {  }
+field_type: list_string

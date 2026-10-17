@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_media_position
+    - paragraphs.paragraphs_type.feature_split
+  module:
+    - options
+id: paragraph.feature_split.field_media_position
+field_name: field_media_position
+entity_type: paragraph
+bundle: feature_split
+label: Media position
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: right
+default_value_callback: ''
+settings: {  }
+field_type: list_string

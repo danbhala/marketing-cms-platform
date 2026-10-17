@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
     "@platform/cms-storyblok",
     "@platform/cms-optimizely",
     "@platform/cms-sanity",
+    "@platform/cms-drupal",
+    "@platform/cms-wagtail",
     "@platform/component-registry",
   ],
   images: {
@@ -25,6 +27,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "a.storyblok.com" },
       { protocol: "https", hostname: "*.cmp.optimizely.com" },
       { protocol: "https", hostname: "cdn.sanity.io" },
+      // Drupal serves files from its own origin; only known when the env is set.
+      ...(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
+        ? [{ protocol: new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).protocol.replace(":", "") as "http" | "https", hostname: new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).hostname }]
+        : []),
     ],
     qualities: [75],
     minimumCacheTTL: 14400,

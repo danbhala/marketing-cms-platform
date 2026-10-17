@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: form
+label: Form
+icon_uuid: null
+icon_default: null
+description: 'Newsletter or contact form. Posts JSON to the endpoint in ''action''.'
+behavior_plugins: {  }

@@ -1,0 +1,181 @@
+import { defaultTheme, type Theme } from "./theme"
+
+/**
+ * Named presets: the stock theme plus the six showcase brands. The showcases
+ * read these, so changing a preset here changes the showcase page, its
+ * screenshot caption and the CSS the docs print.
+ */
+
+export interface Preset {
+  slug: string
+  name: string
+  theme: Theme
+}
+
+export const presets: Preset[] = [
+  { slug: "default", name: "Default (shadcn)", theme: defaultTheme },
+  {
+    slug: "verso",
+    name: "Verso",
+    theme: {
+      fonts: { heading: "fraunces", body: "inter", mono: "jetbrains-mono" },
+      heading: { weight: 500, tracking: -0.01, uppercase: false },
+      radius: 0.125,
+      rhythm: { section: 1.25, gap: 1 },
+      container: 80,
+      scheme: "light",
+      colors: {
+        background: [0.975, 0.012, 85],
+        foreground: [0.22, 0.02, 55],
+        card: [0.99, 0.008, 85],
+        primary: [0.42, 0.14, 25],
+        primaryForeground: [0.98, 0.01, 80],
+        secondary: [0.93, 0.02, 80],
+        muted: [0.94, 0.015, 80],
+        mutedForeground: [0.45, 0.03, 55],
+        accent: [0.93, 0.02, 80],
+        border: [0.86, 0.02, 75],
+        brand: [0.42, 0.14, 25],
+        brandForeground: [0.98, 0.01, 80],
+        brandMuted: [0.9, 0.05, 30],
+      },
+    },
+  },
+  {
+    slug: "kessler",
+    name: "Kessler",
+    theme: {
+      fonts: { heading: "space-grotesk", body: "space-grotesk", mono: "jetbrains-mono", eyebrow: "jetbrains-mono" },
+      heading: { weight: 700, tracking: -0.03, uppercase: true },
+      radius: 0,
+      rhythm: { section: 0.7, gap: 0.7 },
+      container: 80,
+      scheme: "light",
+      colors: {
+        background: [0.985, 0.005, 100],
+        foreground: [0.15, 0, 0],
+        card: [1, 0, 0],
+        primary: [0.15, 0, 0],
+        primaryForeground: [0.9, 0.2, 125],
+        secondary: [0.93, 0, 0],
+        muted: [0.94, 0, 0],
+        mutedForeground: [0.4, 0, 0],
+        accent: [0.9, 0.2, 125],
+        border: [0.15, 0, 0],
+        brand: [0.9, 0.2, 125],
+        brandForeground: [0.15, 0, 0],
+        brandMuted: [0.8, 0.18, 125],
+      },
+    },
+  },
+  {
+    slug: "lumen",
+    name: "Lumen",
+    theme: {
+      fonts: { heading: "outfit", body: "manrope", mono: "geist-mono" },
+      heading: { weight: 600, tracking: -0.02, uppercase: false },
+      radius: 1,
+      rhythm: { section: 1, gap: 1 },
+      container: 80,
+      scheme: "dark",
+      colors: {
+        background: [0.16, 0.03, 275],
+        foreground: [0.95, 0.01, 275],
+        card: [0.21, 0.03, 275],
+        primary: [0.82, 0.13, 195],
+        primaryForeground: [0.15, 0.03, 275],
+        secondary: [0.26, 0.03, 275],
+        muted: [0.21, 0.03, 275],
+        mutedForeground: [0.74, 0.02, 275],
+        accent: [0.26, 0.03, 275],
+        border: [0.3, 0.03, 275],
+        brand: [0.5, 0.2, 290],
+        brandForeground: [0.98, 0.01, 290],
+        brandMuted: [0.3, 0.08, 290],
+      },
+    },
+  },
+  {
+    slug: "maison",
+    name: "Maison Ambre",
+    theme: {
+      fonts: { heading: "cormorant-garamond", body: "jost", mono: "jetbrains-mono" },
+      heading: { weight: 600, tracking: 0, uppercase: false },
+      radius: 0.375,
+      rhythm: { section: 1.15, gap: 1 },
+      container: 80,
+      scheme: "light",
+      colors: {
+        background: [0.96, 0.015, 110],
+        foreground: [0.28, 0.04, 150],
+        card: [0.985, 0.01, 100],
+        primary: [0.5, 0.12, 45],
+        primaryForeground: [0.98, 0.01, 80],
+        secondary: [0.9, 0.03, 120],
+        muted: [0.92, 0.02, 115],
+        mutedForeground: [0.42, 0.04, 150],
+        accent: [0.9, 0.03, 120],
+        border: [0.84, 0.03, 120],
+        brand: [0.35, 0.06, 150],
+        brandForeground: [0.96, 0.015, 110],
+        brandMuted: [0.45, 0.06, 150],
+      },
+    },
+  },
+  {
+    slug: "harbor",
+    name: "Harbor & Co",
+    theme: {
+      fonts: { heading: "dm-serif-display", body: "dm-sans", mono: "geist-mono" },
+      heading: { weight: 400, tracking: -0.01, uppercase: false },
+      radius: 1.25,
+      rhythm: { section: 1, gap: 1 },
+      container: 80,
+      scheme: "light",
+      colors: {
+        background: [0.985, 0.01, 85],
+        foreground: [0.28, 0.06, 250],
+        card: [1, 0, 0],
+        primary: [0.5, 0.13, 235],
+        primaryForeground: [0.99, 0, 0],
+        secondary: [0.94, 0.02, 80],
+        muted: [0.95, 0.02, 85],
+        mutedForeground: [0.47, 0.04, 250],
+        accent: [0.94, 0.02, 80],
+        border: [0.88, 0.02, 80],
+        brand: [0.5, 0.13, 235],
+        brandForeground: [0.99, 0, 0],
+        brandMuted: [0.9, 0.05, 230],
+      },
+    },
+  },
+  {
+    slug: "nova",
+    name: "Nova",
+    theme: {
+      fonts: { heading: "syne", body: "instrument-sans", mono: "geist-mono" },
+      heading: { weight: 700, tracking: -0.04, uppercase: false },
+      radius: 0.75,
+      rhythm: { section: 1, gap: 1 },
+      container: 80,
+      scheme: "light",
+      colors: {
+        background: [0.99, 0, 0],
+        foreground: [0.2, 0.05, 290],
+        card: [0.97, 0.01, 290],
+        primary: [0.5, 0.19, 25],
+        primaryForeground: [0.99, 0, 0],
+        secondary: [0.95, 0.02, 290],
+        muted: [0.96, 0.01, 290],
+        mutedForeground: [0.5, 0.03, 290],
+        accent: [0.95, 0.02, 290],
+        border: [0.9, 0.01, 290],
+        brand: [0.2, 0.05, 290],
+        brandForeground: [0.98, 0, 0],
+        brandMuted: [0.3, 0.06, 290],
+      },
+    },
+  },
+]
+
+export const presetBySlug = (slug: string) => presets.find((p) => p.slug === slug)

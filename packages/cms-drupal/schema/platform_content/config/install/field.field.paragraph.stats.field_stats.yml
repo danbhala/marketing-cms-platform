@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_stats
+    - paragraphs.paragraphs_type.stat
+    - paragraphs.paragraphs_type.stats
+  module:
+    - entity_reference_revisions
+id: paragraph.stats.field_stats
+field_name: field_stats
+entity_type: paragraph
+bundle: stats
+label: Stats
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      stat: stat
+    negate: 0
+    target_bundles_drag_drop:
+      stat:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

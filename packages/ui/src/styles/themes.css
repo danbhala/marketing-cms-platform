@@ -67,19 +67,15 @@
   color-scheme: dark;
 }
 
-/* Muted: a soft grey band, used for alternating sections. */
+/* Muted: a soft band for alternating sections. Written against the current
+   tokens, not fixed greys, so it works on any palette: cards sit on the
+   page's own background (`--inverse-foreground` was resolved at the root),
+   and secondary copy darkens towards the foreground to keep contrast. */
 .theme-muted {
   --background: var(--muted);
-  --card: oklch(1 0 0);
-  --surface: oklch(0.955 0 0);
-  /* Darker than stock so secondary copy keeps 4.5:1 on the grey band. */
-  --muted-foreground: oklch(0.45 0 0);
-}
-:is(.dark, .theme-dark) .theme-muted,
-.theme-muted:is(.dark, .theme-dark) {
-  --card: oklch(0.205 0 0);
-  --surface: oklch(0.24 0 0);
-  --muted-foreground: oklch(0.78 0 0);
+  --card: var(--inverse-foreground);
+  --surface: color-mix(in oklch, var(--muted), var(--foreground) 5%);
+  --muted-foreground: color-mix(in oklch, var(--foreground) 80%, var(--muted));
 }
 
 /* --- Brand theme (the one clients override) ------------------------------ */

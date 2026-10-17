@@ -1,0 +1,43 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.logo.field_href
+    - field.field.paragraph.logo.field_image
+    - field.field.paragraph.logo.field_name
+    - paragraphs.paragraphs_type.logo
+  module:
+    - link
+    - media_library
+id: paragraph.logo.default
+targetEntityType: paragraph
+bundle: logo
+mode: default
+content:
+  field_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_image:
+    type: media_library_widget
+    weight: 1
+    region: content
+    settings:
+      media_types: [  ]
+    third_party_settings: {  }
+  field_href:
+    type: link_default
+    weight: 2
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

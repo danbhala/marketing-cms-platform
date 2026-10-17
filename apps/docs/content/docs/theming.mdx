@@ -5,9 +5,9 @@ description: "CSS variables, theme classes, and how to brand a whole site, one p
 
 All colour, radius and spacing comes from CSS variables in three layers:
 
-1. **`tokens.css`** — the shadcn semantic variables (`--background`, `--primary`, `--muted-foreground`, `--radius`…) for `:root` and `.dark`, plus platform additions (`--inverse`, `--brand`).
+1. **`tokens.css`** — the shadcn semantic variables (`--background`, `--primary`, `--muted-foreground`, `--radius`…) for `:root` and `.dark`, plus platform additions: `--inverse`, `--brand`, the fonts (`--font-heading`, `--font-sans`, `--font-eyebrow`, `--font-mono`) and the heading treatment (`--heading-weight`, `--heading-tracking`, `--heading-case`).
 2. **`themes.css`** — `theme-*` classes that re-declare those variables on whatever element carries the class.
-3. **`blocks.css`** — layout variables blocks read: `--section-space-sm|md|lg`, `--container-*`, `--block-grid-gap`.
+3. **`blocks.css`** — layout variables blocks read: `--section-scale` and `--gap-scale` (multipliers on the responsive section and grid steps), `--section-space-sm|md|lg`, `--container-*`, `--block-grid-gap`.
 
 Tailwind utilities map to the variables with `@theme inline`, so `bg-primary` follows the nearest theme class.
 
@@ -33,6 +33,12 @@ Themes nest: a brand-coloured CTA on a dark page keeps the brand colours inside 
 
 <Screenshot name="templates-pages--landing-dark" alt="Landing page with the page-level dark theme" height={2000} />
 
+## Theme studio
+
+The quickest way to a brand is the [theme studio](/theme): pick a preset, change fonts, colours, radius and rhythm with live preview on a showcase site, check contrast, then copy the CSS. The URL carries the theme, so a link is a shareable draft, and the [showcases](/docs/showcases) are its presets.
+
+<Screenshot name="docs-theme-studio" alt="The theme studio editing the Verso preset" height={800} />
+
 ## Branding a site
 
 Override variables; never edit components:
@@ -44,9 +50,11 @@ Override variables; never edit components:
   --primary-foreground: oklch(0.98 0 0);
   --radius: 0.5rem;
   --font-sans: "Inter Variable", sans-serif;
+  --font-heading: "Fraunces Variable", serif;
+  --heading-weight: 500;
 }
 .theme-brand { --brand: var(--primary); }
-.theme-airy { --section-space-md: 8rem; --block-grid-gap: 2.5rem; }
+.theme-airy { --section-scale: 1.4; --gap-scale: 1.2; }
 ```
 
 Add a new theme name to `themeNames` in `content-model/src/themes.ts` and it appears as an option in every CMS after `pnpm schema:generate`.

@@ -7,9 +7,9 @@ description: Change design tokens, add or tune a theme class, or brand a site, p
 
 Three CSS layers in `packages/ui/src/styles`, all plain CSS variables so a CMS or a host site can restyle without touching components:
 
-1. `tokens.css`: semantic tokens from shadcn (`--background`, `--foreground`, `--primary`, `--muted`, `--border`, radius…) in oklch, plus `--brand`.
+1. `tokens.css`: semantic tokens from shadcn (`--background`, `--foreground`, `--primary`, `--muted`, `--border`, radius…) in oklch, plus `--brand`, the fonts (`--font-heading|sans|eyebrow|mono`) and the heading treatment (`--heading-weight`, `--heading-tracking`, `--heading-case`, applied by the `heading-style` utility; never put `font-semibold tracking-tight` on a heading).
 2. `themes.css`: `theme-*` colour classes that redefine those tokens. `theme-light`/`theme-dark` set the whole palette; `theme-muted` changes surfaces; accent themes (`brand`, `blue`, `green`, `orange`, `rose`, `violet`) set `--primary` and derive secondary/accent/muted with `color-mix(in oklch, …)`, each with a dark variant under `:is(.dark, .theme-dark)`. Classes compose (`theme-dark theme-violet`).
-3. `blocks.css`: layout variables, kept apart from colour so rhythm and palette change independently: `--section-space-sm|md|lg` (what `spacing: none|sm|md|lg` maps to), `--container-*` widths, `--block-header-gap`, `--block-grid-gap`. `theme-compact` lives here and tightens those.
+3. `blocks.css`: layout variables, kept apart from colour so rhythm and palette change independently: `--section-scale` and `--gap-scale` multiply the responsive steps `--section-space-sm|md|lg` (what `spacing: none|sm|md|lg` maps to) and `--block-grid-gap`; `--container-*` widths. `theme-compact` is just `--section-scale: 0.6`.
 
 Where a theme applies:
 
@@ -23,3 +23,4 @@ Rules:
 - Never hard-code colours in components; use the semantic tokens through Tailwind (`bg-background`, `text-muted-foreground`).
 - Accent foregrounds use the 700 step and muted-foreground is tuned for WCAG AA; the Storybook tests run axe, so check contrast after changing a token (`pnpm --filter @platform/ui test`).
 - Preview a theme with the Storybook themes toolbar; the `Templates/Pages` stories have dark and violet-compact variants to compare against.
+- To design a whole brand, use the docs theme studio (`apps/docs/theme-studio`, served at `/theme`): it edits the small model in `theme.ts` and exports the full variable set. Add a preset to `presets.ts` (the showcases read it); add a font to `fonts.ts` and `fonts-load.ts`. `theme-muted` and `theme-brand` are written against tokens so they work on any palette, including dark ones.

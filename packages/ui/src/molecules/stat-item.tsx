@@ -19,7 +19,7 @@ function StatItem({ item, align = "center", className, ...props }: StatItemProps
       {...editAttrs(item)}
       {...props}
     >
-      <p className="font-heading text-4xl font-semibold tracking-tight sm:text-5xl" {...fieldAttrs(item, "value")}>
+      <p className="font-heading heading-style text-4xl sm:text-5xl" {...fieldAttrs(item, "value")}>
         {item.value}
       </p>
       <Text size="sm" weight="medium" {...fieldAttrs(item, "label")}>
