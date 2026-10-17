@@ -5,6 +5,7 @@ import * as fixtures from "@platform/content-model/fixtures"
 import { Container } from "../atoms/container"
 import { Grid, Stack } from "../atoms/layout"
 import { ActionGroup } from "./action-group"
+import { Breadcrumbs } from "./breadcrumbs"
 import { ContentCard } from "./content-card"
 import { FeatureItem } from "./feature-item"
 import { FormField } from "./form-field"
@@ -136,6 +137,14 @@ export const FormFields: StoryObj = {
         {fixtures.contactFormBlock.fields.map((field) => <FormField key={field.id} field={field} />)}
         <FormField field={fixtures.contactFormBlock.fields[1]!} error="Enter a valid work email." defaultValue="not-an-email" />
       </Stack>
+    </Container>
+  ),
+}
+
+export const BreadcrumbTrail: StoryObj = {
+  render: () => (
+    <Container>
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: "Why event-based analytics" }]} />
     </Container>
   ),
 }

@@ -8,6 +8,7 @@ import { PageTemplate } from "@platform/ui/templates"
 
 import { getAdapter, siteConfig } from "@/cms.config"
 import { PreviewBridge } from "@/components/preview-bridge"
+import { getBreadcrumbs } from "@/lib/breadcrumbs"
 import { getPublishedPage, getPublishedPaths, getPublishedSettings } from "@/lib/cms"
 import { pathToSlug, slugToPath } from "@/lib/paths"
 
@@ -56,10 +57,11 @@ export default async function CmsPage({ params, searchParams }: Props) {
   }
 
   if (!page || !settings) notFound()
+  const breadcrumbs = await getBreadcrumbs(locale, path, page.title)
 
   return (
     <>
-      <PageTemplate page={page} settings={settings} components={registry.components} />
+      <PageTemplate page={page} settings={settings} components={registry.components} breadcrumbs={breadcrumbs} siteUrl={siteConfig.siteUrl} />
       {draft ? <PreviewBridge provider={siteConfig.provider} ctx={preview} locale={locale} /> : null}
     </>
   )

@@ -2,8 +2,10 @@ import type * as React from "react"
 
 import { themeClassName, type Block, type Page, type SiteSettings } from "@platform/content-model"
 
+import { Container } from "../atoms/container"
 import { blockComponents, type BlockComponentMap } from "../blocks"
 import { cn } from "../lib/utils"
+import { Breadcrumbs, type Crumb } from "../molecules/breadcrumbs"
 import { AnnouncementBar } from "./announcement-bar"
 import { SiteFooter } from "./site-footer"
 import { SiteHeader } from "./site-header"
@@ -29,9 +31,12 @@ function BlockList({ blocks, components }: BlockListProps) {
 }
 
 export interface PageTemplateProps extends React.ComponentProps<"div"> {
-  page: Pick<Page, "blocks" | "theme" | "$edit">
+  page: Pick<Page, "blocks" | "theme" | "hideBreadcrumbs" | "$edit">
   settings: SiteSettings
   components?: Partial<BlockComponentMap>
+  /** Trail for this page, home first. Hidden when the page says so or there is only one crumb. */
+  breadcrumbs?: Crumb[]
+  siteUrl?: string
   /** Slot rendered before the blocks, e.g. a preview banner in draft mode. */
   before?: React.ReactNode
 }
@@ -41,7 +46,7 @@ export interface PageTemplateProps extends React.ComponentProps<"div"> {
  * by their blocks, not by template, so the CMS can build any page. A page-level
  * `theme` wraps everything; block themes still override per section.
  */
-function PageTemplate({ page, settings, components, before, className, ...props }: PageTemplateProps) {
+function PageTemplate({ page, settings, components, breadcrumbs, siteUrl, before, className, ...props }: PageTemplateProps) {
   return (
     <div
       data-slot="page"
@@ -52,6 +57,11 @@ function PageTemplate({ page, settings, components, before, className, ...props 
       <SiteHeader settings={settings} />
       {before}
       <main id="main" className="flex-1">
+        {breadcrumbs && !page.hideBreadcrumbs ? (
+          <Container className="pt-6">
+            <Breadcrumbs items={breadcrumbs} siteUrl={siteUrl} />
+          </Container>
+        ) : null}
         <BlockList blocks={page.blocks} components={components} />
       </main>
       <SiteFooter settings={settings} />

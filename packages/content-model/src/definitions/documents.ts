@@ -13,6 +13,7 @@ export const page = defineDocument("page", {
     seoDescription: field.textarea(),
     ogImage: field.media(),
     noIndex: field.boolean(),
+    hideBreadcrumbs: field.boolean({ description: "Breadcrumbs show on every page except the home page unless hidden." }),
     theme: field.select(themeNames, { description: "Theme applied to the whole page." }),
     blocks: field.blocks(allBlocks),
   },

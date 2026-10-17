@@ -19,10 +19,17 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Landing: Story = { args: { page: fixtures.landingPage } }
-export const Pricing: Story = { args: { page: fixtures.pricingPage } }
+export const Pricing: Story = {
+  args: { page: fixtures.pricingPage, breadcrumbs: [{ label: "Home", href: "/" }, { label: "Pricing" }] },
+}
 export const Feature: Story = { args: { page: fixtures.featurePage } }
 export const About: Story = { args: { page: fixtures.aboutPage } }
-export const Article: Story = { args: { page: fixtures.articlePage } }
+export const Article: Story = {
+  args: {
+    page: fixtures.articlePage,
+    breadcrumbs: [{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: "Why event-based analytics" }],
+  },
+}
 export const Contact: Story = { args: { page: fixtures.contactPage } }
 export const LandingDark: Story = {
   args: { page: { ...fixtures.landingPage, theme: "dark" } },
