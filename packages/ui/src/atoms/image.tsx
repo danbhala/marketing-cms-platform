@@ -23,6 +23,8 @@ const imageFrameVariants = cva("relative overflow-hidden bg-muted", {
 
 export interface ImageProps extends UiImageProps, VariantProps<typeof imageFrameVariants> {
   fit?: "cover" | "contain"
+  /** Cover the nearest positioned ancestor (background media). Ignores `ratio`. */
+  fill?: boolean
 }
 
 /**
@@ -30,17 +32,17 @@ export interface ImageProps extends UiImageProps, VariantProps<typeof imageFrame
  * fills a fixed-ratio frame (no layout shift); with `auto` it uses intrinsic
  * dimensions. Videos render muted, looping and inline.
  */
-function Image({ media, ratio, radius, fit = "cover", className, sizes, priority, ...props }: ImageProps) {
+function Image({ media, ratio, radius, fit = "cover", fill, className, sizes, priority, ...props }: ImageProps) {
   const { Image: HostImage } = useUi()
-  const fixed = ratio && ratio !== "auto"
+  const fixed = fill || (ratio && ratio !== "auto")
 
   if (media.kind === "video") {
     return (
-      <div data-slot="image" className={cn(imageFrameVariants({ ratio, radius }), className)}>
+      <div data-slot="image" className={cn(fill ? "absolute inset-0 overflow-hidden" : imageFrameVariants({ ratio, radius }), className)}>
         <video
           src={media.url}
           aria-label={media.alt || undefined}
-          className={cn("h-full w-full", fit === "cover" ? "object-cover" : "object-contain")}
+          className={cn("h-full w-full", fit === "cover" ? "object-cover" : "object-contain", fill && "absolute inset-0")}
           autoPlay
           muted
           loop
@@ -52,7 +54,7 @@ function Image({ media, ratio, radius, fit = "cover", className, sizes, priority
 
   if (fixed) {
     return (
-      <div data-slot="image" className={cn(imageFrameVariants({ ratio, radius }), className)}>
+      <div data-slot="image" className={cn(fill ? "absolute inset-0 overflow-hidden" : imageFrameVariants({ ratio, radius }), className)}>
         <HostImage
           media={media}
           fill

@@ -41,19 +41,19 @@ function Hero({ block, className, ...props }: HeroProps) {
     <BlockSection
       block={block}
       spacing={block.spacing ?? "lg"}
-      className={cn(background && "overflow-hidden bg-inverse text-inverse-foreground", className)}
+      className={cn(background && "theme-dark overflow-hidden", className)}
       {...props}
     >
       {background ? (
-        <div aria-hidden className="absolute inset-0 -z-0" {...fieldAttrs(block, "media")}>
-          <Image media={block.media!} ratio="auto" radius="none" className="h-full w-full rounded-none" />
-          <div className="absolute inset-0 bg-inverse/70" />
+        <div aria-hidden className="absolute inset-0" {...fieldAttrs(block, "media")}>
+          <Image media={block.media!} fill sizes="100vw" priority />
+          <div className="absolute inset-0 bg-background/75" />
         </div>
       ) : null}
       <Container className={cn("relative", heroLayout({ layout }))}>
         <Stack gap="lg" align={centered ? "center" : "start"} className={cn(centered && "max-w-(--container-md)")}>
           {block.eyebrow ? (
-            <Eyebrow tone={background ? "default" : "primary"} className={cn(background && "opacity-80")} {...fieldAttrs(block, "eyebrow")}>
+            <Eyebrow {...fieldAttrs(block, "eyebrow")}>
               {block.eyebrow}
             </Eyebrow>
           ) : null}
@@ -61,7 +61,7 @@ function Hero({ block, className, ...props }: HeroProps) {
             {block.title}
           </Heading>
           {block.description ? (
-            <Text size="lead" tone={background ? "inherit" : "muted"} className={cn(background && "opacity-90")} {...fieldAttrs(block, "description")}>
+            <Text size="lead" tone="muted" {...fieldAttrs(block, "description")}>
               {block.description}
             </Text>
           ) : null}

@@ -9,16 +9,16 @@ export function placeholderMedia(
   width: number,
   height: number,
   label = `${width} × ${height}`,
-  options: { bg?: string; fg?: string; alt?: string } = {},
+  options: { bg?: string; fg?: string; alt?: string; fontSize?: number; weight?: number } = {},
 ): Media {
   const bg = options.bg ?? "#e4e4e7"
   const fg = options.fg ?? "#71717a"
-  const fontSize = Math.max(14, Math.round(Math.min(width, height) / 8))
+  const fontSize = options.fontSize ?? Math.max(14, Math.round(Math.min(width, height) / 8))
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">` +
     `<rect width="100%" height="100%" fill="${bg}"/>` +
     `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" ` +
-    `font-family="ui-sans-serif, system-ui, sans-serif" font-size="${fontSize}" fill="${fg}">${label}</text>` +
+    `font-family="ui-sans-serif, system-ui, sans-serif" font-size="${fontSize}" font-weight="${options.weight ?? 400}" fill="${fg}">${label}</text>` +
     `</svg>`
   return {
     kind: "image",
@@ -31,7 +31,7 @@ export function placeholderMedia(
 
 /** A small wordmark-style placeholder for logo clouds. */
 export function placeholderLogo(name: string): Media {
-  return placeholderMedia(160, 48, name, { bg: "transparent", fg: "#18181b", alt: `${name} logo` })
+  return placeholderMedia(160, 48, name, { bg: "transparent", fg: "#18181b", alt: `${name} logo`, fontSize: 26, weight: 700 })
 }
 
 /** A square avatar placeholder showing initials. */
@@ -42,5 +42,5 @@ export function placeholderAvatar(name: string): Media {
     .join("")
     .slice(0, 2)
     .toUpperCase()
-  return placeholderMedia(160, 160, initials, { bg: "#d4d4d8", fg: "#3f3f46", alt: name })
+  return placeholderMedia(160, 160, initials, { bg: "#d4d4d8", fg: "#3f3f46", alt: name, fontSize: 56, weight: 600 })
 }

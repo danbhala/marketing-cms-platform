@@ -1,0 +1,77 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+<Meta title="Docs/Theming" />
+
+# Theming
+
+All colour, radius and spacing comes from CSS variables. There are three
+files, each building on the one before:
+
+1. **`styles/tokens.css`** – the shadcn semantic variables (`--background`,
+   `--primary`, `--muted-foreground`, `--radius`, …) for `:root` and `.dark`,
+   plus a few platform additions (`--inverse`, `--brand`, `--selection`).
+2. **`styles/themes.css`** – `theme-*` classes that override those variables
+   for whatever element they are applied to.
+3. **`styles/blocks.css`** – layout variables blocks read: section padding,
+   container widths, grid gap (`--section-space-md`, `--container-section`,
+   `--block-grid-gap`, …).
+
+Tailwind utilities map onto the variables through `@theme inline` in
+`globals.css`, so `bg-primary` and `text-muted-foreground` always follow the
+nearest theme class.
+
+## Theme classes
+
+| Class | Effect |
+| --- | --- |
+| `theme-light` | Resets to the base light tokens (useful inside a dark page) |
+| `theme-dark` | The shadcn dark palette |
+| `theme-muted` | Light with a muted background surface |
+| `theme-brand` | Primary becomes the brand colour and the surface tints toward it |
+| `theme-blue` `theme-green` `theme-orange` `theme-rose` `theme-violet` | Change the primary hue only; combine with `theme-dark` or `theme-brand` |
+| `theme-compact` | Tighter section spacing and grid gaps |
+
+Theme classes compose: `class="theme-dark theme-violet"` is a dark page with
+a violet primary.
+
+## Three places to theme
+
+**The whole site.** Put a class on `<html>` or `<body>`. The Next.js app does
+this from a config value, and the Storybook toolbar does it on the story root.
+
+**A page.** The `page.theme` field wraps the page in that class
+(`PageTemplate`).
+
+**One block.** Every block has a `theme` field. `BlockSection` turns it into a
+class on the block's `<section>`, so a CMS author can make the stats row dark
+or the CTA brand-coloured without a developer. The CTA block applies the
+theme to its inner panel instead of the whole section.
+
+## Customising for a brand
+
+Override variables, do not edit components:
+
+```css
+/* apps/web/app/brand.css */
+:root {
+  --primary: oklch(0.55 0.2 260);
+  --primary-foreground: oklch(0.98 0 0);
+  --radius: 0.5rem;
+  --font-sans: "Inter Variable", sans-serif;
+}
+.theme-brand {
+  --brand: var(--primary);
+}
+```
+
+Block spacing is themeable the same way:
+
+```css
+.theme-airy {
+  --section-space-md: 8rem;
+  --block-grid-gap: 2.5rem;
+}
+```
+
+Add the class name to `themeNames` in `@platform/content-model/themes.ts` and
+it appears as an option in every CMS automatically.

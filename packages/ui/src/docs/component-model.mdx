@@ -1,0 +1,73 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+<Meta title="Docs/Component model" />
+
+# Component model
+
+## One definition, many outputs
+
+A block is declared once in `@platform/content-model`:
+
+```ts
+export const featureGrid = defineBlock("featureGrid", {
+  label: "Feature grid",
+  fields: {
+    ...heading,                       // eyebrow, title, description
+    features: field.items([featureItem]),
+    columns: field.select(["2", "3", "4"], { defaultValue: "3" }),
+    itemStyle: field.select(["plain", "card"], { defaultValue: "plain" }),
+    ...presentation,                  // theme, spacing, anchor
+  },
+})
+```
+
+From that definition the platform derives the TypeScript type
+(`FeatureGridBlock`), a zod validator, and the content type in Contentful,
+Storyblok, Optimizely and Sanity. The UI component only ever sees the
+canonical shape.
+
+## Anatomy of a block
+
+```tsx
+function FeatureGrid({ block, index, ...props }: FeatureGridProps) {
+  return (
+    <BlockSection block={block} {...props}>          {/* theme, spacing, anchor, $edit */}
+      <Container className="flex flex-col gap-(--block-header-gap)">
+        <SectionHeader eyebrow={block.eyebrow} title={block.title} description={block.description}
+          as={index === 0 ? "h1" : "h2"} source={block} />
+        <Grid columns={block.columns} {...fieldAttrs(block, "features")}>
+          {block.features.map((f) => <FeatureItem key={f.id} item={f} appearance={block.itemStyle} />)}
+        </Grid>
+      </Container>
+    </BlockSection>
+  )
+}
+```
+
+- `BlockSection` is the root of every block. It is a `Section` atom with the
+  block's presentation fields applied and `data-block="featureGrid"` for
+  styling and tests.
+- `SectionHeader` is the shared heading slot. The first block on a page renders
+  an `h1`; everything else `h2`.
+- Molecules take one content item (`item`, `plan`, `field`) and spread
+  `editAttrs(item)` on their root.
+- Layout variants (`columns`, `layout`, `mediaPosition`) are CVA variants or
+  small conditionals, never separate components.
+
+## Slots and reuse
+
+Blocks are data-driven by default so the CMS can drive them, but their parts
+are exported for hand-built pages: `SectionHeader`, `ActionGroup`,
+`FeatureItem`, `PriceCard` and the rest compose freely inside a `Section`.
+
+## Adding a block
+
+1. Add the definition to `content-model/src/definitions/blocks.ts` and the
+   type to `types.ts`.
+2. Add fixtures in `content-model/src/fixtures/content.ts`.
+3. Write the component in `ui/src/blocks`, register it in `blocks/index.ts`
+   and add a `.stories.tsx`.
+4. Run `pnpm schema:generate` so every CMS gets the new content type.
+
+The Next.js app needs no change: `BlockList` renders whatever
+`blockComponents` knows about.
