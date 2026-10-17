@@ -1,0 +1,34 @@
+---
+title: Contentful
+description: "Configure the Contentful adapter: environment, schema push, preview URL and webhook."
+---
+
+<Callout type="info">The adapter lives in `packages/cms-contentful`. Its README has the step-by-step setup; this page is the summary.</Callout>
+
+## Environment
+
+`CONTENTFUL_SPACE_ID, CONTENTFUL_ENVIRONMENT, CONTENTFUL_DELIVERY_TOKEN, CONTENTFUL_PREVIEW_TOKEN, PREVIEW_SECRET, REVALIDATE_SECRET` (see `apps/web/.env.example`).
+
+## Push the content model
+
+```bash
+pnpm --filter @platform/cms-contentful schema:generate
+# then
+contentful space migration --space-id $CONTENTFUL_SPACE_ID packages/cms-contentful/schema/migration.cjs
+```
+
+The generated files are committed under `packages/cms-contentful/schema/` so diffs show exactly what changes in the CMS when the content model changes.
+
+## Preview
+
+Preview URL: `https://your-site/api/preview?secret=…&id={entry.sys.id}&mode=edit (Settings → Content preview)`.
+
+In draft mode the adapter reads drafts, attaches this CMS's live-edit attributes to every block, item and field, and loads the bridge that refreshes the page on save. See [Preview & visual editing](/docs/preview).
+
+## Webhook
+
+Settings → Webhooks → URL https://your-site/api/revalidate, header x-contentful-webhook-secret. The adapter verifies the request and maps the payload to cache tags; see [Caching](/docs/caching).
+
+## What the generator emits for a block
+
+<SchemaCompare type="featureGrid" />

@@ -1,0 +1,58 @@
+---
+title: Theming
+description: "CSS variables, theme classes, and how to brand a whole site, one page, or one block."
+---
+
+All colour, radius and spacing comes from CSS variables in three layers:
+
+1. **`tokens.css`** — the shadcn semantic variables (`--background`, `--primary`, `--muted-foreground`, `--radius`…) for `:root` and `.dark`, plus platform additions (`--inverse`, `--brand`).
+2. **`themes.css`** — `theme-*` classes that re-declare those variables on whatever element carries the class.
+3. **`blocks.css`** — layout variables blocks read: `--section-space-sm|md|lg`, `--container-*`, `--block-grid-gap`.
+
+Tailwind utilities map to the variables with `@theme inline`, so `bg-primary` follows the nearest theme class.
+
+## Theme classes
+
+| Class | Effect |
+| --- | --- |
+| `theme-light` / `theme-dark` | The stock light and dark palettes |
+| `theme-muted` | Soft grey band for alternating sections |
+| `theme-brand` | Fills the surface with the brand colour (clients override `--brand`) |
+| `theme-blue` `theme-green` `theme-orange` `theme-rose` `theme-violet` | Change the primary hue only; compose with the above |
+| `theme-compact` | Tighter section spacing and grid gaps |
+
+<Screenshot name="atoms-layout--section-themes" alt="The same section rendered with each theme class" height={1216} />
+
+## Where a theme applies
+
+- **Site**: `siteConfig.defaultTheme` in `apps/web/cms.config.ts` puts a class on `<html>`.
+- **Page**: the `theme` field on a page wraps everything (`PageTemplate`).
+- **Block**: every block has a `theme` field; `BlockSection` turns it into a class on that `<section>`.
+
+Themes nest: a brand-coloured CTA on a dark page keeps the brand colours inside and dark outside.
+
+<Screenshot name="templates-pages--landing-dark" alt="Landing page with the page-level dark theme" height={2000} />
+
+## Branding a site
+
+Override variables; never edit components:
+
+```css
+/* apps/web/app/brand.css */
+:root {
+  --primary: oklch(0.55 0.2 260);
+  --primary-foreground: oklch(0.98 0 0);
+  --radius: 0.5rem;
+  --font-sans: "Inter Variable", sans-serif;
+}
+.theme-brand { --brand: var(--primary); }
+.theme-airy { --section-space-md: 8rem; --block-grid-gap: 2.5rem; }
+```
+
+Add a new theme name to `themeNames` in `content-model/src/themes.ts` and it appears as an option in every CMS after `pnpm schema:generate`.
+
+## Accessibility
+
+Storybook runs axe on every story with `a11y: { test: "error" }`, so a theme that drops below WCAG AA contrast fails `pnpm test`. The muted and colour themes were tuned against that (secondary text is darker on grey bands; warm accents use the 700 step).
+
+<StorybookEmbed story="atoms-layout--section-themes" height={600} />

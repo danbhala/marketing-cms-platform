@@ -1,0 +1,34 @@
+---
+title: Sanity
+description: "Configure the Sanity adapter: environment, schema push, preview URL and webhook."
+---
+
+<Callout type="info">The adapter lives in `packages/cms-sanity`. Its README has the step-by-step setup; this page is the summary.</Callout>
+
+## Environment
+
+`SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_VERSION, SANITY_VIEWER_TOKEN, SANITY_STUDIO_URL, SANITY_WEBHOOK_SECRET, PREVIEW_SECRET, REVALIDATE_SECRET` (see `apps/web/.env.example`).
+
+## Push the content model
+
+```bash
+pnpm --filter @platform/cms-sanity schema:generate
+# then
+copy packages/cms-sanity/schema/schemaTypes.ts into your Studio's schema and deploy
+```
+
+The generated files are committed under `packages/cms-sanity/schema/` so diffs show exactly what changes in the CMS when the content model changes.
+
+## Preview
+
+Preview URL: `Presentation tool previewUrl: https://your-site, with /api/preview as the draft-mode enable route (?sanity-preview-secret&sanity-preview-pathname)`.
+
+In draft mode the adapter reads drafts, attaches this CMS's live-edit attributes to every block, item and field, and loads the bridge that refreshes the page on save. See [Preview & visual editing](/docs/preview).
+
+## Webhook
+
+Manage → API → Webhooks → GROQ-powered → https://your-site/api/revalidate, projection `{_id,_type,"slug":slug.current}`. The adapter verifies the request and maps the payload to cache tags; see [Caching](/docs/caching).
+
+## What the generator emits for a block
+
+<SchemaCompare type="featureGrid" />

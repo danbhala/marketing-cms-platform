@@ -1,0 +1,4 @@
+{
+  "title": "Documentation",
+  "pages": ["index", "architecture", "content-model", "blocks", "theming", "caching", "preview", "cms", "nextjs-app", "contributing"]
+}

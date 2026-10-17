@@ -15,7 +15,7 @@ export const config = [
       globals: { ...globals.browser, ...globals.node },
     },
   },
-  pluginNext.configs["flat/recommended"],
-  pluginNext.configs["flat/core-web-vitals"],
+  pluginNext.configs.recommended,
+  pluginNext.configs["core-web-vitals"],
   pluginReactHooks.configs.flat.recommended,
 ]

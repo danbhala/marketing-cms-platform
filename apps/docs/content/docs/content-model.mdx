@@ -1,0 +1,46 @@
+---
+title: Content model
+description: "The field DSL, the canonical shapes for media and rich text, and the documents a site is made of."
+---
+
+## Field kinds
+
+| Kind | Canonical value | Notes |
+| --- | --- | --- |
+| `text`, `textarea`, `link`, `icon` | `string` | `icon` is a lucide icon name in kebab-case (`shield-check`) |
+| `textList` | `string[]` | Simple lists (bullet points, plan features) |
+| `number` / `boolean` | `number` / `boolean` | |
+| `select` | one of `options` | Options are validated; `defaultValue` applies when empty |
+| `media` | `Media` | `{ kind: "image" \| "video", url, alt, width?, height? }` |
+| `richText` | `RichText` | Portable JSON AST, see below |
+| `items` | nested items `[]` | Ordered list of one or more item types; `min`/`max` |
+| `blocks` | nested blocks `[]` | Only on `page` |
+
+Every node (document, block, item) has `id` and `type`, and in draft mode may carry `$edit`.
+
+## Rich text
+
+Each CMS has its own rich-text format (Contentful Document, Storyblok/ProseMirror, Optimizely XHTML, Sanity Portable Text). Adapters convert all of them to one tree so there is a single renderer, `RichText`, in the UI package:
+
+```ts
+type BlockNode = Paragraph | Heading | List | ListItem | Blockquote | ThematicBreak | Image | CodeBlock
+type InlineNode = Text | Link | Break
+// Text marks: bold | italic | underline | strikethrough | code
+```
+
+Headings inside rich text are clamped to `h2`–`h6` so a page keeps one `h1`.
+
+## Documents
+
+- **`page`** — `title`, `path`, SEO fields (`seoTitle`, `seoDescription`, `ogImage`, `noIndex`), `hideBreadcrumbs`, `theme`, and `blocks`.
+- **`siteSettings`** — singleton: site name, logo, announcement bar, navigation groups, header actions, footer columns, social links.
+
+## Blocks and items
+
+<BlockReference type="page" />
+
+Items are the repeatable units inside blocks (an `action`, a `featureItem`, a `pricingPlan`). The [block explorer](/docs/blocks) lists each block's fields and the items it uses.
+
+## Validation and fixtures
+
+`schemaFor(definition)` returns a zod schema; adapters validate every transformed entry and throw with the entry id and field on failure. `@platform/content-model/fixtures` exports sample content for every block, six page compositions and site settings; Storybook, the local adapter, tests and these docs all use it.

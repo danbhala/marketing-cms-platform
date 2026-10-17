@@ -1,0 +1,18 @@
+---
+title: Local adapter
+description: "The reference adapter: fixtures in, canonical content out, with the whole preview and webhook flow."
+---
+
+`@platform/cms-local` needs no credentials. It serves `@platform/content-model/fixtures` (six pages and site settings), attaches generic `data-edit-*` attributes in draft mode, and ships a small overlay bridge that outlines whatever you hover and names the field.
+
+It is also the behavioural reference for the other adapters: the same tests (page by path, `$edit` only in draft, preview secret validation, off-site redirect protection, webhook signature, tag mapping) are expected of each.
+
+```bash
+# enter draft mode
+open "http://localhost:3000/api/preview?secret=change-me&path=/pricing&mode=edit"
+# revalidate a page
+curl -X POST localhost:3000/api/revalidate -H "x-revalidate-secret: change-me" \
+  -H "content-type: application/json" -d '{"paths":["/pricing"]}'
+```
+
+<Screenshot name="app-draft-mode-edit-overlay" alt="The local bridge outlining the pricing block title" height={800} />

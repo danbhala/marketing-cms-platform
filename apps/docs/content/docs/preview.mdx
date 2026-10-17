@@ -1,0 +1,49 @@
+---
+title: Preview & visual editing
+description: "Draft Mode, the `$edit` metadata contract, and the per-CMS bridges that make click-to-edit work."
+---
+
+<Video src="/videos/draft-mode.webm" caption="Entering draft mode and hovering fields in the local adapter (recording placeholder; see screenshot below)" autoPlay={false} />
+
+<Screenshot name="app-draft-mode-edit-overlay" alt="Draft mode with the edit overlay" height={800} />
+
+## The flow
+
+1. The CMS opens the preview URL, `/api/preview?…`, in its editor iframe.
+2. The adapter's `preview.enter(request)` validates the request (secret, token or editor session) and returns the on-site path. The app enables Draft Mode and redirects there, keeping the CMS's query string.
+3. The page detects Draft Mode, asks the adapter for drafts with `ctx.draft = true` and the parsed preview context, and renders the CMS bridge (a client component loaded with `next/dynamic` only in draft).
+4. On save, the bridge calls `router.refresh()`; the page re-renders with the new draft.
+
+## `$edit`: one contract for every editor
+
+Adapters attach edit metadata to every node in draft mode:
+
+```ts
+interface Editable {
+  $edit?: {
+    self?: Record<`data-${string}`, string>              // on the block/item root
+    fields?: Record<string, Record<`data-${string}`, string>> // per field
+  }
+}
+```
+
+Components spread it with two pure helpers, which return `{}` in production:
+
+```tsx
+<section {...editAttrs(block)}>
+  <h2 {...fieldAttrs(block, "title")}>{block.title}</h2>
+```
+
+What goes in the attributes is the adapter's business:
+
+| CMS | `self` | `fields` |
+| --- | --- | --- |
+| Contentful | `data-contentful-entry-id` | `data-contentful-field-id` (+ locale) |
+| Storyblok | `data-blok-c`, `data-blok-uid` | block-level only |
+| Optimizely | `data-epi-block-id` | `data-epi-edit="Field"` (ctx=edit only) |
+| Sanity | `data-sanity` (document + path) | `data-sanity` with field path |
+| Local | `data-edit-id`, `data-edit-type` | `data-edit-field` |
+
+## Framing
+
+`proxy.ts` sets `Content-Security-Policy: frame-ancestors` to the configured CMS's editor origin while previewing (and `'self'` otherwise). Next's draft cookie is `SameSite=None; Secure` but not `Partitioned`, so browsers that block third-party cookies may drop it inside an iframe; adapters keep their preview token in the URL as a fallback.

@@ -1,0 +1,81 @@
+---
+title: Architecture
+description: "How content flows from any CMS through one content model to one set of components."
+---
+
+## The one idea
+
+Every CMS is normalised into the **canonical content shape** before it reaches a component. Components never know which CMS produced the data, and the Next.js app never imports a CMS SDK. An ESLint rule (`noCmsImports` in `@platform/eslint-config`) fails the build if either rule is broken.
+
+<FlowDiagram
+  columns={[
+    { title: "CMS", nodes: ["Contentful", "Storyblok", "Optimizely SaaS", "Sanity", "JSON fixtures"] },
+    { title: "Adapter", nodes: ["cms-contentful", "cms-storyblok", "cms-optimizely", "cms-sanity", "cms-local"] },
+    { title: "Canonical", nodes: ["content-model"] },
+    { title: "Registry", nodes: ["component-registry"] },
+    { title: "UI", nodes: ["ui blocks"] },
+    { title: "App", nodes: ["apps/web"] },
+  ]}
+/>
+
+## Layers
+
+### Content model
+
+`@platform/content-model` declares each block, item and document once with a tiny field DSL:
+
+```ts
+export const faq = defineBlock("faq", {
+  label: "FAQ",
+  fields: {
+    ...heading,                               // eyebrow, title, description
+    items: field.items([faqItem]),
+    layout: field.select(["single", "split"], { defaultValue: "single" }),
+    ...presentation,                          // theme, spacing, anchor
+  },
+})
+```
+
+From that single declaration the platform derives:
+
+- the TypeScript type (`FaqBlock`) that the UI component takes as its `block` prop
+- a zod validator (`schemaFor(faq)`) adapters run on every transformed entry
+- each CMS's native schema (content types, components, documents) via the adapter's generator
+- the field tables in [Blocks](/docs/blocks)
+
+See [Content model](/docs/content-model).
+
+### UI
+
+`@platform/ui` is shadcn (`base-nova` style on Base UI) plus the marketing layers: atoms, molecules, blocks, templates. Every block root is a `Section` that reads the block's `theme`, `spacing` and `anchor`, and spreads the `$edit` attributes a CMS attaches in draft mode. Links and images go through `UiProvider`, so the same components run in Storybook (plain `<a>`/`<img>`) and in Next.js (`next/link`/`next/image`).
+
+### Adapters
+
+Each `@platform/cms-*` package implements one interface, `CmsAdapter`:
+
+```ts
+interface CmsAdapter {
+  name: string
+  getPage(path, ctx): Promise<Page | null>
+  getSiteSettings(ctx): Promise<SiteSettings | null>
+  getPaths(locale): Promise<string[]>
+  resolvePreviewPath(searchParams): Promise<string | null>
+  webhook: { verify(request), toEvent(payload) }
+  preview: { enter(request), context(searchParams, draft), frameAncestors, bridge }
+}
+```
+
+`ctx.draft` tells the adapter to read drafts and to attach `$edit` metadata. Everything CMS-specific (SDK clients, rich-text formats, live-preview attributes, webhook signatures) lives inside the adapter. See [CMS adapters](/docs/cms).
+
+### Registry and app
+
+`@platform/component-registry` maps block types to components; `apps/web` picks the adapter from `CMS_PROVIDER` in one file, `cms.config.ts`, and renders pages through `PageTemplate` + `BlockList`. Adding a CMS is a new adapter package plus one line in that file.
+
+## Adding a block
+
+1. Define it in `content-model/src/definitions/blocks.ts`; export its type from `types.ts`.
+2. Add sample content to `content-model/src/fixtures/content.ts`.
+3. Write the component in `ui/src/blocks/`, register it in `ui/src/blocks/index.ts`, add a story.
+4. `pnpm schema:generate` to push the new type to every CMS.
+
+The app needs no change.

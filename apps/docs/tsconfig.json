@@ -1,0 +1,9 @@
+{
+  "extends": "@platform/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "paths": { "@/*": ["./*"], "@/.source": ["./.source/server.ts"] },
+    "types": ["node", "mdx"]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".source/**/*.ts"],
+  "exclude": ["node_modules"]
+}

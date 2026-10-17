@@ -1,0 +1,30 @@
+---
+title: Contributing
+description: "Conventions, checks and how the pieces are tested."
+---
+
+## Checks
+
+| Command | What runs |
+| --- | --- |
+| `pnpm lint` | ESLint 10 flat config; `noCmsImports` keeps SDKs out of `apps/web` and `packages/ui` |
+| `pnpm typecheck` | TypeScript 6 per package |
+| `pnpm test` | Vitest: unit projects, plus the Storybook browser project (Playwright/Chromium) which runs every story with axe |
+| `pnpm build` | Turborepo build of every package and app |
+
+## Conventions
+
+- Blocks are data-driven (`block` prop) and export their parts (`SectionHeader`, `ActionGroup`, …) for hand-built pages.
+- Layout variants are CVA variants, not separate components.
+- Every block root is `BlockSection`; every nested item spreads `editAttrs(item)`.
+- Headings: the first block on a page renders `h1`, the rest `h2`; rich text headings are clamped to `h2`–`h6`.
+- Never import a CMS SDK outside its adapter package.
+
+## Screenshots in these docs
+
+`packages/ui/scripts/screenshot.mjs` captures stories from a static Storybook build:
+
+```bash
+cd packages/ui && pnpm build-storybook
+node scripts/screenshot.mjs storybook-static ../../apps/docs/public/screenshots templates-pages--landing blocks-hero--split
+```
