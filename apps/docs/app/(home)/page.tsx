@@ -1,5 +1,8 @@
 import Link from "next/link"
 
+import { HomeHero } from "@/components/home-hero"
+import "@/theme-studio/fonts-load"
+
 const sections = [
   { href: "/docs", title: "Getting started", text: "Install, run the demo site on the local adapter, open Storybook." },
   { href: "/docs/architecture", title: "Architecture", text: "How the content model, UI, adapters and the app fit together." },
@@ -13,15 +16,9 @@ const sections = [
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 py-16">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-4xl font-semibold tracking-tight">One marketing front-end, any CMS</h1>
-        <p className="max-w-2xl text-lg text-fd-muted-foreground">
-          A shadcn-based component library, a canonical content model, and adapters for Contentful, Storyblok,
-          Optimizely SaaS, Sanity, Drupal and Wagtail. Switch the CMS with one environment variable.
-        </p>
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-14 px-6 py-12 lg:py-16">
+      <HomeHero />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {sections.map((section) => (
           <Link
             key={section.href}

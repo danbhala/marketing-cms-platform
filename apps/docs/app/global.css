@@ -7,3 +7,13 @@
 @source "../app";
 @source "../components";
 @source "../content";
+
+/* Home hero: the demo site eases between brands instead of snapping. */
+.home-brand-frame,
+.home-brand-frame * {
+  transition:
+    background-color 0.4s,
+    color 0.4s,
+    border-color 0.4s,
+    border-radius 0.4s;
+}
