@@ -4,14 +4,26 @@
   "private": true,
   "type": "module",
   "description": "Storyblok schema generator, adapter and preview bridge.",
-  "exports": { ".": "./src/index.ts" },
-  "scripts": { "lint": "eslint .", "typecheck": "tsc", "test": "vitest run" },
-  "dependencies": {},
+  "exports": {
+    ".": "./src/index.ts",
+    "./bridge": "./src/bridge.tsx"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@platform/cms-core": "workspace:*",
+    "@platform/content-model": "workspace:*"
+  },
   "devDependencies": {
     "@platform/eslint-config": "workspace:*",
     "@platform/typescript-config": "workspace:*",
     "eslint": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "@types/react": "catalog:",
+    "react": "catalog:"
   }
 }

@@ -8,6 +8,7 @@ export const page = defineDocument("page", {
   routable: true,
   fields: {
     title: field.text({ required: true }),
+    path: field.text({ required: true, description: "URL path, e.g. /pricing. The home page is /." }),
     seoTitle: field.text({ maxLength: 70 }),
     seoDescription: field.textarea(),
     ogImage: field.media(),

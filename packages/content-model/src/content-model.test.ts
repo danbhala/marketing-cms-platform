@@ -52,6 +52,7 @@ describe("schemaFor", () => {
     const doc: Page = {
       id: "p1",
       type: "page",
+      path: "/",
       title: "Home",
       blocks: [
         validHero,

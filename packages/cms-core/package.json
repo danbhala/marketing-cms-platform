@@ -7,10 +7,13 @@
   "exports": {
     ".": "./src/index.ts",
     "./edit": "./src/edit.ts",
-    "./tags": "./src/tags.ts",
-    "./server": "./src/server.ts"
+    "./tags": "./src/tags.ts"
   },
-  "scripts": { "lint": "eslint .", "typecheck": "tsc", "test": "vitest run" },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
   "dependencies": {
     "@platform/content-model": "workspace:*",
     "zod": "catalog:"
@@ -20,8 +23,12 @@
     "react": "catalog:"
   },
   "peerDependenciesMeta": {
-    "next": { "optional": true },
-    "react": { "optional": true }
+    "next": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@platform/eslint-config": "workspace:*",

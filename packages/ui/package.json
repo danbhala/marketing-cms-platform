@@ -10,9 +10,13 @@
     "./postcss.config": "./postcss.config.mjs",
     "./primitives/*": "./src/primitives/*.tsx",
     "./atoms/*": "./src/atoms/*.tsx",
+    "./atoms": "./src/atoms/index.ts",
     "./molecules/*": "./src/molecules/*.tsx",
+    "./molecules": "./src/molecules/index.ts",
     "./blocks/*": "./src/blocks/*.tsx",
+    "./blocks": "./src/blocks/index.ts",
     "./templates/*": "./src/templates/*.tsx",
+    "./templates": "./src/templates/index.ts",
     "./lib/*": "./src/lib/*.ts",
     "./hooks/*": "./src/hooks/*.ts"
   },

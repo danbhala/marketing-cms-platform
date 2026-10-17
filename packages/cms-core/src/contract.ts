@@ -34,13 +34,18 @@ export interface PreviewBridgeProps {
   locale: string
 }
 
+/** Result of a preview request: where to send the editor, or why not. */
+export type PreviewEntry =
+  | { ok: true; path: string; context?: PreviewContext | null }
+  | { ok: false; status: number; message: string }
+
 export interface PreviewHandlers {
   /**
-   * Handles GET /api/preview. Verifies the secret, token or editor session,
-   * enables Draft Mode and redirects to the page. Must never redirect to an
-   * arbitrary URL from the query string.
+   * Handles GET /api/preview. Verifies the secret, token or editor session
+   * and resolves the site path to show. The app enables Draft Mode and
+   * redirects; adapters never redirect to an arbitrary URL from the query.
    */
-  enter(request: Request): Promise<Response>
+  enter(request: Request): Promise<PreviewEntry>
   /** Derives the preview context from search params. Null when not previewing. */
   context(searchParams: URLSearchParams, draft: boolean): PreviewContext | null
   /** Editor origins allowed to frame the site: becomes CSP frame-ancestors. */

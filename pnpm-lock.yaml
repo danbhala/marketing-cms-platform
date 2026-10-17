@@ -443,6 +443,13 @@ importers:
         version: 6.0.3
 
   packages/cms-contentful:
+    dependencies:
+      '@platform/cms-core':
+        specifier: workspace:*
+        version: link:../cms-core
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -450,9 +457,15 @@ importers:
       '@platform/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(jiti@2.7.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -495,6 +508,13 @@ importers:
         version: 5.0.5(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/cms-local:
+    dependencies:
+      '@platform/cms-core':
+        specifier: workspace:*
+        version: link:../cms-core
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -502,9 +522,18 @@ importers:
       '@platform/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(jiti@2.7.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -513,6 +542,13 @@ importers:
         version: 5.0.5(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/cms-optimizely:
+    dependencies:
+      '@platform/cms-core':
+        specifier: workspace:*
+        version: link:../cms-core
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -520,9 +556,15 @@ importers:
       '@platform/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(jiti@2.7.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -531,6 +573,13 @@ importers:
         version: 5.0.5(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/cms-sanity:
+    dependencies:
+      '@platform/cms-core':
+        specifier: workspace:*
+        version: link:../cms-core
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -538,9 +587,15 @@ importers:
       '@platform/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(jiti@2.7.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -549,6 +604,13 @@ importers:
         version: 5.0.5(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/cms-storyblok:
+    dependencies:
+      '@platform/cms-core':
+        specifier: workspace:*
+        version: link:../cms-core
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -556,9 +618,15 @@ importers:
       '@platform/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(jiti@2.7.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -567,6 +635,13 @@ importers:
         version: 5.0.5(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/component-registry:
+    dependencies:
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
+      '@platform/ui':
+        specifier: workspace:*
+        version: link:../ui
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -574,9 +649,15 @@ importers:
       '@platform/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(jiti@2.7.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
       typescript:
         specifier: 'catalog:'
         version: 6.0.3

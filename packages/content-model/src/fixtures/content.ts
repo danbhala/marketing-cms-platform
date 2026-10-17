@@ -491,6 +491,7 @@ export const siteSettings: SiteSettings = {
 export const landingPage: Page = {
   id: "page-home",
   type: "page",
+  path: "/",
   title: "Metrica · Privacy-first product analytics",
   seoTitle: "Metrica · Product analytics",
   seoDescription: "Privacy-first product analytics with real-time dashboards and versioned funnels.",
@@ -500,6 +501,7 @@ export const landingPage: Page = {
 export const pricingPage: Page = {
   id: "page-pricing",
   type: "page",
+  path: "/pricing",
   title: "Pricing",
   blocks: [
     { ...heroBlock, id: "pricing-hero", eyebrow: "Pricing", title: "Pay for events, not people", description: "Every plan includes unlimited seats and every feature you need to start.", actions: [actions.primary], media: undefined, layout: "centered", spacing: "sm" },
@@ -513,6 +515,7 @@ export const pricingPage: Page = {
 export const aboutPage: Page = {
   id: "page-about",
   type: "page",
+  path: "/about",
   title: "About",
   blocks: [
     { ...heroBlock, id: "about-hero", eyebrow: "About", title: "We think analytics should be boring and correct", description: "Metrica was started by two people who were tired of arguing about numbers.", actions: [], media: undefined, layout: "centered" },
@@ -526,6 +529,7 @@ export const aboutPage: Page = {
 export const articlePage: Page = {
   id: "page-article",
   type: "page",
+  path: "/blog/why-event-based-analytics",
   title: "Why event-based analytics",
   blocks: [
     { ...heroBlock, id: "article-hero", eyebrow: "Guide · 8 min read", title: "Why event-based analytics", description: "A practical framework for modelling your product as a stream of events.", actions: [], media: undefined, layout: "centered", spacing: "sm" },
@@ -539,6 +543,7 @@ export const articlePage: Page = {
 export const contactPage: Page = {
   id: "page-contact",
   type: "page",
+  path: "/contact",
   title: "Contact",
   blocks: [contactFormBlock, { ...faqBlock, id: "contact-faq", layout: "single" }],
 }
@@ -546,6 +551,7 @@ export const contactPage: Page = {
 export const featurePage: Page = {
   id: "page-feature",
   type: "page",
+  path: "/product/funnels",
   title: "Funnels",
   blocks: [
     { ...heroBlock, id: "feature-hero", eyebrow: "Funnels", title: "Versioned funnels you can trust", layout: "background" },
