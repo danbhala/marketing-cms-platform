@@ -22,6 +22,7 @@
         "SANITY_*",
         "DRUPAL_*",
         "NEXT_PUBLIC_DRUPAL_*",
+        "WAGTAIL_*",
         "SITE_URL",
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"

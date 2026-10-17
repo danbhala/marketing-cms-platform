@@ -7,7 +7,7 @@ const sections = [
   { href: "/docs/theming", title: "Theming", text: "Tokens, theme classes and how to brand a site without touching components." },
   { href: "/theme", title: "Theme studio", text: "Edit fonts, colours, radius and rhythm live on a real site; copy the CSS." },
   { href: "/docs/showcases", title: "Showcases", text: "Six brands on the same blocks: fonts, colours, radius and photography, all from CSS variables." },
-  { href: "/docs/cms", title: "CMS adapters", text: "Contentful, Storyblok, Optimizely SaaS, Sanity and Drupal: schemas, preview, webhooks." },
+  { href: "/docs/cms", title: "CMS adapters", text: "Contentful, Storyblok, Optimizely SaaS, Sanity, Drupal and Wagtail: schemas, preview, webhooks." },
   { href: "/docs/caching", title: "Caching & preview", text: "Cache Components, tags, revalidation and draft-mode visual editing." },
 ]
 
@@ -18,7 +18,7 @@ export default function HomePage() {
         <h1 className="text-4xl font-semibold tracking-tight">One marketing front-end, any CMS</h1>
         <p className="max-w-2xl text-lg text-fd-muted-foreground">
           A shadcn-based component library, a canonical content model, and adapters for Contentful, Storyblok,
-          Optimizely SaaS, Sanity and Drupal. Switch the CMS with one environment variable.
+          Optimizely SaaS, Sanity, Drupal and Wagtail. Switch the CMS with one environment variable.
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

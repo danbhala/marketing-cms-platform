@@ -15,4 +15,5 @@ export const bridges: Record<string, () => Promise<{ default: ComponentType<Prev
   optimizely: () => import("@platform/cms-optimizely/bridge"),
   sanity: () => import("@platform/cms-sanity/bridge"),
   drupal: () => import("@platform/cms-drupal/bridge"),
+  wagtail: () => import("@platform/cms-wagtail/bridge"),
 }

@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
     "@platform/cms-optimizely",
     "@platform/cms-sanity",
     "@platform/cms-drupal",
+    "@platform/cms-wagtail",
     "@platform/component-registry",
   ],
   images: {

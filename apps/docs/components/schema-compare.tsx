@@ -14,6 +14,7 @@ const sources: Record<string, Source> = {
   sanity: { label: "Sanity", file: "cms-sanity/schema/schema.json", lang: "json" },
   // Drupal config is one YAML file per object; the type's own file and its field instances are shown together.
   drupal: { label: "Drupal", dir: "cms-drupal/schema/platform_content/config/install", lang: "yaml" },
+  wagtail: { label: "Wagtail", file: "cms-wagtail/schema/schema.json", lang: "json" },
 }
 
 async function readOptional(path: string) {
