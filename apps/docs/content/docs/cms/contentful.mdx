@@ -1,33 +1,41 @@
 ---
 title: Contentful
-description: "Configure the Contentful adapter: environment, schema push, preview URL and webhook."
+description: "Configure the Contentful adapter: environment, migration, live preview and webhook."
 ---
 
 <Callout type="info">The adapter lives in `packages/cms-contentful`. Its README has the step-by-step setup; this page is the summary.</Callout>
 
 ## Environment
 
-`CONTENTFUL_SPACE_ID, CONTENTFUL_ENVIRONMENT, CONTENTFUL_DELIVERY_TOKEN, CONTENTFUL_PREVIEW_TOKEN, PREVIEW_SECRET, REVALIDATE_SECRET` (see `apps/web/.env.example`).
+`CONTENTFUL_SPACE_ID`, `CONTENTFUL_ENVIRONMENT`, `CONTENTFUL_DELIVERY_TOKEN`, `CONTENTFUL_PREVIEW_TOKEN`, `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `CONTENTFUL_LOCALE_MAP` (`en=en-US,…`), `CONTENTFUL_PREVIEW_SECRET`, `CONTENTFUL_WEBHOOK_SECRET`. See `apps/web/.env.example`.
 
 ## Push the content model
 
 ```bash
-pnpm --filter @platform/cms-contentful schema:generate
-# then
-contentful space migration --space-id $CONTENTFUL_SPACE_ID packages/cms-contentful/schema/migration.cjs
+pnpm --filter @platform/cms-contentful schema:generate   # writes schema/migration.cjs and schema/content-types.json
+npx contentful space migration --space-id $CONTENTFUL_SPACE_ID --environment-id master packages/cms-contentful/schema/migration.cjs
 ```
 
-The generated files are committed under `packages/cms-contentful/schema/` so diffs show exactly what changes in the CMS when the content model changes.
+The migration is idempotent: it reads the existing content types and creates or edits, never deletes. The generated files are committed under `packages/cms-contentful/schema/` so diffs show exactly what changes in the CMS when the content model changes.
 
 ## Preview
 
-Preview URL: `https://your-site/api/preview?secret=…&id={entry.sys.id}&mode=edit (Settings → Content preview)`.
+Settings → Content preview: `https://your-site/api/preview?secret=<PREVIEW_SECRET>&id={entry.sys.id}`. The `id` can be a page or any block or item; the adapter follows `links_to_entry` up to the page that contains it. Published reads use the Delivery API, draft reads the Preview API.
 
-In draft mode the adapter reads drafts, attaches this CMS's live-edit attributes to every block, item and field, and loads the bridge that refreshes the page on save. See [Preview & visual editing](/docs/preview).
+In draft mode every document, block, item and field carries the Inspector Mode attributes (`data-contentful-entry-id`, `data-contentful-field-id`, `data-contentful-locale`; assets add `data-contentful-asset-id`). The bridge initialises `@contentful/live-preview` with live updates on and refreshes the page on `save`. Add `mode=preview` to render drafts without inspector attributes.
+
+See [Preview & visual editing](/docs/preview) for the shared flow.
 
 ## Webhook
 
-Settings → Webhooks → URL https://your-site/api/revalidate, header x-contentful-webhook-secret. The adapter verifies the request and maps the payload to cache tags; see [Caching](/docs/caching).
+Settings → Webhooks → URL `https://your-site/api/revalidate`, header `x-contentful-webhook-secret`, default payload. The topic comes from `X-Contentful-Topic`. Tags: entries map to `cms:entry:<id>` and `cms:type:<contentType>`; pages add `cms:page:<locale>:<path>` and, on publish/unpublish/archive/delete, `cms:paths`; `siteSettings` maps to `cms:global`; blocks, items and assets fall back to `cms:type:page`.
+
+## Mapping notes
+
+- `page.path` is unique and must start with `/`; `select` fields get an `in` validation and default value; `items` min/max become `size` validations; `media` `accept` becomes `linkMimetypeGroup`.
+- Field descriptions become editor help text; rich text node types and marks are limited to what the converter handles.
+- Lists are only required in Contentful when `min` is at least 1, since canonical content defaults them to `[]`.
+- Alt text prefers the asset description over its title.
 
 ## What the generator emits for a block
 

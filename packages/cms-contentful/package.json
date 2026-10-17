@@ -11,11 +11,17 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "schema:generate": "node --experimental-strip-types scripts/generate-schema.ts"
   },
   "dependencies": {
     "@platform/cms-core": "workspace:*",
-    "@platform/content-model": "workspace:*"
+    "@platform/content-model": "workspace:*",
+    "contentful": "catalog:",
+    "@contentful/live-preview": "catalog:",
+    "@contentful/rich-text-types": "catalog:",
+    "contentful-migration": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@platform/eslint-config": "workspace:*",
@@ -24,6 +30,9 @@
     "typescript": "catalog:",
     "vitest": "catalog:",
     "@types/react": "catalog:",
-    "react": "catalog:"
+    "react": "catalog:",
+    "@types/node": "catalog:",
+    "next": "catalog:",
+    "react-dom": "catalog:"
   }
 }

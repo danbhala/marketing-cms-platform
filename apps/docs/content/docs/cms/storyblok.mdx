@@ -1,33 +1,42 @@
 ---
 title: Storyblok
-description: "Configure the Storyblok adapter: environment, schema push, preview URL and webhook."
+description: "Configure the Storyblok adapter: environment, schema push, Visual Editor and webhook."
 ---
 
 <Callout type="info">The adapter lives in `packages/cms-storyblok`. Its README has the step-by-step setup; this page is the summary.</Callout>
 
 ## Environment
 
-`STORYBLOK_PREVIEW_TOKEN, STORYBLOK_REGION, STORYBLOK_WEBHOOK_SECRET, PREVIEW_SECRET, REVALIDATE_SECRET` (see `apps/web/.env.example`).
+`STORYBLOK_PREVIEW_TOKEN` (required, preview scope), `STORYBLOK_REGION` (`eu` default), `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `STORYBLOK_PUBLIC_TOKEN`, `STORYBLOK_SPACE_ID`, `STORYBLOK_WEBHOOK_SECRET`. See `apps/web/.env.example`.
 
 ## Push the content model
 
 ```bash
-pnpm --filter @platform/cms-storyblok schema:generate
-# then
-storyblok push-components --space <id> packages/cms-storyblok/schema/components.json
+pnpm --filter @platform/cms-storyblok schema:generate   # writes schema/components.json
+npx storyblok login
+npx storyblok push-components packages/cms-storyblok/schema/components.json --space <id>
 ```
 
 The generated files are committed under `packages/cms-storyblok/schema/` so diffs show exactly what changes in the CMS when the content model changes.
 
 ## Preview
 
-Preview URL: `https://your-site/api/preview (Settings → Visual Editor → default environment); the editor appends _storyblok and _storyblok_tk`.
+Settings → Visual Editor: preview URL `https://your-site/api/preview?`. The editor appends `_storyblok`, `_storyblok_tk[...]` and `_storyblok_lang`; the adapter validates the token (`sha1(space_id:preview_token:timestamp)`, one-hour window), resolves the story id to its path, and the app enters Draft Mode. Hand-made previews: `/api/preview?secret=<PREVIEW_SECRET>&path=/pricing`.
 
-In draft mode the adapter reads drafts, attaches this CMS's live-edit attributes to every block, item and field, and loads the bridge that refreshes the page on save. See [Preview & visual editing](/docs/preview).
+Inside the editor every document, block and item carries `storyblokEditable()` attributes (`data-blok-c`, `data-blok-uid`); Storyblok targets whole bloks, so there are no field-level attributes. The bridge loads `@storyblok/js`'s preview bridge and refreshes the page on `input`, `change` and `published`.
+
+See [Preview & visual editing](/docs/preview) for the shared flow.
 
 ## Webhook
 
-Settings → Webhooks → Story published/unpublished → https://your-site/api/revalidate, with the webhook secret. The adapter verifies the request and maps the payload to cache tags; see [Caching](/docs/caching).
+Settings → Webhooks → story events → `https://your-site/api/revalidate` with a secret. Storyblok signs the raw body with HMAC-SHA1 in `webhook-signature`. Tags: `cms:entry:<story_id>` always; pages add `cms:page:<locale>:/<full_slug>` and, on publish/unpublish/delete/move, `cms:paths:<locale>`; the `site-settings` story maps to `cms:global:<locale>`.
+
+## Mapping notes
+
+- Pages are stories of type `page`; `full_slug` is the URL (`home` → `/`), so the page `path` field is not in the Storyblok schema.
+- Site settings is one story at `site-settings`.
+- Document ids are the numeric story id (what webhooks and the editor carry), nested bloks use `_uid`.
+- `textList` fields become a `bloks` field restricted to a generated `textItem` component.
 
 ## What the generator emits for a block
 

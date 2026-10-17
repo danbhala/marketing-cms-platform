@@ -20,15 +20,26 @@ async function readOptional(path: string) {
   }
 }
 
+/**
+ * Names a generator may have given the canonical type: Optimizely suffixes
+ * Block/Item and renames page/siteSettings; the others keep the name.
+ */
+function candidates(type: string): string[] {
+  const pascal = type.charAt(0).toUpperCase() + type.slice(1)
+  return [type, `${pascal}Block`, `${pascal}Item`, type === "page" ? "WebPage" : pascal]
+}
+
 /** Extracts one named type from a generated schema file (array or object keyed by name). */
 function pick(raw: string, type: string): string {
   try {
     const parsed = JSON.parse(raw) as unknown
     const list = Array.isArray(parsed) ? parsed : typeof parsed === "object" && parsed ? Object.values(parsed as Record<string, unknown>) : []
     const flat = list.flatMap((entry) => (Array.isArray(entry) ? entry : [entry]))
+    const names = candidates(type)
     const hit = flat.find((entry) => {
       const e = entry as Record<string, unknown>
-      return e?.name === type || e?.id === type || (e?.sys as Record<string, unknown> | undefined)?.id === type
+      const id = [e?.name, e?.key, e?.id, (e?.sys as Record<string, unknown> | undefined)?.id]
+      return id.some((value) => typeof value === "string" && names.includes(value))
     })
     return JSON.stringify(hit ?? { error: `type ${type} not found` }, null, 2)
   } catch {
