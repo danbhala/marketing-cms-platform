@@ -1,0 +1,47 @@
+/* Kessler: a brutalist studio theme. Square corners, hairline black borders,
+   grotesk type set in capitals and one acid accent. */
+.showcase-kessler {
+  --font-heading: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-sans: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+  --radius: 0;
+
+  --background: oklch(0.985 0.005 100);
+  --foreground: oklch(0.15 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  /* Lime fails as text on white, so it lives on black: button labels,
+     the brand band and highlights. */
+  --primary: oklch(0.15 0 0);
+  --primary-foreground: oklch(0.9 0.2 125);
+  --secondary: oklch(0.93 0 0);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.94 0 0);
+  --muted-foreground: oklch(0.4 0 0);
+  --accent: oklch(0.9 0.2 125);
+  --accent-foreground: var(--foreground);
+  --border: oklch(0.15 0 0);
+  --input: var(--border);
+  --ring: oklch(0.15 0 0);
+  --surface: oklch(0.96 0 0);
+  --inverse: var(--foreground);
+  --inverse-foreground: var(--background);
+  --brand: oklch(0.9 0.2 125);
+  --brand-foreground: oklch(0.15 0 0);
+  --brand-muted: oklch(0.8 0.18 125);
+
+  /* Dense: tighter sections and grids. */
+  --section-space-md: calc(var(--spacing) * 14);
+  --section-space-lg: calc(var(--spacing) * 20);
+  --block-grid-gap: calc(var(--spacing) * 5);
+}
+.showcase-kessler [data-slot="heading"] {
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+.showcase-kessler [data-slot="eyebrow"] {
+  font-family: var(--font-mono);
+}

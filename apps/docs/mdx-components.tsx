@@ -10,6 +10,7 @@ import { BlockReference } from "@/components/block-reference"
 import { FlowDiagram } from "@/components/flow-diagram"
 import { SchemaCompare } from "@/components/schema-compare"
 import { Screenshot } from "@/components/screenshot"
+import { ShowcaseGallery } from "@/components/showcase-gallery"
 import { StorybookEmbed } from "@/components/storybook-embed"
 import { Video } from "@/components/video"
 
@@ -28,6 +29,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     FlowDiagram,
     SchemaCompare,
     Screenshot,
+    ShowcaseGallery,
     StorybookEmbed,
     Video,
     ...components,
