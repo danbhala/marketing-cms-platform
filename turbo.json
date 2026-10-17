@@ -1,22 +1,75 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "stream",
-  "globalEnv": ["CMS_PROVIDER", "NODE_ENV"],
+  "globalEnv": [
+    "CMS_PROVIDER",
+    "NODE_ENV"
+  ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "env": ["CMS_*", "CONTENTFUL_*", "STORYBLOK_*", "OPTIMIZELY_*", "SITE_URL", "PREVIEW_SECRET", "REVALIDATE_SECRET"],
-      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**", ".source/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "env": [
+        "CMS_*",
+        "CONTENTFUL_*",
+        "STORYBLOK_*",
+        "OPTIMIZELY_*",
+        "SITE_URL",
+        "PREVIEW_SECRET",
+        "REVALIDATE_SECRET"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "!.next/dev/**",
+        "dist/**",
+        ".source/**"
+      ]
     },
     "build-storybook": {
-      "dependsOn": ["^build"],
-      "outputs": ["storybook-static/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "storybook-static/**"
+      ]
     },
-    "lint": { "dependsOn": ["^lint"] },
-    "typecheck": { "dependsOn": ["^typecheck"] },
-    "test": { "dependsOn": ["^build"], "outputs": ["coverage/**"] },
-    "schema:generate": { "outputs": ["generated/**"], "cache": false },
-    "dev": { "cache": false, "persistent": true }
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ]
+    },
+    "typecheck": {
+      "dependsOn": [
+        "^typecheck"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "env": [
+        "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH",
+        "CI"
+      ]
+    },
+    "schema:generate": {
+      "outputs": [
+        "generated/**"
+      ],
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
   }
 }

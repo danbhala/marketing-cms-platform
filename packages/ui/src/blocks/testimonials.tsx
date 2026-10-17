@@ -7,7 +7,7 @@ import { Quote } from "../molecules/quote"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface TestimonialsProps extends BlockComponentProps<TestimonialsBlock> {}
+export type TestimonialsProps = BlockComponentProps<TestimonialsBlock>
 
 /** Grid of quote cards, or one large featured quote. */
 function Testimonials({ block, index, className, ...props }: TestimonialsProps) {

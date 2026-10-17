@@ -32,11 +32,11 @@ export interface SiteHeaderProps extends React.ComponentProps<"header"> {
 
 function Brand({ settings }: { settings: SiteHeaderProps["settings"] }) {
   return (
-    <Link href="/" variant="unstyled" className="flex items-center gap-2 font-semibold" aria-label={`${settings.siteName} home`}>
+    <Link href="/" variant="unstyled" className="flex items-center gap-2 font-semibold">
       {settings.logo ? (
         <Image media={settings.logo} radius="none" className="h-7 w-auto bg-transparent" {...fieldAttrs(settings, "logo")} />
       ) : (
-        <span className="flex size-7 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">
+        <span aria-hidden className="flex size-7 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">
           {settings.siteName.slice(0, 1)}
         </span>
       )}

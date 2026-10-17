@@ -19,7 +19,7 @@ export const Default: Story = {}
 export const Variants: Story = {
   render: (args) => (
     <Stack direction="row" gap="md" align="center">
-      {(["default", "secondary", "outline", "ghost", "link", "destructive"] as const).map((variant) => (
+      {(["default", "secondary", "outline", "ghost", "link"] as const).map((variant) => (
         <Button key={variant} {...args} variant={variant}>
           {variant}
         </Button>

@@ -5,7 +5,7 @@ import { Container } from "../atoms/container"
 import { Image } from "../atoms/image"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface MediaBlockProps extends BlockComponentProps<MediaBlockContent> {}
+export type MediaBlockProps = BlockComponentProps<MediaBlockContent>
 
 /** A single image or video with an optional caption, contained or edge to edge. */
 function MediaBlock({ block, className, ...props }: MediaBlockProps) {

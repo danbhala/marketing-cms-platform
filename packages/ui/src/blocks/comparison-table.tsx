@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface ComparisonTableProps extends BlockComponentProps<ComparisonTableBlock> {}
+export type ComparisonTableProps = BlockComponentProps<ComparisonTableBlock>
 
 /** "yes" / "no" (any case) become icons; anything else is shown as text. */
 function CellValue({ value }: { value: string | undefined }) {

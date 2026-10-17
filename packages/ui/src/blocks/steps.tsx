@@ -8,7 +8,7 @@ import { SectionHeader } from "../molecules/section-header"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface StepsProps extends BlockComponentProps<StepsBlock> {}
+export type StepsProps = BlockComponentProps<StepsBlock>
 
 /** Numbered process. Horizontal on wide screens, a vertical timeline otherwise. */
 function Steps({ block, index, className, ...props }: StepsProps) {

@@ -7,7 +7,7 @@ import { FeatureItem } from "../molecules/feature-item"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface FeatureGridProps extends BlockComponentProps<FeatureGridBlock> {}
+export type FeatureGridProps = BlockComponentProps<FeatureGridBlock>
 
 /** Heading plus a responsive grid of icon/title/description features. */
 function FeatureGrid({ block, index, className, ...props }: FeatureGridProps) {

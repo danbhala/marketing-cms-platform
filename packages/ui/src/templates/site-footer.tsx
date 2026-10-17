@@ -1,6 +1,6 @@
 import type * as React from "react"
 
-import type { SiteSettings, SocialLink } from "@platform/content-model"
+import type { SiteSettings } from "@platform/content-model"
 import { editAttrs, fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"

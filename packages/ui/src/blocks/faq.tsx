@@ -8,7 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface FaqProps extends BlockComponentProps<FaqBlock> {}
+export type FaqProps = BlockComponentProps<FaqBlock>
 
 /**
  * Accordion of questions. `single` centres the heading above a narrow list;

@@ -25,7 +25,7 @@ const heroLayout = cva("grid items-center gap-10 lg:gap-16", {
   defaultVariants: { layout: "centered" },
 })
 
-export interface HeroProps extends BlockComponentProps<HeroBlock> {}
+export type HeroProps = BlockComponentProps<HeroBlock>
 
 /**
  * Hero block. Four layouts share one markup: `centered` stacks copy over

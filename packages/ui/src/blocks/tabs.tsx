@@ -10,7 +10,7 @@ import { SectionHeader } from "../molecules/section-header"
 import { Tabs as TabsPrimitive, TabsContent, TabsList, TabsTrigger } from "../primitives/tabs"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface TabsProps extends BlockComponentProps<TabsBlock> {}
+export type TabsProps = BlockComponentProps<TabsBlock>
 
 /** Tabbed panels, each with a title, rich text and optional media. */
 function Tabs({ block, index, className, ...props }: TabsProps) {

@@ -72,6 +72,14 @@
   --background: var(--muted);
   --card: oklch(1 0 0);
   --surface: oklch(0.955 0 0);
+  /* Darker than stock so secondary copy keeps 4.5:1 on the grey band. */
+  --muted-foreground: oklch(0.45 0 0);
+}
+:is(.dark, .theme-dark) .theme-muted,
+.theme-muted:is(.dark, .theme-dark) {
+  --card: oklch(0.205 0 0);
+  --surface: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.78 0 0);
 }
 
 /* --- Brand theme (the one clients override) ------------------------------ */
@@ -83,11 +91,13 @@
   --card-foreground: var(--brand-foreground);
   --primary: var(--brand-foreground);
   --primary-foreground: var(--brand);
-  --secondary: color-mix(in oklch, var(--brand), var(--brand-foreground) 12%);
+  /* Secondary surfaces go darker, not lighter, so brand-foreground text on
+     them keeps contrast; muted text stays close to the foreground. */
+  --secondary: color-mix(in oklch, var(--brand), oklch(0 0 0) 18%);
   --secondary-foreground: var(--brand-foreground);
-  --muted: color-mix(in oklch, var(--brand), var(--brand-foreground) 12%);
-  --muted-foreground: color-mix(in oklch, var(--brand-foreground), var(--brand) 30%);
-  --accent: color-mix(in oklch, var(--brand), var(--brand-foreground) 12%);
+  --muted: color-mix(in oklch, var(--brand), oklch(0 0 0) 12%);
+  --muted-foreground: color-mix(in oklch, var(--brand-foreground), var(--brand) 12%);
+  --accent: color-mix(in oklch, var(--brand), oklch(0 0 0) 18%);
   --accent-foreground: var(--brand-foreground);
   --border: color-mix(in oklch, var(--brand-foreground), transparent 80%);
   --input: color-mix(in oklch, var(--brand-foreground), transparent 75%);
@@ -100,7 +110,8 @@
 /* --- Colour accents ------------------------------------------------------ */
 /* Each sets the brand tokens and the primary action colour; everything else
    stays neutral so the result still reads as shadcn. Pair with .theme-brand
-   to fill a whole block with the colour. */
+   to fill a whole block with the colour. Primary shades are chosen so
+   `text-primary` on white passes WCAG AA (the 600 step fails for warm hues). */
 
 .theme-blue {
   --brand: var(--color-blue-600);
@@ -117,10 +128,10 @@
 }
 
 .theme-green {
-  --brand: var(--color-emerald-600);
+  --brand: var(--color-emerald-700);
   --brand-foreground: var(--color-emerald-50);
   --brand-muted: var(--color-emerald-100);
-  --primary: var(--color-emerald-600);
+  --primary: var(--color-emerald-700);
   --primary-foreground: var(--color-emerald-50);
   --ring: var(--color-emerald-400);
   --chart-1: var(--color-emerald-300);
@@ -131,10 +142,10 @@
 }
 
 .theme-orange {
-  --brand: var(--color-orange-600);
+  --brand: var(--color-orange-700);
   --brand-foreground: var(--color-orange-50);
   --brand-muted: var(--color-orange-100);
-  --primary: var(--color-orange-600);
+  --primary: var(--color-orange-700);
   --primary-foreground: var(--color-orange-50);
   --ring: var(--color-orange-400);
   --chart-1: var(--color-orange-300);
@@ -145,10 +156,10 @@
 }
 
 .theme-rose {
-  --brand: var(--color-rose-600);
+  --brand: var(--color-rose-700);
   --brand-foreground: var(--color-rose-50);
   --brand-muted: var(--color-rose-100);
-  --primary: var(--color-rose-600);
+  --primary: var(--color-rose-700);
   --primary-foreground: var(--color-rose-50);
   --ring: var(--color-rose-400);
   --chart-1: var(--color-rose-300);

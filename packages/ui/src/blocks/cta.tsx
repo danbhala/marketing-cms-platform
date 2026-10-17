@@ -10,7 +10,7 @@ import { ActionGroup } from "../molecules/action-group"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface CtaProps extends BlockComponentProps<CtaBlock> {}
+export type CtaProps = BlockComponentProps<CtaBlock>
 
 /**
  * Closing call to action. Renders as a rounded panel inside the section so

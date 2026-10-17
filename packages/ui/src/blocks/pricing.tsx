@@ -7,7 +7,7 @@ import { PriceCard } from "../molecules/price-card"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-export interface PricingProps extends BlockComponentProps<PricingBlock> {}
+export type PricingProps = BlockComponentProps<PricingBlock>
 
 /** Two to four plan cards; the `highlighted` plan is emphasised. */
 function Pricing({ block, index, className, ...props }: PricingProps) {
