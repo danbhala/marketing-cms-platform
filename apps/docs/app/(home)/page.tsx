@@ -5,6 +5,8 @@ const sections = [
   { href: "/docs/architecture", title: "Architecture", text: "How the content model, UI, adapters and the app fit together." },
   { href: "/docs/blocks", title: "Block explorer", text: "Every block with its fields, variants, screenshots and live Storybook embed." },
   { href: "/docs/theming", title: "Theming", text: "Tokens, theme classes and how to brand a site without touching components." },
+  { href: "/theme", title: "Theme studio", text: "Edit fonts, colours, radius and rhythm live on a real site; copy the CSS." },
+  { href: "/docs/showcases", title: "Showcases", text: "Six brands on the same blocks: fonts, colours, radius and photography, all from CSS variables." },
   { href: "/docs/cms", title: "CMS adapters", text: "Contentful, Storyblok, Optimizely SaaS, Sanity and Drupal: schemas, preview, webhooks." },
   { href: "/docs/caching", title: "Caching & preview", text: "Cache Components, tags, revalidation and draft-mode visual editing." },
 ]

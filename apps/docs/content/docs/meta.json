@@ -1,4 +1,16 @@
 {
   "title": "Documentation",
-  "pages": ["index", "architecture", "content-model", "blocks", "theming", "caching", "preview", "cms", "nextjs-app", "contributing"]
+  "pages": [
+    "index",
+    "architecture",
+    "content-model",
+    "blocks",
+    "theming",
+    "showcases",
+    "caching",
+    "preview",
+    "cms",
+    "nextjs-app",
+    "contributing"
+  ]
 }

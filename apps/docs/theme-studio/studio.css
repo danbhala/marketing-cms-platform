@@ -1,0 +1,31 @@
+/* The hue slider shows the hue wheel it moves through. */
+.hue-range {
+  appearance: none;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    oklch(0.7 0.18 0),
+    oklch(0.7 0.18 60),
+    oklch(0.7 0.18 120),
+    oklch(0.7 0.18 180),
+    oklch(0.7 0.18 240),
+    oklch(0.7 0.18 300),
+    oklch(0.7 0.18 360)
+  );
+}
+.hue-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  background: white;
+  border: 2px solid oklch(0.3 0 0);
+}
+.hue-range::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  background: white;
+  border: 2px solid oklch(0.3 0 0);
+}
