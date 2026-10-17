@@ -1,0 +1,207 @@
+/*
+ * Layer 2: themes.
+ *
+ * A theme is a class that re-declares the semantic tokens from tokens.css.
+ * Because every component reads tokens through `var()`, a theme class works at
+ * any depth: on <html> to theme a site, on a page wrapper, or on one block.
+ * Themes nest: a `.theme-brand` hero inside a `.theme-dark` page picks up
+ * brand colours while the rest of the page stays dark.
+ *
+ * The list of theme names is mirrored in `@platform/content-model`
+ * (`themeNames`), which is what the CMS schemas offer editors.
+ *
+ * Colour themes below use Tailwind's palette variables so they stay on
+ * the OKLCH scale and read as "plain shadcn", not a bespoke brand. Clients
+ * override `.theme-brand` with their own palette.
+ */
+
+/* --- Mode themes --------------------------------------------------------- */
+
+.theme-light {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --surface: oklch(0.98 0 0);
+  --inverse: var(--foreground);
+  --inverse-foreground: var(--background);
+  color-scheme: light;
+}
+
+/* `.theme-dark` is the stock dark palette; `.dark` in tokens.css is the same
+   values, kept so next-themes' class toggle keeps working. */
+.theme-dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --surface: oklch(0.205 0 0);
+  --inverse: var(--foreground);
+  --inverse-foreground: var(--background);
+  color-scheme: dark;
+}
+
+/* Muted: a soft grey band, used for alternating sections. */
+.theme-muted {
+  --background: var(--muted);
+  --card: oklch(1 0 0);
+  --surface: oklch(0.955 0 0);
+}
+
+/* --- Brand theme (the one clients override) ------------------------------ */
+
+.theme-brand {
+  --background: var(--brand);
+  --foreground: var(--brand-foreground);
+  --card: color-mix(in oklch, var(--brand), var(--brand-foreground) 8%);
+  --card-foreground: var(--brand-foreground);
+  --primary: var(--brand-foreground);
+  --primary-foreground: var(--brand);
+  --secondary: color-mix(in oklch, var(--brand), var(--brand-foreground) 12%);
+  --secondary-foreground: var(--brand-foreground);
+  --muted: color-mix(in oklch, var(--brand), var(--brand-foreground) 12%);
+  --muted-foreground: color-mix(in oklch, var(--brand-foreground), var(--brand) 30%);
+  --accent: color-mix(in oklch, var(--brand), var(--brand-foreground) 12%);
+  --accent-foreground: var(--brand-foreground);
+  --border: color-mix(in oklch, var(--brand-foreground), transparent 80%);
+  --input: color-mix(in oklch, var(--brand-foreground), transparent 75%);
+  --ring: color-mix(in oklch, var(--brand-foreground), transparent 50%);
+  --surface: color-mix(in oklch, var(--brand), var(--brand-foreground) 6%);
+  --inverse: var(--brand-foreground);
+  --inverse-foreground: var(--brand);
+}
+
+/* --- Colour accents ------------------------------------------------------ */
+/* Each sets the brand tokens and the primary action colour; everything else
+   stays neutral so the result still reads as shadcn. Pair with .theme-brand
+   to fill a whole block with the colour. */
+
+.theme-blue {
+  --brand: var(--color-blue-600);
+  --brand-foreground: var(--color-blue-50);
+  --brand-muted: var(--color-blue-100);
+  --primary: var(--color-blue-600);
+  --primary-foreground: var(--color-blue-50);
+  --ring: var(--color-blue-400);
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-blue-500);
+  --chart-3: var(--color-blue-600);
+  --chart-4: var(--color-blue-700);
+  --chart-5: var(--color-blue-800);
+}
+
+.theme-green {
+  --brand: var(--color-emerald-600);
+  --brand-foreground: var(--color-emerald-50);
+  --brand-muted: var(--color-emerald-100);
+  --primary: var(--color-emerald-600);
+  --primary-foreground: var(--color-emerald-50);
+  --ring: var(--color-emerald-400);
+  --chart-1: var(--color-emerald-300);
+  --chart-2: var(--color-emerald-500);
+  --chart-3: var(--color-emerald-600);
+  --chart-4: var(--color-emerald-700);
+  --chart-5: var(--color-emerald-800);
+}
+
+.theme-orange {
+  --brand: var(--color-orange-600);
+  --brand-foreground: var(--color-orange-50);
+  --brand-muted: var(--color-orange-100);
+  --primary: var(--color-orange-600);
+  --primary-foreground: var(--color-orange-50);
+  --ring: var(--color-orange-400);
+  --chart-1: var(--color-orange-300);
+  --chart-2: var(--color-orange-500);
+  --chart-3: var(--color-orange-600);
+  --chart-4: var(--color-orange-700);
+  --chart-5: var(--color-orange-800);
+}
+
+.theme-rose {
+  --brand: var(--color-rose-600);
+  --brand-foreground: var(--color-rose-50);
+  --brand-muted: var(--color-rose-100);
+  --primary: var(--color-rose-600);
+  --primary-foreground: var(--color-rose-50);
+  --ring: var(--color-rose-400);
+  --chart-1: var(--color-rose-300);
+  --chart-2: var(--color-rose-500);
+  --chart-3: var(--color-rose-600);
+  --chart-4: var(--color-rose-700);
+  --chart-5: var(--color-rose-800);
+}
+
+.theme-violet {
+  --brand: var(--color-violet-600);
+  --brand-foreground: var(--color-violet-50);
+  --brand-muted: var(--color-violet-100);
+  --primary: var(--color-violet-600);
+  --primary-foreground: var(--color-violet-50);
+  --ring: var(--color-violet-400);
+  --chart-1: var(--color-violet-300);
+  --chart-2: var(--color-violet-500);
+  --chart-3: var(--color-violet-600);
+  --chart-4: var(--color-violet-700);
+  --chart-5: var(--color-violet-800);
+}
+
+/* Dark variants of the colour accents keep contrast on dark surfaces. */
+:is(.dark, .theme-dark) .theme-blue,
+.theme-blue:is(.dark, .theme-dark) {
+  --primary: var(--color-blue-400);
+  --primary-foreground: var(--color-blue-950);
+}
+:is(.dark, .theme-dark) .theme-green,
+.theme-green:is(.dark, .theme-dark) {
+  --primary: var(--color-emerald-400);
+  --primary-foreground: var(--color-emerald-950);
+}
+:is(.dark, .theme-dark) .theme-orange,
+.theme-orange:is(.dark, .theme-dark) {
+  --primary: var(--color-orange-400);
+  --primary-foreground: var(--color-orange-950);
+}
+:is(.dark, .theme-dark) .theme-rose,
+.theme-rose:is(.dark, .theme-dark) {
+  --primary: var(--color-rose-400);
+  --primary-foreground: var(--color-rose-950);
+}
+:is(.dark, .theme-dark) .theme-violet,
+.theme-violet:is(.dark, .theme-dark) {
+  --primary: var(--color-violet-400);
+  --primary-foreground: var(--color-violet-950);
+}
+
+/* Any themed element paints its own background and text so the theme is
+   visible without the block having to add bg-/text- classes. */
+[class*="theme-"] {
+  background-color: var(--background);
+  color: var(--foreground);
+}

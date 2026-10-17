@@ -1,4 +1,3 @@
-import { globalIgnores } from "eslint/config"
 import pluginNext from "@next/eslint-plugin-next"
 import pluginReactHooks from "eslint-plugin-react-hooks"
 import globals from "globals"
@@ -6,35 +5,17 @@ import globals from "globals"
 import { config as baseConfig } from "./base.js"
 
 /**
- * A custom ESLint configuration for libraries that use Next.js.
- *
+ * ESLint configuration for Next.js apps.
  * @type {import("eslint").Linter.Config[]}
  */
-export const nextJsConfig = [
+export const config = [
   ...baseConfig,
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
   {
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.serviceworker,
-      },
+      globals: { ...globals.browser, ...globals.node },
     },
   },
-  {
-    plugins: {
-      "@next/next": pluginNext,
-    },
-    rules: {
-      ...pluginNext.configs.recommended.rules,
-      ...pluginNext.configs["core-web-vitals"].rules,
-    },
-  },
+  pluginNext.configs["flat/recommended"],
+  pluginNext.configs["flat/core-web-vitals"],
   pluginReactHooks.configs.flat.recommended,
 ]

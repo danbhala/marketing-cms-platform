@@ -1,0 +1,42 @@
+/*
+ * Layer 3: block tokens.
+ *
+ * Layout variables marketing blocks read for spacing and width. They are
+ * separate from colour tokens so a theme can change rhythm (a denser
+ * "compact" theme, say) without touching colour, and vice versa.
+ */
+:root {
+  /* Section vertical padding steps, picked by <Section spacing="…"> */
+  --section-space-sm: calc(var(--spacing) * 10);
+  --section-space-md: calc(var(--spacing) * 16);
+  --section-space-lg: calc(var(--spacing) * 24);
+
+  /* Container widths, picked by <Container size="…"> */
+  --container-sm: 40rem;
+  --container-md: 48rem;
+  --container-lg: 64rem;
+  --container-xl: 80rem;
+  --container-section: var(--container-xl);
+  --container-prose: 65ch;
+
+  /* Gap between a block's header and its content */
+  --block-header-gap: calc(var(--spacing) * 12);
+  /* Grid gap inside blocks */
+  --block-grid-gap: calc(var(--spacing) * 8);
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --section-space-sm: calc(var(--spacing) * 14);
+    --section-space-md: calc(var(--spacing) * 24);
+    --section-space-lg: calc(var(--spacing) * 32);
+  }
+}
+
+.theme-compact {
+  --section-space-sm: calc(var(--spacing) * 6);
+  --section-space-md: calc(var(--spacing) * 10);
+  --section-space-lg: calc(var(--spacing) * 14);
+  --block-header-gap: calc(var(--spacing) * 8);
+  --block-grid-gap: calc(var(--spacing) * 6);
+}

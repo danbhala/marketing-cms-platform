@@ -136,3 +136,19 @@ export function richTextFromParagraphs(...paragraphs: string[]): RichText {
 export function isExternalHref(href: string): boolean {
   return /^(https?:)?\/\//.test(href) || href.startsWith("mailto:") || href.startsWith("tel:");
 }
+
+/**
+ * Edit metadata an adapter attaches in draft mode so a CMS's visual editor
+ * can map DOM elements back to content. `self` goes on the block or item root,
+ * `fields[name]` on the element rendering that field. UI code spreads these via
+ * `editAttrs()` / `fieldAttrs()` from `@platform/cms-core` and never knows
+ * which CMS produced them. Production responses never carry `$edit`.
+ */
+export type EditAttrs = Record<`data-${string}`, string>;
+
+export interface Editable {
+  $edit?: {
+    self?: EditAttrs;
+    fields?: Record<string, EditAttrs>;
+  };
+}

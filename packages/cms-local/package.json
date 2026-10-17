@@ -1,0 +1,17 @@
+{
+  "name": "@platform/cms-local",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local JSON content provider for development, Storybook fixtures and tests.",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "lint": "eslint .", "typecheck": "tsc", "test": "vitest run" },
+  "dependencies": {},
+  "devDependencies": {
+    "@platform/eslint-config": "workspace:*",
+    "@platform/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

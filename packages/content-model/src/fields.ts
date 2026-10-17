@@ -1,4 +1,4 @@
-import type { Media, RichText } from "./primitives";
+import type { Editable, Media, RichText } from "./primitives";
 
 /**
  * A tiny field DSL. Each block, item and document is described once with these
@@ -136,63 +136,70 @@ export type InferFields<F extends Fields> = Simplify<
 /** The canonical content shape of a definition: system keys plus its fields. */
 export type InferContent<D> =
   D extends Definition<infer _K, infer T, infer F>
-    ? Simplify<{ id: string; type: T } & InferFields<F>>
+    ? Simplify<{ id: string; type: T } & InferFields<F> & Editable>
     : never;
 
 // ---------------------------------------------------------------------------
 // Builders
 // ---------------------------------------------------------------------------
 
-interface Opts<R extends boolean> {
-  required?: R;
-  label?: string;
-  description?: string;
+interface Opts {
+  required?: boolean
+  label?: string
+  description?: string
 }
 
-const base = <K extends string, R extends boolean>(kind: K, opts?: Opts<R>) => ({
+/**
+ * `required` is derived from the *argument* type, not inferred from the
+ * return type. Inside `defineBlock({ fields: { … } })` the contextual type
+ * would otherwise widen it to `boolean` and make every field optional.
+ */
+type Req<O> = O extends { required: true } ? true : false
+
+const base = <K extends string>(kind: K, opts?: Opts) => ({
   kind,
-  required: (opts?.required ?? false) as R,
+  required: opts?.required ?? false,
   ...(opts?.label ? { label: opts.label } : {}),
   ...(opts?.description ? { description: opts.description } : {}),
-});
+})
 
 export const field = {
-  text: <R extends boolean = false>(opts?: Opts<R> & { maxLength?: number }): TextField<R> => ({
-    ...base("text", opts),
-    ...(opts?.maxLength ? { maxLength: opts.maxLength } : {}),
-  }),
-  textarea: <R extends boolean = false>(opts?: Opts<R>): TextareaField<R> => base("textarea", opts),
-  textList: <R extends boolean = false>(opts?: Opts<R>): TextListField<R> => base("textList", opts),
-  richText: <R extends boolean = false>(opts?: Opts<R>): RichTextField<R> => base("richText", opts),
-  number: <R extends boolean = false>(opts?: Opts<R>): NumberField<R> => base("number", opts),
-  boolean: <R extends boolean = false>(opts?: Opts<R>): BooleanField<R> => base("boolean", opts),
-  link: <R extends boolean = false>(opts?: Opts<R>): LinkField<R> => base("link", opts),
-  icon: <R extends boolean = false>(opts?: Opts<R>): IconField<R> => base("icon", opts),
-  media: <R extends boolean = false>(
-    opts?: Opts<R> & { accept?: MediaField["accept"] },
-  ): MediaField<R> => ({ ...base("media", opts), accept: opts?.accept ?? "image" }),
-  select: <const O extends readonly string[], R extends boolean = false>(
-    options: O,
-    opts?: Opts<R> & { defaultValue?: O[number] },
-  ): SelectField<O, R> => ({
-    ...base("select", opts),
-    options,
-    ...(opts?.defaultValue ? { defaultValue: opts.defaultValue } : {}),
-  }),
+  text: <const O extends Opts & { maxLength?: number } = {}>(opts?: O): TextField<Req<O>> =>
+    ({ ...base("text", opts), ...(opts?.maxLength ? { maxLength: opts.maxLength } : {}) }) as TextField<Req<O>>,
+  textarea: <const O extends Opts = {}>(opts?: O): TextareaField<Req<O>> => base("textarea", opts) as TextareaField<Req<O>>,
+  textList: <const O extends Opts = {}>(opts?: O): TextListField<Req<O>> => base("textList", opts) as TextListField<Req<O>>,
+  richText: <const O extends Opts = {}>(opts?: O): RichTextField<Req<O>> => base("richText", opts) as RichTextField<Req<O>>,
+  number: <const O extends Opts = {}>(opts?: O): NumberField<Req<O>> => base("number", opts) as NumberField<Req<O>>,
+  boolean: <const O extends Opts = {}>(opts?: O): BooleanField<Req<O>> => base("boolean", opts) as BooleanField<Req<O>>,
+  link: <const O extends Opts = {}>(opts?: O): LinkField<Req<O>> => base("link", opts) as LinkField<Req<O>>,
+  icon: <const O extends Opts = {}>(opts?: O): IconField<Req<O>> => base("icon", opts) as IconField<Req<O>>,
+  media: <const O extends Opts & { accept?: MediaField["accept"] } = {}>(opts?: O): MediaField<Req<O>> =>
+    ({ ...base("media", opts), accept: opts?.accept ?? "image" }) as MediaField<Req<O>>,
+  select: <const Options extends readonly string[], const O extends Opts & { defaultValue?: Options[number] } = {}>(
+    options: Options,
+    opts?: O,
+  ): SelectField<Options, Req<O>> =>
+    ({
+      ...base("select", opts),
+      options,
+      ...(opts?.defaultValue ? { defaultValue: opts.defaultValue } : {}),
+    }) as SelectField<Options, Req<O>>,
   items: <const D extends AnyItemDefinition>(
     of: readonly D[],
-    opts?: Omit<Opts<true>, "required"> & { min?: number; max?: number },
+    opts?: Omit<Opts, "required"> & { min?: number; max?: number },
   ): ItemsField<D> => ({
     ...base("items", { ...opts, required: true }),
+    required: true,
     of,
     ...(opts?.min !== undefined ? { min: opts.min } : {}),
     ...(opts?.max !== undefined ? { max: opts.max } : {}),
   }),
-  blocks: <const D extends AnyBlockDefinition>(
-    of: readonly D[],
-    opts?: Omit<Opts<true>, "required">,
-  ): BlocksField<D> => ({ ...base("blocks", { ...opts, required: true }), of }),
-};
+  blocks: <const D extends AnyBlockDefinition>(of: readonly D[], opts?: Omit<Opts, "required">): BlocksField<D> => ({
+    ...base("blocks", { ...opts, required: true }),
+    required: true,
+    of,
+  }),
+}
 
 export function defineItem<const T extends string, const F extends Fields>(
   type: T,

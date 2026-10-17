@@ -8,17 +8,18 @@
     "./next-js": "./next.js",
     "./react-internal": "./react-internal.js"
   },
+  "dependencies": {
+    "@eslint/js": "catalog:",
+    "@next/eslint-plugin-next": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "eslint-plugin-storybook": "catalog:",
+    "eslint-plugin-turbo": "catalog:",
+    "globals": "catalog:",
+    "typescript-eslint": "catalog:"
+  },
   "devDependencies": {
-    "@babel/core": "^8.0.7",
-    "@babel/eslint-parser": "^8.0.7",
-    "@babel/preset-typescript": "^8.0.7",
-    "@eslint/js": "^10",
-    "@next/eslint-plugin-next": "^16.4.0",
-    "eslint": "^10",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-only-warn": "^1.2.1",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-turbo": "^2.11.7",
-    "globals": "^17.13.0"
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   }
 }

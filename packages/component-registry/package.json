@@ -1,0 +1,17 @@
+{
+  "name": "@platform/component-registry",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Maps canonical block types to UI blocks.",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "lint": "eslint .", "typecheck": "tsc", "test": "vitest run" },
+  "dependencies": {},
+  "devDependencies": {
+    "@platform/eslint-config": "workspace:*",
+    "@platform/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

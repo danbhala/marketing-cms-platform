@@ -3,20 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "The canonical content shape every CMS is normalised into, plus the single source of truth for block field definitions.",
+  "description": "Canonical content shape every CMS is normalised into, and the single source of truth for block field definitions.",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./fixtures": "./src/fixtures/index.ts"
   },
   "scripts": {
+    "lint": "eslint .",
     "typecheck": "tsc",
     "test": "vitest run"
   },
   "dependencies": {
-    "zod": "^4.6.7"
+    "zod": "catalog:"
   },
   "devDependencies": {
+    "@platform/eslint-config": "workspace:*",
     "@platform/typescript-config": "workspace:*",
-    "typescript": "~5.9.3",
-    "vitest": "^5.0.5"
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }
