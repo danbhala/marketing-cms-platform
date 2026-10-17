@@ -16,13 +16,25 @@ export default function LocalPreviewBridge({ ctx }: PreviewBridgeProps) {
 
   React.useEffect(() => {
     if (!edit) return
+    // The outline is position: fixed, so it must follow the element's viewport
+    // rect on scroll and resize as well as when the pointer moves.
+    let current: HTMLElement | null = null
+    const measure = () => {
+      if (!current || !current.isConnected) return setTarget(null)
+      setTarget({ id: current.dataset.editId!, field: current.dataset.editField, rect: current.getBoundingClientRect() })
+    }
     const onMove = (event: MouseEvent) => {
-      const el = (event.target as Element | null)?.closest<HTMLElement>("[data-edit-id]")
-      if (!el) return setTarget(null)
-      setTarget({ id: el.dataset.editId!, field: el.dataset.editField, rect: el.getBoundingClientRect() })
+      current = (event.target as Element | null)?.closest<HTMLElement>("[data-edit-id]") ?? null
+      measure()
     }
     window.addEventListener("mousemove", onMove, { passive: true })
-    return () => window.removeEventListener("mousemove", onMove)
+    window.addEventListener("scroll", measure, { passive: true, capture: true })
+    window.addEventListener("resize", measure, { passive: true })
+    return () => {
+      window.removeEventListener("mousemove", onMove)
+      window.removeEventListener("scroll", measure, { capture: true })
+      window.removeEventListener("resize", measure)
+    }
   }, [edit])
 
   return (
