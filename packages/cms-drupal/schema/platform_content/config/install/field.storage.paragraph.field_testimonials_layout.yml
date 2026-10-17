@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_testimonials_layout
+field_name: field_testimonials_layout
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    - value: grid
+      label: Grid
+    - value: featured
+      label: Featured
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

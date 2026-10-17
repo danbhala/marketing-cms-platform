@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_steps
+    - paragraphs.paragraphs_type.step
+    - paragraphs.paragraphs_type.steps
+  module:
+    - entity_reference_revisions
+id: paragraph.steps.field_steps
+field_name: field_steps
+entity_type: paragraph
+bundle: steps
+label: Steps
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      step: step
+    negate: 0
+    target_bundles_drag_drop:
+      step:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

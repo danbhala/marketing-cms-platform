@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_stats_columns
+    - paragraphs.paragraphs_type.stats
+  module:
+    - options
+id: paragraph.stats.field_stats_columns
+field_name: field_stats_columns
+entity_type: paragraph
+bundle: stats
+label: Columns
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: '3'
+default_value_callback: ''
+settings: {  }
+field_type: list_string

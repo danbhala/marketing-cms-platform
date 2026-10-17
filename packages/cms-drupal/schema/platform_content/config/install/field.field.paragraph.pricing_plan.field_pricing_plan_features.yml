@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_pricing_plan_features
+    - paragraphs.paragraphs_type.pricing_plan
+id: paragraph.pricing_plan.field_pricing_plan_features
+field_name: field_pricing_plan_features
+entity_type: paragraph
+bundle: pricing_plan
+label: Features
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: string

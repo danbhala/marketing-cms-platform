@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_values
+    - paragraphs.paragraphs_type.comparison_row
+id: paragraph.comparison_row.field_values
+field_name: field_values
+entity_type: paragraph
+bundle: comparison_row
+label: Values
+description: 'One value per column. Use ''yes'' / ''no'' for check and cross icons.'
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: string

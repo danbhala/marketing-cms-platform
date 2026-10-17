@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: action
+label: Action
+icon_uuid: null
+icon_default: null
+description: A call-to-action link rendered as a button.
+behavior_plugins: {  }

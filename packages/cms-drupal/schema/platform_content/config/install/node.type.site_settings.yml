@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Site settings
+type: site_settings
+description: Exactly one of these exists per site.
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

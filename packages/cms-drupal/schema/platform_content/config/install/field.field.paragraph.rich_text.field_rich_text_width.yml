@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_rich_text_width
+    - paragraphs.paragraphs_type.rich_text
+  module:
+    - options
+id: paragraph.rich_text.field_rich_text_width
+field_name: field_rich_text_width
+entity_type: paragraph
+bundle: rich_text
+label: Width
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: prose
+default_value_callback: ''
+settings: {  }
+field_type: list_string

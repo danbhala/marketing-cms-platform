@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_logo_cloud_layout
+    - paragraphs.paragraphs_type.logo_cloud
+  module:
+    - options
+id: paragraph.logo_cloud.field_logo_cloud_layout
+field_name: field_logo_cloud_layout
+entity_type: paragraph
+bundle: logo_cloud
+label: Layout
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: row
+default_value_callback: ''
+settings: {  }
+field_type: list_string

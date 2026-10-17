@@ -1,0 +1,45 @@
+---
+title: Drupal
+description: "Configure the Drupal adapter: environment, the generated platform_content module, the next module's preview and on-demand revalidation."
+---
+
+<Callout type="info">The adapter lives in `packages/cms-drupal` and is built on [`next-drupal`](https://github.com/chapter-three/next-drupal) (the npm package and the Drupal `next` module). Its README has the step-by-step setup; this page is the summary.</Callout>
+
+## Environment
+
+`NEXT_PUBLIC_DRUPAL_BASE_URL` (required), `DRUPAL_CLIENT_ID` / `DRUPAL_CLIENT_SECRET` (Simple OAuth client, required for drafts), `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `DRUPAL_FRONTEND_URL`, `DRUPAL_FRONT_PAGE` (default `/home`), `DRUPAL_PREVIEW_SECRET`, `DRUPAL_REVALIDATE_SECRET`. See `apps/web/.env.example`.
+
+## Install the content model
+
+```bash
+pnpm --filter @platform/cms-drupal schema:generate   # writes schema/platform_content/
+composer require drupal/paragraphs drupal/next
+cp -r packages/cms-drupal/schema/platform_content web/modules/custom/
+drush en platform_content                             # also enables paragraphs, media, jsonapi, next
+```
+
+`platform_content` is a small Drupal module whose `config/install` holds a paragraph type per block and item (`paragraph--hero`, `paragraph--pricing_plan`, …), the `page` and `site_settings` node types, every field storage and instance, and form displays that use the Paragraphs and Media Library widgets. It is committed under `packages/cms-drupal/schema/` so diffs show exactly what changes in Drupal when the content model changes.
+
+## Preview
+
+Create a Next.js site in Drupal at `/admin/config/services/next` with Draft URL `https://your-site/api/preview`, then enable it for `page` and `site_settings` under Entity types (Site selector). Drupal's Preview tab opens the site in an iframe at `/api/preview?path=/pricing&timestamp=…&secret=…&plugin=simple_oauth&resourceVersion=rel:working-copy`; the adapter posts the query back to Drupal's `/next/draft-url` to validate the secret (it is an HMAC over Drupal's private key, so it cannot be checked locally), the app enters Draft Mode and redirects. Hand-made previews: `/api/preview?secret=<PREVIEW_SECRET>&path=/pricing`.
+
+In draft mode the adapter authenticates with the OAuth client and reads `resourceVersion=rel:working-copy` (or the version in the URL). There is no in-page editor in Drupal: `$edit` identifies the node (`data-drupal-edit="/node/12/edit"`) and each paragraph (`data-drupal-id`), and the bridge offers "Edit in Drupal", refreshes when the tab regains focus and posts route changes to the iframe parent for the module's route sync.
+
+See [Preview & visual editing](/docs/preview) for the shared flow.
+
+## Revalidation
+
+On the Next.js site in Drupal set Revalidate URL `https://your-site/api/revalidate` and a secret; under Entity types choose the **Path** revalidator with "Revalidate page" (and optionally the **Cache Tag** revalidator). Drupal then calls `GET /api/revalidate?secret=…&path=/pricing` or `…&tags=node:12,node_list:page`. Tags: a path maps to `cms:page:<locale>:<path>` plus `cms:paths:<locale>`; `node:<nid>` to `cms:entry:<nid>`; `node_list:page` to `cms:paths:<locale>`; `node_list:site_settings` to `cms:global:<locale>`.
+
+## Mapping notes
+
+- Pages are `node--page`; the path alias is the URL (`/home` → `/`), so `path` is not a field. Document ids are node ids (what Drupal cache tags carry); paragraphs use their uuid.
+- Site settings is one `node--site_settings`; `siteName` is its title.
+- Fields are `field_<snake_case>`; when two types use one name for incompatible storage (a `layout` select with different options) the name is prefixed with the type: `field_hero_layout`.
+- `media` → entity reference to `media` (`image`, plus `video` / `remote_video` when the model accepts video); the image alt and size come from the media → file relationship meta.
+- `richText` → `text_long`; the `processed` HTML is parsed into the portable AST.
+
+## What the generator emits for a block
+
+<SchemaCompare type="hero" />

@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_theme
+field_name: field_theme
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    - value: light
+      label: Light
+    - value: dark
+      label: Dark
+    - value: brand
+      label: Brand
+    - value: muted
+      label: Muted
+    - value: blue
+      label: Blue
+    - value: green
+      label: Green
+    - value: orange
+      label: Orange
+    - value: rose
+      label: Rose
+    - value: violet
+      label: Violet
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

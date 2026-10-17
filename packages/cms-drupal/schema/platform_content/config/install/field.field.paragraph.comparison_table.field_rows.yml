@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_rows
+    - paragraphs.paragraphs_type.comparison_row
+    - paragraphs.paragraphs_type.comparison_table
+  module:
+    - entity_reference_revisions
+id: paragraph.comparison_table.field_rows
+field_name: field_rows
+entity_type: paragraph
+bundle: comparison_table
+label: Rows
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      comparison_row: comparison_row
+    negate: 0
+    target_bundles_drag_drop:
+      comparison_row:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

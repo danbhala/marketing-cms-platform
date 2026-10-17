@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_feature_split_actions
+    - paragraphs.paragraphs_type.action
+    - paragraphs.paragraphs_type.feature_split
+  module:
+    - entity_reference_revisions
+id: paragraph.feature_split.field_feature_split_actions
+field_name: field_feature_split_actions
+entity_type: paragraph
+bundle: feature_split
+label: Actions
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      action: action
+    negate: 0
+    target_bundles_drag_drop:
+      action:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_href
+    - paragraphs.paragraphs_type.feature_item
+  module:
+    - link
+id: paragraph.feature_item.field_href
+field_name: field_href
+entity_type: paragraph
+bundle: feature_item
+label: Href
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 17
+field_type: link

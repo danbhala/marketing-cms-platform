@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_anchor
+    - paragraphs.paragraphs_type.rich_text
+id: paragraph.rich_text.field_anchor
+field_name: field_anchor
+entity_type: paragraph
+bundle: rich_text
+label: Anchor
+description: 'Optional id for in-page links, e.g. ''pricing''.'
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: string

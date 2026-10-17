@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_cta_actions
+    - paragraphs.paragraphs_type.action
+    - paragraphs.paragraphs_type.cta
+  module:
+    - entity_reference_revisions
+id: paragraph.cta.field_cta_actions
+field_name: field_cta_actions
+entity_type: paragraph
+bundle: cta
+label: Actions
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      action: action
+    negate: 0
+    target_bundles_drag_drop:
+      action:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

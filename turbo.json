@@ -20,6 +20,8 @@
         "STORYBLOK_*",
         "OPTIMIZELY_*",
         "SANITY_*",
+        "DRUPAL_*",
+        "NEXT_PUBLIC_DRUPAL_*",
         "SITE_URL",
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"

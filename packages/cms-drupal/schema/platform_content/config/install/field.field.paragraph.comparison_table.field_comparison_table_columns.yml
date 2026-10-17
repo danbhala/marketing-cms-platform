@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_comparison_table_columns
+    - paragraphs.paragraphs_type.comparison_column
+    - paragraphs.paragraphs_type.comparison_table
+  module:
+    - entity_reference_revisions
+id: paragraph.comparison_table.field_comparison_table_columns
+field_name: field_comparison_table_columns
+entity_type: paragraph
+bundle: comparison_table
+label: Columns
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      comparison_column: comparison_column
+    negate: 0
+    target_bundles_drag_drop:
+      comparison_column:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

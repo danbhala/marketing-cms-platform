@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_testimonials_layout
+    - paragraphs.paragraphs_type.testimonials
+  module:
+    - options
+id: paragraph.testimonials.field_testimonials_layout
+field_name: field_testimonials_layout
+entity_type: paragraph
+bundle: testimonials
+label: Layout
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: grid
+default_value_callback: ''
+settings: {  }
+field_type: list_string
