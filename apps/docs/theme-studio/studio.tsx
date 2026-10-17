@@ -8,6 +8,7 @@ import { showcases } from "@/showcases"
 import { ColorField, Field, Range, Segmented, Select, Toggle } from "./controls"
 import { fonts, type FontKind } from "./fonts"
 import { presets } from "./presets"
+import { themeToPrompt } from "./prompt"
 import { shareUrl, useTheme } from "./store"
 import { encodeTheme, generatePalette, randomTheme, themeToCss, themeToStyle, type PaletteOptions, type Theme } from "./theme"
 
@@ -73,6 +74,7 @@ export function ThemeStudio() {
         <Segmented value={viewport} onChange={setViewport} options={[{ value: "desktop", label: "Desktop" }, { value: "tablet", label: "Tablet" }, { value: "mobile", label: "Mobile" }]} />
         <CopyButton label="Copy link" getText={() => shareUrl(theme)} />
         <CopyButton label="Copy CSS" getText={() => themeToCss(theme)} primary />
+        <CopyButton label="Copy prompt" getText={() => themeToPrompt(theme, { shareUrl: shareUrl(theme) })} />
         <a href={`/showcase/${showcase.slug}#t=${encodeTheme(theme)}`} target="_blank" rel="noreferrer" className="h-8 rounded-md border px-2.5 leading-8 hover:bg-fd-muted">
           Open full page ↗
         </a>
@@ -259,18 +261,27 @@ function LayoutPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>
   )
 }
 
+type ExportFormat = "css" | "prompt"
+
 function ExportPanel({ theme }: { theme: Theme }) {
+  const [format, setFormat] = useState<ExportFormat>("css")
   const css = themeToCss(theme)
+  const text = format === "css" ? css : themeToPrompt(theme, { shareUrl: typeof window === "undefined" ? undefined : shareUrl(theme) })
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-sm text-fd-muted-foreground">Paste into your app's stylesheet after <code>@platform/ui/globals.css</code>. Change <code>:root</code> to a class to use it as a page or block theme.</p>
+      <Segmented value={format} onChange={setFormat} options={[{ value: "css", label: "CSS" }, { value: "prompt", label: "Prompt" }]} />
+      {format === "css" ? (
+        <p className="text-sm text-fd-muted-foreground">Paste into your app's stylesheet after <code>@platform/ui/globals.css</code>. Change <code>:root</code> to a class to use it as a page or block theme.</p>
+      ) : (
+        <p className="text-sm text-fd-muted-foreground">Paste into any LLM. The prompt carries the CSS, the font packages, where the file goes and how to check it, so the model can set the theme up in your project unaided.</p>
+      )}
       <div className="flex gap-2">
-        <CopyButton label="Copy CSS" getText={() => css} primary />
-        <a href={`data:text/css;charset=utf-8,${encodeURIComponent(css)}`} download="brand.css" className="h-8 rounded-md border px-2.5 text-sm leading-8 hover:bg-fd-muted">
-          Download brand.css
+        <CopyButton label={format === "css" ? "Copy CSS" : "Copy prompt"} getText={() => text} primary />
+        <a href={`data:${format === "css" ? "text/css" : "text/plain"};charset=utf-8,${encodeURIComponent(text)}`} download={format === "css" ? "brand.css" : "brand-theme-prompt.md"} className="h-8 rounded-md border px-2.5 text-sm leading-8 hover:bg-fd-muted">
+          Download {format === "css" ? "brand.css" : "prompt"}
         </a>
       </div>
-      <pre className="overflow-auto rounded-md border bg-fd-card p-3 text-[11px] leading-relaxed">{css}</pre>
+      <pre className="overflow-auto whitespace-pre-wrap rounded-md border bg-fd-card p-3 text-[11px] leading-relaxed">{text}</pre>
     </div>
   )
 }
