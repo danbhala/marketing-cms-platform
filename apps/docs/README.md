@@ -40,6 +40,15 @@ node packages/ui/scripts/screenshot-docs.mjs http://localhost:3001 apps/docs/pub
 
 `pnpm build` builds the UI package's Storybook first (`docs#build` depends on `@platform/ui#build-storybook` in `turbo.json`) and `scripts/copy-storybook.mjs` copies `storybook-static` into `public/storybook`, which is git-ignored. It is served at `/storybook/` (relative asset URLs need the slash; `proxy.ts` redirects the bare path) with an `X-Robots-Tag: noindex` header. A plain `next build` without the Storybook step still works and falls back to the local Storybook link.
 
+## Videos
+
+`public/video` holds real-pace Playwright recordings (a drawn cursor, pauses, scrolling) made by `record-studio.mjs` against the docs site and `record-preview.mjs` against the web app on the local adapter (`PREVIEW_SECRET` must match). Each writes a webm; convert it with ffmpeg:
+
+```sh
+node packages/ui/scripts/record-preview.mjs http://localhost:3000 /tmp/rec 1.2
+ffmpeg -i /tmp/rec/*.webm -c:v libx264 -crf 23 -pix_fmt yuv420p -r 30 -movflags +faststart -an apps/docs/public/video/draft-mode-walkthrough.mp4
+```
+
 ## Deploy
 
 The docs are a Vercel project with **Root Directory** `apps/docs`; Vercel detects Turborepo and runs `turbo run build` filtered to this app, which includes the Storybook step above. `vercel.json` here skips builds when neither the docs nor a workspace dependency changed (`turbo-ignore`). The site is `noindex` everywhere (`app/layout.tsx` metadata, `app/robots.ts`, and the `/storybook` header); remove them if it should ever be public. The Markdown exports for AI assistants are the exception: `robots.ts` allows `/llms.txt` (index), `/llms-full.txt` (every page) and the per-page `/docs/<slug>.md` routes, which are plain text with no `noindex` meta, so a crawler that honours `robots.txt` can read them while the HTML stays blocked.
