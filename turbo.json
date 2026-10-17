@@ -1,0 +1,17 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "stream",
+  "globalEnv": ["CMS_PROVIDER", "NODE_ENV"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["CMS_*", "CONTENTFUL_*", "STORYBLOK_*", "OPTIMIZELY_*", "SITE_URL", "DRAFT_SECRET", "REVALIDATE_SECRET"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "storybook-static/**", ".source/**"]
+    },
+    "build-storybook": { "outputs": ["storybook-static/**"] },
+    "typecheck": { "dependsOn": ["^typecheck"] },
+    "test": { "outputs": ["coverage/**"] },
+    "schema:generate": { "outputs": ["generated/**"], "cache": false },
+    "dev": { "cache": false, "persistent": true }
+  }
+}

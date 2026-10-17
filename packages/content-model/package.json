@@ -1,0 +1,22 @@
+{
+  "name": "@platform/content-model",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The canonical content shape every CMS is normalised into, plus the single source of truth for block field definitions.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@platform/typescript-config": "workspace:*",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.5"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "marketing-cms-platform",
+  "private": true,
+  "packageManager": "pnpm@12.14.0",
+  "engines": { "node": ">=22.12" },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,md,mdx,json,css}\"",
+    "storybook": "pnpm --filter @platform/ui storybook",
+    "build-storybook": "turbo run build-storybook",
+    "schema:generate": "turbo run schema:generate"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "turbo": "^2.11.9",
+    "typescript": "~5.9.3"
+  }
+}

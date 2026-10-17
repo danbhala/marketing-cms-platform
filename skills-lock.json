@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "skills": {
+    "building-components": {
+      "source": "vercel/components.build",
+      "sourceType": "github",
+      "skillPath": "skills/building-components/SKILL.md",
+      "computedHash": "ca96444b70257eb3f4f4c76dfdd4a32312c835fe3c8755d2e3d75ac78d384bfd"
+    },
+    "contentful-guide": {
+      "source": "contentful/skills",
+      "sourceType": "github",
+      "skillPath": "skills/contentful-guide/SKILL.md",
+      "computedHash": "40032c9aaa3d1d01f03a9d17ec2f5f3099c2f2dffff36c1de5376be2225cbad5"
+    },
+    "contentful-migration": {
+      "source": "contentful/skills",
+      "sourceType": "github",
+      "skillPath": "skills/contentful-migration/SKILL.md",
+      "computedHash": "e3add058912dc33aa3efd5f012475b00aba438c2aa1d11fc3e76124004942316"
+    },
+    "contentful-nextjs": {
+      "source": "contentful/skills",
+      "sourceType": "github",
+      "skillPath": "skills/contentful-nextjs/SKILL.md",
+      "computedHash": "892f124cea82c27c8c3c7852e01310fdaeffaeb7c9ba99523703a409c05b5ec5"
+    },
+    "next-dev-loop": {
+      "source": "vercel/next.js",
+      "sourceType": "github",
+      "skillPath": "skills/next-dev-loop/SKILL.md",
+      "computedHash": "c305c83b726212e0284930c65cded2c4a4ab85f9bfccfa83b62274247fe3580e"
+    },
+    "optimizely-cache-strategy": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/setup/optimizely-cache-strategy/SKILL.md",
+      "computedHash": "aedebc3f389cc316b256397df9243edb296c3adf31bd5a547e30ba057c2b87d8"
+    },
+    "optimizely-content-fetching": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/data/optimizely-content-fetching/SKILL.md",
+      "computedHash": "5d666c8bfcc1adad559d92880ce2a4a58764f13fbc3f4419168b62eed4f3e6e7"
+    },
+    "optimizely-graphql-optimization": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/data/optimizely-graphql-optimization/SKILL.md",
+      "computedHash": "baa523295256e6df0dff49e8b10198b29c9cacb96927c65a725427119188378a"
+    },
+    "optimizely-model": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/modeling/optimizely-model/SKILL.md",
+      "computedHash": "cd8d577e14bbfd789e76ee3b26ac7de190f71654f9adc357833a543202553418"
+    },
+    "optimizely-multisite-locale": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/data/optimizely-multisite-locale/SKILL.md",
+      "computedHash": "47c27e7a0dc58b748ac00b79dc447dac207fb5d84dfca7a9d10f1fefca0b8d01"
+    },
+    "optimizely-preview": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/editing/optimizely-preview/SKILL.md",
+      "computedHash": "7227d07fe7eaceb6812a7a083c1ff9f3b949ea0373c22454954655a6a150a234"
+    },
+    "optimizely-richtext-rendering": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/rendering/optimizely-richtext-rendering/SKILL.md",
+      "computedHash": "172d7b1a1508bf8b5a51aa44d376cb3900ec144c1c81393cb2b874902ba8d4b8"
+    },
+    "optimizely-schema-validation": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/data/optimizely-schema-validation/SKILL.md",
+      "computedHash": "ae4544f3c71abd76ab5c7332d12690234837406c8b4a2120b5884fb5eb2a9926"
+    },
+    "optimizely-setup": {
+      "source": "episerver/optimizely-cms-skills",
+      "sourceType": "github",
+      "skillPath": "skills/setup/optimizely-setup/SKILL.md",
+      "computedHash": "5c8d1e014e860ffb0ada843e9b37c5b2c4442e1ab7211f9c7507b92fc77e11b6"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "b864a958765563321f485a96f4d59c0bb6539f4286ab6d8b8b66895b7ebd302d"
+    },
+    "stories": {
+      "source": "storybookjs/mcp",
+      "sourceType": "github",
+      "skillPath": "packages/claude-plugin/skills/stories/SKILL.md",
+      "computedHash": "0b56c8ef1f2d6df827c70ff2bbccc8b63ac35010f8c1685b5130d75c7f5747fc"
+    },
+    "storybook-setup": {
+      "source": "storybookjs/mcp",
+      "sourceType": "github",
+      "skillPath": "packages/claude-plugin/skills/storybook-setup/SKILL.md",
+      "computedHash": "385b4025a7d06e93bac71fe250df689385584d165a1baf2c146595db9c191742"
+    },
+    "turborepo": {
+      "source": "vercel/turborepo",
+      "sourceType": "github",
+      "skillPath": "skills/turborepo/SKILL.md",
+      "computedHash": "c83a6ff75c62092f71da91408164ed3426f11749b032fd23ecc855e27c2fb538"
+    },
+    "vercel-composition-patterns": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/composition-patterns/SKILL.md",
+      "computedHash": "f98931159fa9c7fed043bcd18a891a46dcf89ababa38df13a4c5b7b30dc0ce07"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "3219a1944e404ffc14d1d9d6aef6dd2e3855b81387ee0a044ccbfe14d34c2357"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
+    }
+  }
+}
