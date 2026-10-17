@@ -11,6 +11,8 @@ All colour, radius and spacing comes from CSS variables in three layers:
 
 Tailwind utilities map to the variables with `@theme inline`, so `bg-primary` follows the nearest theme class.
 
+Layout is responsive to the **section**, not the viewport: every block root is a `@container/section`, and the `section-sm|md|lg|xl:` variants in `globals.css` are container queries at the usual breakpoint widths. That is why the theme studio's Tablet and Mobile previews, and the block embeds in these docs, lay out exactly as a real device would.
+
 ## Theme classes
 
 | Class | Effect |

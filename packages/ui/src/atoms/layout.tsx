@@ -28,18 +28,24 @@ function Stack({ gap, align, direction, className, ...props }: StackProps) {
 
 const gridVariants = cva("grid gap-(--block-grid-gap)", {
   variants: {
-    /** Responsive column presets. Columns collapse to one on small screens. */
+    /**
+     * Column presets, measured against the section width (see globals.css).
+     * One column on phones, two from 40rem, the full count from 48rem (3) or
+     * 64rem (4+). `min="2"` keeps two columns on phones for small items
+     * such as portraits or logos.
+     */
     columns: {
       "1": "grid-cols-1",
-      "2": "grid-cols-1 sm:grid-cols-2",
-      "3": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-      "4": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
-      "5": "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5",
-      "6": "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6",
+      "2": "grid-cols-1 section-sm:grid-cols-2",
+      "3": "grid-cols-1 section-sm:grid-cols-2 section-md:grid-cols-3",
+      "4": "grid-cols-1 section-sm:grid-cols-2 section-lg:grid-cols-4",
+      "5": "grid-cols-2 section-sm:grid-cols-3 section-lg:grid-cols-5",
+      "6": "grid-cols-2 section-sm:grid-cols-3 section-lg:grid-cols-6",
     },
     align: { start: "items-start", center: "items-center", stretch: "items-stretch" },
+    min: { "1": "", "2": "grid-cols-2 gap-x-4 section-sm:gap-x-(--block-grid-gap)" },
   },
-  defaultVariants: { columns: "3", align: "stretch" },
+  defaultVariants: { columns: "3", align: "stretch", min: "1" },
 })
 
 export interface GridProps extends React.ComponentProps<"div">, VariantProps<typeof gridVariants> {
@@ -47,11 +53,13 @@ export interface GridProps extends React.ComponentProps<"div">, VariantProps<typ
   columns?: VariantProps<typeof gridVariants>["columns"]
   /** Vertical alignment of cells in a row. */
   align?: VariantProps<typeof gridVariants>["align"]
+  /** Minimum column count on phones; "2" keeps small items such as portraits two per row. */
+  min?: VariantProps<typeof gridVariants>["min"]
 }
 
 /** Responsive CSS grid whose gap comes from the `--block-grid-gap` token. */
-function Grid({ columns, align, className, ...props }: GridProps) {
-  return <div data-slot="grid" className={cn(gridVariants({ columns, align }), className)} {...props} />
+function Grid({ columns, align, min, className, ...props }: GridProps) {
+  return <div data-slot="grid" className={cn(gridVariants({ columns, align, min }), className)} {...props} />
 }
 
 export { Grid, gridVariants, Stack, stackVariants }

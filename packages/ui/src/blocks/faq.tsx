@@ -21,7 +21,7 @@ function Faq({ block, index, className, ...props }: FaqProps) {
     <BlockSection block={block} className={className} {...props}>
       <Container
         size={split ? "section" : "md"}
-        className={cn(split ? "grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16" : "flex flex-col gap-(--block-header-gap)")}
+        className={cn(split ? "grid gap-10 section-md:grid-cols-[1fr_2fr] section-lg:gap-16" : "flex flex-col gap-(--block-header-gap)")}
       >
         <SectionHeader
           eyebrow={block.eyebrow}
@@ -30,7 +30,7 @@ function Faq({ block, index, className, ...props }: FaqProps) {
           as={index === 0 ? "h1" : "h2"}
           align={split ? "start" : "center"}
           source={block}
-          className={cn(split && "lg:sticky lg:top-24 lg:self-start")}
+          className={cn(split && "section-md:sticky section-md:top-24 section-md:self-start")}
         />
         <Accordion className="w-full" {...fieldAttrs(block, "items")}>
           {block.items.map((item) => (

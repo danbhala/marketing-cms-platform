@@ -25,7 +25,7 @@ function LogoCloud({ block, className, ...props }: LogoCloudProps) {
           className={cn(
             "w-full",
             grid
-              ? "grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-6"
+              ? "grid grid-cols-2 gap-x-8 gap-y-10 section-sm:grid-cols-3 section-lg:grid-cols-6"
               : "flex flex-wrap items-center justify-center gap-x-12 gap-y-8",
           )}
           {...fieldAttrs(block, "logos")}

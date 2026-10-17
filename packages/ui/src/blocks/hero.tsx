@@ -13,12 +13,12 @@ import { ActionGroup } from "../molecules/action-group"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
-const heroLayout = cva("grid items-center gap-10 lg:gap-16", {
+const heroLayout = cva("grid items-center gap-10 section-lg:gap-16", {
   variants: {
     layout: {
       centered: "grid-cols-1 justify-items-center text-center",
-      split: "grid-cols-1 lg:grid-cols-2",
-      splitReverse: "grid-cols-1 lg:grid-cols-2 lg:[&>*:first-child]:order-2",
+      split: "grid-cols-1 section-lg:grid-cols-2",
+      splitReverse: "grid-cols-1 section-lg:grid-cols-2 section-lg:[&>*:first-child]:order-2",
       background: "grid-cols-1 justify-items-center text-center",
     },
   },

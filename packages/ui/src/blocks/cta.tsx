@@ -25,8 +25,8 @@ function Cta({ block, index, className, ...props }: CtaProps) {
         <div
           className={cn(
             themeClassName(block.theme),
-            "rounded-2xl border bg-card px-6 py-12 text-card-foreground sm:px-12 sm:py-16",
-            split ? "flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between" : "flex flex-col items-center gap-8 text-center",
+            "rounded-2xl border bg-card px-6 py-12 text-card-foreground section-sm:px-12 section-sm:py-16",
+            split ? "flex flex-col gap-8 section-lg:flex-row section-lg:items-center section-lg:justify-between" : "flex flex-col items-center gap-8 text-center",
           )}
         >
           <Stack gap="sm" align={split ? "start" : "center"} className="max-w-(--container-md)">

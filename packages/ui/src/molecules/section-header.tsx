@@ -51,7 +51,7 @@ function SectionHeader({
       data-slot="section-header"
       className={cn(
         "flex gap-6",
-        centered ? "flex-col items-center text-center" : "flex-col sm:flex-row sm:items-end sm:justify-between",
+        centered ? "flex-col items-center text-center" : "flex-col section-sm:flex-row section-sm:items-end section-sm:justify-between",
         className,
       )}
       {...props}

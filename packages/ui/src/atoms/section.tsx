@@ -5,7 +5,7 @@ import { themeClassName, type ThemeName } from "@platform/content-model"
 
 import { cn } from "../lib/utils"
 
-const sectionVariants = cva("relative w-full", {
+const sectionVariants = cva("@container/section relative w-full", {
   variants: {
     spacing: {
       none: "",

@@ -21,7 +21,7 @@ function LogoItem({ item, grayscale, className, ...props }: LogoItemProps) {
       media={{ ...item.image, alt: item.image.alt || item.name }}
       radius="none"
       className={cn(
-        "h-8 w-auto max-w-32 bg-transparent object-contain sm:h-10",
+        "h-8 w-auto max-w-32 bg-transparent object-contain section-sm:h-10",
         grayscale && "opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0",
       )}
     />

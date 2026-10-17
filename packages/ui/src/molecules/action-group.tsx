@@ -28,7 +28,7 @@ function ActionGroup({ actions, size = "lg", align = "start", stackOnMobile, cla
         "flex flex-wrap gap-3",
         align === "center" && "justify-center",
         align === "end" && "justify-end",
-        stackOnMobile && "max-sm:flex-col max-sm:*:w-full",
+        stackOnMobile && "section-max-sm:flex-col section-max-sm:*:w-full",
         className,
       )}
       {...props}

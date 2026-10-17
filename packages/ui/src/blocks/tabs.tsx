@@ -37,7 +37,7 @@ function Tabs({ block, index, className, ...props }: TabsProps) {
           </TabsList>
           {block.tabs.map((tab) => (
             <TabsContent key={tab.id} value={tab.id} className="w-full" {...editAttrs(tab)}>
-              <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+              <div className="grid items-center gap-10 section-md:grid-cols-2 section-lg:gap-16">
                 <Stack gap="md" align="start">
                   {tab.title ? (
                     <Heading as="h3" size="h3" {...fieldAttrs(tab, "title")}>

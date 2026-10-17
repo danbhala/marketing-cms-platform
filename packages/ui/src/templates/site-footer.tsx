@@ -18,9 +18,9 @@ export interface SiteFooterProps extends React.ComponentProps<"footer"> {
 /** Link columns, social icons and the legal line, all from site settings. */
 function SiteFooter({ settings, className, ...props }: SiteFooterProps) {
   return (
-    <footer data-slot="site-footer" className={cn("border-t bg-muted/40", className)} {...props}>
-      <Container className="flex flex-col gap-10 py-12 lg:py-16">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+    <footer data-slot="site-footer" className={cn("@container/section border-t bg-muted/40", className)} {...props}>
+      <Container className="flex flex-col gap-10 py-12 section-lg:py-16">
+        <div className="grid gap-8 section-sm:grid-cols-2 section-lg:grid-cols-[1.5fr_repeat(4,1fr)]">
           <div className="flex flex-col gap-3">
             <Link href="/" variant="unstyled" className="text-lg font-semibold">
               {settings.siteName}

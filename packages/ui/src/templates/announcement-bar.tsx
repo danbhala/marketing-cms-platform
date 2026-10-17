@@ -17,7 +17,7 @@ export interface AnnouncementBarProps extends React.ComponentProps<"div"> {
 function AnnouncementBar({ settings, className, ...props }: AnnouncementBarProps) {
   if (!settings.announcementText) return null
   return (
-    <div data-slot="announcement-bar" className={cn("bg-primary text-sm text-primary-foreground", className)} {...props}>
+    <div data-slot="announcement-bar" className={cn("@container/section bg-primary text-sm text-primary-foreground", className)} {...props}>
       <Container className="flex min-h-10 flex-wrap items-center justify-center gap-x-3 gap-y-1 py-2 text-center">
         <span {...fieldAttrs(settings, "announcementText")}>{settings.announcementText}</span>
         {settings.announcementHref ? (

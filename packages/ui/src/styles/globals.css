@@ -22,6 +22,24 @@
 /* Dark mode is a class, so themes can be nested anywhere in the tree. */
 @custom-variant dark (&:is(.dark *, .theme-dark *));
 
+/*
+ * Blocks respond to the width of the section they sit in, not the viewport.
+ * Section, SiteHeader, SiteFooter and PageTemplate are `@container/section`,
+ * and these variants query that container at Tailwind's viewport breakpoint
+ * widths (sm 40rem, md 48rem, lg 64rem, xl 80rem). On a real page the section
+ * is as wide as the viewport, so `section-lg:` behaves like `lg:`; inside a
+ * narrow preview pane (the theme studio, a CMS visual editor, the docs) the
+ * block collapses the way it would on a phone. Blocks and molecules use
+ * these instead of `sm:`/`lg:`; only the vendored primitives still use the
+ * viewport variants.
+ */
+@custom-variant section-sm (@container section (width >= 40rem));
+@custom-variant section-md (@container section (width >= 48rem));
+@custom-variant section-lg (@container section (width >= 64rem));
+@custom-variant section-xl (@container section (width >= 80rem));
+@custom-variant section-max-sm (@container section (width < 40rem));
+@custom-variant section-max-md (@container section (width < 48rem));
+
 @theme inline {
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
