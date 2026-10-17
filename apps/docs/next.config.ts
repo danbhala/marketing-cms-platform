@@ -16,7 +16,13 @@ const nextConfig: NextConfig = {
   // otherwise redirect that to /storybook; proxy.ts sends the bare path forward.
   skipTrailingSlashRedirect: true,
   async rewrites() {
-    return [{ source: "/storybook", destination: "/storybook/index.html" }]
+    return [
+      { source: "/storybook", destination: "/storybook/index.html" },
+      {
+        source: "/docs/:slug*.md",
+        destination: "/llms.mdx/docs/:slug*/content.md",
+      },
+    ]
   },
   async headers() {
     return [
