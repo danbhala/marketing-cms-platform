@@ -6,10 +6,13 @@
  * "compact" theme, say) without touching colour, and vice versa.
  */
 :root {
-  /* Section vertical padding steps, picked by <Section spacing="…"> */
-  --section-space-sm: calc(var(--spacing) * 10);
-  --section-space-md: calc(var(--spacing) * 16);
-  --section-space-lg: calc(var(--spacing) * 24);
+  /* Section vertical padding steps, picked by <Section spacing="…">. A theme
+     scales all three at once with --section-scale instead of resetting each. */
+  --section-scale: 1;
+  --gap-scale: 1;
+  --section-space-sm: calc(var(--spacing) * 10 * var(--section-scale));
+  --section-space-md: calc(var(--spacing) * 16 * var(--section-scale));
+  --section-space-lg: calc(var(--spacing) * 24 * var(--section-scale));
 
   /* Container widths, picked by <Container size="…"> */
   --container-sm: 40rem;
@@ -20,23 +23,20 @@
   --container-prose: 65ch;
 
   /* Gap between a block's header and its content */
-  --block-header-gap: calc(var(--spacing) * 12);
+  --block-header-gap: calc(var(--spacing) * 12 * var(--gap-scale));
   /* Grid gap inside blocks */
-  --block-grid-gap: calc(var(--spacing) * 8);
+  --block-grid-gap: calc(var(--spacing) * 8 * var(--gap-scale));
 }
 
 @media (min-width: 64rem) {
   :root {
-    --section-space-sm: calc(var(--spacing) * 14);
-    --section-space-md: calc(var(--spacing) * 24);
-    --section-space-lg: calc(var(--spacing) * 32);
+    --section-space-sm: calc(var(--spacing) * 14 * var(--section-scale));
+    --section-space-md: calc(var(--spacing) * 24 * var(--section-scale));
+    --section-space-lg: calc(var(--spacing) * 32 * var(--section-scale));
   }
 }
 
 .theme-compact {
-  --section-space-sm: calc(var(--spacing) * 6);
-  --section-space-md: calc(var(--spacing) * 10);
-  --section-space-lg: calc(var(--spacing) * 14);
-  --block-header-gap: calc(var(--spacing) * 8);
-  --block-grid-gap: calc(var(--spacing) * 6);
+  --section-scale: 0.6;
+  --gap-scale: 0.7;
 }

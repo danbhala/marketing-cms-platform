@@ -44,7 +44,7 @@ function PriceCard({ plan, className, ...props }: PriceCardProps) {
         ) : null}
       </div>
       <p className="flex items-baseline gap-1">
-        <span className="font-heading text-4xl font-semibold tracking-tight" {...fieldAttrs(plan, "price")}>
+        <span className="font-heading heading-style text-4xl" {...fieldAttrs(plan, "price")}>
           {plan.price}
         </span>
         {plan.period ? (

@@ -25,6 +25,7 @@
 @theme inline {
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
+  --font-eyebrow: var(--font-eyebrow);
   --font-mono: var(--font-mono);
 
   --radius-sm: calc(var(--radius) * 0.6);
@@ -79,6 +80,14 @@
 
   --container-section: var(--container-section);
   --container-prose: var(--container-prose);
+}
+
+/* Weight, tracking and case of headings come from tokens so a theme can set
+   them once. A `weight` prop (font-semibold etc.) still wins over this. */
+@utility heading-style {
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+  text-transform: var(--heading-case);
 }
 
 @layer base {

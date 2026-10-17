@@ -3,15 +3,14 @@ title: Showcases
 description: "Six brands on the same blocks, restyled with CSS variables alone: fonts, colours, radius, spacing and real photography."
 ---
 
-Every showcase below is the same `PageTemplate` and the same blocks as the demo site. Nothing in `@platform/ui` changes between them; each one is a wrapper class and a CSS file that re-declares the variables from [theming](/docs/theming). Fonts are self-hosted from Fontsource, photos are placeholders (see `public/showcases/CREDITS.md`).
+Every showcase below is the same `PageTemplate` and the same blocks as the demo site. Nothing in `@platform/ui` changes between them; each one is a preset in the [theme studio](/theme) that sets the variables from [theming](/docs/theming). Fonts are self-hosted from Fontsource, photos are placeholders (see `public/showcases/CREDITS.md`).
 
-Open any of them full-page, resize the window, and change the CSS in `apps/docs/showcases/` to try your own.
+Open any of them full-page, or press "Edit in studio" to start from it.
 
 <ShowcaseGallery />
 
 ## Making your own
 
-1. Copy one of the files above to your app (the demo site reads `apps/web/app/brand.css`) and rename the class.
-2. Load the fonts (`@fontsource-variable/<family>` or `next/font`) and set `--font-heading`, `--font-sans`, `--font-mono`.
-3. Put the class on `<html>` for the whole site, or set it as a page or block theme by adding the name to `themeNames`.
-4. Run `pnpm --filter @platform/ui test`: the Storybook axe checks will catch a primary colour that fails contrast.
+1. Open one in the [studio](/theme), change what you like, and copy the CSS (it includes the Fontsource imports).
+2. Paste it into your app after `@platform/ui/globals.css`; keep `:root` for the whole site, or rename it to a class and add the name to `themeNames` to use it per page or block.
+3. Run `pnpm --filter @platform/ui test`: the Storybook axe checks will catch a primary colour that fails contrast.
