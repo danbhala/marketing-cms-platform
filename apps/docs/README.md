@@ -20,6 +20,11 @@ pnpm dev                 # http://localhost:3001
 | `<SchemaCompare type="hero" />` | The canonical definition next to each CMS's generated schema. |
 | `<Screenshot name="…" alt="…" />`, `<Video src="…" />` | Files from `public/`. |
 | `<FlowDiagram columns={…} />` | A small CSS flow diagram. |
+| `<ShowcaseGallery />` | Every showcase theme with its screenshot, palette and CSS. |
+
+## Showcases
+
+`/showcase/<slug>` renders a fictional brand with the real `PageTemplate`; `showcases/<slug>.css` is the only thing that differs between them. Content and fonts (Fontsource) live in `showcases/`, photos in `public/showcases` (see `CREDITS.md` there). Screenshot them with `screenshot-docs.mjs` and rename to `public/screenshots/showcase-<slug>.png`.
 
 ## Screenshots
 
