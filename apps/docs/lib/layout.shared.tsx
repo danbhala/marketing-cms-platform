@@ -1,5 +1,7 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared"
 
+import { storybookUrl } from "./storybook"
+
 /** Shared nav for the home and docs layouts. */
 export function baseOptions(): BaseLayoutProps {
   return {
@@ -8,8 +10,12 @@ export function baseOptions(): BaseLayoutProps {
     links: [
       { text: "Docs", url: "/docs" },
       { text: "Theme studio", url: "/theme" },
-      { text: "Storybook", url: process.env.NEXT_PUBLIC_STORYBOOK_URL ?? "http://localhost:6006", external: true },
-      { text: "Demo site", url: process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000", external: true },
+      { text: "Storybook", url: storybookUrl(), external: true },
+      {
+        text: "Demo site",
+        url: process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000",
+        external: true,
+      },
     ],
   }
 }
