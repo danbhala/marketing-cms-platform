@@ -11,6 +11,7 @@ import { cn } from "../lib/utils"
 import { SocialIcon, socialLabel } from "./social-icons"
 
 export interface SiteFooterProps extends React.ComponentProps<"footer"> {
+  /** Site settings; only the footer, social and site name fields are read. */
   settings: Pick<SiteSettings, "siteName" | "footerColumns" | "footerNote" | "socialLinks" | "$edit">
 }
 

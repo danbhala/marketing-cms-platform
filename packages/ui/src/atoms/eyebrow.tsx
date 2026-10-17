@@ -4,7 +4,10 @@ import { cn } from "../lib/utils"
 import { typographyVariants, type TypographyVariants } from "./typography"
 
 export interface EyebrowProps extends React.ComponentProps<"p">, Pick<TypographyVariants, "align"> {
+  /** Text colour. Defaults to `primary`, the brand accent. */
   tone?: Extract<TypographyVariants["tone"], "default" | "muted" | "primary">
+  /** Text alignment. Inherits from the parent when unset. */
+  align?: TypographyVariants["align"]
 }
 
 /** Small uppercase label above a heading ("Pricing", "New"). */

@@ -25,11 +25,13 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { cn } from "../lib/utils"
 
 export interface SiteHeaderProps extends React.ComponentProps<"header"> {
+  /** Site settings; only the brand, navigation and header action fields are read. */
   settings: Pick<SiteSettings, "siteName" | "logo" | "navigation" | "headerActions" | "$edit">
   /** Keep the header pinned to the top of the viewport. */
   sticky?: boolean
 }
 
+/** Logo (or an initial) plus site name, linked to home. */
 function Brand({ settings }: { settings: SiteHeaderProps["settings"] }) {
   return (
     <Link href="/" variant="unstyled" className="flex items-center gap-2 font-semibold">
@@ -45,6 +47,7 @@ function Brand({ settings }: { settings: SiteHeaderProps["settings"] }) {
   )
 }
 
+/** One top-level nav entry: a link, or a trigger with a dropdown of links. */
 function DesktopNavItem({ group }: { group: NavGroup }) {
   if (!group.links.length) {
     return (

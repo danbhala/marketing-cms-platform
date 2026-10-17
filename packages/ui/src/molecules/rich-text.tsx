@@ -16,12 +16,15 @@ import { Prose, type ProseProps } from "../atoms/prose"
  * to code blocks) without forking the renderer.
  */
 
+/** Per-node-type overrides for the renderer, keyed by block node type. */
 export type RichTextComponents = Partial<{
   [K in BlockNode["type"]]: React.ComponentType<{ node: Extract<BlockNode, { type: K }>; children?: React.ReactNode }>
 }>
 
 export interface RichTextProps extends Omit<ProseProps, "children" | "content"> {
+  /** The portable rich-text document. Renders nothing when empty. */
   content?: RichTextDoc | null
+  /** Replace the renderer for specific node types (code, image, quote…). */
   components?: RichTextComponents
 }
 
@@ -100,6 +103,7 @@ function renderBlock(node: BlockNode, key: number, components: RichTextComponent
   }
 }
 
+/** Renders a portable rich-text document as semantic HTML inside Prose. */
 function RichText({ content, components = {}, ...props }: RichTextProps) {
   if (!content?.children.length) return null
   return (

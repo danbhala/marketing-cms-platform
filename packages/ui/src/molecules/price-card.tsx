@@ -11,6 +11,7 @@ import { Badge } from "../primitives/badge"
 import { cn } from "../lib/utils"
 
 export interface PriceCardProps extends React.ComponentProps<"div"> {
+  /** The pricing plan content item (name, price, features, actions, highlighted). */
   plan: PricingPlan
 }
 

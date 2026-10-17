@@ -9,6 +9,10 @@ import { Grid, Stack } from "./layout"
 import { Link } from "./link"
 import { Text } from "./text"
 
+/**
+ * Image, Icon and Link all render through injectable host components, so
+ * the same code works in Next.js, Storybook and tests.
+ */
 const meta = {
   title: "Atoms/Media & links",
   component: Image,
@@ -19,6 +23,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/** Every `ratio` frame. Fixed ratios reserve space, so images never shift layout. */
 export const ImageRatios: Story = {
   render: () => (
     <Container>
@@ -34,6 +39,7 @@ export const ImageRatios: Story = {
   ),
 }
 
+/** Icons are looked up by Lucide name at render time; unknown names render nothing. */
 export const Icons: Story = {
   render: () => (
     <Stack direction="row" gap="lg" align="center">
@@ -47,6 +53,7 @@ export const Icons: Story = {
   ),
 }
 
+/** Link `variant`s for body copy, navigation and muted footer text. */
 export const Links: Story = {
   render: () => (
     <Stack gap="md" align="start">

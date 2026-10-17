@@ -13,6 +13,7 @@ import { RichText } from "../molecules/rich-text"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the FeatureSplit block: the `FeatureSplitBlock` content plus section attributes. */
 export type FeatureSplitProps = BlockComponentProps<FeatureSplitBlock>
 
 /** Copy on one side, media on the other. Alternate `mediaPosition` down a page. */

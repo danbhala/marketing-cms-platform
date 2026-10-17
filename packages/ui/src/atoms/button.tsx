@@ -7,12 +7,15 @@ import { isExternalHref } from "@platform/content-model"
 import { useUi } from "../lib/ui-provider"
 import { Button as ButtonPrimitive, buttonVariants } from "../primitives/button"
 
+/** Visual style, as stored on CMS actions (`default` is the primary CTA). */
 export type ButtonVariant = NonNullable<React.ComponentProps<typeof ButtonPrimitive>["variant"]>
+/** Size step. Blocks use `lg` for hero CTAs and `default` elsewhere. */
 export type ButtonSize = NonNullable<React.ComponentProps<typeof ButtonPrimitive>["size"]>
 
 export interface ButtonProps extends React.ComponentProps<typeof ButtonPrimitive> {
   /** When set, the button renders as a link through the host framework's Link. */
   href?: string
+  /** Link target. `_blank` also adds `rel="noopener noreferrer"`. */
   target?: string
 }
 

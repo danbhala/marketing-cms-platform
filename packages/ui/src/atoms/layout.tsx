@@ -12,7 +12,14 @@ const stackVariants = cva("flex flex-col", {
   defaultVariants: { gap: "md", align: "stretch", direction: "column" },
 })
 
-export interface StackProps extends React.ComponentProps<"div">, VariantProps<typeof stackVariants> {}
+export interface StackProps extends React.ComponentProps<"div">, VariantProps<typeof stackVariants> {
+  /** Space between children, on the Tailwind spacing scale. */
+  gap?: VariantProps<typeof stackVariants>["gap"]
+  /** Cross-axis alignment of children. */
+  align?: VariantProps<typeof stackVariants>["align"]
+  /** `row` wraps children horizontally; `column` (default) stacks them. */
+  direction?: VariantProps<typeof stackVariants>["direction"]
+}
 
 /** Vertical (or wrapping horizontal) flex group with a gap scale. */
 function Stack({ gap, align, direction, className, ...props }: StackProps) {
@@ -35,8 +42,14 @@ const gridVariants = cva("grid gap-(--block-grid-gap)", {
   defaultVariants: { columns: "3", align: "stretch" },
 })
 
-export interface GridProps extends React.ComponentProps<"div">, VariantProps<typeof gridVariants> {}
+export interface GridProps extends React.ComponentProps<"div">, VariantProps<typeof gridVariants> {
+  /** Column count at desktop width; fewer columns at smaller breakpoints. */
+  columns?: VariantProps<typeof gridVariants>["columns"]
+  /** Vertical alignment of cells in a row. */
+  align?: VariantProps<typeof gridVariants>["align"]
+}
 
+/** Responsive CSS grid whose gap comes from the `--block-grid-gap` token. */
 function Grid({ columns, align, className, ...props }: GridProps) {
   return <div data-slot="grid" className={cn(gridVariants({ columns, align }), className)} {...props} />
 }

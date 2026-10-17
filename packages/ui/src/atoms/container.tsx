@@ -17,7 +17,13 @@ const containerVariants = cva("mx-auto w-full px-4 sm:px-6 lg:px-8", {
   defaultVariants: { size: "section" },
 })
 
-export interface ContainerProps extends React.ComponentProps<"div">, VariantProps<typeof containerVariants> {}
+export interface ContainerProps extends React.ComponentProps<"div">, VariantProps<typeof containerVariants> {
+  /**
+   * Maximum width, from the `--container-*` tokens. `section` is the block
+   * default; `md` suits centered copy; `full` removes the limit.
+   */
+  size?: VariantProps<typeof containerVariants>["size"]
+}
 
 /** Horizontal width limit. Widths come from blocks.css so themes can change them. */
 function Container({ size, className, ...props }: ContainerProps) {

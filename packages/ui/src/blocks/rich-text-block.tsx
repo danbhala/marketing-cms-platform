@@ -5,6 +5,7 @@ import { Container } from "../atoms/container"
 import { RichText } from "../molecules/rich-text"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the RichTextBlock block: the `RichTextBlockContent` content plus section attributes. */
 export type RichTextBlockProps = BlockComponentProps<RichTextBlockContent>
 
 /** Long-form copy from the CMS rich-text editor, in a reading-width column by default. */

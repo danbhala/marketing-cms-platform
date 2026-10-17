@@ -8,8 +8,11 @@ import { Icon } from "../atoms/icon"
 import { cn } from "../lib/utils"
 
 export interface ActionGroupProps extends React.ComponentProps<"div"> {
+  /** CMS actions in order. Renders nothing when empty. */
   actions?: Action[] | null
+  /** Button size for every action. */
   size?: ButtonSize
+  /** Horizontal alignment of the row. */
   align?: "start" | "center" | "end"
   /** Stack full-width on small screens (hero CTAs). */
   stackOnMobile?: boolean

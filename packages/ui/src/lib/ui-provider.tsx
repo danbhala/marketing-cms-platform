@@ -12,27 +12,35 @@ import type { Media } from "@platform/content-model"
  */
 
 export interface UiLinkProps extends Omit<React.ComponentProps<"a">, "href"> {
+  /** Destination. Internal paths go through the host router; external URLs use a plain anchor. */
   href: string
+  /** Hint for routers that prefetch on hover or in view (Next.js). Ignored by the default anchor. */
   prefetch?: boolean
 }
 
 export interface UiImageProps extends Omit<React.ComponentProps<"img">, "src" | "alt" | "width" | "height"> {
+  /** The canonical media record (url, alt, width, height, kind) from the content model. */
   media: Media
   /** Fill the parent box instead of using intrinsic dimensions. */
   fill?: boolean
+  /** The `sizes` attribute for responsive srcsets. */
   sizes?: string
+  /** Load eagerly with high fetch priority; use for above-the-fold hero media. */
   priority?: boolean
 }
 
+/** The two framework-specific components a host can inject. */
 export interface UiComponents {
   Link: React.ComponentType<UiLinkProps>
   Image: React.ComponentType<UiImageProps>
 }
 
+/** Plain anchor used when no host Link is provided. */
 function DefaultLink({ href, prefetch: _prefetch, ...props }: UiLinkProps) {
   return <a href={href} {...props} />
 }
 
+/** Plain `<img>` used when no host Image is provided; lazy by default. */
 function DefaultImage({ media, fill, sizes, priority, className, style, ...props }: UiImageProps) {
   return (
     <img
@@ -55,12 +63,17 @@ export const defaultUiComponents: UiComponents = { Link: DefaultLink, Image: Def
 
 const UiContext = React.createContext<UiComponents>(defaultUiComponents)
 
+/**
+ * Injects framework components for the subtree. Nested providers merge, so a
+ * route can override only `Image` while keeping the app-level `Link`.
+ */
 export function UiProvider({ children, ...components }: Partial<UiComponents> & { children: React.ReactNode }) {
   const parent = React.use(UiContext)
   const value = React.useMemo(() => ({ ...parent, ...components }), [parent, components])
   return <UiContext value={value}>{children}</UiContext>
 }
 
+/** The Link and Image components in effect for this subtree. */
 export function useUi(): UiComponents {
   return React.use(UiContext)
 }

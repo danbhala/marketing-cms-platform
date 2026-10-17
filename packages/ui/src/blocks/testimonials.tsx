@@ -7,6 +7,7 @@ import { Quote } from "../molecules/quote"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the Testimonials block: the `TestimonialsBlock` content plus section attributes. */
 export type TestimonialsProps = BlockComponentProps<TestimonialsBlock>
 
 /** Grid of quote cards, or one large featured quote. */

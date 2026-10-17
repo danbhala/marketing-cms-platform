@@ -22,6 +22,11 @@ const imageFrameVariants = cva("relative overflow-hidden bg-muted", {
 })
 
 export interface ImageProps extends UiImageProps, VariantProps<typeof imageFrameVariants> {
+  /** Fixed aspect ratio for the frame. `auto` uses the media's own dimensions. */
+  ratio?: VariantProps<typeof imageFrameVariants>["ratio"]
+  /** Corner radius of the frame. */
+  radius?: VariantProps<typeof imageFrameVariants>["radius"]
+  /** How media fills a fixed frame. `contain` is for logos and screenshots. */
   fit?: "cover" | "contain"
   /** Cover the nearest positioned ancestor (background media). Ignores `ratio`. */
   fill?: boolean

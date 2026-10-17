@@ -25,6 +25,10 @@ const sectionVariants = cva("relative w-full", {
 })
 
 export interface SectionProps extends React.ComponentProps<"section">, VariantProps<typeof sectionVariants> {
+  /** Vertical padding, from the `--section-space-*` tokens. */
+  spacing?: VariantProps<typeof sectionVariants>["spacing"]
+  /** Background and text colour pair for the whole section. */
+  surface?: VariantProps<typeof sectionVariants>["surface"]
   /**
    * Theme class applied to this block only. Every block root is a Section, so
    * every block can be themed from the CMS without extra code.
@@ -32,6 +36,7 @@ export interface SectionProps extends React.ComponentProps<"section">, VariantPr
   theme?: ThemeName | null
 }
 
+/** Full-width band with themed spacing and surface. Every block's root element. */
 function Section({ spacing, surface, theme, className, ...props }: SectionProps) {
   return (
     <section
