@@ -2,6 +2,7 @@ import { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import type { StorybookConfig } from "@storybook/react-vite"
+import remarkGfm from "remark-gfm"
 
 /** Resolve a package's directory so pnpm's strict node_modules layout works. */
 function getAbsolutePath(value: string) {
@@ -11,7 +12,11 @@ function getAbsolutePath(value: string) {
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
   addons: [
-    getAbsolutePath("@storybook/addon-docs"),
+    {
+      name: getAbsolutePath("@storybook/addon-docs"),
+      // GitHub-flavoured markdown so the tables in src/docs/*.mdx render.
+      options: { mdxPluginOptions: { mdxCompileOptions: { remarkPlugins: [remarkGfm] } } },
+    },
     getAbsolutePath("@storybook/addon-themes"),
     getAbsolutePath("@storybook/addon-a11y"),
     getAbsolutePath("@storybook/addon-vitest"),

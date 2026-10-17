@@ -67,6 +67,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "shadcn": "^4.22.0",
+    "remark-gfm": "^4.0.1",
     "storybook": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
