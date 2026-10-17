@@ -12,15 +12,15 @@ pnpm dev                 # http://localhost:3001
 
 ## MDX components
 
-| Component | Shows |
-| --- | --- |
-| `<BlockPreview type="hero" />` | The real block with its fixture, scaled to the column. |
-| `<BlockReference type="hero" />` | The block's fields from the content model. |
-| `<StorybookEmbed story="blocks-hero--split" />` | The story in an iframe when `NEXT_PUBLIC_STORYBOOK_URL` is set, otherwise its screenshot. |
-| `<SchemaCompare type="hero" />` | The canonical definition next to each CMS's generated schema. |
-| `<Screenshot name="…" alt="…" />`, `<Video src="…" />` | Files from `public/`. |
-| `<FlowDiagram columns={…} />` | A small CSS flow diagram. |
-| `<ShowcaseGallery />` | Every showcase theme with its screenshot, palette and CSS. |
+| Component                                              | Shows                                                                                                                |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `<BlockPreview type="hero" />`                         | The real block with its fixture, scaled to the column.                                                               |
+| `<BlockReference type="hero" />`                       | The block's fields from the content model.                                                                           |
+| `<StorybookEmbed story="blocks-hero--split" />`        | The story in an iframe from `/storybook` (production) or `NEXT_PUBLIC_STORYBOOK_URL`; its screenshot in development. |
+| `<SchemaCompare type="hero" />`                        | The canonical definition next to each CMS's generated schema.                                                        |
+| `<Screenshot name="…" alt="…" />`, `<Video src="…" />` | Files from `public/`.                                                                                                |
+| `<FlowDiagram columns={…} />`                          | A small CSS flow diagram.                                                                                            |
+| `<ShowcaseGallery />`                                  | Every showcase theme with its screenshot, palette and CSS.                                                           |
 
 ## Theme studio and showcases
 
@@ -36,6 +36,10 @@ node packages/ui/scripts/screenshot.mjs packages/ui/storybook-static apps/docs/p
 node packages/ui/scripts/screenshot-docs.mjs http://localhost:3001 apps/docs/public/screenshots /docs/architecture
 ```
 
+## Storybook at /storybook
+
+`pnpm build` builds the UI package's Storybook first (`docs#build` depends on `@platform/ui#build-storybook` in `turbo.json`) and `scripts/copy-storybook.mjs` copies `storybook-static` into `public/storybook`, which is git-ignored. It is served at `/storybook/` (relative asset URLs need the slash; `proxy.ts` redirects the bare path) with an `X-Robots-Tag: noindex` header. A plain `next build` without the Storybook step still works and falls back to the local Storybook link.
+
 ## Deploy
 
-The docs are a Vercel project with **Root Directory** `apps/docs`; Vercel detects Turborepo and runs `turbo run build` filtered to this app. `vercel.json` here skips builds when neither the docs nor a workspace dependency changed (`turbo-ignore`). The site is `noindex` everywhere (`app/layout.tsx` metadata and `app/robots.ts`); remove both if it should ever be public.
+The docs are a Vercel project with **Root Directory** `apps/docs`; Vercel detects Turborepo and runs `turbo run build` filtered to this app, which includes the Storybook step above. `vercel.json` here skips builds when neither the docs nor a workspace dependency changed (`turbo-ignore`). The site is `noindex` everywhere (`app/layout.tsx` metadata, `app/robots.ts`, and the `/storybook` header); remove them if it should ever be public.

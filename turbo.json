@@ -1,19 +1,35 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "stream",
-  "globalEnv": [
-    "CMS_PROVIDER",
-    "NODE_ENV"
-  ],
+  "globalEnv": ["CMS_PROVIDER", "NODE_ENV"],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": [
+        "CMS_*",
+        "CONTENTFUL_*",
+        "STORYBLOK_*",
+        "OPTIMIZELY_*",
+        "SANITY_*",
+        "DRUPAL_*",
+        "NEXT_PUBLIC_DRUPAL_*",
+        "WAGTAIL_*",
+        "SITE_URL",
+        "PREVIEW_SECRET",
+        "REVALIDATE_SECRET"
       ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
-      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "!.next/dev/**",
+        "dist/**",
+        ".source/**"
+      ]
+    },
+    "docs#build": {
+      "dependsOn": ["^build", "@platform/ui#build-storybook"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
         "CMS_*",
         "CONTENTFUL_*",
@@ -36,39 +52,22 @@
       ]
     },
     "build-storybook": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "storybook-static/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["storybook-static/**"]
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^lint"]
     },
     "typecheck": {
-      "dependsOn": [
-        "^typecheck"
-      ]
+      "dependsOn": ["^typecheck"]
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "coverage/**"
-      ],
-      "env": [
-        "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH",
-        "CI"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "env": ["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH", "CI"]
     },
     "schema:generate": {
-      "outputs": [
-        "generated/**"
-      ],
+      "outputs": ["generated/**"],
       "cache": false
     },
     "dev": {
