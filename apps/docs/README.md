@@ -38,4 +38,4 @@ node packages/ui/scripts/screenshot-docs.mjs http://localhost:3001 apps/docs/pub
 
 ## Deploy
 
-The docs are a Vercel project with **Root Directory** `apps/docs`; Vercel detects Turborepo and runs `turbo run build` filtered to this app. `vercel.json` here skips builds when neither the docs nor a workspace dependency changed (`turbo-ignore`). The site is `noindex` everywhere (`app/layout.tsx` metadata and `app/robots.ts`); remove both if it should ever be public.
+The docs are a Vercel project with **Root Directory** `apps/docs`; Vercel detects Turborepo and runs `turbo run build` filtered to this app. `vercel.json` here skips builds when neither the docs nor a workspace dependency changed (`turbo-ignore`). The site is `noindex` everywhere (`app/layout.tsx` metadata and `app/robots.ts`); remove both if it should ever be public. The Markdown exports for AI assistants are the exception: `robots.ts` allows `/llms.txt` (index), `/llms-full.txt` (every page) and the per-page `/docs/<slug>.md` routes, which are plain text with no `noindex` meta, so a crawler that honours `robots.txt` can read them while the HTML stays blocked.
