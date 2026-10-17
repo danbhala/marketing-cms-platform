@@ -1,0 +1,46 @@
+---
+title: Wagtail
+description: "Configure the Wagtail adapter: environment, generated Django app, headless preview and revalidation signals."
+---
+
+<Callout type="info">The adapter lives in `packages/cms-wagtail` and targets Wagtail 8.0. Its README has the step-by-step setup; this page is the summary.</Callout>
+
+## Environment
+
+`WAGTAIL_API_URL` (required, the base of the Pages API v2 such as `https://cms.example.com/api/v2`), `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `WAGTAIL_ADMIN_URL`, `WAGTAIL_SITE_HOSTNAME`, `WAGTAIL_I18N_ENABLED`, `WAGTAIL_PREVIEW_SECRET`, `WAGTAIL_WEBHOOK_SECRET`. See `apps/web/.env.example`.
+
+## Install the content model
+
+Wagtail has no schema import: content types are Python classes, so the generator writes a Django app.
+
+```bash
+pnpm --filter @platform/cms-wagtail schema:generate   # writes schema/platform_cms/*.py and schema/schema.json
+cp -r packages/cms-wagtail/schema/platform_cms <your-django-project>/
+pip install "wagtail>=8.0,<8.1" wagtail-headless-preview
+```
+
+Add `platform_cms`, `wagtail.api.v2`, `wagtail.contrib.settings` and `wagtail_headless_preview` to `INSTALLED_APPS`, mount `platform_cms.api.api_router` at `api/v2/`, run `makemigrations platform_cms` and `migrate`. The generated files are committed under `packages/cms-wagtail/schema/` so diffs show exactly what changes in the CMS when the content model changes.
+
+## Preview
+
+Wagtail's public API serves live pages only, so drafts go through [wagtail-headless-preview](https://pypi.org/project/wagtail-headless-preview/): set `WAGTAIL_HEADLESS_PREVIEW["CLIENT_URLS"]["default"]` to `https://your-site/api/preview`. The editor opens `/api/preview?content_type=platform_cms.contentpage&token=…`; the adapter exchanges the token for the draft through the `page_preview` endpoint, resolves the page's path, and the app enters Draft Mode. Hand-made previews: `/api/preview?secret=<PREVIEW_SECRET>&path=/pricing`.
+
+Wagtail has no in-page editor. In a token preview every document, block and item carries `data-wagtail-id`, `data-wagtail-type` and `data-wagtail-page`, the page root also `data-wagtail-edit-url`, and the bridge shows an "Edit in Wagtail" link. The preview panel reloads the frontend iframe itself as the editor types (`WAGTAIL_AUTO_UPDATE_PREVIEW_INTERVAL`), so the bridge only refreshes when a stand-alone preview tab regains focus.
+
+See [Preview & visual editing](/docs/preview) for the shared flow.
+
+## Revalidation
+
+Wagtail has no outbound webhooks. The generated `platform_cms/signals.py` posts `{ event, id, type, locale, path, old_path? }` to `PLATFORM_REVALIDATE_URL` on `page_published`, `page_unpublished`, `post_page_move` and settings saves, signed with HMAC-SHA256 as `X-Wagtail-Signature: sha256=<hex>` using `PLATFORM_REVALIDATE_SECRET`. Tags: `cms:entry:<id>` always; pages add `cms:page:<locale>:<path>` and `cms:paths:<locale>` (plus the old path and `cms:type:page` on unpublish and move); settings map to `cms:global:<locale>`.
+
+## Mapping notes
+
+- Pages are `platform_cms.ContentPage` (a `Page` with `HeadlessMixin`); `title`, `seo_title`, `search_description` and the URL (`meta.html_url`, trailing slash removed) are Wagtail's own fields, the rest are generated model fields plus one `StreamField`.
+- Blocks are `StructBlock` subclasses named `<Type>Section`, items `<Type>Item`; stream child names are the snake_case canonical types (`feature_grid`).
+- `items` fields are an `ItemListBlock` (a `ListBlock` whose API output keeps child ids); `media` is a `MediaBlock` (image chooser with alt text, optional video document); `link` is a `LinkBlock` (page chooser or URL); `textList` is a `ListBlock(CharBlock)`.
+- Rich text is requested as `rich_text_format=html` and parsed to the portable AST; images and documents are inlined by the generated chooser blocks.
+- Site settings is `platform_cms.SiteSettings` (`BaseGenericSetting`), exposed at `/api/v2/site_settings/`.
+
+## What the generator emits for a block
+
+<SchemaCompare type="featureGrid" />

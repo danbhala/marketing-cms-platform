@@ -10,6 +10,7 @@ const sources: Record<string, { label: string; file: string; lang: string }> = {
   storyblok: { label: "Storyblok", file: "cms-storyblok/schema/components.json", lang: "json" },
   optimizely: { label: "Optimizely", file: "cms-optimizely/schema/content-types.json", lang: "json" },
   sanity: { label: "Sanity", file: "cms-sanity/schema/schema.json", lang: "json" },
+  wagtail: { label: "Wagtail", file: "cms-wagtail/schema/schema.json", lang: "json" },
 }
 
 async function readOptional(path: string) {

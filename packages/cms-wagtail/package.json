@@ -1,0 +1,34 @@
+{
+  "name": "@platform/cms-wagtail",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Wagtail schema generator (Django app), Pages API v2 adapter and headless preview bridge.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./bridge": "./src/bridge.tsx"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "schema:generate": "node --experimental-strip-types scripts/generate-schema.ts"
+  },
+  "dependencies": {
+    "@platform/cms-core": "workspace:*",
+    "@platform/content-model": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@platform/eslint-config": "workspace:*",
+    "@platform/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "@types/react": "catalog:",
+    "react": "catalog:",
+    "@types/node": "catalog:",
+    "next": "catalog:",
+    "react-dom": "catalog:"
+  }
+}

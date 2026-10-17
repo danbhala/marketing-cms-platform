@@ -443,6 +443,9 @@ importers:
       '@platform/cms-storyblok':
         specifier: workspace:*
         version: link:../../packages/cms-storyblok
+      '@platform/cms-wagtail':
+        specifier: workspace:*
+        version: link:../../packages/cms-wagtail
       '@platform/component-registry':
         specifier: workspace:*
         version: link:../../packages/component-registry
@@ -740,6 +743,49 @@ importers:
       storyblok-js-client:
         specifier: 'catalog:'
         version: 7.7.7
+      zod:
+        specifier: 'catalog:'
+        version: 4.6.7
+    devDependencies:
+      '@platform/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@platform/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
+      next:
+        specifier: 'catalog:'
+        version: 16.4.2(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.3.1(react@19.3.1)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(happy-dom@20.14.6)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/cms-wagtail:
+    dependencies:
+      '@platform/cms-core':
+        specifier: workspace:*
+        version: link:../cms-core
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
       zod:
         specifier: 'catalog:'
         version: 4.6.7

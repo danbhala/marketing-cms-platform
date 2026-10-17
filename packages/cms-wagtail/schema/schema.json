@@ -1,0 +1,1709 @@
+{
+  "app": "platform_cms",
+  "wagtail": "8.0",
+  "types": [
+    {
+      "name": "action",
+      "kind": "item",
+      "python": "ActionItem",
+      "base": "StructBlock",
+      "stream": "action",
+      "label": "Action",
+      "description": "A call-to-action link rendered as a button.",
+      "fields": [
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "href",
+          "python": "href",
+          "definition": "LinkBlock(required=True, label=\"Href\")",
+          "required": true
+        },
+        {
+          "name": "variant",
+          "python": "variant",
+          "definition": "blocks.ChoiceBlock(choices=[(\"default\", \"Default\"), (\"secondary\", \"Secondary\"), (\"outline\", \"Outline\"), (\"ghost\", \"Ghost\"), (\"link\", \"Link\")], required=False, default=\"default\", label=\"Variant\")",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "python": "icon",
+          "definition": "blocks.CharBlock(required=False, label=\"Icon\", help_text=\"Lucide icon name, e.g. arrow-right.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "featureItem",
+      "kind": "item",
+      "python": "FeatureItem",
+      "base": "StructBlock",
+      "stream": "feature_item",
+      "label": "Feature",
+      "fields": [
+        {
+          "name": "icon",
+          "python": "icon",
+          "definition": "blocks.CharBlock(required=False, label=\"Icon\", help_text=\"Lucide icon name, e.g. arrow-right.\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "href",
+          "python": "href",
+          "definition": "LinkBlock(required=False, label=\"Href\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "logo",
+      "kind": "item",
+      "python": "LogoItem",
+      "base": "StructBlock",
+      "stream": "logo",
+      "label": "Logo",
+      "fields": [
+        {
+          "name": "name",
+          "python": "name",
+          "definition": "blocks.CharBlock(required=True, label=\"Name\")",
+          "required": true
+        },
+        {
+          "name": "image",
+          "python": "image",
+          "definition": "MediaBlock(required=True, accept=\"image\", label=\"Image\")",
+          "required": true
+        },
+        {
+          "name": "href",
+          "python": "href",
+          "definition": "LinkBlock(required=False, label=\"Href\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "stat",
+      "kind": "item",
+      "python": "StatItem",
+      "base": "StructBlock",
+      "stream": "stat",
+      "label": "Stat",
+      "fields": [
+        {
+          "name": "value",
+          "python": "value",
+          "definition": "blocks.CharBlock(required=True, label=\"Value\")",
+          "required": true
+        },
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "testimonial",
+      "kind": "item",
+      "python": "TestimonialItem",
+      "base": "StructBlock",
+      "stream": "testimonial",
+      "label": "Testimonial",
+      "fields": [
+        {
+          "name": "quote",
+          "python": "quote",
+          "definition": "blocks.TextBlock(required=True, label=\"Quote\")",
+          "required": true
+        },
+        {
+          "name": "authorName",
+          "python": "author_name",
+          "definition": "blocks.CharBlock(required=True, label=\"Author name\")",
+          "required": true
+        },
+        {
+          "name": "authorRole",
+          "python": "author_role",
+          "definition": "blocks.CharBlock(required=False, label=\"Author role\")",
+          "required": false
+        },
+        {
+          "name": "avatar",
+          "python": "avatar",
+          "definition": "MediaBlock(required=False, accept=\"image\", label=\"Avatar\")",
+          "required": false
+        },
+        {
+          "name": "companyLogo",
+          "python": "company_logo",
+          "definition": "MediaBlock(required=False, accept=\"image\", label=\"Company logo\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "pricingPlan",
+      "kind": "item",
+      "python": "PricingPlanItem",
+      "base": "StructBlock",
+      "stream": "pricing_plan",
+      "label": "Pricing plan",
+      "fields": [
+        {
+          "name": "name",
+          "python": "name",
+          "definition": "blocks.CharBlock(required=True, label=\"Name\")",
+          "required": true
+        },
+        {
+          "name": "price",
+          "python": "price",
+          "definition": "blocks.CharBlock(required=True, label=\"Price\")",
+          "required": true
+        },
+        {
+          "name": "period",
+          "python": "period",
+          "definition": "blocks.CharBlock(required=False, label=\"Period\", help_text=\"e.g. /month\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "features",
+          "python": "features",
+          "definition": "blocks.ListBlock(blocks.CharBlock(label=\"Text\"), default=[], label=\"Features\")",
+          "required": false
+        },
+        {
+          "name": "action",
+          "python": "action",
+          "definition": "ItemListBlock(ActionItem(), max_num=1, default=[], label=\"Action\")",
+          "required": true
+        },
+        {
+          "name": "highlighted",
+          "python": "highlighted",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Highlighted\")",
+          "required": false
+        },
+        {
+          "name": "badge",
+          "python": "badge",
+          "definition": "blocks.CharBlock(required=False, label=\"Badge\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "comparisonColumn",
+      "kind": "item",
+      "python": "ComparisonColumnItem",
+      "base": "StructBlock",
+      "stream": "comparison_column",
+      "label": "Comparison column",
+      "fields": [
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "highlighted",
+          "python": "highlighted",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Highlighted\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "comparisonRow",
+      "kind": "item",
+      "python": "ComparisonRowItem",
+      "base": "StructBlock",
+      "stream": "comparison_row",
+      "label": "Comparison row",
+      "fields": [
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "values",
+          "python": "values",
+          "definition": "blocks.ListBlock(blocks.CharBlock(label=\"Text\"), default=[], label=\"Values\", help_text=\"One value per column. Use 'yes' / 'no' for check and cross icons.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "faqItem",
+      "kind": "item",
+      "python": "FaqItem",
+      "base": "StructBlock",
+      "stream": "faq_item",
+      "label": "FAQ item",
+      "fields": [
+        {
+          "name": "question",
+          "python": "question",
+          "definition": "blocks.CharBlock(required=True, label=\"Question\")",
+          "required": true
+        },
+        {
+          "name": "answer",
+          "python": "answer",
+          "definition": "blocks.RichTextBlock(required=True, label=\"Answer\")",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "kind": "item",
+      "python": "CardItem",
+      "base": "StructBlock",
+      "stream": "card",
+      "label": "Card",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "excerpt",
+          "python": "excerpt",
+          "definition": "blocks.TextBlock(required=False, label=\"Excerpt\")",
+          "required": false
+        },
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "meta",
+          "python": "meta",
+          "definition": "blocks.CharBlock(required=False, label=\"Meta\", help_text=\"e.g. date or reading time\")",
+          "required": false
+        },
+        {
+          "name": "image",
+          "python": "image",
+          "definition": "MediaBlock(required=False, accept=\"image\", label=\"Image\")",
+          "required": false
+        },
+        {
+          "name": "href",
+          "python": "href",
+          "definition": "LinkBlock(required=False, label=\"Href\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "person",
+      "kind": "item",
+      "python": "PersonItem",
+      "base": "StructBlock",
+      "stream": "person",
+      "label": "Person",
+      "fields": [
+        {
+          "name": "name",
+          "python": "name",
+          "definition": "blocks.CharBlock(required=True, label=\"Name\")",
+          "required": true
+        },
+        {
+          "name": "role",
+          "python": "role",
+          "definition": "blocks.CharBlock(required=False, label=\"Role\")",
+          "required": false
+        },
+        {
+          "name": "bio",
+          "python": "bio",
+          "definition": "blocks.TextBlock(required=False, label=\"Bio\")",
+          "required": false
+        },
+        {
+          "name": "image",
+          "python": "image",
+          "definition": "MediaBlock(required=False, accept=\"image\", label=\"Image\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "step",
+      "kind": "item",
+      "python": "StepItem",
+      "base": "StructBlock",
+      "stream": "step",
+      "label": "Step",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "tab",
+      "kind": "item",
+      "python": "TabItem",
+      "base": "StructBlock",
+      "stream": "tab",
+      "label": "Tab",
+      "fields": [
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "body",
+          "python": "body",
+          "definition": "blocks.RichTextBlock(required=False, label=\"Body\")",
+          "required": false
+        },
+        {
+          "name": "media",
+          "python": "media",
+          "definition": "MediaBlock(required=False, accept=\"any\", label=\"Media\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "formField",
+      "kind": "item",
+      "python": "FormFieldItem",
+      "base": "StructBlock",
+      "stream": "form_field",
+      "label": "Form field",
+      "fields": [
+        {
+          "name": "name",
+          "python": "name",
+          "definition": "blocks.CharBlock(required=True, label=\"Name\")",
+          "required": true
+        },
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "inputType",
+          "python": "input_type",
+          "definition": "blocks.ChoiceBlock(choices=[(\"text\", \"Text\"), (\"email\", \"Email\"), (\"tel\", \"Tel\"), (\"textarea\", \"Textarea\"), (\"select\", \"Select\"), (\"checkbox\", \"Checkbox\")], required=True, default=\"text\", label=\"Input type\")",
+          "required": true
+        },
+        {
+          "name": "placeholder",
+          "python": "placeholder",
+          "definition": "blocks.CharBlock(required=False, label=\"Placeholder\")",
+          "required": false
+        },
+        {
+          "name": "required",
+          "python": "required",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Required\")",
+          "required": false
+        },
+        {
+          "name": "options",
+          "python": "options",
+          "definition": "blocks.ListBlock(blocks.CharBlock(label=\"Text\"), default=[], label=\"Options\", help_text=\"Options for select fields.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "navLink",
+      "kind": "item",
+      "python": "NavLinkItem",
+      "base": "StructBlock",
+      "stream": "nav_link",
+      "label": "Navigation link",
+      "fields": [
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "href",
+          "python": "href",
+          "definition": "LinkBlock(required=True, label=\"Href\")",
+          "required": true
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.CharBlock(required=False, label=\"Description\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "navGroup",
+      "kind": "item",
+      "python": "NavGroupItem",
+      "base": "StructBlock",
+      "stream": "nav_group",
+      "label": "Navigation group",
+      "description": "A top-level navigation entry. With links it renders as a dropdown.",
+      "fields": [
+        {
+          "name": "label",
+          "python": "label",
+          "definition": "blocks.CharBlock(required=True, label=\"Label\")",
+          "required": true
+        },
+        {
+          "name": "href",
+          "python": "href",
+          "definition": "LinkBlock(required=False, label=\"Href\")",
+          "required": false
+        },
+        {
+          "name": "links",
+          "python": "links",
+          "definition": "ItemListBlock(NavLinkItem(), default=[], label=\"Links\")",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "footerColumn",
+      "kind": "item",
+      "python": "FooterColumnItem",
+      "base": "StructBlock",
+      "stream": "footer_column",
+      "label": "Footer column",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "links",
+          "python": "links",
+          "definition": "ItemListBlock(NavLinkItem(), default=[], label=\"Links\")",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "socialLink",
+      "kind": "item",
+      "python": "SocialLinkItem",
+      "base": "StructBlock",
+      "stream": "social_link",
+      "label": "Social link",
+      "fields": [
+        {
+          "name": "platform",
+          "python": "platform",
+          "definition": "blocks.ChoiceBlock(choices=[(\"x\", \"X\"), (\"linkedin\", \"Linkedin\"), (\"github\", \"Github\"), (\"youtube\", \"Youtube\"), (\"instagram\", \"Instagram\"), (\"facebook\", \"Facebook\")], required=True, label=\"Platform\")",
+          "required": true
+        },
+        {
+          "name": "href",
+          "python": "href",
+          "definition": "LinkBlock(required=True, label=\"Href\")",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "hero",
+      "kind": "block",
+      "python": "HeroSection",
+      "base": "StructBlock",
+      "stream": "hero",
+      "label": "Hero",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "actions",
+          "python": "actions",
+          "definition": "ItemListBlock(ActionItem(), max_num=3, default=[], label=\"Actions\")",
+          "required": true
+        },
+        {
+          "name": "media",
+          "python": "media",
+          "definition": "MediaBlock(required=False, accept=\"any\", label=\"Media\")",
+          "required": false
+        },
+        {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"centered\", \"Centered\"), (\"split\", \"Split\"), (\"splitReverse\", \"Split reverse\"), (\"background\", \"Background\")], required=False, default=\"centered\", label=\"Layout\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "logoCloud",
+      "kind": "block",
+      "python": "LogoCloudSection",
+      "base": "StructBlock",
+      "stream": "logo_cloud",
+      "label": "Logo cloud",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "logos",
+          "python": "logos",
+          "definition": "ItemListBlock(LogoItem(), default=[], label=\"Logos\")",
+          "required": true
+        },
+        {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"row\", \"Row\"), (\"grid\", \"Grid\")], required=False, default=\"row\", label=\"Layout\")",
+          "required": false
+        },
+        {
+          "name": "grayscale",
+          "python": "grayscale",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Grayscale\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "featureGrid",
+      "kind": "block",
+      "python": "FeatureGridSection",
+      "base": "StructBlock",
+      "stream": "feature_grid",
+      "label": "Feature grid",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "features",
+          "python": "features",
+          "definition": "ItemListBlock(FeatureItem(), default=[], label=\"Features\")",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "python": "columns",
+          "definition": "blocks.ChoiceBlock(choices=[(\"2\", \"2\"), (\"3\", \"3\"), (\"4\", \"4\")], required=False, default=\"3\", label=\"Columns\")",
+          "required": false
+        },
+        {
+          "name": "itemStyle",
+          "python": "item_style",
+          "definition": "blocks.ChoiceBlock(choices=[(\"plain\", \"Plain\"), (\"card\", \"Card\")], required=False, default=\"plain\", label=\"Item style\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "featureSplit",
+      "kind": "block",
+      "python": "FeatureSplitSection",
+      "base": "StructBlock",
+      "stream": "feature_split",
+      "label": "Feature split",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "body",
+          "python": "body",
+          "definition": "blocks.RichTextBlock(required=False, label=\"Body\")",
+          "required": false
+        },
+        {
+          "name": "bullets",
+          "python": "bullets",
+          "definition": "blocks.ListBlock(blocks.CharBlock(label=\"Text\"), default=[], label=\"Bullets\")",
+          "required": false
+        },
+        {
+          "name": "actions",
+          "python": "actions",
+          "definition": "ItemListBlock(ActionItem(), max_num=2, default=[], label=\"Actions\")",
+          "required": true
+        },
+        {
+          "name": "media",
+          "python": "media",
+          "definition": "MediaBlock(required=False, accept=\"any\", label=\"Media\")",
+          "required": false
+        },
+        {
+          "name": "mediaPosition",
+          "python": "media_position",
+          "definition": "blocks.ChoiceBlock(choices=[(\"right\", \"Right\"), (\"left\", \"Left\")], required=False, default=\"right\", label=\"Media position\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "kind": "block",
+      "python": "StatsSection",
+      "base": "StructBlock",
+      "stream": "stats",
+      "label": "Stats",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "stats",
+          "python": "stats",
+          "definition": "ItemListBlock(StatItem(), default=[], label=\"Stats\")",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "python": "columns",
+          "definition": "blocks.ChoiceBlock(choices=[(\"2\", \"2\"), (\"3\", \"3\"), (\"4\", \"4\")], required=False, default=\"3\", label=\"Columns\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "testimonials",
+      "kind": "block",
+      "python": "TestimonialsSection",
+      "base": "StructBlock",
+      "stream": "testimonials",
+      "label": "Testimonials",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "testimonials",
+          "python": "testimonials",
+          "definition": "ItemListBlock(TestimonialItem(), default=[], label=\"Testimonials\")",
+          "required": true
+        },
+        {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"grid\", \"Grid\"), (\"featured\", \"Featured\")], required=False, default=\"grid\", label=\"Layout\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "pricing",
+      "kind": "block",
+      "python": "PricingSection",
+      "base": "StructBlock",
+      "stream": "pricing",
+      "label": "Pricing table",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "plans",
+          "python": "plans",
+          "definition": "ItemListBlock(PricingPlanItem(), max_num=4, default=[], label=\"Plans\")",
+          "required": true
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "comparisonTable",
+      "kind": "block",
+      "python": "ComparisonTableSection",
+      "base": "StructBlock",
+      "stream": "comparison_table",
+      "label": "Comparison table",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "python": "columns",
+          "definition": "ItemListBlock(ComparisonColumnItem(), default=[], label=\"Columns\")",
+          "required": true
+        },
+        {
+          "name": "rows",
+          "python": "rows",
+          "definition": "ItemListBlock(ComparisonRowItem(), default=[], label=\"Rows\")",
+          "required": true
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "faq",
+      "kind": "block",
+      "python": "FaqSection",
+      "base": "StructBlock",
+      "stream": "faq",
+      "label": "FAQ",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "items",
+          "python": "items",
+          "definition": "ItemListBlock(FaqItem(), default=[], label=\"Items\")",
+          "required": true
+        },
+        {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"single\", \"Single\"), (\"split\", \"Split\")], required=False, default=\"single\", label=\"Layout\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "cta",
+      "kind": "block",
+      "python": "CtaSection",
+      "base": "StructBlock",
+      "stream": "cta",
+      "label": "Call to action",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "actions",
+          "python": "actions",
+          "definition": "ItemListBlock(ActionItem(), max_num=2, default=[], label=\"Actions\")",
+          "required": true
+        },
+        {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"centered\", \"Centered\"), (\"split\", \"Split\")], required=False, default=\"centered\", label=\"Layout\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "cardGrid",
+      "kind": "block",
+      "python": "CardGridSection",
+      "base": "StructBlock",
+      "stream": "card_grid",
+      "label": "Card grid",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "cards",
+          "python": "cards",
+          "definition": "ItemListBlock(CardItem(), default=[], label=\"Cards\")",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "python": "columns",
+          "definition": "blocks.ChoiceBlock(choices=[(\"2\", \"2\"), (\"3\", \"3\"), (\"4\", \"4\")], required=False, default=\"3\", label=\"Columns\")",
+          "required": false
+        },
+        {
+          "name": "actions",
+          "python": "actions",
+          "definition": "ItemListBlock(ActionItem(), max_num=1, default=[], label=\"Actions\")",
+          "required": true
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "teamGrid",
+      "kind": "block",
+      "python": "TeamGridSection",
+      "base": "StructBlock",
+      "stream": "team_grid",
+      "label": "Team grid",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "people",
+          "python": "people",
+          "definition": "ItemListBlock(PersonItem(), default=[], label=\"People\")",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "python": "columns",
+          "definition": "blocks.ChoiceBlock(choices=[(\"3\", \"3\"), (\"4\", \"4\")], required=False, default=\"4\", label=\"Columns\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "steps",
+      "kind": "block",
+      "python": "StepsSection",
+      "base": "StructBlock",
+      "stream": "steps",
+      "label": "Steps",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "steps",
+          "python": "steps",
+          "definition": "ItemListBlock(StepItem(), default=[], label=\"Steps\")",
+          "required": true
+        },
+        {
+          "name": "orientation",
+          "python": "orientation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"horizontal\", \"Horizontal\"), (\"vertical\", \"Vertical\")], required=False, default=\"horizontal\", label=\"Orientation\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "kind": "block",
+      "python": "TabsSection",
+      "base": "StructBlock",
+      "stream": "tabs",
+      "label": "Tabbed content",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "tabs",
+          "python": "tabs",
+          "definition": "ItemListBlock(TabItem(), default=[], label=\"Tabs\")",
+          "required": true
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "richText",
+      "kind": "block",
+      "python": "RichTextSection",
+      "base": "StructBlock",
+      "stream": "rich_text",
+      "label": "Rich text",
+      "fields": [
+        {
+          "name": "body",
+          "python": "body",
+          "definition": "blocks.RichTextBlock(required=True, label=\"Body\")",
+          "required": true
+        },
+        {
+          "name": "width",
+          "python": "width",
+          "definition": "blocks.ChoiceBlock(choices=[(\"prose\", \"Prose\"), (\"full\", \"Full\")], required=False, default=\"prose\", label=\"Width\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "media",
+      "kind": "block",
+      "python": "MediaSection",
+      "base": "StructBlock",
+      "stream": "media",
+      "label": "Media",
+      "fields": [
+        {
+          "name": "media",
+          "python": "media",
+          "definition": "MediaBlock(required=True, accept=\"any\", label=\"Media\")",
+          "required": true
+        },
+        {
+          "name": "caption",
+          "python": "caption",
+          "definition": "blocks.CharBlock(required=False, label=\"Caption\")",
+          "required": false
+        },
+        {
+          "name": "width",
+          "python": "width",
+          "definition": "blocks.ChoiceBlock(choices=[(\"contained\", \"Contained\"), (\"full\", \"Full\")], required=False, default=\"contained\", label=\"Width\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "block",
+      "python": "FormSection",
+      "base": "StructBlock",
+      "stream": "form",
+      "label": "Form",
+      "description": "Newsletter or contact form. Posts JSON to the endpoint in 'action'.",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "fields",
+          "python": "fields",
+          "definition": "ItemListBlock(FormFieldItem(), default=[], label=\"Fields\")",
+          "required": true
+        },
+        {
+          "name": "submitLabel",
+          "python": "submit_label",
+          "definition": "blocks.CharBlock(required=True, label=\"Submit label\")",
+          "required": true
+        },
+        {
+          "name": "endpoint",
+          "python": "endpoint",
+          "definition": "LinkBlock(required=False, label=\"Endpoint\", help_text=\"Where the form posts to.\")",
+          "required": false
+        },
+        {
+          "name": "successMessage",
+          "python": "success_message",
+          "definition": "blocks.CharBlock(required=False, label=\"Success message\")",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "python": "consent",
+          "definition": "blocks.CharBlock(required=False, label=\"Consent\", help_text=\"Small print under the form.\")",
+          "required": false
+        },
+        {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"stacked\", \"Stacked\"), (\"inline\", \"Inline\")], required=False, default=\"stacked\", label=\"Layout\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "kind": "document",
+      "python": "ContentPage",
+      "base": "Page",
+      "apiType": "platform_cms.ContentPage",
+      "label": "Page",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "Page.title",
+          "required": true,
+          "core": "title"
+        },
+        {
+          "name": "path",
+          "python": "html_url",
+          "definition": "Page.html_url",
+          "required": true,
+          "core": "html_url"
+        },
+        {
+          "name": "seoTitle",
+          "python": "seo_title",
+          "definition": "Page.seo_title",
+          "required": false,
+          "core": "seo_title"
+        },
+        {
+          "name": "seoDescription",
+          "python": "search_description",
+          "definition": "Page.search_description",
+          "required": false,
+          "core": "search_description"
+        },
+        {
+          "name": "ogImage",
+          "python": "og_image",
+          "definition": "models.ForeignKey(\"wagtailimages.Image\", null=True, blank=True, on_delete=models.SET_NULL, related_name=\"+\", verbose_name=\"Og image\")",
+          "required": false
+        },
+        {
+          "name": "noIndex",
+          "python": "no_index",
+          "definition": "models.BooleanField(default=False, verbose_name=\"No index\")",
+          "required": false
+        },
+        {
+          "name": "hideBreadcrumbs",
+          "python": "hide_breadcrumbs",
+          "definition": "models.BooleanField(default=False, verbose_name=\"Hide breadcrumbs\", help_text=\"Breadcrumbs show on every page except the home page unless hidden.\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "models.CharField(max_length=6, choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], blank=True, verbose_name=\"Theme\", help_text=\"Theme applied to the whole page.\")",
+          "required": false
+        },
+        {
+          "name": "blocks",
+          "python": "blocks",
+          "definition": "StreamField(ContentStreamBlock(), blank=True, verbose_name=\"Blocks\")",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "siteSettings",
+      "kind": "document",
+      "python": "SiteSettings",
+      "base": "BaseGenericSetting",
+      "apiType": "platform_cms.SiteSettings",
+      "label": "Site settings",
+      "fields": [
+        {
+          "name": "siteName",
+          "python": "site_name",
+          "definition": "models.CharField(max_length=255, blank=False, verbose_name=\"Site name\")",
+          "required": true
+        },
+        {
+          "name": "logo",
+          "python": "logo",
+          "definition": "models.ForeignKey(\"wagtailimages.Image\", null=True, blank=True, on_delete=models.SET_NULL, related_name=\"+\", verbose_name=\"Logo\")",
+          "required": false
+        },
+        {
+          "name": "announcementText",
+          "python": "announcement_text",
+          "definition": "models.CharField(max_length=255, blank=True, verbose_name=\"Announcement text\")",
+          "required": false
+        },
+        {
+          "name": "announcementHref",
+          "python": "announcement_href",
+          "definition": "models.CharField(max_length=2048, blank=True, verbose_name=\"Announcement href\", help_text=\"URL or site path, e.g. /pricing.\")",
+          "required": false
+        },
+        {
+          "name": "announcementLinkLabel",
+          "python": "announcement_link_label",
+          "definition": "models.CharField(max_length=255, blank=True, verbose_name=\"Announcement link label\")",
+          "required": false
+        },
+        {
+          "name": "navigation",
+          "python": "navigation",
+          "definition": "StreamField([(\"nav_group\", NavGroupItem())], blank=True, verbose_name=\"Navigation\")",
+          "required": true
+        },
+        {
+          "name": "headerActions",
+          "python": "header_actions",
+          "definition": "StreamField([(\"action\", ActionItem())], blank=True, max_num=2, verbose_name=\"Header actions\")",
+          "required": true
+        },
+        {
+          "name": "footerColumns",
+          "python": "footer_columns",
+          "definition": "StreamField([(\"footer_column\", FooterColumnItem())], blank=True, verbose_name=\"Footer columns\")",
+          "required": true
+        },
+        {
+          "name": "footerNote",
+          "python": "footer_note",
+          "definition": "models.CharField(max_length=255, blank=True, verbose_name=\"Footer note\")",
+          "required": false
+        },
+        {
+          "name": "socialLinks",
+          "python": "social_links",
+          "definition": "StreamField([(\"social_link\", SocialLinkItem())], blank=True, verbose_name=\"Social links\")",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

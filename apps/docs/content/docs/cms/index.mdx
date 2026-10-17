@@ -1,20 +1,20 @@
 ---
 title: CMS adapters
-description: "One interface, five implementations. What each adapter does and how the CMSs differ."
+description: "One interface, six implementations. What each adapter does and how the CMSs differ."
 ---
 
 Every adapter implements `CmsAdapter` from `@platform/cms-core` and ships four things: a **schema generator** (the content model in that CMS's native format), a **transform** (raw entries → canonical content, validated with zod), **preview** (enter Draft Mode, parse the editor's context, attach `$edit`, a client bridge), and a **webhook** mapper (verify the signature, turn the payload into cache tags).
 
-| | Contentful | Storyblok | Optimizely SaaS | Sanity |
-| --- | --- | --- | --- | --- |
-| Schema output | `contentful-migration` script + JSON | Components JSON for the Management API / CLI | SDK content-type definitions (TS) + JSON | Schema types for the Studio + JSON |
-| Published reads | Content Delivery API | CDA `version=published` | Optimizely Graph | `perspective: "published"` (CDN) |
-| Draft reads | Content Preview API | CDA `version=draft` + preview token | Graph preview query with URL token | `perspective: "drafts"` + viewer token, stega |
-| Rich text | Contentful Document | ProseMirror JSON | XHTML / structured | Portable Text |
-| Click-to-edit | Inspector mode: entry + field | Block level: `data-blok-*` | `data-epi-block-id` / `data-epi-edit` (edit ctx) | `data-sanity` document + path |
-| Save → refresh | Live preview SDK event | Bridge `input` event | `optimizely:cms:contentSaved` | Visual editing `refresh` |
-| Preview entry | `?secret&path` or entry id | Visual Editor token (`_storyblok_tk`) | `/preview?key&ver&loc&ctx&preview_token` | Presentation tool secret + pathname |
-| Webhook auth | Shared-secret header | HMAC-SHA1 `webhook-signature` | Shared secret / Graph | HMAC-SHA256 `sanity-webhook-signature` |
+| | Contentful | Storyblok | Optimizely SaaS | Sanity | Wagtail |
+| --- | --- | --- | --- | --- | --- |
+| Schema output | `contentful-migration` script + JSON | Components JSON for the Management API / CLI | SDK content-type definitions (TS) + JSON | Schema types for the Studio + JSON | Django app (`blocks.py`, `models.py`, `api.py`) + JSON |
+| Published reads | Content Delivery API | CDA `version=published` | Optimizely Graph | `perspective: "published"` (CDN) | Pages API v2 (`find/?html_path=`) |
+| Draft reads | Content Preview API | CDA `version=draft` + preview token | Graph preview query with URL token | `perspective: "drafts"` + viewer token, stega | `wagtail-headless-preview` token → `page_preview` |
+| Rich text | Contentful Document | ProseMirror JSON | XHTML / structured | Portable Text | HTML (`rich_text_format=html`) |
+| Click-to-edit | Inspector mode: entry + field | Block level: `data-blok-*` | `data-epi-block-id` / `data-epi-edit` (edit ctx) | `data-sanity` document + path | `data-wagtail-*` ids + "Edit in Wagtail" (no in-page editor) |
+| Save → refresh | Live preview SDK event | Bridge `input` event | `optimizely:cms:contentSaved` | Visual editing `refresh` | Preview panel reloads the iframe |
+| Preview entry | `?secret&path` or entry id | Visual Editor token (`_storyblok_tk`) | `/preview?key&ver&loc&ctx&preview_token` | Presentation tool secret + pathname | `?content_type&token` or `?secret&path` |
+| Webhook auth | Shared-secret header | HMAC-SHA1 `webhook-signature` | Shared secret / Graph | HMAC-SHA256 `sanity-webhook-signature` | HMAC-SHA256 `x-wagtail-signature` (signal handler) |
 
 ## Switching
 
