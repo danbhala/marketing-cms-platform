@@ -19,6 +19,7 @@
         "CONTENTFUL_*",
         "STORYBLOK_*",
         "OPTIMIZELY_*",
+        "SANITY_*",
         "SITE_URL",
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"

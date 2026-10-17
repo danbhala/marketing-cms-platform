@@ -8,5 +8,5 @@ export const frameAncestors: Record<string, string[]> = {
   contentful: ["'self'", "https://app.contentful.com"],
   storyblok: ["'self'", "https://app.storyblok.com"],
   optimizely: ["'self'", "https://*.cms.optimizely.com"],
-  sanity: ["'self'", "https://*.sanity.studio", "http://localhost:3333"],
+  sanity: ["'self'", "https://*.sanity.studio", "http://localhost:3333", ...(process.env.SANITY_STUDIO_URL ? [new URL(process.env.SANITY_STUDIO_URL).origin] : [])],
 }

@@ -1,0 +1,741 @@
+{
+  "_id": "page-home",
+  "_type": "page",
+  "title": "Metrica · Privacy-first product analytics",
+  "path": "/",
+  "seoTitle": "Metrica · Product analytics",
+  "seoDescription": "Privacy-first product analytics with real-time dashboards and versioned funnels.",
+  "ogImage": null,
+  "noIndex": null,
+  "hideBreadcrumbs": null,
+  "theme": null,
+  "blocks": [
+    {
+      "_key": "blk-hero",
+      "_type": "hero",
+      "eyebrow": "Product analytics",
+      "title": "Understand what your users do, not just where they went",
+      "description": "Privacy-first product analytics with real-time dashboards, versioned funnels and pricing that does not punish you for inviting your team.",
+      "actions": [
+        {
+          "_key": "act-1",
+          "_type": "action",
+          "label": "Start free trial",
+          "href": "/signup",
+          "variant": "default",
+          "icon": null
+        },
+        {
+          "_key": "act-2",
+          "_type": "action",
+          "label": "Book a demo",
+          "href": "/demo",
+          "variant": "outline",
+          "icon": null
+        }
+      ],
+      "media": {
+        "_type": "anyMedia",
+        "alt": null,
+        "asset": null,
+        "crop": null,
+        "hotspot": null,
+        "image": {
+          "_type": "imageWithAlt",
+          "alt": "Product screenshot",
+          "asset": {
+            "_id": "image-img001-1200x800-png",
+            "url": "https://cdn.sanity.io/images/testproj/production/img001-1200x800.png",
+            "mimeType": "image/png",
+            "extension": "png",
+            "metadata": {
+              "dimensions": {
+                "width": 1200,
+                "height": 800
+              }
+            }
+          },
+          "crop": null,
+          "hotspot": null
+        },
+        "video": null
+      },
+      "layout": "split",
+      "theme": null,
+      "spacing": null,
+      "anchor": null
+    },
+    {
+      "_key": "blk-logos",
+      "_type": "logoCloud",
+      "title": "Trusted by product teams at",
+      "logos": [
+        {
+          "_key": "logo-1",
+          "_type": "logo",
+          "name": "Acme",
+          "image": {
+            "_type": "imageWithAlt",
+            "alt": "Acme logo",
+            "asset": {
+              "_id": "image-img002-160x48-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img002-160x48.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 48
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "href": null
+        },
+        {
+          "_key": "logo-2",
+          "_type": "logo",
+          "name": "Northwind",
+          "image": {
+            "_type": "imageWithAlt",
+            "alt": "Northwind logo",
+            "asset": {
+              "_id": "image-img003-160x48-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img003-160x48.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 48
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "href": null
+        },
+        {
+          "_key": "logo-3",
+          "_type": "logo",
+          "name": "Globex",
+          "image": {
+            "_type": "imageWithAlt",
+            "alt": "Globex logo",
+            "asset": {
+              "_id": "image-img004-160x48-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img004-160x48.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 48
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "href": null
+        },
+        {
+          "_key": "logo-4",
+          "_type": "logo",
+          "name": "Initech",
+          "image": {
+            "_type": "imageWithAlt",
+            "alt": "Initech logo",
+            "asset": {
+              "_id": "image-img005-160x48-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img005-160x48.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 48
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "href": null
+        },
+        {
+          "_key": "logo-5",
+          "_type": "logo",
+          "name": "Umbrella",
+          "image": {
+            "_type": "imageWithAlt",
+            "alt": "Umbrella logo",
+            "asset": {
+              "_id": "image-img006-160x48-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img006-160x48.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 48
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "href": null
+        },
+        {
+          "_key": "logo-6",
+          "_type": "logo",
+          "name": "Vandelay",
+          "image": {
+            "_type": "imageWithAlt",
+            "alt": "Vandelay logo",
+            "asset": {
+              "_id": "image-img007-160x48-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img007-160x48.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 48
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "href": null
+        }
+      ],
+      "layout": "row",
+      "grayscale": true,
+      "theme": null,
+      "spacing": "sm",
+      "anchor": null
+    },
+    {
+      "_key": "blk-features",
+      "_type": "featureGrid",
+      "eyebrow": "Everything you need",
+      "title": "Built for teams who ship every week",
+      "description": "Instrument once, then answer every question with a filter instead of a ticket.",
+      "features": [
+        {
+          "_key": "feat-1",
+          "_type": "featureItem",
+          "icon": "zap",
+          "title": "Real-time dashboards",
+          "description": "Every metric updates the moment an event lands, with no nightly batch to wait for.",
+          "href": null
+        },
+        {
+          "_key": "feat-2",
+          "_type": "featureItem",
+          "icon": "shield-check",
+          "title": "Privacy by default",
+          "description": "Cookie-free collection and EU data residency, so compliance is a setting rather than a project.",
+          "href": null
+        },
+        {
+          "_key": "feat-3",
+          "_type": "featureItem",
+          "icon": "git-branch",
+          "title": "Versioned funnels",
+          "description": "Change a funnel definition and compare it against the previous version side by side.",
+          "href": null
+        },
+        {
+          "_key": "feat-4",
+          "_type": "featureItem",
+          "icon": "plug",
+          "title": "60+ integrations",
+          "description": "Send events from your warehouse, CDP or product and get answers in minutes.",
+          "href": "/integrations"
+        },
+        {
+          "_key": "feat-5",
+          "_type": "featureItem",
+          "icon": "users",
+          "title": "Unlimited seats",
+          "description": "Pricing is per event, never per person. Invite the whole company.",
+          "href": null
+        },
+        {
+          "_key": "feat-6",
+          "_type": "featureItem",
+          "icon": "sparkles",
+          "title": "Ask in plain English",
+          "description": "Type a question and get a chart, with the query it ran shown underneath.",
+          "href": null
+        }
+      ],
+      "columns": "3",
+      "itemStyle": "plain",
+      "theme": null,
+      "spacing": null,
+      "anchor": null
+    },
+    {
+      "_key": "blk-split",
+      "_type": "featureSplit",
+      "eyebrow": "Funnels",
+      "title": "Versioned funnels you can trust",
+      "body": [
+        {
+          "_type": "block",
+          "_key": "b0",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "s00",
+              "text": "Change a step, rename an event or add a filter and the old version stays put. Compare them side by side and see exactly what moved.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "bullets": [
+        "Compare any two versions",
+        "Annotate changes for your team",
+        "Export to your warehouse"
+      ],
+      "actions": [
+        {
+          "_key": "act-3",
+          "_type": "action",
+          "label": "View documentation",
+          "href": "/docs",
+          "variant": "link",
+          "icon": "arrow-right"
+        }
+      ],
+      "media": {
+        "_type": "anyMedia",
+        "alt": null,
+        "asset": null,
+        "crop": null,
+        "hotspot": null,
+        "image": {
+          "_type": "imageWithAlt",
+          "alt": "Funnel chart",
+          "asset": {
+            "_id": "image-img008-960x720-png",
+            "url": "https://cdn.sanity.io/images/testproj/production/img008-960x720.png",
+            "mimeType": "image/png",
+            "extension": "png",
+            "metadata": {
+              "dimensions": {
+                "width": 960,
+                "height": 720
+              }
+            }
+          },
+          "crop": null,
+          "hotspot": null
+        },
+        "video": null
+      },
+      "mediaPosition": "right",
+      "theme": null,
+      "spacing": null,
+      "anchor": null
+    },
+    {
+      "_key": "blk-stats",
+      "_type": "stats",
+      "eyebrow": null,
+      "title": "Built to scale with you",
+      "description": null,
+      "stats": [
+        {
+          "_key": "stat-1",
+          "_type": "stat",
+          "value": "4.2B",
+          "label": "Events per month",
+          "description": "Processed across all regions"
+        },
+        {
+          "_key": "stat-2",
+          "_type": "stat",
+          "value": "99.99%",
+          "label": "Uptime",
+          "description": "Over the last twelve months"
+        },
+        {
+          "_key": "stat-3",
+          "_type": "stat",
+          "value": "<60ms",
+          "label": "Query latency",
+          "description": "Median, on a year of data"
+        },
+        {
+          "_key": "stat-4",
+          "_type": "stat",
+          "value": "2,400+",
+          "label": "Teams",
+          "description": "From startups to the Fortune 500"
+        }
+      ],
+      "columns": "4",
+      "theme": "muted",
+      "spacing": null,
+      "anchor": null
+    },
+    {
+      "_key": "blk-testimonials",
+      "_type": "testimonials",
+      "eyebrow": "Customers",
+      "title": "Loved by teams who care about the numbers",
+      "description": null,
+      "testimonials": [
+        {
+          "_key": "quote-1",
+          "_type": "testimonial",
+          "quote": "We replaced three tools with one and our product team finally trusts the numbers they are looking at.",
+          "authorName": "Priya Natarajan",
+          "authorRole": "VP Product, Northwind",
+          "avatar": {
+            "_type": "imageWithAlt",
+            "alt": "Priya Natarajan",
+            "asset": {
+              "_id": "image-img009-160x160-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img009-160x160.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 160
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "companyLogo": {
+            "_type": "imageWithAlt",
+            "alt": "Northwind logo",
+            "asset": {
+              "_id": "image-img010-160x48-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img010-160x48.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 48
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          }
+        },
+        {
+          "_key": "quote-2",
+          "_type": "testimonial",
+          "quote": "Setup took an afternoon. The versioned funnels alone paid for the first year.",
+          "authorName": "Marcus Oyelaran",
+          "authorRole": "Head of Growth, Globex",
+          "avatar": {
+            "_type": "imageWithAlt",
+            "alt": "Marcus Oyelaran",
+            "asset": {
+              "_id": "image-img011-160x160-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img011-160x160.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 160
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "companyLogo": null
+        },
+        {
+          "_key": "quote-3",
+          "_type": "testimonial",
+          "quote": "Our legal team signed off in a week because there was nothing to argue about. No cookies, EU hosting, done.",
+          "authorName": "Lena Fischer",
+          "authorRole": "Data Protection Officer, Initech",
+          "avatar": {
+            "_type": "imageWithAlt",
+            "alt": "Lena Fischer",
+            "asset": {
+              "_id": "image-img012-160x160-png",
+              "url": "https://cdn.sanity.io/images/testproj/production/img012-160x160.png",
+              "mimeType": "image/png",
+              "extension": "png",
+              "metadata": {
+                "dimensions": {
+                  "width": 160,
+                  "height": 160
+                }
+              }
+            },
+            "crop": null,
+            "hotspot": null,
+            "image": null,
+            "video": null
+          },
+          "companyLogo": null
+        }
+      ],
+      "layout": "grid",
+      "theme": null,
+      "spacing": null,
+      "anchor": null
+    },
+    {
+      "_key": "blk-pricing",
+      "_type": "pricing",
+      "eyebrow": "Pricing",
+      "title": "Simple, event-based pricing",
+      "description": "Pay for what you track. Every plan includes unlimited seats.",
+      "plans": [
+        {
+          "_key": "plan-1",
+          "_type": "pricingPlan",
+          "name": "Starter",
+          "price": "$0",
+          "period": "/month",
+          "description": "For side projects and early experiments.",
+          "features": [
+            "100k events / month",
+            "1 project",
+            "30-day retention",
+            "Community support"
+          ],
+          "action": [
+            {
+              "_key": "plan-1-act",
+              "_type": "action",
+              "label": "Get started",
+              "href": "/signup",
+              "variant": "outline",
+              "icon": null
+            }
+          ],
+          "highlighted": null,
+          "badge": null
+        },
+        {
+          "_key": "plan-2",
+          "_type": "pricingPlan",
+          "name": "Growth",
+          "price": "$79",
+          "period": "/month",
+          "description": "For teams shipping every week.",
+          "features": [
+            "5M events / month",
+            "Unlimited projects",
+            "2-year retention",
+            "Funnels and retention",
+            "Email support"
+          ],
+          "action": [
+            {
+              "_key": "plan-2-act",
+              "_type": "action",
+              "label": "Start free trial",
+              "href": "/signup?plan=growth",
+              "variant": "default",
+              "icon": null
+            }
+          ],
+          "highlighted": true,
+          "badge": "Most popular"
+        },
+        {
+          "_key": "plan-3",
+          "_type": "pricingPlan",
+          "name": "Enterprise",
+          "price": "Custom",
+          "period": null,
+          "description": "For organisations with data residency and SSO needs.",
+          "features": [
+            "Unlimited events",
+            "SSO and SCIM",
+            "Dedicated region",
+            "99.99% SLA",
+            "Named account manager"
+          ],
+          "action": [
+            {
+              "_key": "plan-3-act",
+              "_type": "action",
+              "label": "Talk to sales",
+              "href": "/contact",
+              "variant": "outline",
+              "icon": null
+            }
+          ],
+          "highlighted": null,
+          "badge": null
+        }
+      ],
+      "theme": null,
+      "spacing": null,
+      "anchor": "pricing"
+    },
+    {
+      "_key": "blk-faq",
+      "_type": "faq",
+      "eyebrow": "FAQ",
+      "title": "Frequently asked questions",
+      "description": "Anything else? Our team answers within a business day.",
+      "items": [
+        {
+          "_key": "faq-1",
+          "_type": "faqItem",
+          "question": "Do I need a cookie banner?",
+          "answer": [
+            {
+              "_type": "block",
+              "_key": "b0",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "s00",
+                  "text": "No. Collection is anonymous by design and stores nothing on the visitor's device, so no consent prompt is required in the EU or UK.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_key": "faq-2",
+          "_type": "faqItem",
+          "question": "Can I import historical data?",
+          "answer": [
+            {
+              "_type": "block",
+              "_key": "b0",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "s00",
+                  "text": "Yes. Use the import API or the warehouse connector to backfill events. Imports count towards your monthly quota once, not every month.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_key": "faq-3",
+          "_type": "faqItem",
+          "question": "What happens if I go over my event limit?",
+          "answer": [
+            {
+              "_type": "block",
+              "_key": "b0",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "s00",
+                  "text": "We keep collecting and email you. You can upgrade at any time; we never drop events or lock you out.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_key": "faq-4",
+          "_type": "faqItem",
+          "question": "Is there a free plan?",
+          "answer": [
+            {
+              "_type": "block",
+              "_key": "b0",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "s00",
+                  "text": "The Starter plan is free forever for up to 100k events a month, with no credit card required.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "layout": "split",
+      "theme": null,
+      "spacing": null,
+      "anchor": null
+    },
+    {
+      "_key": "blk-cta",
+      "_type": "cta",
+      "eyebrow": null,
+      "title": "Start measuring what matters",
+      "description": "Free for up to 100k events a month. No credit card, no cookie banner.",
+      "actions": [
+        {
+          "_key": "act-1",
+          "_type": "action",
+          "label": "Start free trial",
+          "href": "/signup",
+          "variant": "default",
+          "icon": null
+        },
+        {
+          "_key": "act-4",
+          "_type": "action",
+          "label": "Talk to sales",
+          "href": "/contact",
+          "variant": "secondary",
+          "icon": null
+        }
+      ],
+      "layout": "centered",
+      "theme": "brand",
+      "spacing": null,
+      "anchor": null
+    }
+  ]
+}

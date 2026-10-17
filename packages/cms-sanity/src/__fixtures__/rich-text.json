@@ -1,0 +1,101 @@
+[
+  {
+    "_type": "block",
+    "_key": "heading",
+    "style": "h2",
+    "markDefs": [],
+    "children": [{ "_type": "span", "_key": "h1", "text": "Why event-based analytics", "marks": [] }]
+  },
+  {
+    "_type": "block",
+    "_key": "intro",
+    "style": "normal",
+    "markDefs": [{ "_key": "link1", "_type": "link", "href": "/docs/tracking-plan" }],
+    "children": [
+      { "_type": "span", "_key": "s1", "text": "Page views tell you where people went. ", "marks": [] },
+      { "_type": "span", "_key": "s2", "text": "Events", "marks": ["strong"] },
+      { "_type": "span", "_key": "s3", "text": " tell you what they did. Read the ", "marks": [] },
+      { "_type": "span", "_key": "s4", "text": "tracking plan guide", "marks": ["link1"] },
+      { "_type": "span", "_key": "s5", "text": " for the full checklist.", "marks": [] }
+    ]
+  },
+  {
+    "_type": "block",
+    "_key": "li1",
+    "style": "normal",
+    "listItem": "bullet",
+    "level": 1,
+    "markDefs": [],
+    "children": [{ "_type": "span", "_key": "t", "text": "Name events after what the user did.", "marks": [] }]
+  },
+  {
+    "_type": "block",
+    "_key": "li2",
+    "style": "normal",
+    "listItem": "bullet",
+    "level": 1,
+    "markDefs": [],
+    "children": [{ "_type": "span", "_key": "t", "text": "Attach properties generously.", "marks": [] }]
+  },
+  {
+    "_type": "block",
+    "_key": "li2a",
+    "style": "normal",
+    "listItem": "bullet",
+    "level": 2,
+    "markDefs": [],
+    "children": [{ "_type": "span", "_key": "t", "text": "Storage is cheap.", "marks": ["em"] }]
+  },
+  {
+    "_type": "block",
+    "_key": "num1",
+    "style": "normal",
+    "listItem": "number",
+    "level": 1,
+    "markDefs": [],
+    "children": [{ "_type": "span", "_key": "t", "text": "Version your definitions.", "marks": [] }]
+  },
+  {
+    "_type": "block",
+    "_key": "quote",
+    "style": "blockquote",
+    "markDefs": [],
+    "children": [
+      { "_type": "span", "_key": "q", "text": "The best tracking plan is the one your team actually follows.", "marks": ["em"] }
+    ]
+  },
+  {
+    "_type": "code",
+    "_key": "code",
+    "language": "ts",
+    "code": "track(\"checkout_completed\", {\n  plan: \"growth\",\n})"
+  },
+  {
+    "_type": "imageWithAlt",
+    "_key": "figure",
+    "alt": "Funnel chart",
+    "crop": null,
+    "hotspot": null,
+    "asset": {
+      "_id": "image-funnel-960x720-png",
+      "url": "https://cdn.sanity.io/images/testproj/production/funnel-960x720.png",
+      "mimeType": "image/png",
+      "extension": "png",
+      "metadata": { "dimensions": { "width": 960, "height": 720 } }
+    }
+  },
+  {
+    "_type": "block",
+    "_key": "multiline",
+    "style": "normal",
+    "markDefs": [{ "_key": "ext", "_type": "link", "href": "https://example.com/a" }],
+    "children": [
+      { "_type": "span", "_key": "m1", "text": "Line one\nLine two", "marks": ["code"] },
+      { "_type": "span", "_key": "m2", "text": " and a ", "marks": [] },
+      { "_type": "span", "_key": "m3", "text": "struck", "marks": ["strike-through", "underline"] },
+      { "_type": "span", "_key": "m4", "text": " link\nover two lines", "marks": ["ext"] }
+    ]
+  },
+  { "_type": "break", "_key": "hr" },
+  { "_type": "youtube", "_key": "unknown", "url": "https://youtube.com/watch?v=1" }
+]
