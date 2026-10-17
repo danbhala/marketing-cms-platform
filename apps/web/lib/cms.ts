@@ -1,6 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache"
 
-import { tags } from "@platform/cms-core/tags"
+import { tags, uniqueTags } from "@platform/cms-core/tags"
 import type { Page, SiteSettings } from "@platform/content-model"
 
 import { getAdapter } from "@/cms.config"
@@ -17,8 +17,22 @@ export async function getPublishedPage(locale: string, path: string): Promise<Pa
   cacheTag(tags.page(locale, path), tags.type("page"))
   const adapter = await getAdapter()
   const page = await adapter.getPage(path, { locale, draft: false })
-  if (page) cacheTag(tags.entry(page.id), ...page.blocks.map((block) => tags.entry(block.id)))
+  if (page) cacheTag(...uniqueTags(collectIds(page).map(tags.entry)))
   return page
+}
+
+/**
+ * Every `id` in the page tree, nested items included, so a webhook for an
+ * item edited inside a block (an action in a hero) still hits this page.
+ */
+function collectIds(node: unknown, out: string[] = []): string[] {
+  if (Array.isArray(node)) node.forEach((child) => collectIds(child, out))
+  else if (node && typeof node === "object") {
+    const record = node as Record<string, unknown>
+    if (typeof record.id === "string" && typeof record.type === "string") out.push(record.id)
+    for (const value of Object.values(record)) if (value && typeof value === "object") collectIds(value, out)
+  }
+  return out
 }
 
 export async function getPublishedSettings(locale: string): Promise<SiteSettings | null> {

@@ -1,5 +1,7 @@
 "use client"
 
+import type { Route } from "next"
+
 import * as React from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -33,8 +35,9 @@ export default function SanityPreviewBridge({ ctx }: PreviewBridgeProps) {
           }
         },
         update(update) {
-          if (update.type === "push") router.push(update.url)
-          else if (update.type === "replace") router.replace(update.url)
+          // Typed routes in the app reject plain strings; Studio-driven URLs are on-site by construction.
+          if (update.type === "push") router.push(update.url as Route)
+          else if (update.type === "replace") router.replace(update.url as Route)
           else if (update.type === "pop") router.back()
         },
       },

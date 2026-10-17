@@ -19,7 +19,8 @@ export async function GET(request: Request) {
   const url = new URL(request.url)
   url.searchParams.delete("secret")
   url.searchParams.delete("path")
-  const locale = url.searchParams.get("locale") ?? siteConfig.defaultLocale
+  // Editors name the locale differently (Optimizely sends `loc`); the app only needs the segment.
+  const locale = url.searchParams.get("locale") ?? url.searchParams.get("loc") ?? siteConfig.defaultLocale
   const query = url.searchParams.toString()
   redirect(`/${locale}${entry.path === "/" ? "" : entry.path}${query ? `?${query}` : ""}` as Route)
 }
