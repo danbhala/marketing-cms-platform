@@ -1,0 +1,3041 @@
+{
+  "components": [
+    {
+      "name": "page",
+      "display_name": "Page",
+      "is_root": true,
+      "is_nestable": false,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title",
+          "required": true
+        },
+        "seoTitle": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Seo title",
+          "max_length": 70
+        },
+        "seoDescription": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Seo description"
+        },
+        "ogImage": {
+          "type": "asset",
+          "pos": 3,
+          "display_name": "Og image",
+          "filetypes": [
+            "images"
+          ]
+        },
+        "noIndex": {
+          "type": "boolean",
+          "pos": 4,
+          "display_name": "No index"
+        },
+        "hideBreadcrumbs": {
+          "type": "boolean",
+          "pos": 5,
+          "display_name": "Hide breadcrumbs",
+          "description": "Breadcrumbs show on every page except the home page unless hidden."
+        },
+        "theme": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Theme",
+          "description": "Theme applied to the whole page.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "blocks": {
+          "type": "bloks",
+          "pos": 7,
+          "display_name": "Blocks",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "hero",
+            "logoCloud",
+            "featureGrid",
+            "featureSplit",
+            "stats",
+            "testimonials",
+            "pricing",
+            "comparisonTable",
+            "faq",
+            "cta",
+            "cardGrid",
+            "teamGrid",
+            "steps",
+            "tabs",
+            "richText",
+            "media",
+            "form"
+          ]
+        }
+      }
+    },
+    {
+      "name": "siteSettings",
+      "display_name": "Site settings",
+      "is_root": true,
+      "is_nestable": false,
+      "preview_field": "siteName",
+      "schema": {
+        "siteName": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Site name",
+          "required": true
+        },
+        "logo": {
+          "type": "asset",
+          "pos": 1,
+          "display_name": "Logo",
+          "filetypes": [
+            "images"
+          ]
+        },
+        "announcementText": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Announcement text"
+        },
+        "announcementHref": {
+          "type": "multilink",
+          "pos": 3,
+          "display_name": "Announcement href",
+          "allow_target_blank": true
+        },
+        "announcementLinkLabel": {
+          "type": "text",
+          "pos": 4,
+          "display_name": "Announcement link label"
+        },
+        "navigation": {
+          "type": "bloks",
+          "pos": 5,
+          "display_name": "Navigation",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "navGroup"
+          ]
+        },
+        "headerActions": {
+          "type": "bloks",
+          "pos": 6,
+          "display_name": "Header actions",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "action"
+          ],
+          "maximum": 2
+        },
+        "footerColumns": {
+          "type": "bloks",
+          "pos": 7,
+          "display_name": "Footer columns",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "footerColumn"
+          ]
+        },
+        "footerNote": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Footer note"
+        },
+        "socialLinks": {
+          "type": "bloks",
+          "pos": 9,
+          "display_name": "Social links",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "socialLink"
+          ]
+        }
+      }
+    },
+    {
+      "name": "hero",
+      "display_name": "Hero",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title",
+          "required": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "actions": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Actions",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "action"
+          ],
+          "maximum": 3
+        },
+        "media": {
+          "type": "asset",
+          "pos": 4,
+          "display_name": "Media",
+          "filetypes": [
+            "images",
+            "videos"
+          ]
+        },
+        "layout": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Layout",
+          "options": [
+            {
+              "name": "Centered",
+              "value": "centered"
+            },
+            {
+              "name": "Split",
+              "value": "split"
+            },
+            {
+              "name": "Split reverse",
+              "value": "splitReverse"
+            },
+            {
+              "name": "Background",
+              "value": "background"
+            }
+          ],
+          "default_value": "centered"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 7,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "logoCloud",
+      "display_name": "Logo cloud",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title"
+        },
+        "logos": {
+          "type": "bloks",
+          "pos": 1,
+          "display_name": "Logos",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "logo"
+          ]
+        },
+        "layout": {
+          "type": "option",
+          "pos": 2,
+          "display_name": "Layout",
+          "options": [
+            {
+              "name": "Row",
+              "value": "row"
+            },
+            {
+              "name": "Grid",
+              "value": "grid"
+            }
+          ],
+          "default_value": "row"
+        },
+        "grayscale": {
+          "type": "boolean",
+          "pos": 3,
+          "display_name": "Grayscale"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 6,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "featureGrid",
+      "display_name": "Feature grid",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "features": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Features",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "featureItem"
+          ]
+        },
+        "columns": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Columns",
+          "options": [
+            {
+              "name": "2",
+              "value": "2"
+            },
+            {
+              "name": "3",
+              "value": "3"
+            },
+            {
+              "name": "4",
+              "value": "4"
+            }
+          ],
+          "default_value": "3"
+        },
+        "itemStyle": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Item style",
+          "options": [
+            {
+              "name": "Plain",
+              "value": "plain"
+            },
+            {
+              "name": "Card",
+              "value": "card"
+            }
+          ],
+          "default_value": "plain"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 7,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "featureSplit",
+      "display_name": "Feature split",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title",
+          "required": true
+        },
+        "body": {
+          "type": "richtext",
+          "pos": 2,
+          "display_name": "Body"
+        },
+        "bullets": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Bullets",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "textItem"
+          ]
+        },
+        "actions": {
+          "type": "bloks",
+          "pos": 4,
+          "display_name": "Actions",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "action"
+          ],
+          "maximum": 2
+        },
+        "media": {
+          "type": "asset",
+          "pos": 5,
+          "display_name": "Media",
+          "filetypes": [
+            "images",
+            "videos"
+          ]
+        },
+        "mediaPosition": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Media position",
+          "options": [
+            {
+              "name": "Right",
+              "value": "right"
+            },
+            {
+              "name": "Left",
+              "value": "left"
+            }
+          ],
+          "default_value": "right"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 7,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 8,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 9,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "stats",
+      "display_name": "Stats",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "stats": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Stats",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "stat"
+          ]
+        },
+        "columns": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Columns",
+          "options": [
+            {
+              "name": "2",
+              "value": "2"
+            },
+            {
+              "name": "3",
+              "value": "3"
+            },
+            {
+              "name": "4",
+              "value": "4"
+            }
+          ],
+          "default_value": "3"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "testimonials",
+      "display_name": "Testimonials",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "testimonials": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Testimonials",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "testimonial"
+          ]
+        },
+        "layout": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Layout",
+          "options": [
+            {
+              "name": "Grid",
+              "value": "grid"
+            },
+            {
+              "name": "Featured",
+              "value": "featured"
+            }
+          ],
+          "default_value": "grid"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "pricing",
+      "display_name": "Pricing table",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "plans": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Plans",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "pricingPlan"
+          ],
+          "maximum": 4
+        },
+        "theme": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 6,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "comparisonTable",
+      "display_name": "Comparison table",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "columns": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Columns",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "comparisonColumn"
+          ]
+        },
+        "rows": {
+          "type": "bloks",
+          "pos": 4,
+          "display_name": "Rows",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "comparisonRow"
+          ]
+        },
+        "theme": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "faq",
+      "display_name": "FAQ",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "items": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Items",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "faqItem"
+          ]
+        },
+        "layout": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Layout",
+          "options": [
+            {
+              "name": "Single",
+              "value": "single"
+            },
+            {
+              "name": "Split",
+              "value": "split"
+            }
+          ],
+          "default_value": "single"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "cta",
+      "display_name": "Call to action",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title",
+          "required": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "actions": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Actions",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "action"
+          ],
+          "maximum": 2
+        },
+        "layout": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Layout",
+          "options": [
+            {
+              "name": "Centered",
+              "value": "centered"
+            },
+            {
+              "name": "Split",
+              "value": "split"
+            }
+          ],
+          "default_value": "centered"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "cardGrid",
+      "display_name": "Card grid",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "cards": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Cards",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "card"
+          ]
+        },
+        "columns": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Columns",
+          "options": [
+            {
+              "name": "2",
+              "value": "2"
+            },
+            {
+              "name": "3",
+              "value": "3"
+            },
+            {
+              "name": "4",
+              "value": "4"
+            }
+          ],
+          "default_value": "3"
+        },
+        "actions": {
+          "type": "bloks",
+          "pos": 5,
+          "display_name": "Actions",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "action"
+          ],
+          "maximum": 1
+        },
+        "theme": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 7,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "teamGrid",
+      "display_name": "Team grid",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "people": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "People",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "person"
+          ]
+        },
+        "columns": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Columns",
+          "options": [
+            {
+              "name": "3",
+              "value": "3"
+            },
+            {
+              "name": "4",
+              "value": "4"
+            }
+          ],
+          "default_value": "4"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "steps",
+      "display_name": "Steps",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "steps": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Steps",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "step"
+          ]
+        },
+        "orientation": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Orientation",
+          "options": [
+            {
+              "name": "Horizontal",
+              "value": "horizontal"
+            },
+            {
+              "name": "Vertical",
+              "value": "vertical"
+            }
+          ],
+          "default_value": "horizontal"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "tabs",
+      "display_name": "Tabbed content",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "tabs": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Tabs",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "tab"
+          ]
+        },
+        "theme": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 6,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "richText",
+      "display_name": "Rich text",
+      "is_root": false,
+      "is_nestable": true,
+      "schema": {
+        "body": {
+          "type": "richtext",
+          "pos": 0,
+          "display_name": "Body",
+          "required": true
+        },
+        "width": {
+          "type": "option",
+          "pos": 1,
+          "display_name": "Width",
+          "options": [
+            {
+              "name": "Prose",
+              "value": "prose"
+            },
+            {
+              "name": "Full",
+              "value": "full"
+            }
+          ],
+          "default_value": "prose"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 2,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 3,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 4,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "media",
+      "display_name": "Media",
+      "is_root": false,
+      "is_nestable": true,
+      "schema": {
+        "media": {
+          "type": "asset",
+          "pos": 0,
+          "display_name": "Media",
+          "required": true,
+          "filetypes": [
+            "images",
+            "videos"
+          ]
+        },
+        "caption": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Caption"
+        },
+        "width": {
+          "type": "option",
+          "pos": 2,
+          "display_name": "Width",
+          "options": [
+            {
+              "name": "Contained",
+              "value": "contained"
+            },
+            {
+              "name": "Full",
+              "value": "full"
+            }
+          ],
+          "default_value": "contained"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 3,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 5,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "form",
+      "display_name": "Form",
+      "description": "Newsletter or contact form. Posts JSON to the endpoint in 'action'.",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "fields": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Fields",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "formField"
+          ]
+        },
+        "submitLabel": {
+          "type": "text",
+          "pos": 4,
+          "display_name": "Submit label",
+          "required": true
+        },
+        "endpoint": {
+          "type": "multilink",
+          "pos": 5,
+          "display_name": "Endpoint",
+          "description": "Where the form posts to.",
+          "allow_target_blank": true
+        },
+        "successMessage": {
+          "type": "text",
+          "pos": 6,
+          "display_name": "Success message"
+        },
+        "consent": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Consent",
+          "description": "Small print under the form."
+        },
+        "layout": {
+          "type": "option",
+          "pos": 8,
+          "display_name": "Layout",
+          "options": [
+            {
+              "name": "Stacked",
+              "value": "stacked"
+            },
+            {
+              "name": "Inline",
+              "value": "inline"
+            }
+          ],
+          "default_value": "stacked"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 9,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 10,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 11,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        }
+      }
+    },
+    {
+      "name": "action",
+      "display_name": "Action",
+      "description": "A call-to-action link rendered as a button.",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "label",
+      "schema": {
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Label",
+          "required": true
+        },
+        "href": {
+          "type": "multilink",
+          "pos": 1,
+          "display_name": "Href",
+          "required": true,
+          "allow_target_blank": true
+        },
+        "variant": {
+          "type": "option",
+          "pos": 2,
+          "display_name": "Variant",
+          "options": [
+            {
+              "name": "Default",
+              "value": "default"
+            },
+            {
+              "name": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "name": "Outline",
+              "value": "outline"
+            },
+            {
+              "name": "Ghost",
+              "value": "ghost"
+            },
+            {
+              "name": "Link",
+              "value": "link"
+            }
+          ],
+          "default_value": "default"
+        },
+        "icon": {
+          "type": "text",
+          "pos": 3,
+          "display_name": "Icon",
+          "description": "Lucide icon name, e.g. arrow-right."
+        }
+      }
+    },
+    {
+      "name": "featureItem",
+      "display_name": "Feature",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "icon": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Icon",
+          "description": "Lucide icon name, e.g. arrow-right."
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title",
+          "required": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "href": {
+          "type": "multilink",
+          "pos": 3,
+          "display_name": "Href",
+          "allow_target_blank": true
+        }
+      }
+    },
+    {
+      "name": "logo",
+      "display_name": "Logo",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "name",
+      "schema": {
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Name",
+          "required": true
+        },
+        "image": {
+          "type": "asset",
+          "pos": 1,
+          "display_name": "Image",
+          "required": true,
+          "filetypes": [
+            "images"
+          ]
+        },
+        "href": {
+          "type": "multilink",
+          "pos": 2,
+          "display_name": "Href",
+          "allow_target_blank": true
+        }
+      }
+    },
+    {
+      "name": "stat",
+      "display_name": "Stat",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "label",
+      "schema": {
+        "value": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Value",
+          "required": true
+        },
+        "label": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Label",
+          "required": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        }
+      }
+    },
+    {
+      "name": "testimonial",
+      "display_name": "Testimonial",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "quote",
+      "schema": {
+        "quote": {
+          "type": "textarea",
+          "pos": 0,
+          "display_name": "Quote",
+          "required": true
+        },
+        "authorName": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Author name",
+          "required": true
+        },
+        "authorRole": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Author role"
+        },
+        "avatar": {
+          "type": "asset",
+          "pos": 3,
+          "display_name": "Avatar",
+          "filetypes": [
+            "images"
+          ]
+        },
+        "companyLogo": {
+          "type": "asset",
+          "pos": 4,
+          "display_name": "Company logo",
+          "filetypes": [
+            "images"
+          ]
+        }
+      }
+    },
+    {
+      "name": "pricingPlan",
+      "display_name": "Pricing plan",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "name",
+      "schema": {
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Name",
+          "required": true
+        },
+        "price": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Price",
+          "required": true
+        },
+        "period": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Period",
+          "description": "e.g. /month"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 3,
+          "display_name": "Description"
+        },
+        "features": {
+          "type": "bloks",
+          "pos": 4,
+          "display_name": "Features",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "textItem"
+          ]
+        },
+        "action": {
+          "type": "bloks",
+          "pos": 5,
+          "display_name": "Action",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "action"
+          ],
+          "maximum": 1
+        },
+        "highlighted": {
+          "type": "boolean",
+          "pos": 6,
+          "display_name": "Highlighted"
+        },
+        "badge": {
+          "type": "text",
+          "pos": 7,
+          "display_name": "Badge"
+        }
+      }
+    },
+    {
+      "name": "comparisonColumn",
+      "display_name": "Comparison column",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "label",
+      "schema": {
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Label",
+          "required": true
+        },
+        "highlighted": {
+          "type": "boolean",
+          "pos": 1,
+          "display_name": "Highlighted"
+        }
+      }
+    },
+    {
+      "name": "comparisonRow",
+      "display_name": "Comparison row",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "label",
+      "schema": {
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Label",
+          "required": true
+        },
+        "values": {
+          "type": "bloks",
+          "pos": 1,
+          "display_name": "Values",
+          "description": "One value per column. Use 'yes' / 'no' for check and cross icons.",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "textItem"
+          ]
+        }
+      }
+    },
+    {
+      "name": "faqItem",
+      "display_name": "FAQ item",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "question",
+      "schema": {
+        "question": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Question",
+          "required": true
+        },
+        "answer": {
+          "type": "richtext",
+          "pos": 1,
+          "display_name": "Answer",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "card",
+      "display_name": "Card",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title",
+          "required": true
+        },
+        "excerpt": {
+          "type": "textarea",
+          "pos": 1,
+          "display_name": "Excerpt"
+        },
+        "eyebrow": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Eyebrow"
+        },
+        "meta": {
+          "type": "text",
+          "pos": 3,
+          "display_name": "Meta",
+          "description": "e.g. date or reading time"
+        },
+        "image": {
+          "type": "asset",
+          "pos": 4,
+          "display_name": "Image",
+          "filetypes": [
+            "images"
+          ]
+        },
+        "href": {
+          "type": "multilink",
+          "pos": 5,
+          "display_name": "Href",
+          "allow_target_blank": true
+        }
+      }
+    },
+    {
+      "name": "person",
+      "display_name": "Person",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "name",
+      "schema": {
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Name",
+          "required": true
+        },
+        "role": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Role"
+        },
+        "bio": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Bio"
+        },
+        "image": {
+          "type": "asset",
+          "pos": 3,
+          "display_name": "Image",
+          "filetypes": [
+            "images"
+          ]
+        }
+      }
+    },
+    {
+      "name": "step",
+      "display_name": "Step",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title",
+          "required": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 1,
+          "display_name": "Description"
+        }
+      }
+    },
+    {
+      "name": "tab",
+      "display_name": "Tab",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "label",
+      "schema": {
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Label",
+          "required": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "body": {
+          "type": "richtext",
+          "pos": 2,
+          "display_name": "Body"
+        },
+        "media": {
+          "type": "asset",
+          "pos": 3,
+          "display_name": "Media",
+          "filetypes": [
+            "images",
+            "videos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "formField",
+      "display_name": "Form field",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "name",
+      "schema": {
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Name",
+          "required": true
+        },
+        "label": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Label",
+          "required": true
+        },
+        "inputType": {
+          "type": "option",
+          "pos": 2,
+          "display_name": "Input type",
+          "required": true,
+          "options": [
+            {
+              "name": "Text",
+              "value": "text"
+            },
+            {
+              "name": "Email",
+              "value": "email"
+            },
+            {
+              "name": "Tel",
+              "value": "tel"
+            },
+            {
+              "name": "Textarea",
+              "value": "textarea"
+            },
+            {
+              "name": "Select",
+              "value": "select"
+            },
+            {
+              "name": "Checkbox",
+              "value": "checkbox"
+            }
+          ],
+          "default_value": "text"
+        },
+        "placeholder": {
+          "type": "text",
+          "pos": 3,
+          "display_name": "Placeholder"
+        },
+        "required": {
+          "type": "boolean",
+          "pos": 4,
+          "display_name": "Required"
+        },
+        "options": {
+          "type": "bloks",
+          "pos": 5,
+          "display_name": "Options",
+          "description": "Options for select fields.",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "textItem"
+          ]
+        }
+      }
+    },
+    {
+      "name": "navLink",
+      "display_name": "Navigation link",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "label",
+      "schema": {
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Label",
+          "required": true
+        },
+        "href": {
+          "type": "multilink",
+          "pos": 1,
+          "display_name": "Href",
+          "required": true,
+          "allow_target_blank": true
+        },
+        "description": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Description"
+        }
+      }
+    },
+    {
+      "name": "navGroup",
+      "display_name": "Navigation group",
+      "description": "A top-level navigation entry. With links it renders as a dropdown.",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "label",
+      "schema": {
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Label",
+          "required": true
+        },
+        "href": {
+          "type": "multilink",
+          "pos": 1,
+          "display_name": "Href",
+          "allow_target_blank": true
+        },
+        "links": {
+          "type": "bloks",
+          "pos": 2,
+          "display_name": "Links",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "navLink"
+          ]
+        }
+      }
+    },
+    {
+      "name": "footerColumn",
+      "display_name": "Footer column",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title",
+          "required": true
+        },
+        "links": {
+          "type": "bloks",
+          "pos": 1,
+          "display_name": "Links",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "navLink"
+          ]
+        }
+      }
+    },
+    {
+      "name": "socialLink",
+      "display_name": "Social link",
+      "is_root": false,
+      "is_nestable": true,
+      "schema": {
+        "platform": {
+          "type": "option",
+          "pos": 0,
+          "display_name": "Platform",
+          "required": true,
+          "options": [
+            {
+              "name": "X",
+              "value": "x"
+            },
+            {
+              "name": "Linkedin",
+              "value": "linkedin"
+            },
+            {
+              "name": "Github",
+              "value": "github"
+            },
+            {
+              "name": "Youtube",
+              "value": "youtube"
+            },
+            {
+              "name": "Instagram",
+              "value": "instagram"
+            },
+            {
+              "name": "Facebook",
+              "value": "facebook"
+            }
+          ]
+        },
+        "href": {
+          "type": "multilink",
+          "pos": 1,
+          "display_name": "Href",
+          "required": true,
+          "allow_target_blank": true
+        }
+      }
+    },
+    {
+      "name": "textItem",
+      "display_name": "Text item",
+      "description": "One entry of a text list.",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "text",
+      "schema": {
+        "text": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Text",
+          "required": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "extends": "@platform/typescript-config/react-library.json",
+  "compilerOptions": {
+    "paths": { "@platform/ui/*": ["./src/*"] },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": ["src", ".storybook", "*.ts"],
+  "exclude": ["node_modules", "dist", "storybook-static"]
+}

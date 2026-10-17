@@ -1,0 +1,39 @@
+import { defineDocument, field } from "../fields";
+import { themeNames } from "../themes";
+import { allBlocks } from "./blocks";
+import { action, footerColumn, navGroup, socialLink } from "./items";
+
+export const page = defineDocument("page", {
+  label: "Page",
+  routable: true,
+  fields: {
+    title: field.text({ required: true }),
+    path: field.text({ required: true, description: "URL path, e.g. /pricing. The home page is /." }),
+    seoTitle: field.text({ maxLength: 70 }),
+    seoDescription: field.textarea(),
+    ogImage: field.media(),
+    noIndex: field.boolean(),
+    hideBreadcrumbs: field.boolean({ description: "Breadcrumbs show on every page except the home page unless hidden." }),
+    theme: field.select(themeNames, { description: "Theme applied to the whole page." }),
+    blocks: field.blocks(allBlocks),
+  },
+});
+
+export const siteSettings = defineDocument("siteSettings", {
+  label: "Site settings",
+  singleton: true,
+  fields: {
+    siteName: field.text({ required: true }),
+    logo: field.media(),
+    announcementText: field.text(),
+    announcementHref: field.link(),
+    announcementLinkLabel: field.text(),
+    navigation: field.items([navGroup]),
+    headerActions: field.items([action], { max: 2 }),
+    footerColumns: field.items([footerColumn]),
+    footerNote: field.text(),
+    socialLinks: field.items([socialLink]),
+  },
+});
+
+export const allDocuments = [page, siteSettings] as const;

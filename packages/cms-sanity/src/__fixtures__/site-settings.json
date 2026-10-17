@@ -1,0 +1,236 @@
+{
+  "_id": "site",
+  "_type": "siteSettings",
+  "siteName": "Metrica",
+  "logo": null,
+  "announcementText": "October release: cohorts and alerts are live.",
+  "announcementHref": "/blog/october",
+  "announcementLinkLabel": "Read the changelog",
+  "navigation": [
+    {
+      "_key": "nav-product",
+      "_type": "navGroup",
+      "label": "Product",
+      "href": null,
+      "links": [
+        {
+          "_key": "nav-1",
+          "_type": "navLink",
+          "label": "Dashboards",
+          "href": "/product/dashboards",
+          "description": "Real-time, shareable, boring in the best way."
+        },
+        {
+          "_key": "nav-2",
+          "_type": "navLink",
+          "label": "Funnels",
+          "href": "/product/funnels",
+          "description": "Versioned so last quarter still makes sense."
+        },
+        {
+          "_key": "nav-3",
+          "_type": "navLink",
+          "label": "Integrations",
+          "href": "/integrations",
+          "description": "Warehouses, CDPs and 60 more."
+        }
+      ]
+    },
+    {
+      "_key": "nav-pricing",
+      "_type": "navGroup",
+      "label": "Pricing",
+      "href": "/pricing",
+      "links": []
+    },
+    {
+      "_key": "nav-resources",
+      "_type": "navGroup",
+      "label": "Resources",
+      "href": null,
+      "links": [
+        {
+          "_key": "nav-4",
+          "_type": "navLink",
+          "label": "Blog",
+          "href": "/blog",
+          "description": null
+        },
+        {
+          "_key": "nav-5",
+          "_type": "navLink",
+          "label": "Docs",
+          "href": "/docs",
+          "description": null
+        },
+        {
+          "_key": "nav-6",
+          "_type": "navLink",
+          "label": "Changelog",
+          "href": "/changelog",
+          "description": null
+        }
+      ]
+    },
+    {
+      "_key": "nav-about",
+      "_type": "navGroup",
+      "label": "About",
+      "href": "/about",
+      "links": []
+    }
+  ],
+  "headerActions": [
+    {
+      "_key": "hdr-1",
+      "_type": "action",
+      "label": "Sign in",
+      "href": "/login",
+      "variant": "ghost",
+      "icon": null
+    },
+    {
+      "_key": "hdr-2",
+      "_type": "action",
+      "label": "Start free",
+      "href": "/signup",
+      "variant": "default",
+      "icon": null
+    }
+  ],
+  "footerColumns": [
+    {
+      "_key": "fc-1",
+      "_type": "footerColumn",
+      "title": "Product",
+      "links": [
+        {
+          "_key": "fl-1",
+          "_type": "navLink",
+          "label": "Dashboards",
+          "href": "/product/dashboards",
+          "description": null
+        },
+        {
+          "_key": "fl-2",
+          "_type": "navLink",
+          "label": "Funnels",
+          "href": "/product/funnels",
+          "description": null
+        },
+        {
+          "_key": "fl-3",
+          "_type": "navLink",
+          "label": "Pricing",
+          "href": "/pricing",
+          "description": null
+        }
+      ]
+    },
+    {
+      "_key": "fc-2",
+      "_type": "footerColumn",
+      "title": "Company",
+      "links": [
+        {
+          "_key": "fl-4",
+          "_type": "navLink",
+          "label": "About",
+          "href": "/about",
+          "description": null
+        },
+        {
+          "_key": "fl-5",
+          "_type": "navLink",
+          "label": "Careers",
+          "href": "/careers",
+          "description": null
+        },
+        {
+          "_key": "fl-6",
+          "_type": "navLink",
+          "label": "Contact",
+          "href": "/contact",
+          "description": null
+        }
+      ]
+    },
+    {
+      "_key": "fc-3",
+      "_type": "footerColumn",
+      "title": "Resources",
+      "links": [
+        {
+          "_key": "fl-7",
+          "_type": "navLink",
+          "label": "Blog",
+          "href": "/blog",
+          "description": null
+        },
+        {
+          "_key": "fl-8",
+          "_type": "navLink",
+          "label": "Docs",
+          "href": "/docs",
+          "description": null
+        },
+        {
+          "_key": "fl-9",
+          "_type": "navLink",
+          "label": "Status",
+          "href": "https://status.example.com",
+          "description": null
+        }
+      ]
+    },
+    {
+      "_key": "fc-4",
+      "_type": "footerColumn",
+      "title": "Legal",
+      "links": [
+        {
+          "_key": "fl-10",
+          "_type": "navLink",
+          "label": "Privacy",
+          "href": "/legal/privacy",
+          "description": null
+        },
+        {
+          "_key": "fl-11",
+          "_type": "navLink",
+          "label": "Terms",
+          "href": "/legal/terms",
+          "description": null
+        },
+        {
+          "_key": "fl-12",
+          "_type": "navLink",
+          "label": "DPA",
+          "href": "/legal/dpa",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "footerNote": "© 2026 Metrica, Inc. All rights reserved.",
+  "socialLinks": [
+    {
+      "_key": "soc-1",
+      "_type": "socialLink",
+      "platform": "x",
+      "href": "https://x.com/example"
+    },
+    {
+      "_key": "soc-2",
+      "_type": "socialLink",
+      "platform": "linkedin",
+      "href": "https://linkedin.com/company/example"
+    },
+    {
+      "_key": "soc-3",
+      "_type": "socialLink",
+      "platform": "github",
+      "href": "https://github.com/example"
+    }
+  ]
+}

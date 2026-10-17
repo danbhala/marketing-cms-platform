@@ -1,0 +1,43 @@
+{
+  "name": "@platform/cms-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Adapter contract, provider resolver, cache tags, preview and edit-attribute helpers. The only CMS package the app imports.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./edit": "./src/edit.ts",
+    "./tags": "./src/tags.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@platform/content-model": "workspace:*",
+    "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "next": "catalog:",
+    "react": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@platform/eslint-config": "workspace:*",
+    "@platform/typescript-config": "workspace:*",
+    "@types/react": "catalog:",
+    "eslint": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

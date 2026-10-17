@@ -1,0 +1,50 @@
+---
+title: Caching
+description: "Cache Components, 'use cache', tags, and the one webhook endpoint that invalidates them."
+---
+
+The app uses Next.js 16 **Cache Components** (`cacheComponents: true`). Static shells are prerendered; published content is read through `'use cache'` functions in `apps/web/lib/cms.ts`:
+
+```ts
+export async function getPublishedPage(locale: string, path: string) {
+  "use cache"
+  cacheLife("max")
+  cacheTag(tags.page(locale, path), tags.type("page"))
+  const page = await (await getAdapter()).getPage(path, { locale, draft: false })
+  if (page) cacheTag(tags.entry(page.id), ...page.blocks.map((b) => tags.entry(b.id)))
+  return page
+}
+```
+
+## Tag scheme
+
+Defined once in `@platform/cms-core/tags` so adapters and the app agree:
+
+| Tag | Invalidates |
+| --- | --- |
+| `cms:page:{locale}:{path}` | One rendered page |
+| `cms:entry:{id}` | Every page that embeds that entry (blocks, items) |
+| `cms:type:{type}` | All entries of a type (e.g. all cards after a new post) |
+| `cms:global:{locale}` | Site settings: navigation, footer |
+| `cms:paths:{locale}` | The list of routable paths (`generateStaticParams`, sitemap) |
+
+## Revalidation
+
+`POST /api/revalidate` is the only webhook endpoint. The configured adapter verifies the request (signature or shared secret) and maps the payload to tags; the route calls `revalidateTag(tag, "max")` for each, which serves the stale page while the fresh one is built.
+
+```bash
+curl -X POST http://localhost:3000/api/revalidate \
+  -H "x-revalidate-secret: change-me" -H "content-type: application/json" \
+  -d '{"paths":["/pricing"]}'
+# {"ok":true,"revalidated":["cms:page:en:/pricing"]}
+```
+
+Each CMS page in [CMS adapters](/docs/cms) shows how to register that URL in the CMS.
+
+## Draft mode and caches
+
+Draft Mode bypasses every `'use cache'` function automatically. The page reads the adapter directly in draft, with the CMS preview context from the URL, so editors always see fresh drafts without touching the published cache.
+
+## Self-hosting
+
+The default cache store is in-memory per instance. For several instances, configure a shared cache handler (`cacheHandlers` in `next.config.ts`) or `'use cache: remote'`; the tag scheme is unchanged.

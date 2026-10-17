@@ -1,0 +1,9 @@
+/* One Tailwind instance for the docs chrome and the embedded UI components. */
+@import "@platform/ui/globals.css";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+@source "../node_modules/fumadocs-ui/dist/**/*.js";
+@source "../app";
+@source "../components";
+@source "../content";

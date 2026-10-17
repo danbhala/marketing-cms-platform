@@ -1,0 +1,26 @@
+{
+  "name": "@platform/content-model",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Canonical content shape every CMS is normalised into, and the single source of truth for block field definitions.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./fixtures": "./src/fixtures/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@platform/eslint-config": "workspace:*",
+    "@platform/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

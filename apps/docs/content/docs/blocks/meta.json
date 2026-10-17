@@ -1,0 +1,23 @@
+{
+  "title": "Blocks",
+  "pages": [
+    "index",
+    "hero",
+    "logoCloud",
+    "featureGrid",
+    "featureSplit",
+    "stats",
+    "testimonials",
+    "pricing",
+    "comparisonTable",
+    "faq",
+    "cta",
+    "cardGrid",
+    "teamGrid",
+    "steps",
+    "tabs",
+    "richText",
+    "media",
+    "form"
+  ]
+}

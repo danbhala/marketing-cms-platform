@@ -1,0 +1,4000 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`schema generator > is stable 1`] = `
+"[
+  {
+    "id": "action",
+    "name": "Action",
+    "description": "A call-to-action link rendered as a button.",
+    "displayField": "label",
+    "fields": [
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "href",
+        "name": "Href",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "variant",
+        "name": "Variant",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "default",
+              "secondary",
+              "outline",
+              "ghost",
+              "link"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "default"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "icon",
+        "name": "Icon",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "featureItem",
+    "name": "Feature",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "icon",
+        "name": "Icon",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "href",
+        "name": "Href",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "logo",
+    "name": "Logo",
+    "displayField": "name",
+    "fields": [
+      {
+        "id": "name",
+        "name": "Name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "image",
+        "name": "Image",
+        "type": "Link",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "href",
+        "name": "Href",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "stat",
+    "name": "Stat",
+    "displayField": "value",
+    "fields": [
+      {
+        "id": "value",
+        "name": "Value",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "testimonial",
+    "name": "Testimonial",
+    "displayField": "authorName",
+    "fields": [
+      {
+        "id": "quote",
+        "name": "Quote",
+        "type": "Text",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "authorName",
+        "name": "Author name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "authorRole",
+        "name": "Author role",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "avatar",
+        "name": "Avatar",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "companyLogo",
+        "name": "Company logo",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "pricingPlan",
+    "name": "Pricing plan",
+    "displayField": "name",
+    "fields": [
+      {
+        "id": "name",
+        "name": "Name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "price",
+        "name": "Price",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "period",
+        "name": "Period",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "e.g. /month"
+          }
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "features",
+        "name": "Features",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Symbol"
+        },
+        "editor": {
+          "widgetId": "tagEditor"
+        }
+      },
+      {
+        "id": "action",
+        "name": "Action",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 1
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "highlighted",
+        "name": "Highlighted",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean"
+        }
+      },
+      {
+        "id": "badge",
+        "name": "Badge",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "comparisonColumn",
+    "name": "Comparison column",
+    "displayField": "label",
+    "fields": [
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "highlighted",
+        "name": "Highlighted",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "id": "comparisonRow",
+    "name": "Comparison row",
+    "displayField": "label",
+    "fields": [
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "values",
+        "name": "Values",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Symbol"
+        },
+        "editor": {
+          "widgetId": "tagEditor",
+          "settings": {
+            "helpText": "One value per column. Use 'yes' / 'no' for check and cross icons."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "faqItem",
+    "name": "FAQ item",
+    "displayField": "question",
+    "fields": [
+      {
+        "id": "question",
+        "name": "Question",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "answer",
+        "name": "Answer",
+        "type": "RichText",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "enabledNodeTypes": [
+              "heading-2",
+              "heading-3",
+              "heading-4",
+              "heading-5",
+              "heading-6",
+              "ordered-list",
+              "unordered-list",
+              "hr",
+              "blockquote",
+              "embedded-asset-block",
+              "hyperlink",
+              "entry-hyperlink",
+              "asset-hyperlink"
+            ]
+          },
+          {
+            "enabledMarks": [
+              "bold",
+              "italic",
+              "underline",
+              "code",
+              "strikethrough"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "richTextEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "card",
+    "name": "Card",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "excerpt",
+        "name": "Excerpt",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "meta",
+        "name": "Meta",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "e.g. date or reading time"
+          }
+        }
+      },
+      {
+        "id": "image",
+        "name": "Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "href",
+        "name": "Href",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "person",
+    "name": "Person",
+    "displayField": "name",
+    "fields": [
+      {
+        "id": "name",
+        "name": "Name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "role",
+        "name": "Role",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "bio",
+        "name": "Bio",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "image",
+        "name": "Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "step",
+    "name": "Step",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "tab",
+    "name": "Tab",
+    "displayField": "label",
+    "fields": [
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "body",
+        "name": "Body",
+        "type": "RichText",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "enabledNodeTypes": [
+              "heading-2",
+              "heading-3",
+              "heading-4",
+              "heading-5",
+              "heading-6",
+              "ordered-list",
+              "unordered-list",
+              "hr",
+              "blockquote",
+              "embedded-asset-block",
+              "hyperlink",
+              "entry-hyperlink",
+              "asset-hyperlink"
+            ]
+          },
+          {
+            "enabledMarks": [
+              "bold",
+              "italic",
+              "underline",
+              "code",
+              "strikethrough"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "richTextEditor"
+        }
+      },
+      {
+        "id": "media",
+        "name": "Media",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "formField",
+    "name": "Form field",
+    "displayField": "name",
+    "fields": [
+      {
+        "id": "name",
+        "name": "Name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "inputType",
+        "name": "Input type",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "text",
+              "email",
+              "tel",
+              "textarea",
+              "select",
+              "checkbox"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "text"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "placeholder",
+        "name": "Placeholder",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "required",
+        "name": "Required",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean"
+        }
+      },
+      {
+        "id": "options",
+        "name": "Options",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Symbol"
+        },
+        "editor": {
+          "widgetId": "tagEditor",
+          "settings": {
+            "helpText": "Options for select fields."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "navLink",
+    "name": "Navigation link",
+    "displayField": "label",
+    "fields": [
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "href",
+        "name": "Href",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "navGroup",
+    "name": "Navigation group",
+    "description": "A top-level navigation entry. With links it renders as a dropdown.",
+    "displayField": "label",
+    "fields": [
+      {
+        "id": "label",
+        "name": "Label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "href",
+        "name": "Href",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "links",
+        "name": "Links",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "navLink"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "footerColumn",
+    "name": "Footer column",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "links",
+        "name": "Links",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "navLink"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "socialLink",
+    "name": "Social link",
+    "displayField": "href",
+    "fields": [
+      {
+        "id": "platform",
+        "name": "Platform",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "x",
+              "linkedin",
+              "github",
+              "youtube",
+              "instagram",
+              "facebook"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "href",
+        "name": "Href",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "hero",
+    "name": "Hero",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "actions",
+        "name": "Actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 3
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "media",
+        "name": "Media",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "centered",
+              "split",
+              "splitReverse",
+              "background"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "centered"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "logoCloud",
+    "name": "Logo cloud",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "logos",
+        "name": "Logos",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "logo"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "row",
+              "grid"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "row"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "grayscale",
+        "name": "Grayscale",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "featureGrid",
+    "name": "Feature grid",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "features",
+        "name": "Features",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "featureItem"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "2",
+              "3",
+              "4"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "3"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "itemStyle",
+        "name": "Item style",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "plain",
+              "card"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "plain"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "featureSplit",
+    "name": "Feature split",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "body",
+        "name": "Body",
+        "type": "RichText",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "enabledNodeTypes": [
+              "heading-2",
+              "heading-3",
+              "heading-4",
+              "heading-5",
+              "heading-6",
+              "ordered-list",
+              "unordered-list",
+              "hr",
+              "blockquote",
+              "embedded-asset-block",
+              "hyperlink",
+              "entry-hyperlink",
+              "asset-hyperlink"
+            ]
+          },
+          {
+            "enabledMarks": [
+              "bold",
+              "italic",
+              "underline",
+              "code",
+              "strikethrough"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "richTextEditor"
+        }
+      },
+      {
+        "id": "bullets",
+        "name": "Bullets",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Symbol"
+        },
+        "editor": {
+          "widgetId": "tagEditor"
+        }
+      },
+      {
+        "id": "actions",
+        "name": "Actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 2
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "media",
+        "name": "Media",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "mediaPosition",
+        "name": "Media position",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "right",
+              "left"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "right"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "stats",
+    "name": "Stats",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "stats",
+        "name": "Stats",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "stat"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "2",
+              "3",
+              "4"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "3"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "testimonials",
+    "name": "Testimonials",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "testimonials",
+        "name": "Testimonials",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "testimonial"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "grid",
+              "featured"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "grid"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "pricing",
+    "name": "Pricing table",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "plans",
+        "name": "Plans",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 4
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "pricingPlan"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "comparisonTable",
+    "name": "Comparison table",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "comparisonColumn"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "rows",
+        "name": "Rows",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "comparisonRow"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "faq",
+    "name": "FAQ",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "items",
+        "name": "Items",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "faqItem"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "single",
+              "split"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "single"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "cta",
+    "name": "Call to action",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "actions",
+        "name": "Actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 2
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "centered",
+              "split"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "centered"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "cardGrid",
+    "name": "Card grid",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "cards",
+        "name": "Cards",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "card"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "2",
+              "3",
+              "4"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "3"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "actions",
+        "name": "Actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 1
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "teamGrid",
+    "name": "Team grid",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "people",
+        "name": "People",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "person"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "3",
+              "4"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "4"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "steps",
+    "name": "Steps",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "steps",
+        "name": "Steps",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "step"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "orientation",
+        "name": "Orientation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "horizontal",
+              "vertical"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "horizontal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "tabs",
+    "name": "Tabbed content",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "tabs",
+        "name": "Tabs",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "tab"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "richText",
+    "name": "Rich text",
+    "displayField": "anchor",
+    "fields": [
+      {
+        "id": "body",
+        "name": "Body",
+        "type": "RichText",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "enabledNodeTypes": [
+              "heading-2",
+              "heading-3",
+              "heading-4",
+              "heading-5",
+              "heading-6",
+              "ordered-list",
+              "unordered-list",
+              "hr",
+              "blockquote",
+              "embedded-asset-block",
+              "hyperlink",
+              "entry-hyperlink",
+              "asset-hyperlink"
+            ]
+          },
+          {
+            "enabledMarks": [
+              "bold",
+              "italic",
+              "underline",
+              "code",
+              "strikethrough"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "richTextEditor"
+        }
+      },
+      {
+        "id": "width",
+        "name": "Width",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "prose",
+              "full"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "prose"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "name": "Media",
+    "displayField": "caption",
+    "fields": [
+      {
+        "id": "media",
+        "name": "Media",
+        "type": "Link",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "caption",
+        "name": "Caption",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "width",
+        "name": "Width",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "contained",
+              "full"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "contained"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "form",
+    "name": "Form",
+    "description": "Newsletter or contact form. Posts JSON to the endpoint in 'action'.",
+    "displayField": "submitLabel",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "fields",
+        "name": "Fields",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "formField"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "submitLabel",
+        "name": "Submit label",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "endpoint",
+        "name": "Endpoint",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Where the form posts to."
+          }
+        }
+      },
+      {
+        "id": "successMessage",
+        "name": "Success message",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "consent",
+        "name": "Consent",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Small print under the form."
+          }
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "stacked",
+              "inline"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "stacked"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "page",
+    "name": "Page",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "path",
+        "name": "Path",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "unique": true
+          },
+          {
+            "regexp": {
+              "pattern": "^/"
+            },
+            "message": "Paths start with /, e.g. /pricing. The home page is /."
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "URL path, e.g. /pricing. The home page is /."
+          }
+        }
+      },
+      {
+        "id": "seoTitle",
+        "name": "Seo title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 70
+            }
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "seoDescription",
+        "name": "Seo description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "ogImage",
+        "name": "Og image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "noIndex",
+        "name": "No index",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean"
+        }
+      },
+      {
+        "id": "hideBreadcrumbs",
+        "name": "Hide breadcrumbs",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Breadcrumbs show on every page except the home page unless hidden."
+          }
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Theme applied to the whole page."
+          }
+        }
+      },
+      {
+        "id": "blocks",
+        "name": "Blocks",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "hero",
+                "logoCloud",
+                "featureGrid",
+                "featureSplit",
+                "stats",
+                "testimonials",
+                "pricing",
+                "comparisonTable",
+                "faq",
+                "cta",
+                "cardGrid",
+                "teamGrid",
+                "steps",
+                "tabs",
+                "richText",
+                "media",
+                "form"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "siteSettings",
+    "name": "Site settings",
+    "displayField": "siteName",
+    "fields": [
+      {
+        "id": "siteName",
+        "name": "Site name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "logo",
+        "name": "Logo",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "announcementText",
+        "name": "Announcement text",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "announcementHref",
+        "name": "Announcement href",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "announcementLinkLabel",
+        "name": "Announcement link label",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "navigation",
+        "name": "Navigation",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "navGroup"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "headerActions",
+        "name": "Header actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 2
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "footerColumns",
+        "name": "Footer columns",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "footerColumn"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "footerNote",
+        "name": "Footer note",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "socialLinks",
+        "name": "Social links",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "socialLink"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      }
+    ]
+  }
+]
+"
+`;

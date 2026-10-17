@@ -1,0 +1,42 @@
+---
+title: Optimizely SaaS CMS
+description: "Configure the Optimizely SaaS CMS adapter: environment, content types, preview and Graph webhook."
+---
+
+<Callout type="info">The adapter lives in `packages/cms-optimizely`. Its README has the step-by-step setup; this page is the summary.</Callout>
+
+## Environment
+
+`OPTIMIZELY_CMS_URL`, `OPTIMIZELY_GRAPH_SINGLE_KEY`, `OPTIMIZELY_GRAPH_SECRET`, `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `OPTIMIZELY_GRAPH_GATEWAY`, `OPTIMIZELY_HOST`, `OPTIMIZELY_SETTINGS_PATH` or `OPTIMIZELY_SETTINGS_KEY`. See `apps/web/.env.example`.
+
+## Push the content model
+
+```bash
+pnpm --filter @platform/cms-optimizely schema:generate   # writes schema/content-types.ts, content-types.json, optimizely.config.mjs
+cd packages/cms-optimizely/schema && npx @optimizely/cms-cli@latest config push optimizely.config.mjs
+```
+
+The generated files are committed under `packages/cms-optimizely/schema/` so diffs show exactly what changes in the CMS when the content model changes.
+
+## Preview
+
+Settings → Applications → Hostnames: preview URL `https://your-site/api/preview?key={key}&ver={ver}&loc={loc}&ctx={ctx}&preview_token={token}`. The adapter validates the token against Graph (`getPreviewContent`), resolves the page's path from its URL and never from the query, and the app enters Draft Mode.
+
+In edit mode every block and item carries `data-epi-block-id` and each field `data-epi-edit`. The bridge wraps the SDK's `PreviewComponent`, loads the communication injector from the CMS, and either refreshes the page (same key and version) or re-enters `/api/preview` with the fresh token.
+
+See [Preview & visual editing](/docs/preview) for the shared flow.
+
+## Webhook
+
+Graph webhooks are unsigned, so the request must carry the shared secret in `x-optimizely-secret`, `Authorization: Bearer` or `?secret=`. Published `docId`s (`<key>_<locale>_<status>`) map to `cms:entry:<key>`, `cms:paths` and `cms:global`; drafts are ignored; bulk events fall back to `cms:type:page`.
+
+## Mapping notes
+
+- Type keys are suffixed to avoid Graph's built-in names: items `<Pascal>Item`, blocks `<Pascal>Block`, page `WebPage`, site settings `SiteSettings`.
+- Blocks and items are `_component` types; lists are content areas so each entry has a stable `_metadata.key`.
+- Site settings is a page at `/site-settings` (or by key); `page.path` comes from `_metadata.url.default` with the locale stripped.
+- Rich text is requested as JSON and converted from Slate; tables are flattened to one paragraph per row.
+
+## What the generator emits for a block
+
+<SchemaCompare type="featureGrid" />

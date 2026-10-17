@@ -1,0 +1,42 @@
+---
+title: Sanity
+description: "Configure the Sanity adapter: environment, Studio schema, Presentation preview and webhook."
+---
+
+<Callout type="info">The adapter lives in `packages/cms-sanity`. Its README has the step-by-step setup; this page is the summary.</Callout>
+
+## Environment
+
+`SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_VERSION`, `SANITY_VIEWER_TOKEN`, `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `SANITY_STUDIO_URL` (enables stega edit links and allows the Studio to frame the site), `SANITY_PREVIEW_SECRET`, `SANITY_WEBHOOK_SECRET`. See `apps/web/.env.example`.
+
+## Push the content model
+
+```bash
+pnpm --filter @platform/cms-sanity schema:generate   # writes schema/schemaTypes.ts and schema/schema.json
+# copy schemaTypes.ts into the Studio and register it:
+# export default defineConfig({ schema: { types: schemaTypes } })
+```
+
+The generated files are committed under `packages/cms-sanity/schema/` so diffs show exactly what changes in the CMS when the content model changes.
+
+## Preview
+
+Use the Presentation tool with `previewUrl` pointing at the site and `/api/preview` as the draft-mode enable route; Presentation calls `/api/preview?sanity-preview-secret=…&sanity-preview-pathname=/pricing`. Only same-origin paths are accepted.
+
+In draft mode the adapter reads with `perspective: "drafts"`, stega-encodes text for click-to-edit, and sets `data-sanity` attributes (`createDataAttribute`) on every document, block, item and field, with nested paths such as `blocks:blk-hero.actions:act-1.label`. The bridge calls `enableVisualEditing()` and refreshes on Studio saves. Add `mode=preview` to render drafts without overlays.
+
+See [Preview & visual editing](/docs/preview) for the shared flow.
+
+## Webhook
+
+Manage → API → Webhooks → GROQ-powered → `https://your-site/api/revalidate`, projection `{ _id, _type, "slug": slug.current, "operation": delta::operation() }`, signed with the webhook secret (`sanity-webhook-signature`, HMAC-SHA256). Tags: `cms:entry:<published id>`, `cms:type:<_type>`; pages add `cms:page` and `cms:paths`; `siteSettings` maps to `cms:global`.
+
+## Mapping notes
+
+- GROQ is generated from the content model: one conditional projection per `_type` inside every nested array, assets dereferenced with dimensions.
+- Media uses three shared types (`imageWithAlt`, `videoWithAlt`, `anyMedia`) chosen by the field's `accept`; rich text is a shared `portableText` array type.
+- Images are built with `@sanity/image-url`, honouring crop and hotspot; width and height come from asset metadata.
+
+## What the generator emits for a block
+
+<SchemaCompare type="featureGrid" />
