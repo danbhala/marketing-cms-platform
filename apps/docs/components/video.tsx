@@ -1,4 +1,4 @@
-/** Inline video (mp4/webm under /public/videos, or any URL). Muted and looping by default for UI walkthroughs. */
+/** Inline video (mp4 under /public/video, recorded by `packages/ui/scripts/record-*.mjs`, or any URL). Muted and looping by default for UI walkthroughs. */
 export function Video({ src, caption, autoPlay = true }: { src: string; caption?: string; autoPlay?: boolean }) {
   return (
     <figure className="not-prose my-6">

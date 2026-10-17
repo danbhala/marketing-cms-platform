@@ -36,6 +36,15 @@ node packages/ui/scripts/screenshot.mjs packages/ui/storybook-static apps/docs/p
 node packages/ui/scripts/screenshot-docs.mjs http://localhost:3001 apps/docs/public/screenshots /docs/architecture
 ```
 
+## Videos
+
+`public/video` holds real-pace Playwright recordings (a drawn cursor, pauses, scrolling) made by `record-studio.mjs` against the docs site and `record-preview.mjs` against the web app on the local adapter (`PREVIEW_SECRET` must match). Each writes a webm; convert it with ffmpeg:
+
+```sh
+node packages/ui/scripts/record-preview.mjs http://localhost:3000 /tmp/rec 1.2
+ffmpeg -i /tmp/rec/*.webm -c:v libx264 -crf 23 -pix_fmt yuv420p -r 30 -movflags +faststart -an apps/docs/public/video/draft-mode-walkthrough.mp4
+```
+
 ## Deploy
 
 The docs are a Vercel project with **Root Directory** `apps/docs`; Vercel detects Turborepo and runs `turbo run build` filtered to this app. `vercel.json` here skips builds when neither the docs nor a workspace dependency changed (`turbo-ignore`). The site is `noindex` everywhere (`app/layout.tsx` metadata and `app/robots.ts`); remove both if it should ever be public.
