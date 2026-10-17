@@ -35,7 +35,8 @@ let shot = 0
 const still = async (name) => { if (stills) await page.screenshot({ path: join(outDir, `flow-${String(++shot).padStart(2, "0")}-${name}.png`) }) }
 
 const rand = (a, b) => a + Math.random() * (b - a)
-const pause = (ms = 700) => page.waitForTimeout(stills ? 150 : ms * rand(0.85, 1.25))
+const PACE = Number(process.env.PACE ?? 1)
+const pause = (ms = 700) => page.waitForTimeout(stills ? 150 : ms * PACE * rand(0.85, 1.25))
 let cur = { x: 700, y: 450 }
 async function moveTo(x, y, ms = 500) {
   const steps = Math.max(8, Math.round(ms / 16))
@@ -126,7 +127,7 @@ await click(page.getByLabel("Uppercase headings"), 600)
 // 5. Layout: radius and rhythm.
 await click(page.getByRole("button", { name: "layout" }), 800)
 const layoutRanges = page.locator("aside input[type=range]")
-await drag(layoutRanges.nth(0), 0.4, 0.95, 1000)
+await drag(layoutRanges.nth(0), 0.4, 0.75, 1000)
 await drag(layoutRanges.nth(1), 0.5, 0.25, 900)
 await still("layout")
 
