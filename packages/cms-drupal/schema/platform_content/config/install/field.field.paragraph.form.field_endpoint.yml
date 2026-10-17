@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_endpoint
+    - paragraphs.paragraphs_type.form
+  module:
+    - link
+id: paragraph.form.field_endpoint
+field_name: field_endpoint
+entity_type: paragraph
+bundle: form
+label: Endpoint
+description: Where the form posts to.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 17
+field_type: link

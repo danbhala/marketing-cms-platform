@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_team_grid_columns
+    - paragraphs.paragraphs_type.team_grid
+  module:
+    - options
+id: paragraph.team_grid.field_team_grid_columns
+field_name: field_team_grid_columns
+entity_type: paragraph
+bundle: team_grid
+label: Columns
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: '4'
+default_value_callback: ''
+settings: {  }
+field_type: list_string

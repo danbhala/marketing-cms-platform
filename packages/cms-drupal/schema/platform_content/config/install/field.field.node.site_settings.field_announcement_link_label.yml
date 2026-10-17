@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_announcement_link_label
+    - node.type.site_settings
+id: node.site_settings.field_announcement_link_label
+field_name: field_announcement_link_label
+entity_type: node
+bundle: site_settings
+label: Announcement link label
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: string

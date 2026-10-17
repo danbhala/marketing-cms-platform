@@ -1,0 +1,33 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.comparison_row.field_label
+    - field.field.paragraph.comparison_row.field_values
+    - paragraphs.paragraphs_type.comparison_row
+  module: [  ]
+id: paragraph.comparison_row.default
+targetEntityType: paragraph
+bundle: comparison_row
+mode: default
+content:
+  field_label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_values:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

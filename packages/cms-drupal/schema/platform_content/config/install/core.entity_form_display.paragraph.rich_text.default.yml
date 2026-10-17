@@ -1,0 +1,56 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.rich_text.field_anchor
+    - field.field.paragraph.rich_text.field_body
+    - field.field.paragraph.rich_text.field_rich_text_width
+    - field.field.paragraph.rich_text.field_spacing
+    - field.field.paragraph.rich_text.field_theme
+    - paragraphs.paragraphs_type.rich_text
+  module:
+    - options
+    - text
+id: paragraph.rich_text.default
+targetEntityType: paragraph
+bundle: rich_text
+mode: default
+content:
+  field_body:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_rich_text_width:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_theme:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_spacing:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_anchor:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

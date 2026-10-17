@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_highlighted
+    - paragraphs.paragraphs_type.pricing_plan
+id: paragraph.pricing_plan.field_highlighted
+field_name: field_highlighted
+entity_type: paragraph
+bundle: pricing_plan
+label: Highlighted
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: nav_group
+label: Navigation group
+icon_uuid: null
+icon_default: null
+description: A top-level navigation entry. With links it renders as a dropdown.
+behavior_plugins: {  }

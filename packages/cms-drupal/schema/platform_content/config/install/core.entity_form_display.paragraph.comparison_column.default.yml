@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.comparison_column.field_highlighted
+    - field.field.paragraph.comparison_column.field_label
+    - paragraphs.paragraphs_type.comparison_column
+  module: [  ]
+id: paragraph.comparison_column.default
+targetEntityType: paragraph
+bundle: comparison_column
+mode: default
+content:
+  field_label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_highlighted:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

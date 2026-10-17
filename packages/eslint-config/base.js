@@ -18,6 +18,8 @@ export const cmsSdkPatterns = [
   "@optimizely/*",
   "next-sanity",
   "@sanity/*",
+  "next-drupal",
+  "next-drupal/*",
 ]
 
 /** Apply to every package that must not know which CMS is in use. */

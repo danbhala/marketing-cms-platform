@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_logos
+    - paragraphs.paragraphs_type.logo
+    - paragraphs.paragraphs_type.logo_cloud
+  module:
+    - entity_reference_revisions
+id: paragraph.logo_cloud.field_logos
+field_name: field_logos
+entity_type: paragraph
+bundle: logo_cloud
+label: Logos
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      logo: logo
+    negate: 0
+    target_bundles_drag_drop:
+      logo:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

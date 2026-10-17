@@ -1,0 +1,110 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_blocks
+    - node.type.page
+    - paragraphs.paragraphs_type.card_grid
+    - paragraphs.paragraphs_type.comparison_table
+    - paragraphs.paragraphs_type.cta
+    - paragraphs.paragraphs_type.faq
+    - paragraphs.paragraphs_type.feature_grid
+    - paragraphs.paragraphs_type.feature_split
+    - paragraphs.paragraphs_type.form
+    - paragraphs.paragraphs_type.hero
+    - paragraphs.paragraphs_type.logo_cloud
+    - paragraphs.paragraphs_type.media
+    - paragraphs.paragraphs_type.pricing
+    - paragraphs.paragraphs_type.rich_text
+    - paragraphs.paragraphs_type.stats
+    - paragraphs.paragraphs_type.steps
+    - paragraphs.paragraphs_type.tabs
+    - paragraphs.paragraphs_type.team_grid
+    - paragraphs.paragraphs_type.testimonials
+  module:
+    - entity_reference_revisions
+id: node.page.field_blocks
+field_name: field_blocks
+entity_type: node
+bundle: page
+label: Blocks
+description: ''
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      hero: hero
+      logo_cloud: logo_cloud
+      feature_grid: feature_grid
+      feature_split: feature_split
+      stats: stats
+      testimonials: testimonials
+      pricing: pricing
+      comparison_table: comparison_table
+      faq: faq
+      cta: cta
+      card_grid: card_grid
+      team_grid: team_grid
+      steps: steps
+      tabs: tabs
+      rich_text: rich_text
+      media: media
+      form: form
+    negate: 0
+    target_bundles_drag_drop:
+      hero:
+        enabled: true
+        weight: 0
+      logo_cloud:
+        enabled: true
+        weight: 1
+      feature_grid:
+        enabled: true
+        weight: 2
+      feature_split:
+        enabled: true
+        weight: 3
+      stats:
+        enabled: true
+        weight: 4
+      testimonials:
+        enabled: true
+        weight: 5
+      pricing:
+        enabled: true
+        weight: 6
+      comparison_table:
+        enabled: true
+        weight: 7
+      faq:
+        enabled: true
+        weight: 8
+      cta:
+        enabled: true
+        weight: 9
+      card_grid:
+        enabled: true
+        weight: 10
+      team_grid:
+        enabled: true
+        weight: 11
+      steps:
+        enabled: true
+        weight: 12
+      tabs:
+        enabled: true
+        weight: 13
+      rich_text:
+        enabled: true
+        weight: 14
+      media:
+        enabled: true
+        weight: 15
+      form:
+        enabled: true
+        weight: 16
+field_type: entity_reference_revisions

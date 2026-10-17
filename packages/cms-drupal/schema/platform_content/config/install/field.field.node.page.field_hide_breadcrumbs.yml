@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hide_breadcrumbs
+    - node.type.page
+id: node.page.field_hide_breadcrumbs
+field_name: field_hide_breadcrumbs
+entity_type: node
+bundle: page
+label: Hide breadcrumbs
+description: Breadcrumbs show on every page except the home page unless hidden.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

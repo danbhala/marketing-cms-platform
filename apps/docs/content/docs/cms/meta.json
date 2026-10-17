@@ -1,1 +1,1 @@
-{ "title": "CMS adapters", "pages": ["index", "contentful", "storyblok", "optimizely", "sanity", "local", "writing-an-adapter"] }
+{ "title": "CMS adapters", "pages": ["index", "contentful", "storyblok", "optimizely", "sanity", "drupal", "local", "writing-an-adapter"] }

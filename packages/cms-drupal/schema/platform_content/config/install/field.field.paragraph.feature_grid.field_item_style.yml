@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_item_style
+    - paragraphs.paragraphs_type.feature_grid
+  module:
+    - options
+id: paragraph.feature_grid.field_item_style
+field_name: field_item_style
+entity_type: paragraph
+bundle: feature_grid
+label: Item style
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: plain
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_theme
+    - paragraphs.paragraphs_type.feature_split
+  module:
+    - options
+id: paragraph.feature_split.field_theme
+field_name: field_theme
+entity_type: paragraph
+bundle: feature_split
+label: Theme
+description: Applies a theme class to this block only.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: list_string
