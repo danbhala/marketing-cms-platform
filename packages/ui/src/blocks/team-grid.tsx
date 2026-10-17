@@ -7,6 +7,7 @@ import { PersonCard } from "../molecules/person-card"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the TeamGrid block: the `TeamGridBlock` content plus section attributes. */
 export type TeamGridProps = BlockComponentProps<TeamGridBlock>
 
 /** Grid of people with photo, name, role and a short bio. */

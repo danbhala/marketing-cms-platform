@@ -34,13 +34,16 @@ const paths: Record<SocialLink["platform"], { label: string; d: string }> = {
 }
 
 export interface SocialIconProps extends React.ComponentProps<"svg"> {
+  /** Which network's glyph to draw. */
   platform: SocialLink["platform"]
 }
 
+/** Human-readable network name for `aria-label`s. */
 export function socialLabel(platform: SocialLink["platform"]) {
   return paths[platform].label
 }
 
+/** Brand glyph for a social platform, filled with `currentColor`. */
 function SocialIcon({ platform, ...props }: SocialIconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>

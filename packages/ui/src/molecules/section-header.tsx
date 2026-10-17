@@ -10,12 +10,17 @@ import { Text } from "../atoms/text"
 import { cn } from "../lib/utils"
 
 export interface SectionHeaderProps extends Omit<React.ComponentProps<"div">, "title"> {
+  /** Short label above the title. */
   eyebrow?: string | null
+  /** The block title. */
   title?: string | null
+  /** Lead paragraph under the title. */
   description?: string | null
   /** Heading level for the title. Blocks after the hero use h2. */
   as?: HeadingProps["as"]
+  /** Visual size of the title. Defaults to the size named by `as`. */
   size?: HeadingProps["size"]
+  /** `center` stacks everything centred; `start` left-aligns and puts `actions` on the right. */
   align?: "start" | "center"
   /** Right-hand slot (e.g. "View all" link). Only used with `align="start"`. */
   actions?: React.ReactNode

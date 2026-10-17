@@ -7,6 +7,7 @@ import { LogoItem } from "../molecules/logo-item"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the LogoCloud block: the `LogoCloudBlock` content plus section attributes. */
 export type LogoCloudProps = BlockComponentProps<LogoCloudBlock>
 
 /** A row or grid of customer logos with an optional one-line title. */

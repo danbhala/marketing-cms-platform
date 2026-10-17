@@ -9,6 +9,7 @@ import { Link } from "../atoms/link"
 import { cn } from "../lib/utils"
 
 export interface AnnouncementBarProps extends React.ComponentProps<"div"> {
+  /** Site settings; only the announcement fields are read. */
   settings: Pick<SiteSettings, "announcementText" | "announcementHref" | "announcementLinkLabel" | "$edit">
 }
 

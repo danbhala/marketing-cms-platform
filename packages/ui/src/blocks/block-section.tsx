@@ -9,6 +9,7 @@ import { Section, type SectionProps } from "../atoms/section"
 type Presentation = Pick<Block, "theme" | "spacing" | "anchor"> & { id: string; type: string }
 
 export interface BlockSectionProps extends Omit<SectionProps, "theme" | "id"> {
+  /** The block being rendered; only its presentation and edit fields are read. */
   block: Presentation & Parameters<typeof editAttrs>[0]
   /** Set false when the block applies its theme to an inner panel instead (see CTA). */
   applyTheme?: boolean
@@ -37,6 +38,10 @@ function BlockSection({ block, applyTheme = true, spacing, children, ...props }:
 
 /** Props shared by every block component. */
 export interface BlockComponentProps<B> extends Omit<React.ComponentProps<"section">, "children"> {
+  /**
+   * The block's content from the CMS, already normalised to the content
+   * model. Its fields are documented in `@platform/content-model`.
+   */
   block: B
   /**
    * Index of the block on the page. The first block renders its title as an

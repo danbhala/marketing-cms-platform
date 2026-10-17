@@ -11,6 +11,7 @@ import { SiteFooter } from "./site-footer"
 import { SiteHeader } from "./site-header"
 
 export interface BlockListProps {
+  /** The page's blocks, in page order. */
   blocks: Block[]
   /** Override or extend the default block components (the registry does this). */
   components?: Partial<BlockComponentMap>
@@ -31,11 +32,15 @@ function BlockList({ blocks, components }: BlockListProps) {
 }
 
 export interface PageTemplateProps extends React.ComponentProps<"div"> {
+  /** The page document; only blocks, theme, breadcrumb flag and edit metadata are read. */
   page: Pick<Page, "blocks" | "theme" | "hideBreadcrumbs" | "$edit">
+  /** Site-wide settings for the announcement bar, header and footer. */
   settings: SiteSettings
+  /** Override or extend the default block components. */
   components?: Partial<BlockComponentMap>
   /** Trail for this page, home first. Hidden when the page says so or there is only one crumb. */
   breadcrumbs?: Crumb[]
+  /** Origin for breadcrumb JSON-LD hrefs. */
   siteUrl?: string
   /** Slot rendered before the blocks, e.g. a preview banner in draft mode. */
   before?: React.ReactNode

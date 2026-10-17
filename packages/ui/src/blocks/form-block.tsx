@@ -14,6 +14,7 @@ import { SectionHeader } from "../molecules/section-header"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the FormBlock block: the `FormBlockContent` content plus section attributes. */
 export interface FormBlockProps extends BlockComponentProps<FormBlockContent> {
   /**
    * Submits the form. Defaults to posting JSON to `block.endpoint`. The host
@@ -22,8 +23,10 @@ export interface FormBlockProps extends BlockComponentProps<FormBlockContent> {
   submit?: (values: Record<string, string>) => Promise<void> | void
 }
 
+/** Submission state machine for the form. */
 type Status = { state: "idle" } | { state: "submitting" } | { state: "success" } | { state: "error"; message: string }
 
+/** Default `submit`: POST the values as JSON and throw on a non-2xx response. */
 async function postJson(endpoint: string, values: Record<string, string>) {
   const response = await fetch(endpoint, {
     method: "POST",

@@ -22,7 +22,13 @@ const linkVariants = cva(
   },
 )
 
-export interface LinkProps extends UiLinkProps, VariantProps<typeof linkVariants> {}
+export interface LinkProps extends UiLinkProps, VariantProps<typeof linkVariants> {
+  /**
+   * Text style. `inline` is the underlined body link; `nav` and `muted` are
+   * for site chrome; `unstyled` wraps cards and logos.
+   */
+  variant?: VariantProps<typeof linkVariants>["variant"]
+}
 
 /**
  * Renders through the host framework's link (Next's `next/link` when the app

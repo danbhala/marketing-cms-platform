@@ -8,6 +8,7 @@ import { StatItem } from "../molecules/stat-item"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the Stats block: the `StatsBlock` content plus section attributes. */
 export type StatsProps = BlockComponentProps<StatsBlock>
 
 /** A row of big numbers. Pairs well with `theme: "muted"` or `"brand"`. */

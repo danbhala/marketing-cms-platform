@@ -7,6 +7,7 @@ import { FeatureItem } from "../molecules/feature-item"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the FeatureGrid block: the `FeatureGridBlock` content plus section attributes. */
 export type FeatureGridProps = BlockComponentProps<FeatureGridBlock>
 
 /** Heading plus a responsive grid of icon/title/description features. */

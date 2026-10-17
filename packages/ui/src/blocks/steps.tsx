@@ -8,6 +8,7 @@ import { SectionHeader } from "../molecules/section-header"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the Steps block: the `StepsBlock` content plus section attributes. */
 export type StepsProps = BlockComponentProps<StepsBlock>
 
 /** Numbered process. Horizontal on wide screens, a vertical timeline otherwise. */

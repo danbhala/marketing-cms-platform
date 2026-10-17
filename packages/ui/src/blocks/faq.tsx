@@ -8,6 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the Faq block: the `FaqBlock` content plus section attributes. */
 export type FaqProps = BlockComponentProps<FaqBlock>
 
 /**

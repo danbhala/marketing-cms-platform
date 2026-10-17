@@ -7,10 +7,13 @@ import { Text } from "../atoms/text"
 import { cn } from "../lib/utils"
 
 export interface StatItemProps extends React.ComponentProps<"div"> {
+  /** The stat content item (value, label, description). */
   item: Stat
+  /** Text alignment inside the cell. */
   align?: "start" | "center"
 }
 
+/** A headline number with its label, used by the Stats block. */
 function StatItem({ item, align = "center", className, ...props }: StatItemProps) {
   return (
     <div

@@ -11,6 +11,7 @@ import { Text } from "../atoms/text"
 import { cn } from "../lib/utils"
 
 export interface ContentCardProps extends React.ComponentProps<"article"> {
+  /** The card content item (title, excerpt, image, href, meta). */
   item: CardContent
 }
 

@@ -8,6 +8,7 @@ import { ContentCard } from "../molecules/content-card"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the CardGrid block: the `CardGridBlock` content plus section attributes. */
 export type CardGridProps = BlockComponentProps<CardGridBlock>
 
 /** Grid of linked content cards (posts, case studies, resources). */

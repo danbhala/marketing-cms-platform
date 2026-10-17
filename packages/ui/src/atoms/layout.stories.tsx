@@ -5,6 +5,11 @@ import { Grid, Stack } from "./layout"
 import { Section } from "./section"
 import { Text } from "./text"
 
+/**
+ * The layout atoms: Container limits width, Section adds vertical rhythm and
+ * surface colours, Stack and Grid arrange children. Blocks compose these
+ * instead of writing their own spacing classes.
+ */
 const meta = {
   title: "Atoms/Layout",
   component: Section,
@@ -18,6 +23,7 @@ function Box({ children }: { children: React.ReactNode }) {
   return <div className="flex min-h-16 items-center justify-center rounded-lg border bg-card p-4 text-sm text-card-foreground">{children}</div>
 }
 
+/** Each `size` of Container against the `--container-*` tokens. */
 export const Containers: Story = {
   render: () => (
     <Section spacing="sm">
@@ -32,6 +38,7 @@ export const Containers: Story = {
   ),
 }
 
+/** Grid `columns` presets; resize the viewport to see them collapse. */
 export const Grids: Story = {
   render: () => (
     <Section spacing="sm">
@@ -50,6 +57,7 @@ export const Grids: Story = {
   ),
 }
 
+/** Section `surface` options, each a background and foreground pair. */
 export const SectionSurfaces: Story = {
   render: () => (
     <Stack gap="none">
@@ -64,6 +72,7 @@ export const SectionSurfaces: Story = {
   ),
 }
 
+/** A Section with a `theme` reskins only itself, which is how per-block theming works. */
 export const SectionThemes: Story = {
   render: () => (
     <Stack gap="none">

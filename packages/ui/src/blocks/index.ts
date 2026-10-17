@@ -21,10 +21,12 @@ import { Tabs } from "./tabs"
 import { TeamGrid } from "./team-grid"
 import { Testimonials } from "./testimonials"
 
+/** A component that renders one block type. */
 export type BlockComponent<T extends BlockType = BlockType> = React.ComponentType<
   BlockComponentProps<Extract<Block, { type: T }>>
 >
 
+/** One component per block type in the content model. */
 export type BlockComponentMap = { [T in BlockType]: BlockComponent<T> }
 
 /**

@@ -8,10 +8,13 @@ import { Link } from "../atoms/link"
 import { cn } from "../lib/utils"
 
 export interface LogoItemProps extends React.ComponentProps<"div"> {
+  /** The logo content item (name, image, optional href). */
   item: Logo
+  /** Desaturate until hovered, so mixed brand colours sit quietly together. */
   grayscale?: boolean
 }
 
+/** One customer or partner logo, linked when the item has an href. */
 function LogoItem({ item, grayscale, className, ...props }: LogoItemProps) {
   const img = (
     <Image

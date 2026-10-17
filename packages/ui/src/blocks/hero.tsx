@@ -25,6 +25,7 @@ const heroLayout = cva("grid items-center gap-10 section-lg:gap-16", {
   defaultVariants: { layout: "centered" },
 })
 
+/** Props for the Hero block: the `HeroBlock` content plus section attributes. */
 export type HeroProps = BlockComponentProps<HeroBlock>
 
 /**

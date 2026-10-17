@@ -9,11 +9,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../primitives/avatar"
 import { cn } from "../lib/utils"
 
 export interface QuoteProps extends React.ComponentProps<"figure"> {
+  /** The testimonial content item (quote, author, role, avatar, company logo). */
   item: Testimonial
   /** `featured` is the large single-quote layout; `card` sits in a grid. */
   variant?: "card" | "featured"
 }
 
+/** Up to two initials for the avatar fallback. */
 function initials(name: string) {
   return name
     .split(/\s+/)
