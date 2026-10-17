@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { BlockWall } from "@/components/block-wall"
 import { HomeHero } from "@/components/home-hero"
 import "@/theme-studio/fonts-load"
 
@@ -18,6 +19,7 @@ export default function HomePage() {
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-14 px-6 py-12 lg:py-16">
       <HomeHero />
+      <BlockWall />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {sections.map((section) => (
           <Link
