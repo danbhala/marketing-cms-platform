@@ -2,12 +2,14 @@ import { mkdirSync } from "node:fs"
 import { join } from "node:path"
 import { chromium } from "playwright"
 
-// Usage: node scripts/record-studio.mjs <baseUrl> <outDir> [stills]
+// Usage: node scripts/record-studio.mjs <baseUrl> <outDir> [stills|<pace>]
+// <pace> is a multiplier on every pause (1.7 is a slow reader); default 1.
 // Drives the theme studio the way a person would (visible cursor, pauses,
 // slider drags, scrolling) and records a 1440x900 webm. With "stills" it
 // skips the video and saves a PNG at each step instead.
 const [base, outDir, mode] = process.argv.slice(2)
 const stills = mode === "stills"
+const PACE = stills ? 1 : Number(mode ?? 1) || 1
 mkdirSync(outDir, { recursive: true })
 
 const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" })
@@ -35,13 +37,10 @@ let shot = 0
 const still = async (name) => { if (stills) await page.screenshot({ path: join(outDir, `flow-${String(++shot).padStart(2, "0")}-${name}.png`) }) }
 
 const rand = (a, b) => a + Math.random() * (b - a)
-const PACE = Number(process.env.PACE ?? 1)
 const pause = (ms = 700) => page.waitForTimeout(stills ? 150 : ms * PACE * rand(0.85, 1.25))
-let cur = { x: 700, y: 450 }
 async function moveTo(x, y, ms = 500) {
   const steps = Math.max(8, Math.round(ms / 16))
   await page.mouse.move(x, y, { steps })
-  cur = { x, y }
 }
 async function centre(locator) {
   await locator.scrollIntoViewIfNeeded()
