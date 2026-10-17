@@ -1,0 +1,5 @@
+{
+  "name": "platform",
+  "description": "Team-owned skills for the marketing CMS platform: adding blocks, writing CMS adapters, theming, running checks.",
+  "version": "0.1.0"
+}
