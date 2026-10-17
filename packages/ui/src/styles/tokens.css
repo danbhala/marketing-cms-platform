@@ -14,7 +14,14 @@
     ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
   --font-heading: var(--font-sans);
+  --font-eyebrow: var(--font-sans);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  /* Heading treatment. Themes change these instead of overriding components:
+     a serif face usually wants 500, a brutalist one 700 and uppercase. */
+  --heading-weight: 600;
+  --heading-tracking: -0.025em;
+  --heading-case: none;
 
   --radius: 0.625rem;
 

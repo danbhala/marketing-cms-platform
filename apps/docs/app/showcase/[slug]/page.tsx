@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { PageTemplate } from "@platform/ui/templates"
 
+import { ThemedFrame } from "@/components/themed-frame"
 import { findShowcase, showcases } from "@/showcases"
 
 export function generateStaticParams() {
@@ -15,15 +16,15 @@ export async function generateMetadata({ params }: PageProps<"/showcase/[slug]">
 
 /**
  * One fictional brand rendered with the real PageTemplate. The only thing
- * that differs between showcases is the wrapper class, which the CSS in
- * `showcases/<slug>.css` turns into fonts, colours, radius and spacing.
+ * that differs between showcases is the theme preset applied by ThemedFrame
+ * as CSS variables: fonts, colours, radius and spacing.
  */
 export default async function ShowcasePage({ params }: PageProps<"/showcase/[slug]">) {
   const showcase = findShowcase((await params).slug)
   if (!showcase) notFound()
   return (
-    <div className={`showcase-${showcase.slug}`}>
+    <ThemedFrame theme={showcase.theme}>
       <PageTemplate page={showcase.page} settings={showcase.settings} />
-    </div>
+    </ThemedFrame>
   )
 }

@@ -1,8 +1,0 @@
-/* Showcase themes: host-site CSS that restyles @platform/ui through its
-   variables alone. Each file is one brand; none touches a component. */
-@import "./verso.css";
-@import "./kessler.css";
-@import "./lumen.css";
-@import "./maison.css";
-@import "./harbor.css";
-@import "./nova.css";

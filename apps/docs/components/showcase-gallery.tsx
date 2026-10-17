@@ -1,30 +1,36 @@
-import { readFileSync } from "node:fs"
-import { join } from "node:path"
 import Link from "next/link"
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock"
 import { ImageZoom } from "fumadocs-ui/components/image-zoom"
 
 import { showcases } from "@/showcases"
+import { fontById } from "@/theme-studio/fonts"
+import { encodeTheme, themeToCss, themeToStyle } from "@/theme-studio/theme"
 
 const swatches = ["background", "foreground", "primary", "secondary", "muted", "brand", "border"] as const
 
 /**
  * One entry per showcase: screenshot, the design choices, a live swatch strip
- * (the real theme class applied to plain divs) and the CSS that produced it,
- * read from `showcases/<slug>.css` so the docs cannot drift from the theme.
+ * (the preset's variables applied to plain divs), a link to edit it in the
+ * studio, and the CSS the preset exports, so the docs cannot drift from it.
  */
 export function ShowcaseGallery() {
   return (
     <div className="not-prose flex flex-col gap-16">
       {showcases.map((showcase) => {
-        const css = readFileSync(join(process.cwd(), "showcases", `${showcase.slug}.css`), "utf8")
+        const css = themeToCss(showcase.theme, `.theme-${showcase.slug}`)
+        const { fonts, radius } = showcase.theme
         return (
           <section key={showcase.slug} id={showcase.slug} className="flex flex-col gap-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="text-2xl font-semibold tracking-tight">{showcase.name}</h2>
-              <Link href={`/showcase/${showcase.slug}`} className="text-sm font-medium text-fd-primary underline-offset-4 hover:underline" target="_blank">
-                Open full page ↗
-              </Link>
+              <span className="flex gap-4 text-sm font-medium text-fd-primary">
+                <Link href={`/theme#t=${encodeTheme(showcase.theme)}`} className="underline-offset-4 hover:underline">
+                  Edit in studio
+                </Link>
+                <Link href={`/showcase/${showcase.slug}`} className="underline-offset-4 hover:underline" target="_blank">
+                  Open full page ↗
+                </Link>
+              </span>
             </div>
             <p className="text-fd-muted-foreground">{showcase.idea}</p>
             <Link href={`/showcase/${showcase.slug}`} target="_blank" className="block">
@@ -39,15 +45,15 @@ export function ShowcaseGallery() {
             </Link>
             <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-4">
               <dt className="text-fd-muted-foreground">Headings</dt>
-              <dd>{showcase.fonts.heading}</dd>
+              <dd>{fontById(fonts.heading).label}</dd>
               <dt className="text-fd-muted-foreground">Body</dt>
-              <dd>{showcase.fonts.body}</dd>
+              <dd>{fontById(fonts.body).label}</dd>
               <dt className="text-fd-muted-foreground">Mono</dt>
-              <dd>{showcase.fonts.mono ?? "system"}</dd>
+              <dd>{fontById(fonts.mono).label}</dd>
               <dt className="text-fd-muted-foreground">Radius</dt>
-              <dd>{showcase.radius}</dd>
+              <dd>{radius}rem</dd>
             </dl>
-            <div className={`showcase-${showcase.slug} flex overflow-hidden rounded-lg border`} aria-label={`${showcase.name} palette`}>
+            <div className="flex overflow-hidden rounded-lg border" style={themeToStyle(showcase.theme)} aria-label={`${showcase.name} palette`}>
               {swatches.map((token) => (
                 <div key={token} className="flex h-14 flex-1 items-end p-1.5 text-[10px] leading-none" style={{ background: `var(--${token})`, color: token === "background" || token === "muted" || token === "secondary" ? "var(--foreground)" : token === "foreground" ? "var(--background)" : `var(--${token}-foreground, var(--background))` }}>
                   {token}

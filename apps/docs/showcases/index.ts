@@ -1,10 +1,14 @@
 import { richTextFromParagraphs, type Action, type Block, type Media, type Page, type SiteSettings } from "@platform/content-model"
 import { placeholderAvatar, placeholderLogo } from "@platform/content-model/fixtures"
 
+import { presetBySlug } from "@/theme-studio/presets"
+import type { Theme } from "@/theme-studio/theme"
+
 /**
  * Six fictional brands, each a complete page on the same blocks and the same
- * components, restyled only by the CSS in `./<slug>.css`. They exist to show
- * how far variables alone can take a site; nothing here is a product.
+ * components, restyled only by a theme preset (`theme-studio/presets.ts`).
+ * They exist to show how far variables alone can take a site; nothing here
+ * is a product.
  */
 
 export interface Showcase {
@@ -13,8 +17,7 @@ export interface Showcase {
   tagline: string
   /** What the theme is going for, in one sentence. */
   idea: string
-  fonts: { heading: string; body: string; mono?: string }
-  radius: string
+  theme: Theme
   page: Page
   settings: SiteSettings
 }
@@ -75,11 +78,10 @@ const quote = (id: string, text: string, name: string, role: string) => ({
 
 const verso: Showcase = {
   slug: "verso",
+  theme: presetBySlug("verso")!.theme,
   name: "Verso",
   tagline: "An independent magazine, read slowly.",
   idea: "Editorial: a serif display face on warm paper, hairline rules, square corners and a lot of air.",
-  fonts: { heading: "Fraunces", body: "Inter" },
-  radius: "0.125rem",
   settings: settings("Verso", ["Issues", "Essays", "Photography", "Subscribe"], [act("verso-h1", "Sign in", "/login", "ghost"), act("verso-h2", "Subscribe", "/subscribe")], "© 2026 Verso Publishing. Printed quarterly in Porto."),
   page: page("verso-home", "Verso", [
     {
@@ -140,11 +142,10 @@ const verso: Showcase = {
 
 const kessler: Showcase = {
   slug: "kessler",
+  theme: presetBySlug("kessler")!.theme,
   name: "Kessler",
   tagline: "An architecture studio with opinions.",
   idea: "Brutalist: square corners, black hairline borders, uppercase grotesk headings, a mono eyebrow and one acid accent.",
-  fonts: { heading: "Space Grotesk", body: "Space Grotesk", mono: "JetBrains Mono" },
-  radius: "0",
   settings: settings("Kessler", ["Work", "Studio", "Journal", "Contact"], [act("kessler-h1", "Start a project", "/contact")], "© 2026 Kessler Studio GmbH, Berlin."),
   page: page("kessler-home", "Kessler", [
     {
@@ -203,11 +204,10 @@ const kessler: Showcase = {
 
 const lumen: Showcase = {
   slug: "lumen",
+  theme: presetBySlug("lumen")!.theme,
   name: "Lumen",
   tagline: "Dark-sky travel for people who miss the stars.",
   idea: "Dark and luminous: deep indigo surfaces, an aqua primary, a violet brand band and large radii.",
-  fonts: { heading: "Outfit", body: "Manrope" },
-  radius: "1rem",
   settings: settings("Lumen", ["Destinations", "Trips", "Journal", "About"], [act("lumen-h1", "Sign in", "/login", "ghost"), act("lumen-h2", "Plan a trip", "/trips")], "© 2026 Lumen Travel Ltd. Registered in Reykjavík."),
   page: page("lumen-home", "Lumen", [
     {
@@ -275,11 +275,10 @@ const lumen: Showcase = {
 
 const maison: Showcase = {
   slug: "maison",
+  theme: presetBySlug("maison")!.theme,
   name: "Maison Ambre",
   tagline: "Leather goods and jewellery, made in small batches.",
   idea: "Quiet luxury: Garamond headings, sage and cream surfaces, terracotta actions and a forest brand band.",
-  fonts: { heading: "Cormorant Garamond", body: "Jost" },
-  radius: "0.375rem",
   settings: settings("Maison Ambre", ["Collection", "Atelier", "Journal", "Stockists"], [act("maison-h1", "Account", "/account", "ghost"), act("maison-h2", "Shop", "/collection")], "© 2026 Maison Ambre SAS, Lyon."),
   page: page("maison-home", "Maison Ambre", [
     {
@@ -331,11 +330,10 @@ const maison: Showcase = {
 
 const harbor: Showcase = {
   slug: "harbor",
+  theme: presetBySlug("harbor")!.theme,
   name: "Harbor & Co",
   tagline: "Holiday homes on the coast, run by people who live there.",
   idea: "Warm coastal: serif display headings on sand, navy text, an ocean primary and generous rounding.",
-  fonts: { heading: "DM Serif Display", body: "DM Sans" },
-  radius: "1.25rem",
   settings: settings("Harbor & Co", ["Homes", "Destinations", "Owners", "Help"], [act("harbor-h1", "List your home", "/owners", "ghost"), act("harbor-h2", "Find a home", "/homes")], "© 2026 Harbor & Co. Cornwall, Brittany, Algarve."),
   page: page("harbor-home", "Harbor & Co", [
     {
@@ -403,11 +401,10 @@ const harbor: Showcase = {
 
 const nova: Showcase = {
   slug: "nova",
+  theme: presetBySlug("nova")!.theme,
   name: "Nova",
   tagline: "Outdoor gear built for the worst day of the trip.",
   idea: "Bold and energetic: wide display headings, midnight text, a coral primary and a midnight brand band.",
-  fonts: { heading: "Syne", body: "Instrument Sans" },
-  radius: "0.75rem",
   settings: settings("Nova", ["Shop", "Expeditions", "Repairs", "Stories"], [act("nova-h1", "Account", "/account", "ghost"), act("nova-h2", "Shop now", "/shop")], "© 2026 Nova Outdoor AG, Innsbruck."),
   page: page("nova-home", "Nova", [
     {
