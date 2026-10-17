@@ -35,3 +35,7 @@ pnpm --filter @platform/ui build-storybook
 node packages/ui/scripts/screenshot.mjs packages/ui/storybook-static apps/docs/public/screenshots blocks-hero--split templates-pages--landing@390
 node packages/ui/scripts/screenshot-docs.mjs http://localhost:3001 apps/docs/public/screenshots /docs/architecture
 ```
+
+## Deploy
+
+The docs are a Vercel project with **Root Directory** `apps/docs`; Vercel detects Turborepo and runs `turbo run build` filtered to this app. `vercel.json` here skips builds when neither the docs nor a workspace dependency changed (`turbo-ignore`). The site is `noindex` everywhere (`app/layout.tsx` metadata and `app/robots.ts`); remove both if it should ever be public.
