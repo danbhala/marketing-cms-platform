@@ -50,7 +50,7 @@ function PageTemplate({ page, settings, components, breadcrumbs, siteUrl, before
   return (
     <div
       data-slot="page"
-      className={cn(themeClassName(page.theme), "flex min-h-screen flex-col bg-background text-foreground", className)}
+      className={cn(themeClassName(page.theme), "@container/section flex min-h-screen flex-col bg-background text-foreground", className)}
       {...props}
     >
       <AnnouncementBar settings={settings} />

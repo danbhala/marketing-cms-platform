@@ -83,7 +83,7 @@ function SiteHeader({ settings, sticky = true, className, ...props }: SiteHeader
     <header
       data-slot="site-header"
       className={cn(
-        "z-40 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80",
+        "@container/section z-40 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80",
         sticky && "sticky top-0",
         className,
       )}
@@ -92,7 +92,7 @@ function SiteHeader({ settings, sticky = true, className, ...props }: SiteHeader
       <Container className="flex h-16 items-center justify-between gap-6">
         <Brand settings={settings} />
 
-        <NavigationMenu className="hidden lg:flex" {...fieldAttrs(settings, "navigation")}>
+        <NavigationMenu className="hidden section-lg:flex" {...fieldAttrs(settings, "navigation")}>
           <NavigationMenuList>
             {settings.navigation.map((group) => (
               <DesktopNavItem key={group.id} group={group} />
@@ -102,9 +102,9 @@ function SiteHeader({ settings, sticky = true, className, ...props }: SiteHeader
         </NavigationMenu>
 
         <div className="flex items-center gap-2">
-          <ActionGroup actions={settings.headerActions} size="sm" className="hidden gap-2 sm:flex" {...fieldAttrs(settings, "headerActions")} />
+          <ActionGroup actions={settings.headerActions} size="sm" className="hidden gap-2 section-sm:flex" {...fieldAttrs(settings, "headerActions")} />
           <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu" />}>
+            <SheetTrigger render={<Button variant="ghost" size="icon" className="section-lg:hidden" aria-label="Open menu" />}>
               <MenuIcon className="size-5" aria-hidden />
             </SheetTrigger>
             <SheetContent side="right" className="w-80 overflow-y-auto">
@@ -135,7 +135,7 @@ function SiteHeader({ settings, sticky = true, className, ...props }: SiteHeader
                     ) : null}
                   </div>
                 ))}
-                <ActionGroup actions={settings.headerActions} size="default" stackOnMobile className="sm:hidden" />
+                <ActionGroup actions={settings.headerActions} size="default" className="flex-col *:w-full" />
               </nav>
             </SheetContent>
           </Sheet>

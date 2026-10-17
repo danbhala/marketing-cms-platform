@@ -21,7 +21,7 @@ function TeamGrid({ block, index, className, ...props }: TeamGridProps) {
           as={index === 0 ? "h1" : "h2"}
           source={block}
         />
-        <Grid columns={block.columns ?? "4"} {...fieldAttrs(block, "people")}>
+        <Grid columns={block.columns ?? "4"} min="2" {...fieldAttrs(block, "people")}>
           {block.people.map((person) => (
             <PersonCard key={person.id} item={person} />
           ))}

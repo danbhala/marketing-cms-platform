@@ -85,12 +85,12 @@ function FormBlock({ block, index, submit, className, ...props }: FormBlockProps
             className="flex flex-col gap-6"
             aria-busy={status.state === "submitting"}
           >
-            <div className={cn("flex gap-4", inline ? "flex-col sm:flex-row sm:items-start" : "flex-col")} {...fieldAttrs(block, "fields")}>
+            <div className={cn("flex gap-4", inline ? "flex-col section-sm:flex-row section-sm:items-start" : "flex-col")} {...fieldAttrs(block, "fields")}>
               {block.fields.map((field) => (
                 <FormField key={field.id} field={field} />
               ))}
               {inline ? (
-                <Button type="submit" size="lg" disabled={status.state === "submitting"} className="sm:mt-6" {...fieldAttrs(block, "submitLabel")}>
+                <Button type="submit" size="lg" disabled={status.state === "submitting"} className="section-sm:mt-6" {...fieldAttrs(block, "submitLabel")}>
                   {block.submitLabel}
                 </Button>
               ) : null}

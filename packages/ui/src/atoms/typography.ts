@@ -11,14 +11,14 @@ import { cva, type VariantProps } from "class-variance-authority"
 export const typographyVariants = cva("", {
   variants: {
     size: {
-      display: "font-heading heading-style text-5xl text-balance sm:text-6xl lg:text-7xl",
-      h1: "font-heading heading-style text-4xl text-balance sm:text-5xl",
-      h2: "font-heading heading-style text-3xl text-balance sm:text-4xl",
+      display: "font-heading heading-style text-5xl text-balance section-sm:text-6xl section-lg:text-7xl",
+      h1: "font-heading heading-style text-4xl text-balance section-sm:text-5xl",
+      h2: "font-heading heading-style text-3xl text-balance section-sm:text-4xl",
       h3: "font-heading heading-style text-2xl",
       h4: "font-heading heading-style text-xl",
       h5: "font-heading heading-style text-lg",
       h6: "font-heading heading-style text-base",
-      lead: "text-lg text-pretty sm:text-xl",
+      lead: "text-lg text-pretty section-sm:text-xl",
       lg: "text-lg",
       base: "text-base",
       sm: "text-sm",

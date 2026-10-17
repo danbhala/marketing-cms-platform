@@ -31,6 +31,14 @@ const preview: Preview = {
     },
   },
   decorators: [
+    // Blocks and molecules size themselves by their `section` container
+    // (see src/styles/globals.css), so stories rendered outside a Section
+    // still get one that is as wide as the viewport.
+    (Story) => (
+      <div className="@container/section">
+        <Story />
+      </div>
+    ),
     withThemeByClassName<ReactRenderer>({
       themes: {
         light: "",
