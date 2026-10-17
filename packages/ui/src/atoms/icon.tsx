@@ -20,10 +20,13 @@ export interface IconProps extends Omit<LucideProps, "ref" | "size">, VariantPro
    * the whole set. Unknown names render nothing.
    */
   name: string
+  /** Box size. `md` (20px) matches inline text; `lg` and up are for feature tiles. */
+  size?: VariantProps<typeof iconVariants>["size"]
 }
 
 const names = new Set<string>(iconNames)
 
+/** True when `name` is one of the bundled Lucide icon names. */
 export function isIconName(name: string): name is IconName {
   return names.has(name)
 }

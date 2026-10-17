@@ -4,16 +4,20 @@ import { ChevronRightIcon } from "lucide-react"
 import { Link } from "../atoms/link"
 import { cn } from "../lib/utils"
 
+/** One step in the trail. */
 export interface Crumb {
+  /** Visible text. */
   label: string
   /** Absent for the current page (rendered as text, not a link). */
   href?: string
 }
 
 export interface BreadcrumbsProps extends Omit<React.ComponentProps<"nav">, "children"> {
+  /** Crumbs from home to the current page. */
   items: Crumb[]
   /** Emit schema.org BreadcrumbList JSON-LD. Needs absolute hrefs or a `siteUrl`. */
   structuredData?: boolean
+  /** Origin prefixed to relative hrefs in the JSON-LD, e.g. "https://example.com". */
   siteUrl?: string
 }
 

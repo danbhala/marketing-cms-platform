@@ -48,5 +48,7 @@ export const typographyVariants = cva("", {
   },
 })
 
+/** The `size`, `tone`, `align` and `weight` options of the type scale. */
 export type TypographyVariants = VariantProps<typeof typographyVariants>
+/** Every named size, from `display` down to `xs` and `eyebrow`. */
 export type TypographySize = NonNullable<TypographyVariants["size"]>

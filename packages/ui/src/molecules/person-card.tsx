@@ -9,9 +9,11 @@ import { Text } from "../atoms/text"
 import { cn } from "../lib/utils"
 
 export interface PersonCardProps extends React.ComponentProps<"div"> {
+  /** The person content item (name, role, bio, image). */
   item: Person
 }
 
+/** Team member card: square photo, name, role and bio. */
 function PersonCard({ item, className, ...props }: PersonCardProps) {
   return (
     <div data-slot="person-card" className={cn("flex flex-col gap-4", className)} {...editAttrs(item)} {...props}>

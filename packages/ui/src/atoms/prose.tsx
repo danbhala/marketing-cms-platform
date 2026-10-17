@@ -43,8 +43,14 @@ const proseVariants = cva(
   },
 )
 
-export interface ProseProps extends React.ComponentProps<"div">, VariantProps<typeof proseVariants> {}
+export interface ProseProps extends React.ComponentProps<"div">, VariantProps<typeof proseVariants> {
+  /** Body text size; line height scales with it. */
+  size?: VariantProps<typeof proseVariants>["size"]
+  /** `prose` caps the measure at `--container-prose`; `full` lets it fill the parent. */
+  width?: VariantProps<typeof proseVariants>["width"]
+}
 
+/** Typographic wrapper for rendered rich text. See `proseVariants` for the rules. */
 function Prose({ size, width, className, ...props }: ProseProps) {
   return <div data-slot="prose" className={cn(proseVariants({ size, width }), className)} {...props} />
 }

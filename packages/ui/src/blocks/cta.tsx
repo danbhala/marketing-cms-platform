@@ -10,6 +10,7 @@ import { ActionGroup } from "../molecules/action-group"
 import { cn } from "../lib/utils"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
+/** Props for the Cta block: the `CtaBlock` content plus section attributes. */
 export type CtaProps = BlockComponentProps<CtaBlock>
 
 /**

@@ -25,7 +25,12 @@ const featureItemVariants = cva("group/feature flex gap-4", {
 })
 
 export interface FeatureItemProps extends React.ComponentProps<"div">, VariantProps<typeof featureItemVariants> {
+  /** The feature content item (icon, title, description, href). */
   item: FeatureItemContent
+  /** `stacked` puts the icon above the text; `inline` puts it beside. */
+  layout?: VariantProps<typeof featureItemVariants>["layout"]
+  /** `card` adds a border, background and padding. */
+  appearance?: VariantProps<typeof featureItemVariants>["appearance"]
   /** Heading level inside the block (h3 under a block title). */
   as?: "h3" | "h4"
 }

@@ -12,8 +12,11 @@ import { NativeSelect, NativeSelectOption } from "../primitives/native-select"
 import { Textarea } from "../primitives/textarea"
 
 export interface FormFieldProps {
+  /** The CMS field definition (name, label, input type, required, options). */
   field: FormFieldContent
+  /** Validation message to show under the control. */
   error?: string | null
+  /** Initial value, e.g. to repopulate after a failed submit. */
   defaultValue?: string
 }
 
