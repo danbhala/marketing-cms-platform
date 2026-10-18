@@ -50,12 +50,24 @@ export interface ChromeConfig {
 }
 
 /** Every visible string in the header and footer, so hosts can localise them in one place. */
+/** One language the current page is published in, for the language switcher. */
+export interface LanguageOption {
+  /** BCP 47 locale, used for `hreflang` and `lang`. */
+  locale: string
+  /** The language's own name, e.g. "Français". */
+  label: string
+  href: string
+  /** The page being shown. */
+  current?: boolean
+}
+
 export interface ChromeLabels {
   skipToContent: string
   mainNavigation: string
   utilityNavigation: string
   footerNavigation: string
   legalNavigation: string
+  languages: string
   social: string
   openMenu: string
   menu: string
@@ -73,6 +85,7 @@ export const defaultChromeLabels: ChromeLabels = {
   utilityNavigation: "Utility",
   footerNavigation: "Footer",
   legalNavigation: "Legal",
+  languages: "Language",
   social: "Social",
   openMenu: "Open menu",
   menu: "Menu",

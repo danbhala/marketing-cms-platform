@@ -8,7 +8,8 @@
     ".": "./src/index.ts",
     "./edit": "./src/edit.ts",
     "./listing": "./src/listing.ts",
-    "./tags": "./src/tags.ts"
+    "./tags": "./src/tags.ts",
+    "./locale": "./src/locale.ts"
   },
   "scripts": {
     "lint": "eslint .",

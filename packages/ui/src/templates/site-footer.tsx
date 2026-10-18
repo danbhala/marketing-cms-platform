@@ -11,8 +11,9 @@ import { ActionGroup } from "../molecules/action-group"
 import { RichText } from "../molecules/rich-text"
 import { Separator } from "../primitives/separator"
 import { cn } from "../lib/utils"
-import { currentAttr, defaultChromeLabels, type ChromeLabels, type FooterOptions } from "./chrome"
+import { currentAttr, defaultChromeLabels, type ChromeLabels, type FooterOptions, type LanguageOption } from "./chrome"
 import { FooterSignup } from "./footer-signup"
+import { LanguageLinks } from "./language-links"
 import { SocialIcon, socialLabel } from "./social-icons"
 
 type FooterSettings = Pick<
@@ -37,6 +38,8 @@ export interface SiteFooterProps extends React.ComponentProps<"footer">, FooterO
   settings: FooterSettings
   /** Path of the page being shown (without locale), so its links get `aria-current="page"`. */
   currentPath?: string
+  /** The page in each language; two or more show a language switcher on the bottom row. */
+  languages?: LanguageOption[]
   /** Visible and screen reader strings. */
   labels?: Partial<ChromeLabels>
 }
@@ -156,15 +159,17 @@ function Columns({
   )
 }
 
-/** The note (copyright) and the legal links. */
+/** The note (copyright), the legal links and the language switcher. */
 function BottomRow({
   settings,
   labels,
   currentPath,
+  languages,
 }: {
   settings: FooterSettings
   labels: ChromeLabels
   currentPath?: string
+  languages?: LanguageOption[]
 }) {
   return (
     <div className="flex flex-col gap-3 section-md:flex-row section-md:items-center section-md:justify-between">
@@ -182,6 +187,7 @@ function BottomRow({
           </ul>
         </nav>
       ) : null}
+      <LanguageLinks languages={languages} label={labels.languages} className="-mx-2 text-sm" />
     </div>
   )
 }
@@ -196,6 +202,7 @@ function SiteFooter({
   settings,
   layout = "columns",
   currentPath,
+  languages,
   labels: labelOverrides,
   className,
   ...props
@@ -274,7 +281,7 @@ function SiteFooter({
         <FooterBand settings={settings} labels={labels} />
         {body}
         <Separator />
-        <BottomRow settings={settings} labels={labels} currentPath={currentPath} />
+        <BottomRow settings={settings} labels={labels} currentPath={currentPath} languages={languages} />
       </Container>
     </footer>
   )

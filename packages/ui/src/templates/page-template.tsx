@@ -7,7 +7,7 @@ import { blockComponents, type BlockComponentMap } from "../blocks"
 import { cn } from "../lib/utils"
 import { Breadcrumbs, type Crumb } from "../molecules/breadcrumbs"
 import { AnnouncementBar } from "./announcement-bar"
-import { defaultChromeLabels, type ChromeConfig, type ChromeLabels } from "./chrome"
+import { defaultChromeLabels, type ChromeConfig, type ChromeLabels, type LanguageOption } from "./chrome"
 import { SiteFooter } from "./site-footer"
 import { SiteHeader } from "./site-header"
 import { SkipLink } from "./skip-link"
@@ -53,6 +53,8 @@ export interface PageTemplateProps extends React.ComponentProps<"div"> {
   chrome?: ChromeConfig
   /** Path of this page without the locale, e.g. `/pricing`, so its nav links get `aria-current="page"`. */
   currentPath?: string
+  /** This page in each language it is published in; two or more show a language switcher. */
+  languages?: LanguageOption[]
   /** Header and footer strings, for localisation. */
   labels?: Partial<ChromeLabels>
 }
@@ -72,6 +74,7 @@ function PageTemplate({
   children,
   chrome,
   currentPath,
+  languages,
   labels,
   className,
   ...props
@@ -94,7 +97,7 @@ function PageTemplate({
     >
       <SkipLink>{labels?.skipToContent ?? defaultChromeLabels.skipToContent}</SkipLink>
       <AnnouncementBar settings={settings} />
-      <UtilityBar settings={settings} currentPath={currentPath} labels={labels} />
+      <UtilityBar settings={settings} currentPath={currentPath} languages={languages} labels={labels} />
       <SiteHeader
         settings={settings}
         {...chrome?.header}
@@ -112,7 +115,13 @@ function PageTemplate({
         {children}
         <BlockList blocks={page.blocks} components={components} />
       </main>
-      <SiteFooter settings={settings} {...chrome?.footer} currentPath={currentPath} labels={labels} />
+      <SiteFooter
+        settings={settings}
+        {...chrome?.footer}
+        currentPath={currentPath}
+        languages={languages}
+        labels={labels}
+      />
     </div>
   )
 }
