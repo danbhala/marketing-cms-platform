@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import Link from "next/link"
 import {
   animationDelays,
@@ -35,6 +35,20 @@ type Tab = "colours" | "type" | "layout" | "motion" | "export"
 type Viewport = "desktop" | "tablet" | "mobile"
 const viewportWidth: Record<Viewport, number> = { desktop: 1280, tablet: 834, mobile: 390 }
 
+/** True below Tailwind's `md` breakpoint, where the studio stacks the preview above the controls. */
+function useNarrow() {
+  const query = "(max-width: 767px)"
+  return useSyncExternalStore(
+    (notify) => {
+      const mq = window.matchMedia(query)
+      mq.addEventListener("change", notify)
+      return () => mq.removeEventListener("change", notify)
+    },
+    () => window.matchMedia(query).matches,
+    () => false
+  )
+}
+
 /**
  * The theme studio: edit the theme on the left, watch a real showcase site
  * re-render on the right. State lives in the URL hash (store.ts), so a link
@@ -46,6 +60,9 @@ export function ThemeStudio() {
   const [content, setContent] = useState(showcases[0]?.slug ?? "verso")
   const [viewport, setViewport] = useState<Viewport>("desktop")
   const [preset, setPreset] = useState("verso")
+  // A phone has no room for a desktop preview, so it always shows the mobile layout.
+  const narrow = useNarrow()
+  const previewWidth = viewportWidth[narrow ? "mobile" : viewport]
 
   const showcase = showcases.find((s) => s.slug === content) ?? (showcases[0] as (typeof showcases)[number])
 
@@ -68,24 +85,35 @@ export function ThemeStudio() {
         <Link href="/docs/theming" className="font-semibold">
           Theme studio
         </Link>
-        <span className="text-fd-muted-foreground hidden sm:inline">·</span>
-        <Select value={preset} onChange={applyPreset} className="bg-fd-background h-8 rounded-md border px-2 text-sm">
-          <option value="custom" disabled>
-            Custom
-          </option>
-          {presets.map((p) => (
-            <option key={p.slug} value={p.slug}>
-              {p.name}
+        <span className="text-fd-muted-foreground hidden md:inline">·</span>
+        {/* The two pickers share a row of their own on a phone. */}
+        <div className="flex w-full gap-2 md:contents">
+          <Select
+            value={preset}
+            onChange={applyPreset}
+            className="bg-fd-background h-8 min-w-0 flex-1 rounded-md border px-2 text-sm md:flex-none"
+          >
+            <option value="custom" disabled>
+              Custom
             </option>
-          ))}
-        </Select>
-        <Select value={content} onChange={setContent} className="bg-fd-background h-8 rounded-md border px-2 text-sm">
-          {showcases.map((s) => (
-            <option key={s.slug} value={s.slug}>
-              Content: {s.name}
-            </option>
-          ))}
-        </Select>
+            {presets.map((p) => (
+              <option key={p.slug} value={p.slug}>
+                {p.name}
+              </option>
+            ))}
+          </Select>
+          <Select
+            value={content}
+            onChange={setContent}
+            className="bg-fd-background h-8 min-w-0 flex-1 rounded-md border px-2 text-sm md:flex-none"
+          >
+            {showcases.map((s) => (
+              <option key={s.slug} value={s.slug}>
+                Content: {s.name}
+              </option>
+            ))}
+          </Select>
+        </div>
         <button
           type="button"
           onClick={() => {
@@ -96,19 +124,26 @@ export function ThemeStudio() {
         >
           Surprise me
         </button>
-        <span className="flex-1" />
-        <Segmented
-          value={viewport}
-          onChange={setViewport}
-          options={[
-            { value: "desktop", label: "Desktop" },
-            { value: "tablet", label: "Tablet" },
-            { value: "mobile", label: "Mobile" },
-          ]}
-        />
+        <span className="hidden flex-1 md:block" />
+        <div className="hidden md:block">
+          <Segmented
+            value={viewport}
+            onChange={setViewport}
+            options={[
+              { value: "desktop", label: "Desktop" },
+              { value: "tablet", label: "Tablet" },
+              { value: "mobile", label: "Mobile" },
+            ]}
+          />
+        </div>
         <CopyButton label="Copy link" getText={() => shareUrl(theme)} />
-        <CopyButton label="Copy CSS" getText={() => themeToCss(theme)} primary />
-        <CopyButton label="Copy prompt" getText={() => themeToPrompt(theme, { shareUrl: shareUrl(theme) })} />
+        {/* On a phone the Export tab holds these, so the header stays two rows. */}
+        <CopyButton label="Copy CSS" getText={() => themeToCss(theme)} primary className="hidden md:inline-block" />
+        <CopyButton
+          label="Copy prompt"
+          getText={() => themeToPrompt(theme, { shareUrl: shareUrl(theme) })}
+          className="hidden md:inline-block"
+        />
         <a
           href={`/showcase/${showcase.slug}#t=${encodeTheme(theme)}`}
           target="_blank"
@@ -119,8 +154,9 @@ export function ThemeStudio() {
         </a>
       </header>
 
-      <div className="flex min-h-0 flex-1">
-        <aside className="flex w-80 shrink-0 flex-col border-r">
+      {/* Side by side from `md`; on a phone the preview sits above the controls, which take the rest of the height. */}
+      <div className="flex min-h-0 flex-1 flex-col-reverse md:flex-row">
+        <aside className="flex min-h-0 flex-1 flex-col border-t md:w-80 md:flex-none md:border-t-0 md:border-r">
           <nav className="grid grid-cols-5 border-b text-xs">
             {(["colours", "type", "layout", "motion", "export"] as Tab[]).map((t) => (
               <button
@@ -143,7 +179,7 @@ export function ThemeStudio() {
           </div>
         </aside>
 
-        <Preview width={viewportWidth[viewport]} theme={theme}>
+        <Preview width={previewWidth} theme={theme}>
           <PageTemplate page={showcase.page} settings={showcase.settings} />
         </Preview>
       </div>
@@ -162,9 +198,9 @@ function Preview({ width, theme, children }: { width: number; theme: Theme; chil
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
-  const zoom = Math.min(1, (pane - 32) / width)
+  const zoom = Math.min(1, (pane - (pane < 768 ? 16 : 32)) / width)
   return (
-    <div ref={ref} className="bg-fd-muted/60 min-w-0 flex-1 overflow-auto p-4">
+    <div ref={ref} className="bg-fd-muted/60 h-[44dvh] min-w-0 shrink-0 overflow-auto p-2 md:h-auto md:flex-1 md:p-4">
       <div className="mx-auto overflow-hidden rounded-lg border shadow-sm" style={{ width: width * zoom }}>
         <div style={{ width, zoom, ...themeToStyle(theme) }} className="bg-background text-foreground">
           {children}
@@ -593,7 +629,17 @@ function ExportPanel({ theme }: { theme: Theme }) {
   )
 }
 
-function CopyButton({ label, getText, primary }: { label: string; getText: () => string; primary?: boolean }) {
+function CopyButton({
+  label,
+  getText,
+  primary,
+  className = "",
+}: {
+  label: string
+  getText: () => string
+  primary?: boolean
+  className?: string
+}) {
   const [done, setDone] = useState(false)
   return (
     <button
@@ -603,7 +649,7 @@ function CopyButton({ label, getText, primary }: { label: string; getText: () =>
         setDone(true)
         setTimeout(() => setDone(false), 1500)
       }}
-      className={`h-8 rounded-md px-2.5 text-sm ${primary ? "bg-fd-primary text-fd-primary-foreground" : "hover:bg-fd-muted border"}`}
+      className={`h-8 rounded-md px-2.5 text-sm ${primary ? "bg-fd-primary text-fd-primary-foreground" : "hover:bg-fd-muted border"} ${className}`}
     >
       {done ? "Copied" : label}
     </button>
