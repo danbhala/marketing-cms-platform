@@ -31,7 +31,7 @@ Defined once in `@platform/cms-core/tags` so adapters and the app agree:
 
 ## Revalidation
 
-`POST /api/revalidate` is the only webhook endpoint. The configured adapter verifies the request (signature or shared secret) and maps the payload to tags; the route calls `revalidateTag(tag, "max")` for each, which serves the stale page while the fresh one is built.
+`/api/revalidate` is the only webhook endpoint (POST, or GET for Drupal's revalidator). The configured adapter verifies the request (signature or shared secret) and maps the payload to tags; the route calls `revalidateTag(tag, "max")` for each, which serves the stale page while the fresh one is built.
 
 ```bash
 curl -X POST http://localhost:3000/api/revalidate \

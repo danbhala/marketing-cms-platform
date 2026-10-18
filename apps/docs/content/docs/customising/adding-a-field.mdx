@@ -24,7 +24,7 @@ export const stats = defineBlock("stats", {
 
 The builders are `field.text`, `textarea`, `textList`, `richText`, `number`, `boolean`, `link`, `icon`, `media`, `date`, `select`, `items` and `reference` (a link to a document such as `category`, single or `multiple`, resolved inline by the adapters). Options are `required`, `label`, `description`, plus `maxLength` on text, `accept` on media, `defaultValue` on select and `min`/`max` on items. `description` becomes the help text editors see in each CMS. Keep `...presentation` last so every block keeps `theme`, `spacing`, `anchor` and the animation fields.
 
-A field on an **item** (a `stat`, an `action`, a `pricingPlan`) is the same edit in `definitions/items.ts`.
+A field on an **item** (a `stat`, an `action`, a `pricingPlan`) is the same edit in `definitions/items.ts`, and a field on a document (`page`, `article`, `category`) the same edit in `definitions/documents.ts`.
 
 </Step>
 

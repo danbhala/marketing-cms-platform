@@ -1,18 +1,18 @@
 # @platform/ui
 
-The component library: vendored shadcn/ui primitives (base-nova style on Base UI), marketing atoms, molecules, 17 blocks and page templates. Components take canonical content from `@platform/content-model` and know nothing about CMSs.
+The component library: vendored shadcn/ui primitives (base-nova style on Base UI), marketing atoms, molecules, 20 blocks and page templates. Components take canonical content from `@platform/content-model` and know nothing about CMSs.
 
 ## Layers
 
-| Folder           | Contents                                                                                                            |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `src/primitives` | shadcn/ui components, vendored by `pnpm vendor:shadcn`. Edit via the script, not by hand.                           |
-| `src/atoms`      | Typography (CVA variants), Container, Section, Image, Link, Icon, Badge, buttons.                                   |
-| `src/molecules`  | Slot-based pieces: action groups, feature items, quotes, price cards, form fields, breadcrumbs, rich text renderer. |
-| `src/blocks`     | One component per block type; `blocks/index.ts` exports `blockComponents`. Every block's root is `BlockSection`.    |
-| `src/templates`  | `PageTemplate` (announcement bar, header, breadcrumbs, blocks, footer) and `BlockList`.                             |
-| `src/styles`     | `tokens.css` (design tokens), `themes.css` (`theme-*` classes), `blocks.css` (spacing).                             |
-| `src/docs`       | Storybook MDX pages.                                                                                                |
+| Folder           | Contents                                                                                                                                                                                                                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/primitives` | shadcn/ui components, vendored by `pnpm vendor:shadcn`. Edit via the script, not by hand.                                                                                                                                                          |
+| `src/atoms`      | Typography (CVA variants), Heading, Text, Eyebrow, Prose, Container, Section, Image, Link, Icon, buttons.                                                                                                                                          |
+| `src/molecules`  | Slot-based pieces: action groups, feature items, quotes, price cards, stat items, form fields, breadcrumbs, rich text renderer, carousel, lightbox, and the listing parts (filter bar, search field, sort select, pagination, collection results). |
+| `src/blocks`     | One component per block type; `blocks/index.ts` exports `blockComponents`. Every block's root is `BlockSection`.                                                                                                                                   |
+| `src/templates`  | `PageTemplate` (announcement bar, header, breadcrumbs, blocks, footer), `ArticleTemplate` and `BlockList`.                                                                                                                                         |
+| `src/styles`     | `tokens.css` (design tokens), `themes.css` (`theme-*` classes), `blocks.css` (spacing).                                                                                                                                                            |
+| `src/docs`       | Storybook MDX pages.                                                                                                                                                                                                                               |
 
 Links and images go through `UiProvider`, so the same components run in Storybook with plain elements and in Next.js with `next/link` and `next/image`.
 
@@ -22,7 +22,7 @@ Fonts, heading weight/tracking/case and section rhythm are variables too (`--fon
 
 ## Animation
 
-Blocks are static by default. When a block's `animation` field is set, `BlockSection` renders through `Reveal` from `@platform/animation`, which plays the preset once as the block scrolls into view. `animationStagger` reveals the block's items one after another: blocks mark those with `BlockItem`, which is a fragment when the block is not staggered. When `headingAnimation` is set, `Heading` renders the title through `SplitText` (words, characters, lines, typewriter or scramble) and keeps the full text in `aria-label`; `SectionHeader` reads the field from its `source` block, and blocks with their own title pass `animation={headingAnimationSettings(block)}`. Presets and timing live in `@platform/animation`, the field options in `@platform/content-model`; this package imports no Motion itself.
+Every animation field defaults to `inherit`, so the site's `animation.config.ts` (`defineAnimation()` in `@platform/content-model`) decides; the platform's own default is off. When a block resolves to a preset, `BlockSection` renders through `Reveal` from `@platform/animation`, which plays the preset once as the block scrolls into view. `animationStagger` reveals the block's items one after another: blocks mark those with `BlockItem`, which is a fragment when the block is not staggered. When `headingAnimation` is set, `Heading` renders the title through `SplitText` (words, characters, lines, typewriter or scramble) and keeps the full text in `aria-label`; `SectionHeader` reads the field from its `source` block, and blocks with their own title pass `animation={headingAnimationSettings(block)}`. The same goes for count-up numbers, marquees, scroll effects, magnetic actions and the gallery: presets and components live in `@platform/animation`, the field options and defaults in `@platform/content-model`; this package imports no Motion itself.
 
 ## Responsive layout
 
