@@ -9,7 +9,7 @@ export function placeholderMedia(
   width: number,
   height: number,
   label = `${width} × ${height}`,
-  options: { bg?: string; fg?: string; alt?: string; fontSize?: number; weight?: number } = {},
+  options: { bg?: string; fg?: string; alt?: string; fontSize?: number; weight?: number } = {}
 ): Media {
   const bg = options.bg ?? "#e4e4e7"
   const fg = options.fg ?? "#71717a"
@@ -31,7 +31,13 @@ export function placeholderMedia(
 
 /** A small wordmark-style placeholder for logo clouds. */
 export function placeholderLogo(name: string): Media {
-  return placeholderMedia(160, 48, name, { bg: "transparent", fg: "#18181b", alt: `${name} logo`, fontSize: 26, weight: 700 })
+  return placeholderMedia(160, 48, name, {
+    bg: "transparent",
+    fg: "#18181b",
+    alt: `${name} logo`,
+    fontSize: 26,
+    weight: 700,
+  })
 }
 
 /** A square avatar placeholder showing initials. */

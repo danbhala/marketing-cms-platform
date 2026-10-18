@@ -15,9 +15,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Prose: Story = {
-  args: { block: { ...fixtures.richTextBlock, ...{ width: 'prose' } } },
+  args: { block: { ...fixtures.richTextBlock, ...{ width: "prose" } } },
 }
 
 export const Full: Story = {
-  args: { block: { ...fixtures.richTextBlock, ...{ width: 'full' } } },
+  args: { block: { ...fixtures.richTextBlock, ...{ width: "full" } } },
 }

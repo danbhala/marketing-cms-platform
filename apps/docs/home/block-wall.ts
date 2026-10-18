@@ -18,9 +18,21 @@ export interface WallTile {
 }
 
 /** Portraits for the people in fixture blocks (see /public/showcases/CREDITS.md). */
-const portrait = (n: number, alt: string): Media => ({ kind: "image", url: `/showcases/people/person-${n}.jpg`, alt, width: 400, height: 400 })
+const portrait = (n: number, alt: string): Media => ({
+  kind: "image",
+  url: `/showcases/people/person-${n}.jpg`,
+  alt,
+  width: 400,
+  height: 400,
+})
 
-const photo = (name: string, alt: string): Media => ({ kind: "image", url: `/showcases/${name}.jpg`, alt, width: 800, height: 600 })
+const photo = (name: string, alt: string): Media => ({
+  kind: "image",
+  url: `/showcases/${name}.jpg`,
+  alt,
+  width: 800,
+  height: 600,
+})
 
 const pick = (slug: string, type: WallTile["type"], patch?: (block: Block) => Block): WallTile => {
   const showcase = findShowcase(slug)
@@ -31,14 +43,24 @@ const pick = (slug: string, type: WallTile["type"], patch?: (block: Block) => Bl
 
 /** The fixtures use grey placeholder images; the wall swaps them for photos so no tile looks unfinished. */
 const withPortraits = (block: Block): Block =>
-  block.type === "teamGrid" ? { ...block, people: block.people.map((person, i) => ({ ...person, image: portrait(i + 1, person.name) })) } : block
+  block.type === "teamGrid"
+    ? { ...block, people: block.people.map((person, i) => ({ ...person, image: portrait(i + 1, person.name) })) }
+    : block
 
 const withQuotePortraits = (block: Block): Block =>
-  block.type === "testimonials" ? { ...block, testimonials: block.testimonials.map((t, i) => ({ ...t, avatar: portrait(5 + i, t.authorName) })) } : block
+  block.type === "testimonials"
+    ? { ...block, testimonials: block.testimonials.map((t, i) => ({ ...t, avatar: portrait(5 + i, t.authorName) })) }
+    : block
 
-const tabPhotos = [photo("mountains", "Snow-capped mountain peaks at dusk"), photo("alpine-meadow", "An alpine meadow"), photo("turquoise-lake", "A turquoise alpine lake")]
+const tabPhotos = [
+  photo("mountains", "Snow-capped mountain peaks at dusk"),
+  photo("alpine-meadow", "An alpine meadow"),
+  photo("turquoise-lake", "A turquoise alpine lake"),
+]
 const withTabPhotos = (block: Block): Block =>
-  block.type === "tabs" ? { ...block, tabs: block.tabs.map((tab, i) => ({ ...tab, media: tabPhotos[i % tabPhotos.length] })) } : block
+  block.type === "tabs"
+    ? { ...block, tabs: block.tabs.map((tab, i) => ({ ...tab, media: tabPhotos[i % tabPhotos.length] })) }
+    : block
 
 export const wallRows: WallTile[][] = [
   [

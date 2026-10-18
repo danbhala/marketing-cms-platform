@@ -34,7 +34,11 @@ export const pageUnpublish = {
 
 export const siteSettingsPublish = {
   topic: "ContentManagement.Entry.publish",
-  body: { metadata: { tags: [] }, sys: sys("site", "Entry", "siteSettings"), fields: { siteName: { "en-US": "Metrica" } } },
+  body: {
+    metadata: { tags: [] },
+    sys: sys("site", "Entry", "siteSettings"),
+    fields: { siteName: { "en-US": "Metrica" } },
+  },
 }
 
 export const actionSave = {
@@ -51,6 +55,9 @@ export const assetPublish = {
   body: {
     metadata: { tags: [] },
     sys: sys("asset-hero", "Asset"),
-    fields: { title: { "en-US": "hero.png" }, file: { "en-US": { url: "//images.ctfassets.net/sp4ce1d/asset-hero/0a1b2c/hero.png" } } },
+    fields: {
+      title: { "en-US": "hero.png" },
+      file: { "en-US": { url: "//images.ctfassets.net/sp4ce1d/asset-hero/0a1b2c/hero.png" } },
+    },
   },
 }

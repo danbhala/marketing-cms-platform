@@ -14,12 +14,22 @@ describe("preview.enter", () => {
 
   it("never accepts a secret when none is configured", async () => {
     const open = createPreviewHandlers({ secret: "", resolvePath, localeMap: {} })
-    expect(await open.enter(new Request("https://site.test/api/preview?secret="))).toMatchObject({ ok: false, status: 401 })
+    expect(await open.enter(new Request("https://site.test/api/preview?secret="))).toMatchObject({
+      ok: false,
+      status: 401,
+    })
   })
 
   it("defaults to edit mode and lets a link opt out", async () => {
-    expect(await enter("secret=s3cret&path=/pricing")).toEqual({ ok: true, path: "/pricing", context: { mode: "edit", localeMap: { en: "en-US" } } })
-    expect(await enter("secret=s3cret&path=/pricing&mode=preview")).toMatchObject({ ok: true, context: { mode: "preview" } })
+    expect(await enter("secret=s3cret&path=/pricing")).toEqual({
+      ok: true,
+      path: "/pricing",
+      context: { mode: "edit", localeMap: { en: "en-US" } },
+    })
+    expect(await enter("secret=s3cret&path=/pricing&mode=preview")).toMatchObject({
+      ok: true,
+      context: { mode: "preview" },
+    })
   })
 
   it("only ever redirects on-site", async () => {

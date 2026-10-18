@@ -9,8 +9,22 @@ Every CMS is normalised into the **canonical content shape** before it reaches a
 
 <FlowDiagram
   columns={[
-    { title: "CMS", nodes: ["Contentful", "Storyblok", "Optimizely SaaS", "Sanity", "Drupal", "Wagtail", "JSON fixtures"] },
-    { title: "Adapter", nodes: ["cms-contentful", "cms-storyblok", "cms-optimizely", "cms-sanity", "cms-drupal", "cms-wagtail", "cms-local"] },
+    {
+      title: "CMS",
+      nodes: ["Contentful", "Storyblok", "Optimizely SaaS", "Sanity", "Drupal", "Wagtail", "JSON fixtures"],
+    },
+    {
+      title: "Adapter",
+      nodes: [
+        "cms-contentful",
+        "cms-storyblok",
+        "cms-optimizely",
+        "cms-sanity",
+        "cms-drupal",
+        "cms-wagtail",
+        "cms-local",
+      ],
+    },
     { title: "Canonical", nodes: ["content-model"] },
     { title: "Registry", nodes: ["component-registry"] },
     { title: "UI", nodes: ["ui blocks"] },
@@ -28,10 +42,10 @@ Every CMS is normalised into the **canonical content shape** before it reaches a
 export const faq = defineBlock("faq", {
   label: "FAQ",
   fields: {
-    ...heading,                               // eyebrow, title, description
+    ...heading, // eyebrow, title, description
     items: field.items([faqItem]),
     layout: field.select(["single", "split"], { defaultValue: "single" }),
-    ...presentation,                          // theme, spacing, anchor, animation*
+    ...presentation, // theme, spacing, anchor, animation*
   },
 })
 ```
@@ -60,8 +74,8 @@ interface CmsAdapter {
   getSiteSettings(ctx): Promise<SiteSettings | null>
   getPaths(locale): Promise<string[]>
   resolvePreviewPath(searchParams): Promise<string | null>
-  webhook: { verify(request), toEvent(payload) }
-  preview: { enter(request), context(searchParams, draft), frameAncestors, bridge }
+  webhook: { verify(request); toEvent(payload) }
+  preview: { enter(request); context(searchParams, draft); frameAncestors; bridge }
 }
 ```
 

@@ -8,7 +8,20 @@ export const frameAncestors: Record<string, string[]> = {
   contentful: ["'self'", "https://app.contentful.com"],
   storyblok: ["'self'", "https://app.storyblok.com"],
   optimizely: ["'self'", "https://*.cms.optimizely.com"],
-  sanity: ["'self'", "https://*.sanity.studio", "http://localhost:3333", ...(process.env.SANITY_STUDIO_URL ? [new URL(process.env.SANITY_STUDIO_URL).origin] : [])],
-  drupal: ["'self'", ...(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL ? [new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).origin] : [])],
-  wagtail: ["'self'", ...[process.env.WAGTAIL_ADMIN_URL ?? process.env.WAGTAIL_API_URL].flatMap((url) => (url ? [new URL(url).origin] : []))],
+  sanity: [
+    "'self'",
+    "https://*.sanity.studio",
+    "http://localhost:3333",
+    ...(process.env.SANITY_STUDIO_URL ? [new URL(process.env.SANITY_STUDIO_URL).origin] : []),
+  ],
+  drupal: [
+    "'self'",
+    ...(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL ? [new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).origin] : []),
+  ],
+  wagtail: [
+    "'self'",
+    ...[process.env.WAGTAIL_ADMIN_URL ?? process.env.WAGTAIL_API_URL].flatMap((url) =>
+      url ? [new URL(url).origin] : []
+    ),
+  ],
 }

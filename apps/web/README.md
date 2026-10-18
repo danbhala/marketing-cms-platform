@@ -11,13 +11,13 @@ pnpm dev                 # http://localhost:3000 → /en
 
 ## Routes
 
-| Route | Purpose |
-| --- | --- |
-| `/[locale]/[[...slug]]` | Every CMS page, rendered through `PageTemplate` and the component registry. |
+| Route                          | Purpose                                                                          |
+| ------------------------------ | -------------------------------------------------------------------------------- |
+| `/[locale]/[[...slug]]`        | Every CMS page, rendered through `PageTemplate` and the component registry.      |
 | `/api/preview?secret=…&path=…` | Enters Draft Mode (the adapter validates the request) and redirects to the page. |
-| `/api/preview/exit` | Leaves Draft Mode. |
-| `/api/revalidate` | CMS webhook target; the adapter verifies it and maps the payload to cache tags. |
-| `/sitemap.xml`, `/robots.txt` | From the adapter's `getPaths`. |
+| `/api/preview/exit`            | Leaves Draft Mode.                                                               |
+| `/api/revalidate`              | CMS webhook target; the adapter verifies it and maps the payload to cache tags.  |
+| `/sitemap.xml`, `/robots.txt`  | From the adapter's `getPaths`.                                                   |
 
 ## Caching and preview
 

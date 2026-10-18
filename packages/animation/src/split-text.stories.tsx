@@ -19,7 +19,7 @@ interface DemoProps {
 
 function Demo({ text, preset, duration, delay }: DemoProps) {
   return (
-    <h2 aria-label={text} className="font-heading heading-style max-w-3xl text-4xl text-balance section-sm:text-5xl">
+    <h2 aria-label={text} className="max-w-3xl font-heading text-4xl heading-style text-balance section-sm:text-5xl">
       <SplitText text={text} animation={{ preset, duration, delay }} />
     </h2>
   )
@@ -29,8 +29,9 @@ function Demo({ text, preset, duration, delay }: DemoProps) {
 async function waitForText({ canvasElement }: { canvasElement: HTMLElement }) {
   const deadline = Date.now() + 6000
   const settled = () =>
-    Array.from(canvasElement.querySelectorAll<HTMLElement>("[style]")).every((el) => getComputedStyle(el).opacity === "1") &&
-    !canvasElement.querySelector("[data-char][style]")
+    Array.from(canvasElement.querySelectorAll<HTMLElement>("[style]")).every(
+      (el) => getComputedStyle(el).opacity === "1"
+    ) && !canvasElement.querySelector("[data-char][style]")
   await new Promise((resolve) => setTimeout(resolve, 300))
   while (!settled() && Date.now() < deadline) await new Promise((resolve) => setTimeout(resolve, 100))
 }

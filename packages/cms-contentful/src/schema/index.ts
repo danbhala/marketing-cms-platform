@@ -138,13 +138,19 @@ export function fieldModel(id: string, field: Field, options: SchemaOptions = {}
     case "items":
     case "blocks": {
       model.type = "Array"
-      model.items = { type: "Link", linkType: "Entry", validations: [{ linkContentType: field.of.map((d: AnyDefinition) => d.type) }] }
+      model.items = {
+        type: "Link",
+        linkType: "Entry",
+        validations: [{ linkContentType: field.of.map((d: AnyDefinition) => d.type) }],
+      }
       // Canonical content defaults lists to [], so only a min bound makes the field required.
       const min = field.kind === "items" ? field.min : undefined
       const max = field.kind === "items" ? field.max : undefined
       model.required = (min ?? 0) > 0
       if (min !== undefined || max !== undefined) {
-        model.validations.push({ size: { ...(min !== undefined ? { min } : {}), ...(max !== undefined ? { max } : {}) } })
+        model.validations.push({
+          size: { ...(min !== undefined ? { min } : {}), ...(max !== undefined ? { max } : {}) },
+        })
       }
       model.editor = editor("entryLinksEditor")
       break
@@ -158,7 +164,10 @@ export function contentTypeFor(definition: AnyDefinition, options: SchemaOptions
     const model = fieldModel(id, field, options)
     // Pages are looked up by path, so it must be unique and absolute.
     if (definition.type === "page" && id === "path") {
-      model.validations.push({ unique: true }, { regexp: { pattern: "^/" }, message: "Paths start with /, e.g. /pricing. The home page is /." })
+      model.validations.push(
+        { unique: true },
+        { regexp: { pattern: "^/" }, message: "Paths start with /, e.g. /pricing. The home page is /." }
+      )
       model.editor = { widgetId: "singleLine", settings: { helpText: field.description ?? "URL path, e.g. /pricing" } }
     }
     return model

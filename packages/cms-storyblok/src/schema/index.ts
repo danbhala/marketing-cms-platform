@@ -76,7 +76,9 @@ export function toComponent(definition: AnyDefinition): StoryblokComponent {
     if (skip.includes(name)) continue
     schema[name] = toFieldSchema(name, field, pos++)
   }
-  const previewField = Object.keys(schema).find((name) => ["title", "label", "name", "question", "quote", "siteName"].includes(name))
+  const previewField = Object.keys(schema).find((name) =>
+    ["title", "label", "name", "question", "quote", "siteName"].includes(name)
+  )
   return {
     name: definition.type,
     display_name: definition.label,
@@ -125,7 +127,13 @@ export function toFieldSchema(name: string, field: Field, pos: number): Storyblo
         ...(field.defaultValue ? { default_value: field.defaultValue } : {}),
       }
     case "textList":
-      return { ...base, type: "bloks", restrict_type: "", restrict_components: true, component_whitelist: [TEXT_ITEM_COMPONENT] }
+      return {
+        ...base,
+        type: "bloks",
+        restrict_type: "",
+        restrict_components: true,
+        component_whitelist: [TEXT_ITEM_COMPONENT],
+      }
     case "items":
       return {
         ...base,

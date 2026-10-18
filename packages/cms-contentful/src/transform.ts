@@ -56,7 +56,11 @@ export function transformSiteSettings(entry: RawEntry, ctx: TransformContext): S
  * items and blocks, validated against the definition's zod schema. Every
  * level validates itself so a failure names the nearest entry, not the page.
  */
-export function transformEntry(entry: RawEntry, definition: AnyDefinition, ctx: TransformContext): Record<string, unknown> {
+export function transformEntry(
+  entry: RawEntry,
+  definition: AnyDefinition,
+  ctx: TransformContext
+): Record<string, unknown> {
   const warn = ctx.warn ?? (() => {})
   const raw = entry.fields ?? {}
   const node: Record<string, unknown> = { id: entry.sys.id, type: definition.type }
@@ -76,7 +80,12 @@ export function transformEntry(entry: RawEntry, definition: AnyDefinition, ctx: 
   if (!result.success) {
     const issue = result.error.issues[0]
     const path = issue?.path.map(String).join(".")
-    throw new ContentfulTransformError(entry.sys.id, definition.type, path || undefined, issue?.message ?? "invalid content")
+    throw new ContentfulTransformError(
+      entry.sys.id,
+      definition.type,
+      path || undefined,
+      issue?.message ?? "invalid content"
+    )
   }
   return node
 }
@@ -134,7 +143,8 @@ function editMetadata(entry: RawEntry, fields: Record<string, Field>, locale: st
   for (const name of names) {
     const field = fields[name]
     const raw = entry.fields?.[name]
-    edits[name] = field?.kind === "media" && isAsset(raw) ? assetAttrs(raw.sys.id, locale) : entryAttrs(entry.sys.id, name, locale)
+    edits[name] =
+      field?.kind === "media" && isAsset(raw) ? assetAttrs(raw.sys.id, locale) : entryAttrs(entry.sys.id, name, locale)
   }
   return { self: entryAttrs(entry.sys.id, names[0] ?? "title", locale), fields: edits }
 }

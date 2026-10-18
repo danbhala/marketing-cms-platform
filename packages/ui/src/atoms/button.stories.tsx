@@ -38,10 +38,18 @@ export const Variants: Story = {
 export const Sizes: Story = {
   render: (args) => (
     <Stack direction="row" gap="md" align="center">
-      <Button {...args} size="sm">Small</Button>
-      <Button {...args} size="default">Default</Button>
-      <Button {...args} size="lg">Large</Button>
-      <Button {...args} size="icon" aria-label="Next"><ArrowRightIcon /></Button>
+      <Button {...args} size="sm">
+        Small
+      </Button>
+      <Button {...args} size="default">
+        Default
+      </Button>
+      <Button {...args} size="lg">
+        Large
+      </Button>
+      <Button {...args} size="icon" aria-label="Next">
+        <ArrowRightIcon />
+      </Button>
     </Stack>
   ),
 }

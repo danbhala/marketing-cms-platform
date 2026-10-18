@@ -25,8 +25,12 @@ function StatItem({ item, align = "center", countUp, className, ...props }: Stat
       {...editAttrs(item)}
       {...props}
     >
-      <p className="font-heading heading-style text-4xl section-sm:text-5xl" {...fieldAttrs(item, "value")}>
-        {countUp ? <CountUp value={item.value} duration={countUp.duration ?? undefined} delay={countUp.delay ?? undefined} /> : item.value}
+      <p className="font-heading text-4xl heading-style section-sm:text-5xl" {...fieldAttrs(item, "value")}>
+        {countUp ? (
+          <CountUp value={item.value} duration={countUp.duration ?? undefined} delay={countUp.delay ?? undefined} />
+        ) : (
+          item.value
+        )}
       </p>
       <Text size="sm" weight="medium" {...fieldAttrs(item, "label")}>
         {item.label}

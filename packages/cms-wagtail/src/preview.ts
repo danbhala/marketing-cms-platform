@@ -50,7 +50,8 @@ export function safeEqual(a: string, b: string): boolean {
 
 /** Only on-site, absolute paths: never a protocol-relative or full URL from the query. */
 export function safePath(input: string | null | undefined): string | null {
-  if (!input || !input.startsWith("/") || input.startsWith("//") || input.includes("://") || input.includes("\\")) return null
+  if (!input || !input.startsWith("/") || input.startsWith("//") || input.includes("://") || input.includes("\\"))
+    return null
   return normalizePath(input)
 }
 
@@ -58,7 +59,10 @@ export function safePath(input: string | null | undefined): string | null {
  * Preview token → the draft's site path (`/` for a page that was never saved
  * and so has no URL yet); page id → path via the API; else a safe `path`.
  */
-export async function resolvePreviewPath(searchParams: URLSearchParams, options: Pick<PreviewOptions, "api" | "pageType">): Promise<string | null> {
+export async function resolvePreviewPath(
+  searchParams: URLSearchParams,
+  options: Pick<PreviewOptions, "api" | "pageType">
+): Promise<string | null> {
   const preview = readPreviewToken(searchParams)
   if (preview) {
     if (preview.contentType !== options.pageType.toLowerCase()) return null

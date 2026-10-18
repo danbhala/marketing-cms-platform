@@ -27,7 +27,8 @@ let instance: Promise<CmsAdapter> | undefined
 /** The configured adapter, created once per server. */
 export function getAdapter(): Promise<CmsAdapter> {
   const load = providers[siteConfig.provider]
-  if (!load) throw new Error(`Unknown CMS_PROVIDER "${siteConfig.provider}". Known: ${Object.keys(providers).join(", ")}`)
+  if (!load)
+    throw new Error(`Unknown CMS_PROVIDER "${siteConfig.provider}". Known: ${Object.keys(providers).join(", ")}`)
   instance ??= load()
   return instance
 }

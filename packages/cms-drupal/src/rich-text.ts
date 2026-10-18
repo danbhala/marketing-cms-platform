@@ -61,7 +61,17 @@ const blockTags = new Set([
   "nav",
   "drupal-media",
 ])
-const markTags: Record<string, Mark> = { strong: "bold", b: "bold", em: "italic", i: "italic", u: "underline", s: "strikethrough", del: "strikethrough", strike: "strikethrough", code: "code" }
+const markTags: Record<string, Mark> = {
+  strong: "bold",
+  b: "bold",
+  em: "italic",
+  i: "italic",
+  u: "underline",
+  s: "strikethrough",
+  del: "strikethrough",
+  strike: "strikethrough",
+  code: "code",
+}
 
 export function htmlToAst(html: string | null | undefined, options: RichTextOptions = {}): RichText {
   if (!html || !html.trim()) return { type: "root", children: [] }
@@ -71,14 +81,20 @@ export function htmlToAst(html: string | null | undefined, options: RichTextOpti
 /** True when the field holds no visible content (CKEditor saves `<p>&nbsp;</p>` for an empty field). */
 export function isEmptyHtml(html: string | null | undefined): boolean {
   if (!html) return true
-  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() === "" && !/<(img|hr|drupal-media)\b/i.test(html)
+  return (
+    html
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim() === "" && !/<(img|hr|drupal-media)\b/i.test(html)
+  )
 }
 
 // ---------------------------------------------------------------------------
 // Parsing
 // ---------------------------------------------------------------------------
 
-const tokenPattern = /<!--[\s\S]*?-->|<\/([a-zA-Z][\w-]*)\s*>|<([a-zA-Z][\w-]*)((?:\s+[^\s=>/]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?)*)\s*(\/?)>|([^<]+)|</g
+const tokenPattern =
+  /<!--[\s\S]*?-->|<\/([a-zA-Z][\w-]*)\s*>|<([a-zA-Z][\w-]*)((?:\s+[^\s=>/]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?)*)\s*(\/?)>|([^<]+)|</g
 
 export function parse(html: string): Node[] {
   const root: Element = { kind: "element", tag: "#root", attrs: {}, children: [] }
@@ -124,7 +140,24 @@ function parseAttrs(text: string): Record<string, string> {
   return attrs
 }
 
-const entities: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", hellip: "…", mdash: "—", ndash: "–", lsquo: "‘", rsquo: "’", ldquo: "“", rdquo: "”", copy: "©", reg: "®", trade: "™" }
+const entities: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+  hellip: "…",
+  mdash: "—",
+  ndash: "–",
+  lsquo: "‘",
+  rsquo: "’",
+  ldquo: "“",
+  rdquo: "”",
+  copy: "©",
+  reg: "®",
+  trade: "™",
+}
 
 export function decode(text: string): string {
   return text.replace(/&(#x[0-9a-fA-F]+|#\d+|[a-zA-Z]+);/g, (whole, body: string) => {
@@ -178,10 +211,18 @@ function block(el: Element, options: RichTextOptions): BlockNode[] {
     case "ul":
     case "ol": {
       const items = el.children.filter((child): child is Element => child.kind === "element" && child.tag === "li")
-      return [{ type: "list", ordered: el.tag === "ol", children: items.map((li) => ({ type: "listItem", children: blocks(li.children, options) })) }]
+      return [
+        {
+          type: "list",
+          ordered: el.tag === "ol",
+          children: items.map((li) => ({ type: "listItem", children: blocks(li.children, options) })),
+        },
+      ]
     }
     case "li":
-      return [{ type: "list", ordered: false, children: [{ type: "listItem", children: blocks(el.children, options) }] }]
+      return [
+        { type: "list", ordered: false, children: [{ type: "listItem", children: blocks(el.children, options) }] },
+      ]
     case "blockquote":
       return [{ type: "blockquote", children: blocks(el.children, options) }]
     case "hr":
@@ -235,7 +276,15 @@ function inlineChildren(nodes: Node[], options: RichTextOptions): InlineNode[] {
  * carried down the tree; an image flushes the paragraph and is emitted as a
  * block through `hoist`.
  */
-function inlines(nodes: Node[], run: InlineNode[], hoisted: BlockNode[], flush: () => void, options: RichTextOptions, marks: Mark[] = [], href: string | null = null): void {
+function inlines(
+  nodes: Node[],
+  run: InlineNode[],
+  hoisted: BlockNode[],
+  flush: () => void,
+  options: RichTextOptions,
+  marks: Mark[] = [],
+  href: string | null = null
+): void {
   for (const node of nodes) {
     if (node.kind === "text") {
       pushText(run, node.value, marks, href)
@@ -264,7 +313,15 @@ function inlines(nodes: Node[], run: InlineNode[], hoisted: BlockNode[], flush: 
           hoisted.push(...block(node, options))
           continue
         }
-        inlines(node.children, run, hoisted, flush, options, mark && !marks.includes(mark) ? [...marks, mark] : marks, href)
+        inlines(
+          node.children,
+          run,
+          hoisted,
+          flush,
+          options,
+          mark && !marks.includes(mark) ? [...marks, mark] : marks,
+          href
+        )
       }
     }
   }
@@ -297,7 +354,13 @@ function sameMarks(a: TextNode, b: TextNode): boolean {
 
 /** Drops leading/trailing whitespace and empty text at the edges of a paragraph. */
 function trimRun(run: InlineNode[]): InlineNode[] {
-  const out = run.map((node) => (node.type === "text" ? { ...node } : node.type === "link" ? { ...node, children: node.children.map((c) => ({ ...c })) } : node))
+  const out = run.map((node) =>
+    node.type === "text"
+      ? { ...node }
+      : node.type === "link"
+        ? { ...node, children: node.children.map((c) => ({ ...c })) }
+        : node
+  )
   const first = out[0]
   if (first?.type === "text") first.value = first.value.replace(/^\s+/, "")
   if (first?.type === "link" && first.children[0]) first.children[0].value = first.children[0].value.replace(/^\s+/, "")
@@ -307,11 +370,17 @@ function trimRun(run: InlineNode[]): InlineNode[] {
     const tail = last.children[last.children.length - 1]
     if (tail) tail.value = tail.value.replace(/\s+$/, "")
   }
-  return out.filter((node) => !(node.type === "text" && node.value === "") && !(node.type === "link" && node.children.every((c) => c.value === "")))
+  return out.filter(
+    (node) =>
+      !(node.type === "text" && node.value === "") &&
+      !(node.type === "link" && node.children.every((c) => c.value === ""))
+  )
 }
 
 function textContent(nodes: Node[]): string {
-  return nodes.map((node) => (node.kind === "text" ? node.value : node.tag === "br" ? "\n" : textContent(node.children))).join("")
+  return nodes
+    .map((node) => (node.kind === "text" ? node.value : node.tag === "br" ? "\n" : textContent(node.children)))
+    .join("")
 }
 
 function imageMedia(attrs: Record<string, string>, options: RichTextOptions): Media | null {

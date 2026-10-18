@@ -5,27 +5,31 @@ description: "The 17 marketing blocks, each with its fields, variants, a live pr
 
 A page is an ordered list of blocks. Each block is defined once in the content model, rendered by one component in `@platform/ui`, and exposed to editors in every CMS with the same fields. Every block also carries the shared presentation fields `theme`, `spacing`, `anchor` and the five [animation](/docs/animation) fields.
 
-| Block | Type | Summary |
-| --- | --- | --- |
-| [Hero](/docs/blocks/hero) | `hero` | Full-width opener with eyebrow, title, description, up to three actions and media. Layouts: centered, split, splitReverse, background. |
-| [Logo cloud](/docs/blocks/logoCloud) | `logoCloud` | A row or grid of customer logos with an optional one-line title. |
-| [Feature grid](/docs/blocks/featureGrid) | `featureGrid` | Heading plus a 2–4 column grid of icon/title/description features, plain or as cards. |
-| [Feature split](/docs/blocks/featureSplit) | `featureSplit` | Copy on one side, media on the other, with rich text, bullet list and actions. |
-| [Stats](/docs/blocks/stats) | `stats` | A row of big numbers with labels and descriptions. |
-| [Testimonials](/docs/blocks/testimonials) | `testimonials` | Quote cards in a grid, or one large featured quote. |
-| [Pricing table](/docs/blocks/pricing) | `pricing` | Two to four plan cards; the highlighted plan is emphasised. |
-| [Comparison table](/docs/blocks/comparisonTable) | `comparisonTable` | Feature-by-plan matrix; yes/no become icons. |
-| [FAQ](/docs/blocks/faq) | `faq` | Accordion of questions with rich-text answers, single column or split. |
-| [Call to action](/docs/blocks/cta) | `cta` | Closing panel with title, description and up to two actions; themes apply to the panel. |
-| [Card grid](/docs/blocks/cardGrid) | `cardGrid` | Linked content cards (posts, case studies, resources) with an optional 'view all' action. |
-| [Team grid](/docs/blocks/teamGrid) | `teamGrid` | People with photo, name, role and bio. |
-| [Steps](/docs/blocks/steps) | `steps` | Numbered process, horizontal or vertical. |
-| [Tabbed content](/docs/blocks/tabs) | `tabs` | Tabs, each with a title, rich text and media. |
-| [Rich text](/docs/blocks/richText) | `richText` | Long-form copy from the CMS rich-text editor. |
-| [Media](/docs/blocks/media) | `media` | A single image or video with a caption, contained or edge to edge. |
-| [Form](/docs/blocks/form) | `form` | Newsletter or contact form built from CMS-defined fields; posts JSON to an endpoint. |
+| Block                                            | Type              | Summary                                                                                                                                |
+| ------------------------------------------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Hero](/docs/blocks/hero)                        | `hero`            | Full-width opener with eyebrow, title, description, up to three actions and media. Layouts: centered, split, splitReverse, background. |
+| [Logo cloud](/docs/blocks/logoCloud)             | `logoCloud`       | A row or grid of customer logos with an optional one-line title.                                                                       |
+| [Feature grid](/docs/blocks/featureGrid)         | `featureGrid`     | Heading plus a 2–4 column grid of icon/title/description features, plain or as cards.                                                  |
+| [Feature split](/docs/blocks/featureSplit)       | `featureSplit`    | Copy on one side, media on the other, with rich text, bullet list and actions.                                                         |
+| [Stats](/docs/blocks/stats)                      | `stats`           | A row of big numbers with labels and descriptions.                                                                                     |
+| [Testimonials](/docs/blocks/testimonials)        | `testimonials`    | Quote cards in a grid, or one large featured quote.                                                                                    |
+| [Pricing table](/docs/blocks/pricing)            | `pricing`         | Two to four plan cards; the highlighted plan is emphasised.                                                                            |
+| [Comparison table](/docs/blocks/comparisonTable) | `comparisonTable` | Feature-by-plan matrix; yes/no become icons.                                                                                           |
+| [FAQ](/docs/blocks/faq)                          | `faq`             | Accordion of questions with rich-text answers, single column or split.                                                                 |
+| [Call to action](/docs/blocks/cta)               | `cta`             | Closing panel with title, description and up to two actions; themes apply to the panel.                                                |
+| [Card grid](/docs/blocks/cardGrid)               | `cardGrid`        | Linked content cards (posts, case studies, resources) with an optional 'view all' action.                                              |
+| [Team grid](/docs/blocks/teamGrid)               | `teamGrid`        | People with photo, name, role and bio.                                                                                                 |
+| [Steps](/docs/blocks/steps)                      | `steps`           | Numbered process, horizontal or vertical.                                                                                              |
+| [Tabbed content](/docs/blocks/tabs)              | `tabs`            | Tabs, each with a title, rich text and media.                                                                                          |
+| [Rich text](/docs/blocks/richText)               | `richText`        | Long-form copy from the CMS rich-text editor.                                                                                          |
+| [Media](/docs/blocks/media)                      | `media`           | A single image or video with a caption, contained or edge to edge.                                                                     |
+| [Form](/docs/blocks/form)                        | `form`            | Newsletter or contact form built from CMS-defined fields; posts JSON to an endpoint.                                                   |
 
-<Screenshot name="templates-pages--landing" alt="A landing page composed from hero, logo cloud, feature grid, feature split, stats, testimonials, pricing, FAQ and CTA blocks" height={5212} />
+<Screenshot
+  name="templates-pages--landing"
+  alt="A landing page composed from hero, logo cloud, feature grid, feature split, stats, testimonials, pricing, FAQ and CTA blocks"
+  height={5212}
+/>
 
 ## Page compositions
 

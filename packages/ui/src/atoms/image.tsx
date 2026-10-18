@@ -43,11 +43,18 @@ function Image({ media, ratio, radius, fit = "cover", fill, className, sizes, pr
 
   if (media.kind === "video") {
     return (
-      <div data-slot="image" className={cn(fill ? "absolute inset-0 overflow-hidden" : imageFrameVariants({ ratio, radius }), className)}>
+      <div
+        data-slot="image"
+        className={cn(fill ? "absolute inset-0 overflow-hidden" : imageFrameVariants({ ratio, radius }), className)}
+      >
         <video
           src={media.url}
           aria-label={media.alt || undefined}
-          className={cn("h-full w-full", fit === "cover" ? "object-cover" : "object-contain", fill && "absolute inset-0")}
+          className={cn(
+            "h-full w-full",
+            fit === "cover" ? "object-cover" : "object-contain",
+            fill && "absolute inset-0"
+          )}
           autoPlay
           muted
           loop
@@ -59,7 +66,10 @@ function Image({ media, ratio, radius, fit = "cover", fill, className, sizes, pr
 
   if (fixed) {
     return (
-      <div data-slot="image" className={cn(fill ? "absolute inset-0 overflow-hidden" : imageFrameVariants({ ratio, radius }), className)}>
+      <div
+        data-slot="image"
+        className={cn(fill ? "absolute inset-0 overflow-hidden" : imageFrameVariants({ ratio, radius }), className)}
+      >
         <HostImage
           media={media}
           fill

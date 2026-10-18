@@ -60,7 +60,13 @@ export function createWagtailAdapter(options: WagtailAdapterOptions = {}): CmsAd
   const getApi = (): WagtailApi => {
     if (api) return api
     if (!apiUrl) throw new Error("@platform/cms-wagtail: set WAGTAIL_API_URL (or pass apiUrl)")
-    api = createWagtailApi({ apiUrl, pageType, settingsEndpoint, siteHostname: options.siteHostname ?? env.WAGTAIL_SITE_HOSTNAME, i18n })
+    api = createWagtailApi({
+      apiUrl,
+      pageType,
+      settingsEndpoint,
+      siteHostname: options.siteHostname ?? env.WAGTAIL_SITE_HOSTNAME,
+      i18n,
+    })
     return api
   }
 
@@ -75,7 +81,12 @@ export function createWagtailAdapter(options: WagtailAdapterOptions = {}): CmsAd
   /** The draft behind the editor's token, when the request is for that page. */
   async function previewPage(path: string, ctx: FetchContext) {
     if (!ctx.draft || !ctx.preview) return null
-    const token = readPreviewToken(new URLSearchParams({ content_type: String(ctx.preview.contentType ?? ""), token: String(ctx.preview.token ?? "") }))
+    const token = readPreviewToken(
+      new URLSearchParams({
+        content_type: String(ctx.preview.contentType ?? ""),
+        token: String(ctx.preview.token ?? ""),
+      })
+    )
     if (!token || token.contentType !== pageType.toLowerCase()) return null
     const raw = await getApi().getPreviewPage(token.contentType, token.token)
     if (!raw) return null
@@ -102,7 +113,9 @@ export function createWagtailAdapter(options: WagtailAdapterOptions = {}): CmsAd
 
     async getPaths(locale) {
       const pages = await getApi().listPages(query({ locale }))
-      const paths = pages.filter((page) => page.meta.type === pageType).flatMap((page) => pathFromHtmlUrl(page.meta.html_url) ?? [])
+      const paths = pages
+        .filter((page) => page.meta.type === pageType)
+        .flatMap((page) => pathFromHtmlUrl(page.meta.html_url) ?? [])
       return [...new Set(paths)]
     },
 

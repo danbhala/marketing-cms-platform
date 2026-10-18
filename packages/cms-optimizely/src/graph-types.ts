@@ -88,9 +88,15 @@ export interface GraphLinkItem {
 export interface GraphLike {
   getContentByPath(path: string, options?: { host?: string }): Promise<unknown[]>
   getPreviewContent(params: GraphPreviewParams): Promise<unknown>
-  getContent(reference: { key: string; locale?: string; version?: string }, options?: { previewToken?: string }): Promise<unknown>
+  getContent(
+    reference: { key: string; locale?: string; version?: string },
+    options?: { previewToken?: string }
+  ): Promise<unknown>
   getItems(reference: string, options?: { locales?: string[]; host?: string }): Promise<GraphLinkItem[] | null>
 }
 
 export const isGraphItem = (value: unknown): value is GraphItem =>
-  typeof value === "object" && value !== null && !Array.isArray(value) && typeof (value as GraphItem).__typename === "string"
+  typeof value === "object" &&
+  value !== null &&
+  !Array.isArray(value) &&
+  typeof (value as GraphItem).__typename === "string"

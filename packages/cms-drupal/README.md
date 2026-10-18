@@ -7,16 +7,16 @@ Drupal adapter for the marketing platform, built on [`next-drupal`](https://gith
 
 ## Environment
 
-| Variable | Purpose |
-| --- | --- |
-| `NEXT_PUBLIC_DRUPAL_BASE_URL` | Drupal origin, e.g. `https://cms.example.com`. Required. Public so the bridge can link to the node form. |
-| `DRUPAL_CLIENT_ID` / `DRUPAL_CLIENT_SECRET` | Simple OAuth client (client credentials) used for draft reads. Without it Draft Mode shows published content. |
-| `PREVIEW_SECRET` | Shared secret for hand-made previews: `/api/preview?secret=…&path=/pricing`. |
-| `REVALIDATE_SECRET` | Fallback for `DRUPAL_REVALIDATE_SECRET`. |
-| `DRUPAL_FRONTEND_URL` | Optional; this site's URL as entered on the Drupal `next_site`, so an absolute `path` from Drupal is accepted. |
-| `DRUPAL_FRONT_PAGE` | Optional; alias of the node served at `/` (default `/home`). |
-| `DRUPAL_PREVIEW_SECRET` | Optional; overrides `PREVIEW_SECRET` for this adapter. |
-| `DRUPAL_REVALIDATE_SECRET` | Optional; the revalidate secret typed into the Next.js site in Drupal. |
+| Variable                                    | Purpose                                                                                                        |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_DRUPAL_BASE_URL`               | Drupal origin, e.g. `https://cms.example.com`. Required. Public so the bridge can link to the node form.       |
+| `DRUPAL_CLIENT_ID` / `DRUPAL_CLIENT_SECRET` | Simple OAuth client (client credentials) used for draft reads. Without it Draft Mode shows published content.  |
+| `PREVIEW_SECRET`                            | Shared secret for hand-made previews: `/api/preview?secret=…&path=/pricing`.                                   |
+| `REVALIDATE_SECRET`                         | Fallback for `DRUPAL_REVALIDATE_SECRET`.                                                                       |
+| `DRUPAL_FRONTEND_URL`                       | Optional; this site's URL as entered on the Drupal `next_site`, so an absolute `path` from Drupal is accepted. |
+| `DRUPAL_FRONT_PAGE`                         | Optional; alias of the node served at `/` (default `/home`).                                                   |
+| `DRUPAL_PREVIEW_SECRET`                     | Optional; overrides `PREVIEW_SECRET` for this adapter.                                                         |
+| `DRUPAL_REVALIDATE_SECRET`                  | Optional; the revalidate secret typed into the Next.js site in Drupal.                                         |
 
 Everything can also be passed explicitly: `createDrupalAdapter({ baseUrl, clientId, clientSecret, frontPage: "/home", locales: ["en"] })`.
 The client is created on first read, so importing the package without credentials is safe.
@@ -38,8 +38,9 @@ The client is created on first read, so importing the package without credential
    `image`, `video` and `remote_video` media types; create them (or edit the generated `field.field.*.yml`) on a site
    without them. Enable `content_moderation` or keep "Create new revision" on (the generated node types do) so a saved
    draft is a working copy.
+
 3. Create a node of type **Site settings** and a **Page** with alias `/home` (the front page).
-4. For drafts, create a Simple OAuth consumer with a role that may *view any unpublished content* and *view all revisions*,
+4. For drafts, create a Simple OAuth consumer with a role that may _view any unpublished content_ and _view all revisions_,
    and put its id and secret in `DRUPAL_CLIENT_ID` / `DRUPAL_CLIENT_SECRET`.
 
 Mapping notes:

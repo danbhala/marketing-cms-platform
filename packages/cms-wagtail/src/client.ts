@@ -73,7 +73,7 @@ export class WagtailApiError extends Error {
   constructor(
     message: string,
     readonly status: number,
-    readonly url: string,
+    readonly url: string
   ) {
     super(message)
     this.name = "WagtailApiError"
@@ -126,7 +126,7 @@ export function createWagtailApi(options: WagtailClientOptions): WagtailApi {
             offset: String(offset),
             ...(options.i18n && query.locale ? { locale: query.locale } : {}),
             ...(options.siteHostname ? { site: options.siteHostname } : {}),
-          }),
+          })
         )
         if (!listing) break
         pages.push(...listing.items)
@@ -135,7 +135,9 @@ export function createWagtailApi(options: WagtailClientOptions): WagtailApi {
       return pages
     },
     getPreviewPage(contentType, token) {
-      return get<WagtailPage>(url("page_preview/1/", { content_type: contentType, token, fields: "*", rich_text_format: "html" }))
+      return get<WagtailPage>(
+        url("page_preview/1/", { content_type: contentType, token, fields: "*", rich_text_format: "html" })
+      )
     },
     async getSettings(query) {
       const listing = await get<WagtailListing<WagtailRecord>>(url(`${options.settingsEndpoint}/`, detailParams(query)))

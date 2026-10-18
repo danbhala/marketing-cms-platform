@@ -18,9 +18,21 @@ export const siteSettingsEntry = entry("site", "siteSettings", {
     entry("nav-product", "navGroup", {
       label: "Product",
       links: [
-        entry("nav-1", "navLink", { label: "Dashboards", href: "/product/dashboards", description: "Real-time, shareable, boring in the best way." }),
-        entry("nav-2", "navLink", { label: "Funnels", href: "/product/funnels", description: "Versioned so last quarter still makes sense." }),
-        entry("nav-3", "navLink", { label: "Integrations", href: "/integrations", description: "Warehouses, CDPs and 60 more." }),
+        entry("nav-1", "navLink", {
+          label: "Dashboards",
+          href: "/product/dashboards",
+          description: "Real-time, shareable, boring in the best way.",
+        }),
+        entry("nav-2", "navLink", {
+          label: "Funnels",
+          href: "/product/funnels",
+          description: "Versioned so last quarter still makes sense.",
+        }),
+        entry("nav-3", "navLink", {
+          label: "Integrations",
+          href: "/integrations",
+          description: "Warehouses, CDPs and 60 more.",
+        }),
       ],
     }),
     // No `links` field at all: the transform must default it to [].
@@ -47,4 +59,10 @@ export const siteSettingsEntry = entry("site", "siteSettings", {
   ],
 })
 
-export const siteSettingsCollection = { sys: { type: "Array" }, total: 1, skip: 0, limit: 1, items: [siteSettingsEntry] }
+export const siteSettingsCollection = {
+  sys: { type: "Array" },
+  total: 1,
+  skip: 0,
+  limit: 1,
+  items: [siteSettingsEntry],
+}

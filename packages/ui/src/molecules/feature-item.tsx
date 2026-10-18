@@ -38,7 +38,12 @@ export interface FeatureItemProps extends React.ComponentProps<"div">, VariantPr
 /** Icon + title + description, used by Feature grid, Feature split bullets and Tabs. */
 function FeatureItem({ item, layout, appearance, as = "h3", className, ...props }: FeatureItemProps) {
   return (
-    <div data-slot="feature-item" className={cn(featureItemVariants({ layout, appearance }), className)} {...editAttrs(item)} {...props}>
+    <div
+      data-slot="feature-item"
+      className={cn(featureItemVariants({ layout, appearance }), className)}
+      {...editAttrs(item)}
+      {...props}
+    >
       {item.icon ? (
         <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
           <Icon name={item.icon} size="md" {...fieldAttrs(item, "icon")} />

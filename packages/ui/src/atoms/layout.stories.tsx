@@ -20,7 +20,11 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 function Box({ children }: { children: React.ReactNode }) {
-  return <div className="flex min-h-16 items-center justify-center rounded-lg border bg-card p-4 text-sm text-card-foreground">{children}</div>
+  return (
+    <div className="flex min-h-16 items-center justify-center rounded-lg border bg-card p-4 text-sm text-card-foreground">
+      {children}
+    </div>
+  )
 }
 
 /** Each `size` of Container against the `--container-*` tokens. */
@@ -80,7 +84,8 @@ export const SectionThemes: Story = {
         <Section key={theme} spacing="sm" theme={theme}>
           <Container>
             <Text>
-              Section theme="{theme}" · <span className="text-primary">primary</span> · <span className="text-muted-foreground">muted</span>
+              Section theme="{theme}" · <span className="text-primary">primary</span> ·{" "}
+              <span className="text-muted-foreground">muted</span>
             </Text>
           </Container>
         </Section>

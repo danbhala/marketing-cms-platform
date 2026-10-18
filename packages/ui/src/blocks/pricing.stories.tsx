@@ -14,15 +14,14 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const ThreePlans: Story = {
-}
+export const ThreePlans: Story = {}
 
 export const TwoPlans: Story = {
   args: { block: { ...fixtures.pricingBlock, ...{ plans: fixtures.plans.slice(0, 2) } } },
 }
 
 export const Muted: Story = {
-  args: { block: { ...fixtures.pricingBlock, ...{ theme: 'muted' } } },
+  args: { block: { ...fixtures.pricingBlock, ...{ theme: "muted" } } },
 }
 
 /** `countUp` counts each price from zero when the block scrolls into view; the currency symbol stays as written. */

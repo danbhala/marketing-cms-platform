@@ -36,8 +36,7 @@ export interface PreviewBridgeProps {
 
 /** Result of a preview request: where to send the editor, or why not. */
 export type PreviewEntry =
-  | { ok: true; path: string; context?: PreviewContext | null }
-  | { ok: false; status: number; message: string }
+  { ok: true; path: string; context?: PreviewContext | null } | { ok: false; status: number; message: string }
 
 export interface PreviewHandlers {
   /**

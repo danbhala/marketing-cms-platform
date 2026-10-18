@@ -30,34 +30,17 @@ export async function StorybookEmbed({
   return (
     <figure className="not-prose bg-fd-card my-6 overflow-hidden rounded-xl border">
       {deployed || !hasPoster ? (
-        <iframe
-          src={src}
-          title={story}
-          loading="lazy"
-          className="block w-full bg-white"
-          style={{ height }}
-        />
+        <iframe src={src} title={story} loading="lazy" className="block w-full bg-white" style={{ height }} />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element -- static screenshot with unknown dimensions
-        <img
-          src={poster}
-          alt={`Storybook story ${story}`}
-          className="block w-full bg-white"
-        />
+        <img src={poster} alt={`Storybook story ${story}`} className="block w-full bg-white" />
       )}
       <figcaption className="text-fd-muted-foreground flex items-center justify-between border-t px-3 py-2 text-xs">
         <span>
           Storybook · {story}
-          {deployed
-            ? ""
-            : " (screenshot; run `pnpm storybook` for the live story)"}
+          {deployed ? "" : " (screenshot; run `pnpm storybook` for the live story)"}
         </span>
-        <a
-          href={`${base}/?path=/story/${story}`}
-          target="_blank"
-          rel="noreferrer"
-          className="underline"
-        >
+        <a href={`${base}/?path=/story/${story}`} target="_blank" rel="noreferrer" className="underline">
           Open in Storybook
         </a>
       </figcaption>

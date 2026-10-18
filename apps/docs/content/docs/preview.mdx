@@ -3,7 +3,10 @@ title: Preview & visual editing
 description: "Draft Mode, the $edit metadata contract, and the per-CMS bridges that make click-to-edit work."
 ---
 
-<Video src="/video/draft-mode-walkthrough.mp4" caption="The local adapter: the published page, entering Draft Mode in edit mode, hovering and clicking fields to see the $edit overlay, then exiting" />
+<Video
+  src="/video/draft-mode-walkthrough.mp4"
+  caption="The local adapter: the published page, entering Draft Mode in edit mode, hovering and clicking fields to see the $edit overlay, then exiting"
+/>
 
 <Screenshot name="app-draft-mode-edit-overlay" alt="Draft mode with the edit overlay" height={800} />
 
@@ -21,7 +24,7 @@ Adapters attach edit metadata to every node in draft mode:
 ```ts
 interface Editable {
   $edit?: {
-    self?: Record<`data-${string}`, string>              // on the block/item root
+    self?: Record<`data-${string}`, string> // on the block/item root
     fields?: Record<string, Record<`data-${string}`, string>> // per field
   }
 }
@@ -36,15 +39,15 @@ Components spread it with two pure helpers, which return `{}` in production:
 
 What goes in the attributes is the adapter's business:
 
-| CMS | `self` | `fields` |
-| --- | --- | --- |
-| Contentful | `data-contentful-entry-id` | `data-contentful-field-id` (+ locale) |
-| Storyblok | `data-blok-c`, `data-blok-uid` | block-level only |
-| Optimizely | `data-epi-block-id` | `data-epi-edit="Field"` (ctx=edit only) |
-| Sanity | `data-sanity` (document + path) | `data-sanity` with field path |
-| Drupal | `data-drupal-entity`, `data-drupal-id`, `data-drupal-edit` (node form path) | entity-level only |
-| Wagtail | `data-wagtail-id`, `data-wagtail-type`, `data-wagtail-page` (+ `data-wagtail-edit-url` on the page root) | block-level only |
-| Local | `data-edit-id`, `data-edit-type` | `data-edit-field` |
+| CMS        | `self`                                                                                                   | `fields`                                |
+| ---------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| Contentful | `data-contentful-entry-id`                                                                               | `data-contentful-field-id` (+ locale)   |
+| Storyblok  | `data-blok-c`, `data-blok-uid`                                                                           | block-level only                        |
+| Optimizely | `data-epi-block-id`                                                                                      | `data-epi-edit="Field"` (ctx=edit only) |
+| Sanity     | `data-sanity` (document + path)                                                                          | `data-sanity` with field path           |
+| Drupal     | `data-drupal-entity`, `data-drupal-id`, `data-drupal-edit` (node form path)                              | entity-level only                       |
+| Wagtail    | `data-wagtail-id`, `data-wagtail-type`, `data-wagtail-page` (+ `data-wagtail-edit-url` on the page root) | block-level only                        |
+| Local      | `data-edit-id`, `data-edit-type`                                                                         | `data-edit-field`                       |
 
 ## Framing
 

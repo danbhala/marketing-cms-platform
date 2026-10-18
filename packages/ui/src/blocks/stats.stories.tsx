@@ -15,11 +15,11 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const FourColumns: Story = {
-  args: { block: { ...fixtures.statsBlock, ...{ columns: '4' } } },
+  args: { block: { ...fixtures.statsBlock, ...{ columns: "4" } } },
 }
 
 export const ThreeColumnsBrand: Story = {
-  args: { block: { ...fixtures.statsBlock, ...{ columns: '3', theme: 'brand', stats: fixtures.stats.slice(0, 3) } } },
+  args: { block: { ...fixtures.statsBlock, ...{ columns: "3", theme: "brand", stats: fixtures.stats.slice(0, 3) } } },
 }
 
 export const NoHeading: Story = {

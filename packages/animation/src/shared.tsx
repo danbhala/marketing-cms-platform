@@ -22,7 +22,12 @@ export interface SharedLayoutProps extends React.ComponentProps<"div"> {
 /** The thin version of Motion+'s gallery detail view: Motion's own `layoutId`. */
 function SharedLayout({ id, className, children, ...props }: SharedLayoutProps) {
   return (
-    <m.div layoutId={id} className={className} transition={{ layout: { duration: 0.45, ease: revealEase } }} {...(props as object)}>
+    <m.div
+      layoutId={id}
+      className={className}
+      transition={{ layout: { duration: 0.45, ease: revealEase } }}
+      {...(props as object)}
+    >
       {children}
     </m.div>
   )

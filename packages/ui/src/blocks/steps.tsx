@@ -31,13 +31,25 @@ function Steps({ block, index, className, ...props }: StepsProps) {
           {...fieldAttrs(block, "steps")}
         >
           {block.steps.map((step, i) => (
-            <BlockItem key={step.id} block={block} as="li" className="relative flex gap-4 section-md:flex-col" {...editAttrs(step)}>
+            <BlockItem
+              key={step.id}
+              block={block}
+              as="li"
+              className="relative flex gap-4 section-md:flex-col"
+              {...editAttrs(step)}
+            >
               <div className="flex flex-col items-center section-md:flex-row">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full border bg-background text-sm font-semibold text-primary">
                   {i + 1}
                 </span>
                 {i < block.steps.length - 1 ? (
-                  <span aria-hidden className={cn("flex-1 bg-border", vertical ? "mt-2 w-px" : "mt-2 w-px section-md:mt-0 section-md:ml-2 section-md:h-px")} />
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "flex-1 bg-border",
+                      vertical ? "mt-2 w-px" : "mt-2 w-px section-md:mt-0 section-md:ml-2 section-md:h-px"
+                    )}
+                  />
                 ) : null}
               </div>
               <div className="flex flex-col gap-2 pb-2 section-md:pr-8">

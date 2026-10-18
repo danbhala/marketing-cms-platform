@@ -54,8 +54,7 @@ function renderInline(node: InlineNode, key: number): React.ReactNode {
 
 function renderBlock(node: BlockNode, key: number, components: RichTextComponents): React.ReactNode {
   const Override = components[node.type] as
-    | React.ComponentType<{ node: BlockNode; children?: React.ReactNode }>
-    | undefined
+    React.ComponentType<{ node: BlockNode; children?: React.ReactNode }> | undefined
   const children = "children" in node ? node.children : undefined
   const inner =
     node.type === "paragraph" || node.type === "heading"
@@ -91,7 +90,9 @@ function renderBlock(node: BlockNode, key: number, components: RichTextComponent
       return (
         <figure key={key}>
           <Image media={node.media} radius="lg" />
-          {node.media.alt ? <figcaption className="mt-2 text-sm text-muted-foreground">{node.media.alt}</figcaption> : null}
+          {node.media.alt ? (
+            <figcaption className="mt-2 text-sm text-muted-foreground">{node.media.alt}</figcaption>
+          ) : null}
         </figure>
       )
     case "codeBlock":

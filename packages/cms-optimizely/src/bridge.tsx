@@ -45,7 +45,7 @@ export default function OptimizelyPreviewBridge({ ctx }: PreviewBridgeProps) {
       if (sameContent) router.refresh()
       else window.location.assign(next.toString())
     },
-    [router, key, ver],
+    [router, key, ver]
   )
 
   return (

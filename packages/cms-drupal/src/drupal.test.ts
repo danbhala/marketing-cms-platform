@@ -5,8 +5,24 @@ import { fileURLToPath } from "node:url"
 import { describe, expect, it } from "vitest"
 
 import { tags } from "@platform/cms-core/tags"
-import { allBlocks, allItems, hero, navLink, page as pageDefinition, pricingPlan, schemaFor, siteSettings as siteSettingsDefinition } from "@platform/content-model"
-import type { CtaBlock, FaqBlock, FeatureSplitBlock, HeroBlock, PricingBlock, RichTextBlock } from "@platform/content-model"
+import {
+  allBlocks,
+  allItems,
+  hero,
+  navLink,
+  page as pageDefinition,
+  pricingPlan,
+  schemaFor,
+  siteSettings as siteSettingsDefinition,
+} from "@platform/content-model"
+import type {
+  CtaBlock,
+  FaqBlock,
+  FeatureSplitBlock,
+  HeroBlock,
+  PricingBlock,
+  RichTextBlock,
+} from "@platform/content-model"
 
 import {
   BASE_URL,
@@ -20,7 +36,16 @@ import {
   translatedPaths,
 } from "./__fixtures__/jsonapi"
 import type { DrupalApi, DrupalQuery, JsonApiDocument } from "./client"
-import { createDrupalAdapter, fieldNameFor, generateModule, htmlToAst, includesFor, linkToHref, MODULE_NAME, nodeToPage } from "./index"
+import {
+  createDrupalAdapter,
+  fieldNameFor,
+  generateModule,
+  htmlToAst,
+  includesFor,
+  linkToHref,
+  MODULE_NAME,
+  nodeToPage,
+} from "./index"
 
 /** In-memory stand-in for JSON:API and the `next` module's draft-url endpoint: no network in tests. */
 const calls: { kind: string; type?: string; uuid?: string; params?: Record<string, string>; query: DrupalQuery }[] = []
@@ -102,19 +127,48 @@ describe("transform: page", () => {
     expect(hero).not.toHaveProperty("spacing")
 
     const split = page?.blocks[1] as FeatureSplitBlock
-    expect(split.bullets).toEqual(["Compare any two versions", "Annotate changes for your team", "Export to your warehouse"])
-    expect(split.media).toEqual({ kind: "video", url: `${BASE_URL}/sites/default/files/2026-10/funnel-walkthrough.mp4`, alt: "Funnel walkthrough", mimeType: "video/mp4" })
+    expect(split.bullets).toEqual([
+      "Compare any two versions",
+      "Annotate changes for your team",
+      "Export to your warehouse",
+    ])
+    expect(split.media).toEqual({
+      kind: "video",
+      url: `${BASE_URL}/sites/default/files/2026-10/funnel-walkthrough.mp4`,
+      alt: "Funnel walkthrough",
+      mimeType: "video/mp4",
+    })
     expect(split.body).toEqual({
       type: "root",
-      children: [{ type: "paragraph", children: [{ type: "text", value: "Change a step, rename an event or add a filter and the old version stays put. Compare them side by side and see exactly what moved." }] }],
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            {
+              type: "text",
+              value:
+                "Change a step, rename an event or add a filter and the old version stays put. Compare them side by side and see exactly what moved.",
+            },
+          ],
+        },
+      ],
     })
     // entity:node/7 has no alias in the link itself; Drupal's canonical path still routes.
     expect(split.actions[0]).toMatchObject({ icon: "arrow-right", href: "/node/7" })
 
     const pricing = page?.blocks[2] as PricingBlock
-    expect(pricing.plans[0]).toMatchObject({ id: "plan-1", features: ["100k events / month", "1 project"], highlighted: false, action: [{ href: "/signup" }] })
+    expect(pricing.plans[0]).toMatchObject({
+      id: "plan-1",
+      features: ["100k events / month", "1 project"],
+      highlighted: false,
+      action: [{ href: "/signup" }],
+    })
     expect(pricing.plans[0]).not.toHaveProperty("badge")
-    expect(pricing.plans[1]).toMatchObject({ badge: "Most popular", highlighted: true, action: [{ href: "/signup?plan=growth" }] })
+    expect(pricing.plans[1]).toMatchObject({
+      badge: "Most popular",
+      highlighted: true,
+      action: [{ href: "/signup?plan=growth" }],
+    })
     expect(pricing.anchor).toBe("pricing")
 
     const cta = page?.blocks[5] as CtaBlock
@@ -153,7 +207,10 @@ describe("transform: page", () => {
       { draft: false, locale: "de" },
     ])
     expect(resources[0]?.params?.include).toContain("field_blocks.field_media.field_media_image")
-    expect(calls.find((c) => c.kind === "translate" && c.type === "/pricing")?.query).toEqual({ draft: false, locale: "de" })
+    expect(calls.find((c) => c.kind === "translate" && c.type === "/pricing")?.query).toEqual({
+      draft: false,
+      locale: "de",
+    })
   })
 
   it("fails loudly, naming entity and field, when a paragraph does not match the model", () => {
@@ -169,7 +226,8 @@ describe("transform: page", () => {
     // A paragraph of a type the field does not allow (both the reference and the included resource say so).
     const wrongType = structuredClone(homeDocument) as JsonApiDocument
     wrongType.included!.find((r) => r.id === "act-1")!.type = "paragraph--hero"
-    const heroActions = wrongType.included!.find((r) => r.id === "blk-hero")!.relationships!.field_hero_actions!.data as { type: string; id: string }[]
+    const heroActions = wrongType.included!.find((r) => r.id === "blk-hero")!.relationships!.field_hero_actions!
+      .data as { type: string; id: string }[]
     heroActions[0]!.type = "paragraph--hero"
     expect(() => nodeToPage(wrongType, options)).toThrow(/"actions" of blk-hero holds a "paragraph--hero" paragraph/)
   })
@@ -201,7 +259,12 @@ describe("transform: site settings", () => {
     })
     expect(settings).not.toHaveProperty("logo")
     expect(settings?.navigation.map((g) => g.href)).toEqual([undefined, "/pricing", "/"])
-    expect(settings?.navigation[0]?.links[1]).toEqual({ id: "nav-2", type: "navLink", label: "Funnels", href: "/product/funnels" })
+    expect(settings?.navigation[0]?.links[1]).toEqual({
+      id: "nav-2",
+      type: "navLink",
+      label: "Funnels",
+      href: "/product/funnels",
+    })
     expect(settings?.footerColumns[0]?.links[0]?.href).toBe("https://status.example.com")
   })
 
@@ -210,7 +273,10 @@ describe("transform: site settings", () => {
     await adapter.getSiteSettings(draft)
     expect(calls.map((c) => c.kind)).toEqual(["collection", "resource"])
     expect(calls[0]?.params).not.toHaveProperty("filter[status]")
-    expect(calls[1]).toMatchObject({ type: "node--site_settings", query: { draft: true, resourceVersion: "rel:working-copy" } })
+    expect(calls[1]).toMatchObject({
+      type: "node--site_settings",
+      query: { draft: true, resourceVersion: "rel:working-copy" },
+    })
   })
 })
 
@@ -218,13 +284,57 @@ describe("rich text", () => {
   it("converts processed HTML to the portable AST", async () => {
     const page = await adapter.getPage("/", published)
     const body = (page?.blocks[4] as RichTextBlock).body
-    expect(body.children.map((n) => n.type)).toEqual(["heading", "paragraph", "list", "blockquote", "codeBlock", "paragraph"])
-    expect(body.children[0]).toEqual({ type: "heading", level: 2, children: [{ type: "text", value: "Why event-based analytics" }] })
-    expect(body.children[1]).toMatchObject({ children: [{ value: "Page views tell you where people went. " }, { value: "Events", marks: ["bold"] }, {}] })
-    expect(body.children[2]).toMatchObject({ type: "list", ordered: false, children: [{ type: "listItem" }, { type: "listItem" }, { type: "listItem" }] })
-    expect(body.children[2]).toMatchObject({ children: [{}, {}, { children: [{ type: "paragraph", children: [{ value: "Version your definitions so last quarter's chart still means what it meant." }] }] }] })
-    expect(body.children[3]).toEqual({ type: "blockquote", children: [{ type: "paragraph", children: [{ type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] }] }] })
-    expect(body.children[4]).toEqual({ type: "codeBlock", language: "ts", code: 'track("checkout_completed", {\n  plan: "growth",\n  seats: 12,\n})' })
+    expect(body.children.map((n) => n.type)).toEqual([
+      "heading",
+      "paragraph",
+      "list",
+      "blockquote",
+      "codeBlock",
+      "paragraph",
+    ])
+    expect(body.children[0]).toEqual({
+      type: "heading",
+      level: 2,
+      children: [{ type: "text", value: "Why event-based analytics" }],
+    })
+    expect(body.children[1]).toMatchObject({
+      children: [{ value: "Page views tell you where people went. " }, { value: "Events", marks: ["bold"] }, {}],
+    })
+    expect(body.children[2]).toMatchObject({
+      type: "list",
+      ordered: false,
+      children: [{ type: "listItem" }, { type: "listItem" }, { type: "listItem" }],
+    })
+    expect(body.children[2]).toMatchObject({
+      children: [
+        {},
+        {},
+        {
+          children: [
+            {
+              type: "paragraph",
+              children: [{ value: "Version your definitions so last quarter's chart still means what it meant." }],
+            },
+          ],
+        },
+      ],
+    })
+    expect(body.children[3]).toEqual({
+      type: "blockquote",
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            { type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] },
+          ],
+        },
+      ],
+    })
+    expect(body.children[4]).toEqual({
+      type: "codeBlock",
+      language: "ts",
+      code: 'track("checkout_completed", {\n  plan: "growth",\n  seats: 12,\n})',
+    })
     expect(body.children[5]).toEqual({
       type: "paragraph",
       children: [
@@ -237,26 +347,66 @@ describe("rich text", () => {
 
   it("groups link runs, nests marks, hoists images, decodes entities and flattens tables", () => {
     const ast = htmlToAst(richTextExtrasHtml, { baseUrl: BASE_URL })
-    expect(ast.children.map((n) => n.type)).toEqual(["paragraph", "thematicBreak", "image", "paragraph", "list", "heading", "paragraph", "paragraph", "paragraph"])
+    expect(ast.children.map((n) => n.type)).toEqual([
+      "paragraph",
+      "thematicBreak",
+      "image",
+      "paragraph",
+      "list",
+      "heading",
+      "paragraph",
+      "paragraph",
+      "paragraph",
+    ])
     expect(ast.children[0]).toEqual({
       type: "paragraph",
       children: [
         { type: "text", value: "See the " },
-        { type: "link", href: "/pricing#plans", children: [{ type: "text", value: "pricing" }, { type: "text", value: " page", marks: ["bold"] }] },
+        {
+          type: "link",
+          href: "/pricing#plans",
+          children: [
+            { type: "text", value: "pricing" },
+            { type: "text", value: " page", marks: ["bold"] },
+          ],
+        },
         { type: "break" },
         { type: "text", value: "or email " },
         { type: "link", href: "mailto:hi@example.com", children: [{ type: "text", value: "us" }] },
         { type: "text", value: "deleted", marks: ["strikethrough", "underline", "code"] },
       ],
     })
-    expect(ast.children[2]).toEqual({ type: "image", media: { kind: "image", url: `${BASE_URL}/sites/default/files/chart.jpg`, alt: "Chart", width: 800, height: 450 } })
-    expect(ast.children[3]).toEqual({ type: "paragraph", children: [{ type: "text", value: "Caption after the image." }] })
-    expect(ast.children[4]).toMatchObject({ type: "list", ordered: true, children: [{ children: [{ type: "paragraph", children: [{ value: "First" }] }] }] })
+    expect(ast.children[2]).toEqual({
+      type: "image",
+      media: { kind: "image", url: `${BASE_URL}/sites/default/files/chart.jpg`, alt: "Chart", width: 800, height: 450 },
+    })
+    expect(ast.children[3]).toEqual({
+      type: "paragraph",
+      children: [{ type: "text", value: "Caption after the image." }],
+    })
+    expect(ast.children[4]).toMatchObject({
+      type: "list",
+      ordered: true,
+      children: [{ children: [{ type: "paragraph", children: [{ value: "First" }] }] }],
+    })
     // h1 is reserved for the page title.
     expect(ast.children[5]).toMatchObject({ type: "heading", level: 2 })
-    expect(ast.children[6]).toEqual({ type: "paragraph", children: [{ type: "text", value: "Loose " }, { type: "text", value: "text", marks: ["bold"] }, { type: "text", value: " & entities © ☺" }] })
+    expect(ast.children[6]).toEqual({
+      type: "paragraph",
+      children: [
+        { type: "text", value: "Loose " },
+        { type: "text", value: "text", marks: ["bold"] },
+        { type: "text", value: " & entities © ☺" },
+      ],
+    })
     expect(ast.children[7]).toEqual({ type: "paragraph", children: [{ type: "text", value: "Cell one" }] })
-    expect(ast.children[8]).toEqual({ type: "paragraph", children: [{ type: "text", value: "Cell " }, { type: "text", value: "two", marks: ["italic"] }] })
+    expect(ast.children[8]).toEqual({
+      type: "paragraph",
+      children: [
+        { type: "text", value: "Cell " },
+        { type: "text", value: "two", marks: ["italic"] },
+      ],
+    })
     expect(htmlToAst("<p>&nbsp;</p>")).toEqual({ type: "root", children: [] })
     expect(htmlToAst(undefined)).toEqual({ type: "root", children: [] })
   })
@@ -270,9 +420,17 @@ describe("$edit", () => {
     expect(JSON.stringify(live)).not.toContain("$edit")
 
     const preview = await adapter.getPage("/", draft)
-    expect(preview?.$edit?.self).toEqual({ "data-drupal-entity": "node", "data-drupal-id": "1", "data-drupal-edit": "/node/1/edit" })
+    expect(preview?.$edit?.self).toEqual({
+      "data-drupal-entity": "node",
+      "data-drupal-id": "1",
+      "data-drupal-edit": "/node/1/edit",
+    })
     const hero = preview?.blocks[0] as HeroBlock
-    expect(hero.$edit?.self).toEqual({ "data-drupal-entity": "paragraph", "data-drupal-id": "101", "data-drupal-uuid": "blk-hero" })
+    expect(hero.$edit?.self).toEqual({
+      "data-drupal-entity": "paragraph",
+      "data-drupal-id": "101",
+      "data-drupal-uuid": "blk-hero",
+    })
     // Drupal edits whole entities in the node form; there are no field-level targets.
     expect(hero.$edit?.fields).toEqual({})
     expect(hero.actions[1]?.$edit?.self?.["data-drupal-id"]).toBe("202")
@@ -295,29 +453,63 @@ describe("preview", () => {
 
   it("accepts a preview URL the next module generated by validating it against Drupal", async () => {
     const entry = await adapter.preview.enter(new Request(drupalUrl(DRUPAL_SECRET)))
-    expect(entry).toEqual({ ok: true, path: "/pricing", context: { mode: "edit", plugin: "simple_oauth", resourceVersion: "rel:working-copy", locale: "en" } })
-    expect(await adapter.preview.enter(new Request(drupalUrl(DRUPAL_SECRET, "/home")))).toMatchObject({ ok: true, path: "/" })
+    expect(entry).toEqual({
+      ok: true,
+      path: "/pricing",
+      context: { mode: "edit", plugin: "simple_oauth", resourceVersion: "rel:working-copy", locale: "en" },
+    })
+    expect(await adapter.preview.enter(new Request(drupalUrl(DRUPAL_SECRET, "/home")))).toMatchObject({
+      ok: true,
+      path: "/",
+    })
   })
 
   it("rejects a forged or expired Drupal secret and a bad shared secret", async () => {
     expect(await adapter.preview.enter(new Request(drupalUrl("forged")))).toMatchObject({ ok: false, status: 401 })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=wrong&path=/pricing"))).toMatchObject({ ok: false, status: 401 })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?path=/pricing"))).toMatchObject({ ok: false, status: 401 })
+    expect(
+      await adapter.preview.enter(new Request("https://site.test/api/preview?secret=wrong&path=/pricing"))
+    ).toMatchObject({ ok: false, status: 401 })
+    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?path=/pricing"))).toMatchObject({
+      ok: false,
+      status: 401,
+    })
     // No shared secret configured: only Drupal-validated requests get in.
     const strict = createDrupalAdapter({ api: fakeApi, baseUrl: BASE_URL, previewSecret: "" })
-    expect(await strict.preview.enter(new Request("https://site.test/api/preview?secret=&path=/pricing"))).toMatchObject({ ok: false, status: 401 })
+    expect(
+      await strict.preview.enter(new Request("https://site.test/api/preview?secret=&path=/pricing"))
+    ).toMatchObject({ ok: false, status: 401 })
   })
 
   it("accepts the shared secret and never redirects off-site", async () => {
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=/pricing/"))).toEqual({ ok: true, path: "/pricing", context: { mode: "preview" } })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=https://site.test/pricing"))).toMatchObject({ ok: true, path: "/pricing" })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test/pricing"))).toMatchObject({ ok: false, status: 404 })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=//evil.test"))).toMatchObject({ ok: false, status: 404 })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret"))).toMatchObject({ ok: false, status: 404 })
+    expect(
+      await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=/pricing/"))
+    ).toEqual({ ok: true, path: "/pricing", context: { mode: "preview" } })
+    expect(
+      await adapter.preview.enter(
+        new Request("https://site.test/api/preview?secret=s3cret&path=https://site.test/pricing")
+      )
+    ).toMatchObject({ ok: true, path: "/pricing" })
+    expect(
+      await adapter.preview.enter(
+        new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test/pricing")
+      )
+    ).toMatchObject({ ok: false, status: 404 })
+    expect(
+      await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=//evil.test"))
+    ).toMatchObject({ ok: false, status: 404 })
+    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret"))).toMatchObject({
+      ok: false,
+      status: 404,
+    })
   })
 
   it("derives the context from the query the app forwards and allows Drupal to frame the site", () => {
-    expect(adapter.preview.context(new URLSearchParams("plugin=simple_oauth&resourceVersion=id:7&locale=de&timestamp=1"), true)).toEqual({ mode: "edit", plugin: "simple_oauth", resourceVersion: "id:7", locale: "de" })
+    expect(
+      adapter.preview.context(
+        new URLSearchParams("plugin=simple_oauth&resourceVersion=id:7&locale=de&timestamp=1"),
+        true
+      )
+    ).toEqual({ mode: "edit", plugin: "simple_oauth", resourceVersion: "id:7", locale: "de" })
     expect(adapter.preview.context(new URLSearchParams(""), true)).toEqual({ mode: "preview" })
     expect(adapter.preview.context(new URLSearchParams("plugin=simple_oauth"), false)).toBeNull()
     expect(adapter.preview.frameAncestors).toEqual(["'self'", "https://cms.test"])
@@ -328,34 +520,57 @@ describe("preview", () => {
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=/home"))).toBe("/")
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=https://evil.test"))).toBeNull()
     expect(() => createDrupalAdapter({ baseUrl: "" })).not.toThrow()
-    await expect(createDrupalAdapter({ baseUrl: "" }).getPage("/", published)).rejects.toThrow(/NEXT_PUBLIC_DRUPAL_BASE_URL/)
+    await expect(createDrupalAdapter({ baseUrl: "" }).getPage("/", published)).rejects.toThrow(
+      /NEXT_PUBLIC_DRUPAL_BASE_URL/
+    )
   })
 })
 
 describe("webhook", () => {
   const get = (query: string) => new Request(`https://site.test/api/revalidate?${query}`)
   const post = (query: string, body: unknown) =>
-    new Request(`https://site.test/api/revalidate?${query}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
+    new Request(`https://site.test/api/revalidate?${query}`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    })
 
   it("accepts the revalidate secret from the query or header and rejects everything else", async () => {
     expect(await adapter.webhook.verify(get("secret=hook-secret&path=/pricing"))).toEqual({ path: "/pricing" })
     expect(await adapter.webhook.verify(get("secret=wrong&path=/pricing"))).toBeNull()
     expect(await adapter.webhook.verify(get("path=/pricing"))).toBeNull()
-    expect(await adapter.webhook.verify(new Request("https://site.test/api/revalidate", { headers: { "x-revalidate-secret": "hook-secret" } }))).toEqual({})
+    expect(
+      await adapter.webhook.verify(
+        new Request("https://site.test/api/revalidate", { headers: { "x-revalidate-secret": "hook-secret" } })
+      )
+    ).toEqual({})
     // No configured secret means nothing is ever accepted.
-    expect(await createDrupalAdapter({ api: fakeApi, revalidateSecret: "" }).webhook.verify(get("secret=&path=/"))).toBeNull()
+    expect(
+      await createDrupalAdapter({ api: fakeApi, revalidateSecret: "" }).webhook.verify(get("secret=&path=/"))
+    ).toBeNull()
   })
 
   it("reads the Path and Cache Tag revalidator requests and a JSON body", async () => {
-    expect(await adapter.webhook.verify(get("secret=hook-secret&tags=node:1,node_list:page"))).toEqual({ tags: ["node:1", "node_list:page"] })
-    expect(await adapter.webhook.verify(post("secret=hook-secret", { path: "/home", tags: ["media:4"] }))).toEqual({ path: "/home", tags: ["media:4"] })
+    expect(await adapter.webhook.verify(get("secret=hook-secret&tags=node:1,node_list:page"))).toEqual({
+      tags: ["node:1", "node_list:page"],
+    })
+    expect(await adapter.webhook.verify(post("secret=hook-secret", { path: "/home", tags: ["media:4"] }))).toEqual({
+      path: "/home",
+      tags: ["media:4"],
+    })
   })
 
   it("maps paths and Drupal cache tags to cache tags", () => {
     expect(adapter.webhook.toEvent({ path: "/pricing" }).tags).toEqual([tags.page("en", "/pricing"), tags.paths("en")])
     expect(adapter.webhook.toEvent({ path: "/home" }).tags).toEqual([tags.page("en", "/"), tags.paths("en")])
-    expect(adapter.webhook.toEvent({ tags: ["node:1", "paragraph:101", "node_list:page"] }).tags).toEqual([tags.entry("1"), tags.paths("en")])
-    expect(adapter.webhook.toEvent({ tags: ["node:3", "node_list:site_settings"] }).tags).toEqual([tags.entry("3"), tags.global("en")])
+    expect(adapter.webhook.toEvent({ tags: ["node:1", "paragraph:101", "node_list:page"] }).tags).toEqual([
+      tags.entry("1"),
+      tags.paths("en"),
+    ])
+    expect(adapter.webhook.toEvent({ tags: ["node:3", "node_list:site_settings"] }).tags).toEqual([
+      tags.entry("3"),
+      tags.global("en"),
+    ])
     expect(adapter.webhook.toEvent({ tags: ["media:4"] }).tags).toEqual([tags.type("page"), tags.global("en")])
     expect(adapter.webhook.toEvent({}).tags).toEqual([])
     expect(adapter.webhook.toEvent({ path: "/pricing" }).summary).toContain("path /pricing")
@@ -363,9 +578,17 @@ describe("webhook", () => {
 
   it("fans out unprefixed paths to every locale and keeps prefixed ones to theirs", () => {
     const multi = createDrupalAdapter({ api: fakeApi, locales: ["en", "de"] })
-    expect(multi.webhook.toEvent({ path: "/pricing" }).tags).toEqual([tags.page("en", "/pricing"), tags.paths("en"), tags.page("de", "/pricing"), tags.paths("de")])
+    expect(multi.webhook.toEvent({ path: "/pricing" }).tags).toEqual([
+      tags.page("en", "/pricing"),
+      tags.paths("en"),
+      tags.page("de", "/pricing"),
+      tags.paths("de"),
+    ])
     expect(multi.webhook.toEvent({ path: "/de/pricing" }).tags).toEqual([tags.page("de", "/pricing"), tags.paths("de")])
-    expect(multi.webhook.toEvent({ tags: ["node_list:site_settings"] }).tags).toEqual([tags.global("en"), tags.global("de")])
+    expect(multi.webhook.toEvent({ tags: ["node_list:site_settings"] }).tags).toEqual([
+      tags.global("en"),
+      tags.global("de"),
+    ])
   })
 })
 
@@ -413,11 +636,15 @@ describe("schema generator", () => {
     const heroLayout = files["config/install/field.storage.paragraph.field_hero_layout.yml"]!
     expect(heroLayout).toContain("type: list_string")
     expect(heroLayout).toContain("- value: splitReverse\n      label: Split reverse")
-    expect(files["config/install/field.field.paragraph.hero.field_hero_layout.yml"]).toContain("default_value:\n  - value: centered")
+    expect(files["config/install/field.field.paragraph.hero.field_hero_layout.yml"]).toContain(
+      "default_value:\n  - value: centered"
+    )
     expect(files["config/install/field.field.paragraph.hero.field_title.yml"]).toContain("required: true")
     expect(files["config/install/field.field.paragraph.hero.field_eyebrow.yml"]).toContain("required: false")
     expect(files["config/install/field.storage.paragraph.field_hero_actions.yml"]).toContain("cardinality: 3")
-    expect(files["config/install/field.field.paragraph.hero.field_hero_actions.yml"]).toContain("target_bundles:\n      action: action")
+    expect(files["config/install/field.field.paragraph.hero.field_hero_actions.yml"]).toContain(
+      "target_bundles:\n      action: action"
+    )
     expect(files["config/install/field.field.paragraph.hero.field_media.yml"]).toContain("remote_video: remote_video")
     expect(files["config/install/field.field.paragraph.logo.field_image.yml"]).not.toContain("remote_video")
     expect(files["config/install/field.storage.paragraph.field_body.yml"]).toContain("type: text_long")
@@ -426,7 +653,9 @@ describe("schema generator", () => {
     expect(files["config/install/field.storage.node.field_seo_title.yml"]).toContain("max_length: 70")
     expect(files["config/install/field.field.node.page.field_blocks.yml"]).toContain("hero: hero")
     expect(files["config/install/core.entity_form_display.node.page.default.yml"]).toContain("type: paragraphs")
-    expect(files["config/install/core.entity_form_display.paragraph.hero.default.yml"]).toContain("type: media_library_widget")
+    expect(files["config/install/core.entity_form_display.paragraph.hero.default.yml"]).toContain(
+      "type: media_library_widget"
+    )
   })
 
   it("matches the checked-in schema/platform_content module exactly", () => {
@@ -442,6 +671,7 @@ describe("schema generator", () => {
     expect(existsSync(root)).toBe(true)
     walk(root)
     expect(onDisk.sort()).toEqual(Object.keys(files).sort())
-    for (const [path, content] of Object.entries(files)) expect(readFileSync(join(root, path), "utf8"), path).toBe(content)
+    for (const [path, content] of Object.entries(files))
+      expect(readFileSync(join(root, path), "utf8"), path).toBe(content)
   })
 })

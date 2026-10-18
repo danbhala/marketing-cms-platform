@@ -12,15 +12,26 @@ import type { JsonApiResourceObject } from "./client"
  * their internal id, which is what the Paragraphs widget shows. Drupal has no
  * field-level targets, so `fields` stays empty and `fieldAttrs()` returns `{}`.
  */
-export function editAttrsFor(resource: JsonApiResourceObject, entity: "node" | "paragraph"): Editable["$edit"] | undefined {
+export function editAttrsFor(
+  resource: JsonApiResourceObject,
+  entity: "node" | "paragraph"
+): Editable["$edit"] | undefined {
   const attributes = resource.attributes ?? {}
   if (entity === "node") {
     const nid = attributes.drupal_internal__nid
     if (nid === undefined || nid === null) return undefined
-    const self: EditAttrs = { "data-drupal-entity": "node", "data-drupal-id": String(nid), "data-drupal-edit": `/node/${String(nid)}/edit` }
+    const self: EditAttrs = {
+      "data-drupal-entity": "node",
+      "data-drupal-id": String(nid),
+      "data-drupal-edit": `/node/${String(nid)}/edit`,
+    }
     return { self, fields: {} }
   }
   const id = attributes.drupal_internal__id ?? resource.id
-  const self: EditAttrs = { "data-drupal-entity": "paragraph", "data-drupal-id": String(id), "data-drupal-uuid": resource.id }
+  const self: EditAttrs = {
+    "data-drupal-entity": "paragraph",
+    "data-drupal-id": String(id),
+    "data-drupal-uuid": resource.id,
+  }
   return { self, fields: {} }
 }

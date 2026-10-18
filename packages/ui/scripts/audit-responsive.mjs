@@ -31,7 +31,7 @@ const index = JSON.parse(await readFile(join(root, "index.json"), "utf8"))
 const ids = Object.values(index.entries).filter((e) => e.type === "story" && e.id.startsWith(only)).map((e) => e.id)
 await mkdir(outDir, { recursive: true })
 
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" })
+const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH })
 const context = await browser.newContext({ deviceScaleFactor: 1 })
 const report = []
 for (const id of ids) {

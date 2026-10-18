@@ -1,7 +1,7 @@
-import { defineDocument, field } from "../fields";
-import { themeNames } from "../themes";
-import { allBlocks } from "./blocks";
-import { action, footerColumn, navGroup, socialLink } from "./items";
+import { defineDocument, field } from "../fields"
+import { themeNames } from "../themes"
+import { allBlocks } from "./blocks"
+import { action, footerColumn, navGroup, socialLink } from "./items"
 
 export const page = defineDocument("page", {
   label: "Page",
@@ -13,11 +13,13 @@ export const page = defineDocument("page", {
     seoDescription: field.textarea(),
     ogImage: field.media(),
     noIndex: field.boolean(),
-    hideBreadcrumbs: field.boolean({ description: "Breadcrumbs show on every page except the home page unless hidden." }),
+    hideBreadcrumbs: field.boolean({
+      description: "Breadcrumbs show on every page except the home page unless hidden.",
+    }),
     theme: field.select(themeNames, { description: "Theme applied to the whole page." }),
     blocks: field.blocks(allBlocks),
   },
-});
+})
 
 export const siteSettings = defineDocument("siteSettings", {
   label: "Site settings",
@@ -34,6 +36,6 @@ export const siteSettings = defineDocument("siteSettings", {
     footerNote: field.text(),
     socialLinks: field.items([socialLink]),
   },
-});
+})
 
-export const allDocuments = [page, siteSettings] as const;
+export const allDocuments = [page, siteSettings] as const

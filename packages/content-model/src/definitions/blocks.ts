@@ -1,6 +1,13 @@
-import { animationDelays, animationDurations, animationPresets, headingAnimations, marqueeSpeeds, scrollEffects } from "../animation";
-import { defineBlock, field } from "../fields";
-import { themeNames } from "../themes";
+import {
+  animationDelays,
+  animationDurations,
+  animationPresets,
+  headingAnimations,
+  marqueeSpeeds,
+  scrollEffects,
+} from "../animation"
+import { defineBlock, field } from "../fields"
+import { themeNames } from "../themes"
 import {
   action,
   card,
@@ -17,7 +24,7 @@ import {
   step,
   tab,
   testimonial,
-} from "./items";
+} from "./items"
 
 /**
  * Presentation fields every block gets, so any block can be themed, anchored
@@ -42,36 +49,36 @@ const presentation = {
   }),
   animationDuration: field.select(animationDurations, { defaultValue: "normal" }),
   animationDelay: field.select(animationDelays, { defaultValue: "none" }),
-};
+}
 
 /** The shared heading slot: eyebrow, title and description. */
 const heading = {
   eyebrow: field.text(),
   title: field.text(),
   description: field.textarea(),
-};
+}
 
-const columns = field.select(["2", "3", "4"] as const, { defaultValue: "3" });
+const columns = field.select(["2", "3", "4"] as const, { defaultValue: "3" })
 
 /** Scroll-linked movement of a block's media (hero, media, gallery stage). */
 const scrollEffect = field.select(scrollEffects, {
   defaultValue: "none",
   label: "Scroll effect",
   description: "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
-});
+})
 
 /** Speed of a scrolling strip (logo cloud and testimonials marquee layouts). */
 const marqueeSpeed = field.select(marqueeSpeeds, {
   defaultValue: "normal",
   label: "Marquee speed",
   description: "Only used by the marquee layout.",
-});
+})
 
 /** Count numbers up from zero when the block scrolls into view. */
 const countUp = field.boolean({
   label: "Count up",
   description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
-});
+})
 
 export const hero = defineBlock("hero", {
   label: "Hero",
@@ -87,7 +94,7 @@ export const hero = defineBlock("hero", {
     scrollEffect,
     ...presentation,
   },
-});
+})
 
 export const logoCloud = defineBlock("logoCloud", {
   label: "Logo cloud",
@@ -99,7 +106,7 @@ export const logoCloud = defineBlock("logoCloud", {
     grayscale: field.boolean(),
     ...presentation,
   },
-});
+})
 
 export const featureGrid = defineBlock("featureGrid", {
   label: "Feature grid",
@@ -110,7 +117,7 @@ export const featureGrid = defineBlock("featureGrid", {
     itemStyle: field.select(["plain", "card"] as const, { defaultValue: "plain" }),
     ...presentation,
   },
-});
+})
 
 export const featureSplit = defineBlock("featureSplit", {
   label: "Feature split",
@@ -124,7 +131,7 @@ export const featureSplit = defineBlock("featureSplit", {
     mediaPosition: field.select(["right", "left"] as const, { defaultValue: "right" }),
     ...presentation,
   },
-});
+})
 
 export const stats = defineBlock("stats", {
   label: "Stats",
@@ -135,7 +142,7 @@ export const stats = defineBlock("stats", {
     countUp,
     ...presentation,
   },
-});
+})
 
 export const testimonials = defineBlock("testimonials", {
   label: "Testimonials",
@@ -146,7 +153,7 @@ export const testimonials = defineBlock("testimonials", {
     marqueeSpeed,
     ...presentation,
   },
-});
+})
 
 export const pricing = defineBlock("pricing", {
   label: "Pricing table",
@@ -156,7 +163,7 @@ export const pricing = defineBlock("pricing", {
     countUp,
     ...presentation,
   },
-});
+})
 
 export const comparisonTable = defineBlock("comparisonTable", {
   label: "Comparison table",
@@ -166,7 +173,7 @@ export const comparisonTable = defineBlock("comparisonTable", {
     rows: field.items([comparisonRow]),
     ...presentation,
   },
-});
+})
 
 export const faq = defineBlock("faq", {
   label: "FAQ",
@@ -176,7 +183,7 @@ export const faq = defineBlock("faq", {
     layout: field.select(["single", "split"] as const, { defaultValue: "single" }),
     ...presentation,
   },
-});
+})
 
 export const cta = defineBlock("cta", {
   label: "Call to action",
@@ -188,7 +195,7 @@ export const cta = defineBlock("cta", {
     layout: field.select(["centered", "split"] as const, { defaultValue: "centered" }),
     ...presentation,
   },
-});
+})
 
 export const cardGrid = defineBlock("cardGrid", {
   label: "Card grid",
@@ -199,7 +206,7 @@ export const cardGrid = defineBlock("cardGrid", {
     actions: field.items([action], { max: 1 }),
     ...presentation,
   },
-});
+})
 
 export const teamGrid = defineBlock("teamGrid", {
   label: "Team grid",
@@ -209,7 +216,7 @@ export const teamGrid = defineBlock("teamGrid", {
     columns: field.select(["3", "4"] as const, { defaultValue: "4" }),
     ...presentation,
   },
-});
+})
 
 export const steps = defineBlock("steps", {
   label: "Steps",
@@ -219,7 +226,7 @@ export const steps = defineBlock("steps", {
     orientation: field.select(["horizontal", "vertical"] as const, { defaultValue: "horizontal" }),
     ...presentation,
   },
-});
+})
 
 export const tabs = defineBlock("tabs", {
   label: "Tabbed content",
@@ -228,7 +235,7 @@ export const tabs = defineBlock("tabs", {
     tabs: field.items([tab]),
     ...presentation,
   },
-});
+})
 
 export const richTextBlock = defineBlock("richText", {
   label: "Rich text",
@@ -237,7 +244,7 @@ export const richTextBlock = defineBlock("richText", {
     width: field.select(["prose", "full"] as const, { defaultValue: "prose" }),
     ...presentation,
   },
-});
+})
 
 export const mediaBlock = defineBlock("media", {
   label: "Media",
@@ -248,17 +255,19 @@ export const mediaBlock = defineBlock("media", {
     scrollEffect,
     ...presentation,
   },
-});
+})
 
 export const gallery = defineBlock("gallery", {
   label: "Gallery",
-  description: "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.",
+  description:
+    "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.",
   fields: {
     ...heading,
     items: field.items([galleryItem]),
     layout: field.select(["grid", "masonry", "featured", "stage", "strip"] as const, {
       defaultValue: "grid",
-      description: "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.",
+      description:
+        "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.",
     }),
     columns,
     lightbox: field.boolean({
@@ -269,7 +278,7 @@ export const gallery = defineBlock("gallery", {
     }),
     ...presentation,
   },
-});
+})
 
 export const form = defineBlock("form", {
   label: "Form",
@@ -284,7 +293,7 @@ export const form = defineBlock("form", {
     layout: field.select(["stacked", "inline"] as const, { defaultValue: "stacked" }),
     ...presentation,
   },
-});
+})
 
 /** Every block a page can contain. Add new blocks here. */
 export const allBlocks = [
@@ -306,4 +315,4 @@ export const allBlocks = [
   mediaBlock,
   gallery,
   form,
-] as const;
+] as const

@@ -24,13 +24,27 @@ export const Scale: Story = {
   render: () => (
     <Container size="md">
       <Stack gap="lg" align="start">
-        <Heading as="h1" size="display">Display · The quick brown fox</Heading>
-        <Heading as="h1" size="h1">Heading 1 · The quick brown fox</Heading>
-        <Heading as="h2" size="h2">Heading 2 · The quick brown fox</Heading>
-        <Heading as="h3" size="h3">Heading 3 · The quick brown fox</Heading>
-        <Heading as="h4" size="h4">Heading 4 · The quick brown fox</Heading>
-        <Heading as="h5" size="h5">Heading 5 · The quick brown fox</Heading>
-        <Heading as="h6" size="h6">Heading 6 · The quick brown fox</Heading>
+        <Heading as="h1" size="display">
+          Display · The quick brown fox
+        </Heading>
+        <Heading as="h1" size="h1">
+          Heading 1 · The quick brown fox
+        </Heading>
+        <Heading as="h2" size="h2">
+          Heading 2 · The quick brown fox
+        </Heading>
+        <Heading as="h3" size="h3">
+          Heading 3 · The quick brown fox
+        </Heading>
+        <Heading as="h4" size="h4">
+          Heading 4 · The quick brown fox
+        </Heading>
+        <Heading as="h5" size="h5">
+          Heading 5 · The quick brown fox
+        </Heading>
+        <Heading as="h6" size="h6">
+          Heading 6 · The quick brown fox
+        </Heading>
         <Text size="lead">Lead · Privacy-first product analytics with real-time dashboards and versioned funnels.</Text>
         <Text size="lg">Large · Privacy-first product analytics with real-time dashboards and versioned funnels.</Text>
         <Text>Base · Privacy-first product analytics with real-time dashboards and versioned funnels.</Text>

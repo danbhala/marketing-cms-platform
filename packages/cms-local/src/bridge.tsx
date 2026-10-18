@@ -21,7 +21,11 @@ export default function LocalPreviewBridge({ ctx }: PreviewBridgeProps) {
     let current: HTMLElement | null = null
     const measure = () => {
       if (!current || !current.isConnected) return setTarget(null)
-      setTarget({ id: current.dataset.editId!, field: current.dataset.editField, rect: current.getBoundingClientRect() })
+      setTarget({
+        id: current.dataset.editId!,
+        field: current.dataset.editField,
+        rect: current.getBoundingClientRect(),
+      })
     }
     const onMove = (event: MouseEvent) => {
       current = (event.target as Element | null)?.closest<HTMLElement>("[data-edit-id]") ?? null

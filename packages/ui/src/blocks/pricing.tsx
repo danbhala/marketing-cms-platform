@@ -29,7 +29,10 @@ function Pricing({ block, index, className, ...props }: PricingProps) {
         <Grid columns={columns} align="stretch" {...fieldAttrs(block, "plans")}>
           {block.plans.map((plan) => (
             <BlockItem key={plan.id} block={block}>
-              <PriceCard plan={plan} countUp={block.countUp ? { duration: block.animationDuration, delay: block.animationDelay } : null} />
+              <PriceCard
+                plan={plan}
+                countUp={block.countUp ? { duration: block.animationDuration, delay: block.animationDelay } : null}
+              />
             </BlockItem>
           ))}
         </Grid>

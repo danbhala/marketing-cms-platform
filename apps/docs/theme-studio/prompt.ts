@@ -8,13 +8,21 @@ import { themeToCss, type Theme } from "./theme"
  * check) so nothing has to be fetched from the docs.
  */
 export function themeToPrompt(theme: Theme, { shareUrl }: { shareUrl?: string } = {}): string {
-  const fontIds = [...new Set([theme.fonts.heading, theme.fonts.body, theme.fonts.mono, theme.fonts.eyebrow].filter((id): id is string => Boolean(id)))]
+  const fontIds = [
+    ...new Set(
+      [theme.fonts.heading, theme.fonts.body, theme.fonts.mono, theme.fonts.eyebrow].filter((id): id is string =>
+        Boolean(id)
+      )
+    ),
+  ]
   const fontPkgs = fontIds.map((id) => fontById(id).pkg).filter((pkg): pkg is string => Boolean(pkg))
   const fontList = fontIds.map((id) => {
     const f = fontById(id)
     return `   - ${f.label}${f.pkg ? ` (npm: ${f.pkg})` : " (system stack, nothing to install)"}`
   })
-  const install = fontPkgs.length ? `pnpm add ${fontPkgs.join(" ")}  (or npm/yarn; the @import lines in the CSS load them)` : "No font packages needed: this theme uses system font stacks."
+  const install = fontPkgs.length
+    ? `pnpm add ${fontPkgs.join(" ")}  (or npm/yarn; the @import lines in the CSS load them)`
+    : "No font packages needed: this theme uses system font stacks."
 
   return [
     "Set up the brand theme below in my project. Follow the steps, then report what you changed.",
@@ -37,7 +45,7 @@ export function themeToPrompt(theme: Theme, { shareUrl }: { shareUrl?: string } 
     "   - In a project that copied the platform code: a brand.css next to the app's main stylesheet, imported after the platform globals import.",
     "   Order matters: the theme must come after the platform globals so its variables win.",
     "",
-    "3. Optional, to use this as a scoped theme instead of the site default: change `:root` to a class such as `.theme-<name>` in the same file. Theme classes nest, so it works on <html>, a page wrapper or a single block. Then add \"<name>\" to `themeNames` in packages/content-model/src/themes.ts (or the project's copy) and run `pnpm schema:generate` so editors can pick it in the CMS.",
+    '3. Optional, to use this as a scoped theme instead of the site default: change `:root` to a class such as `.theme-<name>` in the same file. Theme classes nest, so it works on <html>, a page wrapper or a single block. Then add "<name>" to `themeNames` in packages/content-model/src/themes.ts (or the project\'s copy) and run `pnpm schema:generate` so editors can pick it in the CMS.',
     "",
     "4. Verify.",
     "   - Run the dev server and open the home page.",
@@ -51,7 +59,14 @@ export function themeToPrompt(theme: Theme, { shareUrl }: { shareUrl?: string } 
     themeToCss(theme).trimEnd(),
     "```",
     "",
-    ...(shareUrl ? ["## Source", "", `Designed in the platform's theme studio; this link reopens it with these exact values: ${shareUrl}`, ""] : []),
+    ...(shareUrl
+      ? [
+          "## Source",
+          "",
+          `Designed in the platform's theme studio; this link reopens it with these exact values: ${shareUrl}`,
+          "",
+        ]
+      : []),
     "When you are done, list the files you created or changed and anything you could not verify.",
   ].join("\n")
 }

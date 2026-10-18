@@ -37,7 +37,12 @@ function Testimonials({ block, index, className, ...props }: TestimonialsProps) 
             ))}
           </Carousel>
         ) : layout === "marquee" ? (
-          <Marquee speed={block.marqueeSpeed ?? "normal"} gap={24} className="-mx-4 section-sm:-mx-6 section-lg:-mx-8" {...fieldAttrs(block, "testimonials")}>
+          <Marquee
+            speed={block.marqueeSpeed ?? "normal"}
+            gap={24}
+            className="-mx-4 section-sm:-mx-6 section-lg:-mx-8"
+            {...fieldAttrs(block, "testimonials")}
+          >
             {block.testimonials.map((item) => (
               <Quote key={item.id} item={item} className="w-80 section-sm:w-96" />
             ))}

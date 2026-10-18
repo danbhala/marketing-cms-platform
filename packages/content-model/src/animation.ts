@@ -103,7 +103,9 @@ export const marqueeSpeeds = ["slow", "normal", "fast"] as const
 export type MarqueeSpeed = (typeof marqueeSpeeds)[number]
 
 /** Resolve a `scrollEffect` field; `null` means the media sits still. */
-export function scrollEffectSetting(block: { scrollEffect?: ScrollEffect | null } | null | undefined): Exclude<ScrollEffect, "none"> | null {
+export function scrollEffectSetting(
+  block: { scrollEffect?: ScrollEffect | null } | null | undefined
+): Exclude<ScrollEffect, "none"> | null {
   const effect = block?.scrollEffect
   return !effect || effect === "none" ? null : effect
 }

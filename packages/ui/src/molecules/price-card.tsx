@@ -27,7 +27,7 @@ function PriceCard({ plan, countUp, className, ...props }: PriceCardProps) {
       className={cn(
         "relative flex h-full flex-col gap-6 rounded-xl border bg-card p-6 text-card-foreground",
         plan.highlighted && "border-primary shadow-lg ring-1 ring-primary",
-        className,
+        className
       )}
       {...editAttrs(plan)}
       {...props}
@@ -48,8 +48,12 @@ function PriceCard({ plan, countUp, className, ...props }: PriceCardProps) {
         ) : null}
       </div>
       <p className="flex items-baseline gap-1">
-        <span className="font-heading heading-style text-4xl" {...fieldAttrs(plan, "price")}>
-          {countUp ? <CountUp value={plan.price} duration={countUp.duration ?? undefined} delay={countUp.delay ?? undefined} /> : plan.price}
+        <span className="font-heading text-4xl heading-style" {...fieldAttrs(plan, "price")}>
+          {countUp ? (
+            <CountUp value={plan.price} duration={countUp.duration ?? undefined} delay={countUp.delay ?? undefined} />
+          ) : (
+            plan.price
+          )}
         </span>
         {plan.period ? (
           <span className="text-sm text-muted-foreground" {...fieldAttrs(plan, "period")}>

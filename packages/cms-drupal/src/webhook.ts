@@ -49,7 +49,8 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
           const body = (await request.json()) as { path?: unknown; tags?: unknown }
           if (typeof body.path === "string") payload.path = body.path
           if (typeof body.tags === "string") payload.tags = [...(payload.tags ?? []), ...splitTags(body.tags)]
-          if (Array.isArray(body.tags)) payload.tags = [...(payload.tags ?? []), ...body.tags.filter((t): t is string => typeof t === "string")]
+          if (Array.isArray(body.tags))
+            payload.tags = [...(payload.tags ?? []), ...body.tags.filter((t): t is string => typeof t === "string")]
         } catch {
           // No body, or not JSON: the query string alone is a complete request.
         }

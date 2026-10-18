@@ -16,7 +16,11 @@ function fakeClient(overrides: Partial<GraphLike> = {}) {
     "/pricing": [pricingPageItem],
     "/site-settings": [siteSettingsItem],
   }
-  const byKey: Record<string, unknown> = { "page-home": homePageItem, "page-pricing": pricingPageItem, site: siteSettingsItem }
+  const byKey: Record<string, unknown> = {
+    "page-home": homePageItem,
+    "page-pricing": pricingPageItem,
+    site: siteSettingsItem,
+  }
   const client: GraphLike = {
     getContentByPath: vi.fn(async (path: string) => byPath[path.replace(/\/$/, "") || "/"] ?? []),
     getPreviewContent: vi.fn(async (params) => {
@@ -29,7 +33,13 @@ function fakeClient(overrides: Partial<GraphLike> = {}) {
     getContent: vi.fn(async ({ key }) => byKey[key] ?? null),
     getItems: vi.fn(async () => [
       { _metadata: { key: "page-pricing", types: ["WebPage", "_Page", "_Content"], url: { default: "/en/pricing/" } } },
-      { _metadata: { key: "site", types: ["SiteSettings", "_Page", "_Content"], url: { default: "/en/site-settings/" } } },
+      {
+        _metadata: {
+          key: "site",
+          types: ["SiteSettings", "_Page", "_Content"],
+          url: { default: "/en/site-settings/" },
+        },
+      },
       { _metadata: { key: "page-about", types: ["WebPage", "_Page", "_Content"], url: { default: "/en/about/" } } },
     ]),
     ...overrides,
@@ -89,7 +99,13 @@ describe("optimizely adapter", () => {
 
     const editCtx = { locale: "en", draft: true, preview: adapter.preview.context(previewSearchParams, true) }
     const page = await adapter.getPage("/pricing", editCtx)
-    expect(client.getPreviewContent).toHaveBeenCalledWith({ key: "page-home", ver: "8", loc: "en", ctx: "edit", preview_token: previewToken })
+    expect(client.getPreviewContent).toHaveBeenCalledWith({
+      key: "page-home",
+      ver: "8",
+      loc: "en",
+      ctx: "edit",
+      preview_token: previewToken,
+    })
     expect(page?.title).toBe("Draft title")
     expect(page?.$edit?.self).toBeUndefined()
     expect(page?.$edit?.fields?.title).toEqual({ "data-epi-edit": "title" })
@@ -143,8 +159,13 @@ describe("preview.enter", () => {
 
   it("rejects requests without the editor's parameters", async () => {
     const adapter = createOptimizelyAdapter({ ...options, client: fakeClient() })
-    expect(await adapter.preview.enter(url(new URLSearchParams({ secret: "s3cret", path: "/pricing" })))).toMatchObject({ ok: false, status: 400 })
-    expect(await adapter.preview.enter(url(new URLSearchParams({ key: "page-home" })))).toMatchObject({ ok: false, status: 400 })
+    expect(await adapter.preview.enter(url(new URLSearchParams({ secret: "s3cret", path: "/pricing" })))).toMatchObject(
+      { ok: false, status: 400 }
+    )
+    expect(await adapter.preview.enter(url(new URLSearchParams({ key: "page-home" })))).toMatchObject({
+      ok: false,
+      status: 400,
+    })
   })
 
   it("rejects tokens Graph does not accept", async () => {
@@ -165,7 +186,14 @@ describe("preview.enter", () => {
     expect(await adapter.preview.enter(url(params))).toEqual({
       ok: true,
       path: "/pricing",
-      context: { mode: "edit", key: "page-pricing", ver: "8", loc: "en", preview_token: previewToken, cmsUrl: "https://example.cms.optimizely.com" },
+      context: {
+        mode: "edit",
+        key: "page-pricing",
+        ver: "8",
+        loc: "en",
+        preview_token: previewToken,
+        cmsUrl: "https://example.cms.optimizely.com",
+      },
     })
   })
 
@@ -174,16 +202,30 @@ describe("preview.enter", () => {
     const adapter = createOptimizelyAdapter({ ...options, client })
     const params = new URLSearchParams(previewModeSearchParams)
     params.set("key", "site")
-    expect(await adapter.preview.enter(url(params))).toMatchObject({ ok: true, path: "/", context: { mode: "preview" } })
+    expect(await adapter.preview.enter(url(params))).toMatchObject({
+      ok: true,
+      path: "/",
+      context: { mode: "preview" },
+    })
 
-    const block = fakeClient({ getPreviewContent: vi.fn(async () => ({ __typename: "HeroBlock", _metadata: { key: "blk" } })) })
-    expect(await createOptimizelyAdapter({ ...options, client: block }).preview.enter(url(previewSearchParams))).toMatchObject({ ok: false, status: 404 })
+    const block = fakeClient({
+      getPreviewContent: vi.fn(async () => ({ __typename: "HeroBlock", _metadata: { key: "blk" } })),
+    })
+    expect(
+      await createOptimizelyAdapter({ ...options, client: block }).preview.enter(url(previewSearchParams))
+    ).toMatchObject({ ok: false, status: 404 })
   })
 
   it("allows the Optimizely editor origins to frame the site", () => {
     const adapter = createOptimizelyAdapter({ ...options, client: fakeClient() })
-    expect(adapter.preview.frameAncestors).toEqual(["'self'", "https://*.cms.optimizely.com", "https://example.cms.optimizely.com"])
-    expect(createOptimizelyAdapter({ ...options, cmsUrl: undefined, client: fakeClient() }).preview.frameAncestors).toEqual(["'self'", "https://*.cms.optimizely.com"])
+    expect(adapter.preview.frameAncestors).toEqual([
+      "'self'",
+      "https://*.cms.optimizely.com",
+      "https://example.cms.optimizely.com",
+    ])
+    expect(
+      createOptimizelyAdapter({ ...options, cmsUrl: undefined, client: fakeClient() }).preview.frameAncestors
+    ).toEqual(["'self'", "https://*.cms.optimizely.com"])
   })
 
   it("exposes the client bridge", async () => {
@@ -199,31 +241,57 @@ describe("webhook", () => {
     new Request(init.url ?? "https://site.test/api/revalidate", { method: "POST", body: JSON.stringify(body), ...init })
 
   it("accepts the shared secret as a header, bearer token or query parameter", async () => {
-    expect(await adapter.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "s3cret" } }))).toEqual(webhookPayload)
-    expect(await adapter.webhook.verify(post(webhookPayload, { headers: { authorization: "Bearer s3cret" } }))).toEqual(webhookPayload)
-    expect(await adapter.webhook.verify(post(webhookPayload, { url: "https://site.test/api/revalidate?secret=s3cret" }))).toEqual(webhookPayload)
+    expect(
+      await adapter.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "s3cret" } }))
+    ).toEqual(webhookPayload)
+    expect(await adapter.webhook.verify(post(webhookPayload, { headers: { authorization: "Bearer s3cret" } }))).toEqual(
+      webhookPayload
+    )
+    expect(
+      await adapter.webhook.verify(post(webhookPayload, { url: "https://site.test/api/revalidate?secret=s3cret" }))
+    ).toEqual(webhookPayload)
   })
 
   it("rejects missing or wrong secrets, malformed bodies and unconfigured secrets", async () => {
     expect(await adapter.webhook.verify(post(webhookPayload))).toBeNull()
-    expect(await adapter.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "wrong" } }))).toBeNull()
-    expect(await adapter.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "s3cret-but-longer" } }))).toBeNull()
-    expect(await adapter.webhook.verify(new Request("https://site.test/api/revalidate", { method: "POST", body: "{nope", headers: { "x-optimizely-secret": "s3cret" } }))).toBeNull()
+    expect(
+      await adapter.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "wrong" } }))
+    ).toBeNull()
+    expect(
+      await adapter.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "s3cret-but-longer" } }))
+    ).toBeNull()
+    expect(
+      await adapter.webhook.verify(
+        new Request("https://site.test/api/revalidate", {
+          method: "POST",
+          body: "{nope",
+          headers: { "x-optimizely-secret": "s3cret" },
+        })
+      )
+    ).toBeNull()
     const unconfigured = createOptimizelyAdapter({ ...options, webhookSecret: undefined, client: fakeClient() })
-    expect(await unconfigured.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "s3cret" } }))).toBeNull()
+    expect(
+      await unconfigured.webhook.verify(post(webhookPayload, { headers: { "x-optimizely-secret": "s3cret" } }))
+    ).toBeNull()
   })
 
   it("maps a published document to its entry, paths and global tags", () => {
-    expect(adapter.webhook.toEvent(webhookPayload).tags).toEqual([tags.entry("blk-hero"), tags.paths("en"), tags.global("en")])
-    expect(adapter.webhook.toEvent({ type: { subject: "doc", action: "deleted" }, data: { docId: "page-x_sv_Published" } }).tags).toEqual([
-      tags.entry("page-x"),
-      tags.paths("sv"),
-      tags.global("sv"),
+    expect(adapter.webhook.toEvent(webhookPayload).tags).toEqual([
+      tags.entry("blk-hero"),
+      tags.paths("en"),
+      tags.global("en"),
     ])
+    expect(
+      adapter.webhook.toEvent({ type: { subject: "doc", action: "deleted" }, data: { docId: "page-x_sv_Published" } })
+        .tags
+    ).toEqual([tags.entry("page-x"), tags.paths("sv"), tags.global("sv")])
   })
 
   it("ignores draft documents and revalidates everything on a reindex", () => {
-    expect(adapter.webhook.toEvent({ type: { subject: "doc", action: "updated" }, data: { docId: "blk-hero_en_Draft" } }).tags).toEqual([])
+    expect(
+      adapter.webhook.toEvent({ type: { subject: "doc", action: "updated" }, data: { docId: "blk-hero_en_Draft" } })
+        .tags
+    ).toEqual([])
     expect(adapter.webhook.toEvent({ type: { subject: "bulk", action: "completed" } }).tags).toEqual([
       tags.type("page"),
       tags.global("en"),
@@ -231,7 +299,11 @@ describe("webhook", () => {
       tags.global("sv"),
       tags.paths("sv"),
     ])
-    expect(adapter.webhook.toEvent([webhookPayload, webhookPayload]).tags).toEqual([tags.entry("blk-hero"), tags.paths("en"), tags.global("en")])
+    expect(adapter.webhook.toEvent([webhookPayload, webhookPayload]).tags).toEqual([
+      tags.entry("blk-hero"),
+      tags.paths("en"),
+      tags.global("en"),
+    ])
     expect(adapter.webhook.toEvent(null).tags).toContain(tags.type("page"))
   })
 })

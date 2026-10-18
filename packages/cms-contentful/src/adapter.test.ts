@@ -90,11 +90,17 @@ describe("contentful adapter", () => {
 
   it("pages through every routable path", async () => {
     const paged = fakeFetcher((query) => {
-      const all = [entry("p1", "page", { path: "/" }), entry("p2", "page", { path: "pricing/" }), entry("p3", "page", { path: "/about" })]
+      const all = [
+        entry("p1", "page", { path: "/" }),
+        entry("p2", "page", { path: "pricing/" }),
+        entry("p3", "page", { path: "/about" }),
+      ]
       const skip = Number(query.skip ?? 0)
       return { items: all.slice(skip, skip + 2), total: all.length }
     })
-    const paths = await createContentfulAdapter({ clients: { delivery: paged.fetcher, preview: preview.fetcher } }).getPaths("en")
+    const paths = await createContentfulAdapter({
+      clients: { delivery: paged.fetcher, preview: preview.fetcher },
+    }).getPaths("en")
     expect(paths).toEqual(["/", "/pricing", "/about"])
     expect(paged.queries).toHaveLength(2)
     expect(paged.queries[0]).toMatchObject({ content_type: "page", select: ["fields.path"], skip: 0 })

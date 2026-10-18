@@ -4,15 +4,15 @@ Sanity adapter for the marketing platform: GROQ fetches, a schema generator for 
 
 ## Environment
 
-| Variable                | Default           | Purpose                                                                         |
-| ----------------------- | ----------------- | ------------------------------------------------------------------------------- |
-| `SANITY_PROJECT_ID`     | –                 | Project id (required at fetch time)                                             |
-| `SANITY_DATASET`        | `production`      | Dataset                                                                         |
-| `SANITY_API_VERSION`    | `2026-10-01`      | API version date                                                                |
-| `SANITY_VIEWER_TOKEN`   | –                 | Viewer token for draft reads (`perspective: "drafts"`); never shipped to the browser |
-| `SANITY_STUDIO_URL`     | –                 | Studio origin; enables stega edit links and is added to `frame-ancestors`       |
-| `SANITY_PREVIEW_SECRET` | `PREVIEW_SECRET`  | Secret the Presentation tool sends to `/api/preview`                            |
-| `SANITY_WEBHOOK_SECRET` | `REVALIDATE_SECRET` | Secret configured on the GROQ-powered webhook                                 |
+| Variable                | Default             | Purpose                                                                              |
+| ----------------------- | ------------------- | ------------------------------------------------------------------------------------ |
+| `SANITY_PROJECT_ID`     | –                   | Project id (required at fetch time)                                                  |
+| `SANITY_DATASET`        | `production`        | Dataset                                                                              |
+| `SANITY_API_VERSION`    | `2026-10-01`        | API version date                                                                     |
+| `SANITY_VIEWER_TOKEN`   | –                   | Viewer token for draft reads (`perspective: "drafts"`); never shipped to the browser |
+| `SANITY_STUDIO_URL`     | –                   | Studio origin; enables stega edit links and is added to `frame-ancestors`            |
+| `SANITY_PREVIEW_SECRET` | `PREVIEW_SECRET`    | Secret the Presentation tool sends to `/api/preview`                                 |
+| `SANITY_WEBHOOK_SECRET` | `REVALIDATE_SECRET` | Secret configured on the GROQ-powered webhook                                        |
 
 Published reads use the API CDN with the `published` perspective and no token. Draft Mode reads use the `drafts` perspective, the viewer token and stega encoding (when a Studio URL is set). Values the UI uses for logic (hrefs, select values, icon names, text lists, anchors, form field names, media URLs) are passed through `stegaClean`; copy keeps its encoding so overlays can map it back to a field.
 

@@ -34,12 +34,24 @@ function Gallery({ block, index, className, ...props }: GalleryProps) {
   const [open, setOpen] = React.useState<number | null>(null)
   const header = (
     <BlockItem block={block}>
-      <SectionHeader eyebrow={block.eyebrow} title={block.title} description={block.description} as={index === 0 ? "h1" : "h2"} source={block} />
+      <SectionHeader
+        eyebrow={block.eyebrow}
+        title={block.title}
+        description={block.description}
+        as={index === 0 ? "h1" : "h2"}
+        source={block}
+      />
     </BlockItem>
   )
   const tile = (item: GalleryItem, i: number, ratio: ImageProps["ratio"], tileClassName?: string) => (
     <BlockItem key={item.id} block={block}>
-      <Tile item={item} index={i} ratio={ratio} className={tileClassName} onOpen={lightbox ? () => setOpen(i) : undefined} />
+      <Tile
+        item={item}
+        index={i}
+        ratio={ratio}
+        className={tileClassName}
+        onOpen={lightbox ? () => setOpen(i) : undefined}
+      />
     </BlockItem>
   )
 
@@ -47,7 +59,17 @@ function Gallery({ block, index, className, ...props }: GalleryProps) {
   switch (layout) {
     case "masonry":
       body = (
-        <div className={cn("gap-4 [column-fill:balance]", block.columns === "2" ? "columns-2" : block.columns === "4" ? "columns-2 section-sm:columns-3 section-lg:columns-4" : "columns-2 section-md:columns-3")} {...fieldAttrs(block, "items")}>
+        <div
+          className={cn(
+            "gap-4 [column-fill:balance]",
+            block.columns === "2"
+              ? "columns-2"
+              : block.columns === "4"
+                ? "columns-2 section-sm:columns-3 section-lg:columns-4"
+                : "columns-2 section-md:columns-3"
+          )}
+          {...fieldAttrs(block, "items")}
+        >
           {block.items.map((item, i) => tile(item, i, "auto", "mb-4 break-inside-avoid"))}
         </div>
       )
@@ -77,12 +99,13 @@ function Gallery({ block, index, className, ...props }: GalleryProps) {
     <MotionRoot features="max">
       <BlockSection block={block} className={className} {...props}>
         {layout === "strip" ? (
-          <ScrollStrip
-            header={<Container>{header}</Container>}
-            {...fieldAttrs(block, "items")}
-          >
+          <ScrollStrip header={<Container>{header}</Container>} {...fieldAttrs(block, "items")}>
             {block.items.map((item, i) => (
-              <div key={item.id} data-strip-item className="w-[72cqw] shrink-0 snap-start first:ml-4 last:mr-4 section-sm:w-[46cqw] section-lg:w-[34cqw]">
+              <div
+                key={item.id}
+                data-strip-item
+                className="w-[72cqw] shrink-0 snap-start first:ml-4 last:mr-4 section-sm:w-[46cqw] section-lg:w-[34cqw]"
+              >
                 <Tile item={item} index={i} ratio="4/3" onOpen={lightbox ? () => setOpen(i) : undefined} />
               </div>
             ))}
@@ -94,7 +117,9 @@ function Gallery({ block, index, className, ...props }: GalleryProps) {
           </Container>
         )}
       </BlockSection>
-      {lightbox ? <Lightbox items={block.items} index={open} onIndexChange={setOpen} label={block.title ?? "Gallery"} /> : null}
+      {lightbox ? (
+        <Lightbox items={block.items} index={open} onIndexChange={setOpen} label={block.title ?? "Gallery"} />
+      ) : null}
     </MotionRoot>
   )
 }
@@ -114,7 +139,17 @@ function Tile({ item, index, ratio, onOpen, caption, className, ...props }: Tile
   const alt = galleryAlt(item, index)
   const image = (
     <SharedLayout id={item.id} className="size-full">
-      <Image media={{ ...item.media, alt }} ratio={ratio} radius="lg" sizes="(min-width: 1024px) 33vw, 50vw" draggable={false} className={cn(ratio === "auto" && "w-full", "size-full transition-transform duration-500 ease-out group-hover/tile:scale-[1.03]")} />
+      <Image
+        media={{ ...item.media, alt }}
+        ratio={ratio}
+        radius="lg"
+        sizes="(min-width: 1024px) 33vw, 50vw"
+        draggable={false}
+        className={cn(
+          ratio === "auto" && "w-full",
+          "size-full transition-transform duration-500 ease-out group-hover/tile:scale-[1.03]"
+        )}
+      />
     </SharedLayout>
   )
   return (
@@ -168,14 +203,29 @@ function Stage({ block, onOpen }: { block: GalleryBlock; onOpen?: (index: number
       <div className="relative">
         <Crossfade itemKey={current.id} className="aspect-video overflow-hidden rounded-xl bg-muted">
           {onOpen ? (
-            <button type="button" onClick={() => onOpen(active)} aria-haspopup="dialog" className="group/tile block size-full cursor-zoom-in outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+            <button
+              type="button"
+              onClick={() => onOpen(active)}
+              aria-haspopup="dialog"
+              className="group/tile block size-full cursor-zoom-in outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            >
               <SharedLayout id={current.id} className="size-full">
-                <Image media={{ ...current.media, alt: galleryAlt(current, active) }} fill sizes="100vw" draggable={false} />
+                <Image
+                  media={{ ...current.media, alt: galleryAlt(current, active) }}
+                  fill
+                  sizes="100vw"
+                  draggable={false}
+                />
               </SharedLayout>
             </button>
           ) : (
             <SharedLayout id={current.id} className="size-full">
-              <Image media={{ ...current.media, alt: galleryAlt(current, active) }} fill sizes="100vw" draggable={false} />
+              <Image
+                media={{ ...current.media, alt: galleryAlt(current, active) }}
+                fill
+                sizes="100vw"
+                draggable={false}
+              />
             </SharedLayout>
           )}
         </Crossfade>
@@ -194,7 +244,10 @@ function Stage({ block, onOpen }: { block: GalleryBlock; onOpen?: (index: number
             <div aria-hidden className="absolute inset-x-0 bottom-0 h-1 overflow-hidden rounded-b-xl bg-black/20">
               <div
                 key={`${current.id}-${running}`}
-                className={cn("h-full origin-left bg-primary motion-reduce:hidden", running && "animate-[stage-progress_5s_linear_forwards]")}
+                className={cn(
+                  "h-full origin-left bg-primary motion-reduce:hidden",
+                  running && "animate-[stage-progress_5s_linear_forwards]"
+                )}
                 style={{ transform: running ? undefined : "scaleX(0)" }}
               />
             </div>
@@ -204,7 +257,11 @@ function Stage({ block, onOpen }: { block: GalleryBlock; onOpen?: (index: number
       <p className="min-h-5 text-sm text-muted-foreground" aria-live="polite">
         {current.caption}
       </p>
-      <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:thin]" role="group" aria-label={block.title ?? "Gallery"}>
+      <div
+        className="flex [scrollbar-width:thin] gap-2 overflow-x-auto pb-1"
+        role="group"
+        aria-label={block.title ?? "Gallery"}
+      >
         {items.map((item, i) => (
           <button
             key={item.id}
@@ -212,9 +269,19 @@ function Stage({ block, onOpen }: { block: GalleryBlock; onOpen?: (index: number
             aria-label={galleryAlt(item, i)}
             aria-current={i === active ? "true" : undefined}
             onClick={() => setActive(i)}
-            className={cn("w-20 shrink-0 overflow-hidden rounded-md outline-none ring-offset-2 ring-offset-background transition-opacity focus-visible:ring-3 focus-visible:ring-ring/50 section-sm:w-24", i === active ? "ring-2 ring-primary" : "opacity-60 hover:opacity-100")}
+            className={cn(
+              "w-20 shrink-0 overflow-hidden rounded-md ring-offset-2 ring-offset-background transition-opacity outline-none focus-visible:ring-3 focus-visible:ring-ring/50 section-sm:w-24",
+              i === active ? "ring-2 ring-primary" : "opacity-60 hover:opacity-100"
+            )}
           >
-            <Image media={{ ...item.media, alt: "" }} ratio="4/3" radius="none" sizes="96px" draggable={false} className="rounded-md" />
+            <Image
+              media={{ ...item.media, alt: "" }}
+              ratio="4/3"
+              radius="none"
+              sizes="96px"
+              draggable={false}
+              className="rounded-md"
+            />
           </button>
         ))}
       </div>
