@@ -85,6 +85,38 @@ export const HeaderOverlayOpen: StoryObj = {
   },
 }
 
+const languages = [
+  { locale: "en", label: "English", href: "/pricing" },
+  { locale: "fr", label: "Français", href: "/fr/pricing", current: true },
+  { locale: "de", label: "Deutsch", href: "/de/pricing" },
+]
+
+/** `languageSwitcher: "menu"`: the language switcher as a dropdown in the header. */
+export const HeaderLanguageMenuOpen: StoryObj = {
+  parameters: openPopup,
+  render: () => <SiteHeader settings={settings} sticky={false} languageSwitcher="menu" languages={languages} />,
+  play: async () => {
+    clickButton("Language: frFrançais")
+    await settle()
+  },
+}
+
+/** On phones the language dropdown shows the code beside the menu button. */
+export const HeaderLanguageMenuMobile: StoryObj = {
+  render: () => <SiteHeader settings={settings} sticky={false} languageSwitcher="menu" languages={languages} />,
+  globals: mobile,
+}
+
+/** The default `languageSwitcher: "utility"`: language links at the end of the utility bar. */
+export const UtilityBarLanguages: StoryObj = {
+  render: () => (
+    <>
+      <UtilityBar settings={full} languages={languages} />
+      <SiteHeader settings={full} sticky={false} />
+    </>
+  ),
+}
+
 /** The utility bar above the header, shown when `utilityLinks` has links. */
 export const HeaderWithUtilityBar: StoryObj = {
   render: () => (
