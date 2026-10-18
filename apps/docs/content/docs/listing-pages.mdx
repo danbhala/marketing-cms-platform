@@ -3,9 +3,24 @@ title: Listing pages
 description: "News and other collections: one block, URL as the only state, filters, search, pagination and the cache tags that keep listings and stories in step."
 ---
 
-A listing is the `collection` block placed on an ordinary page. The page stays a CMS document (hero, intro, anything else an editor wants); the block renders the filter bar, the result grid and pagination for one listable document type. The worked example is news: `article` documents, filtered by `category`, at `/news`.
+A listing is the `collection` block placed on an ordinary page. The page stays a CMS document (hero, intro, anything else an editor wants); the block renders the filter bar, the results in one of four layouts and pagination for one listable document type. The worked example is news: `article` documents, filtered by `category`, at `/news`.
 
 <StorybookEmbed story="blocks-collection--default" height={900} />
+
+## Layouts
+
+The block's `layout` field picks how a page of results is drawn. Filters, search, sort and pagination work the same in every layout; only the items change. Each item is the `ContentCard` molecule in one of its four shapes, and the `latestNews` block offers the same field.
+
+| Layout     | Item shape | What it shows                                                                                                     | Use it for                               |
+| ---------- | ---------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `grid`     | `card`     | Image, category, title, excerpt and date in a bordered card; three or four columns at full width.                 | News, blog, resources (the default).     |
+| `list`     | `row`      | A thumbnail on the left, category and date, title and a two-line excerpt; the excerpt hides in narrow containers. | Text-led pages, sidebars, long archives. |
+| `featured` | `feature`  | The newest item large with image and text side by side, the rest of the page as cards.                            | A news front page.                       |
+| `compact`  | `line`     | Title and date on one line, nothing else.                                                                         | Publication libraries, press releases.   |
+
+<StorybookEmbed story="blocks-collection--list" height={720} />
+
+Columns come from `listingColumns(layout, pageSize)` in `packages/ui/src/molecules/collection-results.tsx`: the grid fills its last row where it can, and `featured` takes the first item out of the count. The widths are container queries on the section, so the same block collapses the same way inside a CMS preview pane as it does on a phone. `ListingItems` renders the items for both blocks, so a new layout is one branch there plus a `ContentCard` variant.
 
 ## The URL is the only state
 
@@ -47,7 +62,7 @@ On Vercel, change the three functions to `'use cache: remote'` so every serverle
 
 ## Latest news on other pages
 
-The `latestNews` block shows the newest three, four or six items, optionally from one `category` (a reference, so editors pick a term), with a "see all" action. It reuses the cards, the section header and `getPublishedCollection`, so it is invalidated by the same `cms:collection` tag as the listing. With no action set, the app links to the first page that has a `collection` block of the same `source` (`getPublishedListingPath`, cached per locale).
+The `latestNews` block shows the newest three, four or six items, optionally from one `category` (a reference, so editors pick a term), with a "see all" action, in any of the four layouts above. It reuses `ListingItems`, the section header and `getPublishedCollection`, so it is invalidated by the same `cms:collection` tag as the listing. With no action set, the app links to the first page that has a `collection` block of the same `source` (`getPublishedListingPath`, cached per locale).
 
 Article pages emit schema.org `NewsArticle` JSON-LD (headline, date, description, image, section, keywords, publisher) from `ArticleTemplate`; pass `structuredData={false}` to turn it off.
 
