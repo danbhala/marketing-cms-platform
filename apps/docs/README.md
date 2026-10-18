@@ -26,6 +26,10 @@ pnpm dev                 # http://localhost:3001
 
 `/theme` is the theme studio: `theme-studio/theme.ts` holds the editable model (fonts, heading treatment, radius, rhythm, 13 colours) and derives every CSS variable from it, `color.ts` does the OKLCH maths, `presets.ts` the named presets, `store.ts` keeps the state in the URL hash. `/showcase/<slug>` renders a fictional brand with the real `PageTemplate` and its preset; content lives in `showcases/`, fonts come from the Fontsource catalogue in `theme-studio/fonts.ts` (add a package in both `fonts.ts` and `fonts-load.ts`), photos in `public/showcases` (see `CREDITS.md` there). Screenshot showcases with `screenshot-docs.mjs` and rename to `public/screenshots/showcase-<slug>.png`.
 
+## Schema studio
+
+`/schema` is the schema studio: design a block (and the item types it nests) with the content model's field builders and see the schema each adapter generates for it. `schema-studio/model.ts` holds the editable model and turns it into real `defineBlock`/`defineItem` definitions; `generate.ts` runs the six packages' own generators on them (imported from `@platform/cms-*/schema`, which have no CMS SDK imports) and renders both the data and the committed file (`migration.cjs`, `components.json`, `content-types.ts`, `schemaTypes.ts`, Drupal config YAML, `blocks.py`); `highlight.ts` finds a field's lines in each output; `store.ts` keeps the state in the URL hash like the theme studio. Documents are out of scope.
+
 ## Screenshots
 
 `public/screenshots` is captured from Storybook and the docs site with the scripts in `packages/ui/scripts`:

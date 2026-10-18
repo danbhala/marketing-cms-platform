@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
     "@platform/content-model",
     "@platform/cms-core",
     "@platform/cms-local",
+    // The schema studio runs each adapter's schema generator in the browser.
+    "@platform/cms-contentful",
+    "@platform/cms-storyblok",
+    "@platform/cms-optimizely",
+    "@platform/cms-sanity",
+    "@platform/cms-drupal",
+    "@platform/cms-wagtail",
   ],
   // Storybook's static build (copied to public/storybook) uses relative asset
   // URLs, so it is served from /storybook/ with the trailing slash. Next would

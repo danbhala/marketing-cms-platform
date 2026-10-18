@@ -445,9 +445,27 @@ importers:
       '@fontsource/instrument-serif':
         specifier: ^5.3.0
         version: 5.3.0
+      '@platform/cms-contentful':
+        specifier: workspace:*
+        version: link:../../packages/cms-contentful
       '@platform/cms-core':
         specifier: workspace:*
         version: link:../../packages/cms-core
+      '@platform/cms-drupal':
+        specifier: workspace:*
+        version: link:../../packages/cms-drupal
+      '@platform/cms-optimizely':
+        specifier: workspace:*
+        version: link:../../packages/cms-optimizely
+      '@platform/cms-sanity':
+        specifier: workspace:*
+        version: link:../../packages/cms-sanity
+      '@platform/cms-storyblok':
+        specifier: workspace:*
+        version: link:../../packages/cms-storyblok
+      '@platform/cms-wagtail':
+        specifier: workspace:*
+        version: link:../../packages/cms-wagtail
       '@platform/content-model':
         specifier: workspace:*
         version: link:../../packages/content-model

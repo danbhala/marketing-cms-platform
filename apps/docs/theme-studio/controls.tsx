@@ -51,16 +51,19 @@ export function Select({
   onChange,
   children,
   className,
+  label,
 }: {
   value: string
   onChange: (v: string) => void
   children: ReactNode
   className?: string
+  label?: string
 }) {
   return (
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      aria-label={label}
       className={className ?? "bg-fd-background h-9 w-full rounded-md border px-2 text-sm"}
     >
       {children}
