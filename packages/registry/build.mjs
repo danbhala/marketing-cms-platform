@@ -40,6 +40,7 @@ const appSkip = new Set([
   "package.json",
   "tsconfig.json",
   "postcss.config.mjs",
+  "next.config.ts", // create-next-app's own; the CLI adds typedRoutes and the image host
   "eslint.config.js",
   "vercel.json",
   "next-env.d.ts",
