@@ -10,7 +10,7 @@ import type {
 } from "@platform/content-model"
 import { isDefaultQuery } from "@platform/cms-core/listing"
 
-import { Grid, gridVariants } from "../atoms/layout"
+import { Grid, gridFit, gridVariants } from "../atoms/layout"
 import { Link } from "../atoms/link"
 import { Text } from "../atoms/text"
 import { formatDate } from "../lib/format"
@@ -58,7 +58,7 @@ export interface ListingItemsProps extends React.ComponentProps<"ul"> {
  * layout, so the collection block and the latest-news block render results
  * the same way and a screen reader always hears a list of N items.
  */
-function ListingItems({ items, layout = "grid", columns = "3", className, ...props }: ListingItemsProps) {
+function ListingItems({ items, layout = "grid", columns = "3", className, style, ...props }: ListingItemsProps) {
   if (layout === "list" || layout === "compact") {
     const variant = layout === "list" ? "row" : "line"
     return (
@@ -66,21 +66,24 @@ function ListingItems({ items, layout = "grid", columns = "3", className, ...pro
         data-slot="listing-items"
         data-layout={layout}
         className={cn("flex list-none flex-col divide-y p-0", className)}
+        style={style}
         {...props}
       >
         {items.map((card) => (
-          <li key={card.id} className={cn(layout === "list" ? "py-6 first:pt-0 last:pb-0" : "py-3 first:pt-0")}>
+          <li key={card.id} className={cn(layout === "list" ? "py-[calc(var(--block-grid-gap)*0.75)] first:pt-0 last:pb-0" : "py-3 first:pt-0")}>
             <ContentCard item={card} variant={variant} />
           </li>
         ))}
       </ul>
     )
   }
+  const grid = gridFit(columns)
   return (
     <ul
       data-slot="listing-items"
       data-layout={layout}
-      className={cn(gridVariants({ columns }), "list-none p-0", className)}
+      className={cn(grid?.className ?? gridVariants({ columns }), "list-none p-0", className)}
+      style={{ ...grid?.style, ...style }}
       {...props}
     >
       {items.map((card, i) => {
@@ -126,7 +129,7 @@ function CollectionResults({
   const labels = { ...defaultListingLabels, ...partial }
   const empty = result.items.length === 0
   return (
-    <div data-slot="collection-results" className={cn("flex flex-col gap-8", className)} {...props}>
+    <div data-slot="collection-results" className={cn("flex flex-col gap-(--block-grid-gap)", className)} {...props}>
       <Text as="p" size="sm" tone="muted" role="status" aria-live="polite">
         {query.q ? labels.searchResults(result.total, query.q) : labels.results(result.total)}
       </Text>
@@ -169,7 +172,7 @@ function CollectionSkeleton({
       data-slot="collection-skeleton"
       role="status"
       aria-label={label}
-      className={cn("flex flex-col gap-8", className)}
+      className={cn("flex flex-col gap-(--block-grid-gap)", className)}
       {...props}
     >
       <Skeleton className="h-4 w-24" />
@@ -187,7 +190,7 @@ function CollectionSkeleton({
           {Array.from({ length: count }, (_, i) => (
             <div
               key={i}
-              className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 py-6 first:pt-0 last:pb-0 section-sm:grid-cols-[14rem_minmax(0,1fr)] section-sm:gap-6"
+              className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 py-[calc(var(--block-grid-gap)*0.75)] first:pt-0 last:pb-0 section-sm:grid-cols-[14rem_minmax(0,1fr)] section-sm:gap-6"
             >
               <Skeleton className="aspect-3/2 w-full" />
               <div className="flex flex-col gap-3 py-1">
@@ -199,7 +202,7 @@ function CollectionSkeleton({
           ))}
         </div>
       ) : (
-        <Grid columns={columns}>
+        <Grid columns={columns} fit>
           {Array.from({ length: count }, (_, i) => {
             const feature = layout === "featured" && i === 0
             return (
@@ -211,7 +214,7 @@ function CollectionSkeleton({
                 )}
               >
                 <Skeleton className={cn("aspect-3/2 w-full rounded-none", feature && "section-md:aspect-auto")} />
-                <div className={cn("flex flex-col gap-3 p-6", feature && "section-md:p-10")}>
+                <div className={cn("flex flex-col gap-3 p-(--card-inset)", feature && "section-md:p-[calc(var(--card-inset)*5/3)]")}>
                   <Skeleton className="h-3 w-16" />
                   <Skeleton className={cn("w-4/5", feature ? "h-7" : "h-5")} />
                   <Skeleton className="h-4 w-full" />

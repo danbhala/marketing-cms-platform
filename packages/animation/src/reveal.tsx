@@ -12,8 +12,9 @@ import {
 } from "motion/react"
 import * as m from "motion/react-m"
 
-import type { AnimationSettings } from "@platform/content-model"
+import { resolveAnimation, type AnimationSettings } from "@platform/content-model"
 
+import { useLiveSettings } from "./live"
 import { revealVariants, revealViewport } from "./presets"
 
 /**
@@ -80,23 +81,30 @@ export interface RevealProps extends PlainProps {
 }
 
 function Reveal({ animation, as = "section", children, ...props }: RevealProps) {
-  const { root, item } = React.useMemo(() => revealVariants(animation), [animation])
+  // In live mode the browser may have turned the animation off (or changed
+  // it); the key remounts the block so the new entrance plays.
+  const [settings, key] = useLiveSettings(animation, resolveAnimation)
+  const variants = React.useMemo(() => (settings ? revealVariants(settings) : null), [settings])
+  const context = React.useMemo(() => ({ item: variants?.item ?? null }), [variants])
+  if (!variants) {
+    const Plain = as
+    return <Plain {...props}>{children}</Plain>
+  }
   const motionProps = {
     initial: "hidden",
     whileInView: "visible",
     viewport: revealViewport,
-    variants: root,
+    variants: variants.root,
   }
-  const context = React.useMemo(() => ({ item }), [item])
   return (
     <MotionRoot>
       <RevealContext value={context}>
         {as === "div" ? (
-          <m.div {...motionProps} {...(props as HTMLMotionProps<"div">)}>
+          <m.div key={key} {...motionProps} {...(props as HTMLMotionProps<"div">)}>
             {children}
           </m.div>
         ) : (
-          <m.section {...motionProps} {...(props as HTMLMotionProps<"section">)}>
+          <m.section key={key} {...motionProps} {...(props as HTMLMotionProps<"section">)}>
             {children}
           </m.section>
         )}

@@ -13,10 +13,15 @@
   --heading-tracking: -0.01em;
   --heading-case: none;
   --radius: 1.25rem;
-  --section-scale: 1;
-  --gap-scale: 1;
   --container-section: 80rem;
+  --card-min: 14rem;
   color-scheme: light;
+  --space-section-sm: 1;
+  --space-section-lg: 1;
+  --space-gap-sm: 1;
+  --space-gap-lg: 1;
+  --space-inset-sm: 1;
+  --space-inset-lg: 1;
   --background: oklch(0.985 0.01 85);
   --foreground: oklch(0.28 0.06 250);
   --card: oklch(1 0 0);

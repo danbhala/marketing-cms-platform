@@ -18,7 +18,7 @@ const MOBILE = 390
  * blocks, and a switcher that applies each showcase brand to that same
  * markup as CSS variables. Nothing re-renders but the variables, so the
  * switch is instant and shows the whole theme (fonts, colours, radius,
- * heading style, rhythm) at once. Brands rotate until the visitor picks one.
+ * heading style, whitespace) at once. Brands rotate until the visitor picks one.
  */
 export function HomeHero() {
   const [index, setIndex] = useState(0)

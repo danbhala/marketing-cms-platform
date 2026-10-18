@@ -4,15 +4,16 @@
  * Layout variables marketing blocks read for spacing and width. They are
  * separate from colour tokens so a theme can change rhythm (a denser
  * "compact" theme, say) without touching colour, and vice versa.
+ *
+ * Whitespace inputs: --space-section|gap|inset-sm (phones) and -lg (from
+ * 64rem) are what the theme studio's Whitespace setting writes; 1 when unset.
+ * --section-scale and --gap-scale stay as extra multipliers for theme classes
+ * such as theme-compact. The derived steps are recomputed on every section,
+ * so a class or inline style on one block (or a studio preview) takes effect.
  */
 :root {
-  /* Section vertical padding steps, picked by <Section spacing="…">. A theme
-     scales all three at once with --section-scale instead of resetting each. */
   --section-scale: 1;
   --gap-scale: 1;
-  --section-space-sm: calc(var(--spacing) * 10 * var(--section-scale));
-  --section-space-md: calc(var(--spacing) * 16 * var(--section-scale));
-  --section-space-lg: calc(var(--spacing) * 24 * var(--section-scale));
 
   /* Container widths, picked by <Container size="…"> */
   --container-sm: 40rem;
@@ -22,18 +23,49 @@
   --container-section: var(--container-xl);
   --container-prose: 65ch;
 
+  /* Narrowest a grid card may get before <Grid> drops a column (the studio's Card size). */
+  --card-min: 14rem;
+}
+
+:root,
+[data-slot="section"] {
+  /* Section vertical padding steps, picked by <Section spacing="…">. */
+  --section-space-sm: calc(var(--spacing) * 10 * var(--section-scale) * var(--space-section-sm, 1));
+  --section-space-md: calc(var(--spacing) * 16 * var(--section-scale) * var(--space-section-sm, 1));
+  --section-space-lg: calc(var(--spacing) * 24 * var(--section-scale) * var(--space-section-sm, 1));
   /* Gap between a block's header and its content */
-  --block-header-gap: calc(var(--spacing) * 12 * var(--gap-scale));
+  --block-header-gap: calc(var(--spacing) * 12 * var(--gap-scale) * var(--space-gap-sm, 1));
   /* Grid gap inside blocks */
-  --block-grid-gap: calc(var(--spacing) * 8 * var(--gap-scale));
+  --block-grid-gap: calc(var(--spacing) * 8 * var(--gap-scale) * var(--space-gap-sm, 1));
+  /* Gap between the text and media halves of a split layout (hero, feature split, tabs) */
+  --block-split-gap: calc(var(--spacing) * 10 * var(--gap-scale) * var(--space-gap-sm, 1));
+  /* Padding inside cards and panels */
+  --card-inset: calc(var(--spacing) * 6 * var(--space-inset-sm, 1));
 }
 
 @media (min-width: 64rem) {
-  :root {
-    --section-space-sm: calc(var(--spacing) * 14 * var(--section-scale));
-    --section-space-md: calc(var(--spacing) * 24 * var(--section-scale));
-    --section-space-lg: calc(var(--spacing) * 32 * var(--section-scale));
+  :root,
+  [data-slot="section"] {
+    --section-space-sm: calc(var(--spacing) * 14 * var(--section-scale) * var(--space-section-lg, 1));
+    --section-space-md: calc(var(--spacing) * 24 * var(--section-scale) * var(--space-section-lg, 1));
+    --section-space-lg: calc(var(--spacing) * 32 * var(--section-scale) * var(--space-section-lg, 1));
+    --block-header-gap: calc(var(--spacing) * 12 * var(--gap-scale) * var(--space-gap-lg, 1));
+    --block-grid-gap: calc(var(--spacing) * 8 * var(--gap-scale) * var(--space-gap-lg, 1));
+    --block-split-gap: calc(var(--spacing) * 16 * var(--gap-scale) * var(--space-gap-lg, 1));
+    --card-inset: calc(var(--spacing) * 6 * var(--space-inset-lg, 1));
   }
+}
+
+/*
+ * <Grid fit>: as many columns as fit at --card-min wide, never more than
+ * --grid-cols (the editor's column count). One rule instead of breakpoints,
+ * so the theme's Card size decides when a grid drops a column.
+ */
+.grid-fit {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(100%, max(var(--card-min), (100% - (var(--grid-cols) - 1) * var(--block-grid-gap)) / var(--grid-cols))), 1fr)
+  );
 }
 
 .theme-compact {

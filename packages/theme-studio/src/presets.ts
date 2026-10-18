@@ -21,7 +21,8 @@ export const presets: Preset[] = [
       fonts: { heading: "fraunces", body: "inter", mono: "jetbrains-mono" },
       heading: { weight: 500, tracking: -0.01, uppercase: false },
       radius: 0.125,
-      rhythm: { section: 1.25, gap: 1 },
+      space: "airy",
+      cards: "medium",
       container: 80,
       scheme: "light",
       motion: {
@@ -59,7 +60,8 @@ export const presets: Preset[] = [
       fonts: { heading: "space-grotesk", body: "space-grotesk", mono: "jetbrains-mono", eyebrow: "jetbrains-mono" },
       heading: { weight: 700, tracking: -0.03, uppercase: true },
       radius: 0,
-      rhythm: { section: 0.7, gap: 0.7 },
+      space: "compact",
+      cards: "small",
       container: 80,
       scheme: "light",
       motion: {
@@ -97,7 +99,8 @@ export const presets: Preset[] = [
       fonts: { heading: "outfit", body: "manrope", mono: "geist-mono" },
       heading: { weight: 600, tracking: -0.02, uppercase: false },
       radius: 1,
-      rhythm: { section: 1, gap: 1 },
+      space: "balanced",
+      cards: "large",
       container: 80,
       scheme: "dark",
       motion: {
@@ -135,7 +138,8 @@ export const presets: Preset[] = [
       fonts: { heading: "cormorant-garamond", body: "jost", mono: "jetbrains-mono" },
       heading: { weight: 600, tracking: 0, uppercase: false },
       radius: 0.375,
-      rhythm: { section: 1.15, gap: 1 },
+      space: "airy",
+      cards: "medium",
       container: 80,
       scheme: "light",
       motion: {
@@ -173,7 +177,8 @@ export const presets: Preset[] = [
       fonts: { heading: "dm-serif-display", body: "dm-sans", mono: "geist-mono" },
       heading: { weight: 400, tracking: -0.01, uppercase: false },
       radius: 1.25,
-      rhythm: { section: 1, gap: 1 },
+      space: "balanced",
+      cards: "medium",
       container: 80,
       scheme: "light",
       motion: {
@@ -211,7 +216,8 @@ export const presets: Preset[] = [
       fonts: { heading: "syne", body: "instrument-sans", mono: "geist-mono" },
       heading: { weight: 700, tracking: -0.04, uppercase: false },
       radius: 0.75,
-      rhythm: { section: 1, gap: 1 },
+      space: "balanced",
+      cards: "medium",
       container: 80,
       scheme: "light",
       motion: {

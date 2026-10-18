@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@platform/eslint-config": "workspace:*",
+    "@platform/theme-studio": "workspace:*",
     "@platform/typescript-config": "workspace:*",
     "@storybook/addon-a11y": "catalog:",
     "@storybook/addon-docs": "catalog:",

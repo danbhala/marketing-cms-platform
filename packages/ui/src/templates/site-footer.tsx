@@ -19,8 +19,8 @@ export interface SiteFooterProps extends React.ComponentProps<"footer"> {
 function SiteFooter({ settings, className, ...props }: SiteFooterProps) {
   return (
     <footer data-slot="site-footer" className={cn("@container/section border-t bg-muted/40", className)} {...props}>
-      <Container className="flex flex-col gap-10 py-12 section-lg:py-16">
-        <div className="grid gap-8 section-sm:grid-cols-2 section-lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+      <Container className="flex flex-col gap-[calc(var(--block-grid-gap)*1.25)] py-[calc(var(--spacing)*12*var(--space-section-sm,1))] section-lg:py-[calc(var(--spacing)*16*var(--space-section-lg,1))]">
+        <div className="grid gap-(--block-grid-gap) section-sm:grid-cols-2 section-lg:grid-cols-[1.5fr_repeat(4,1fr)]">
           <div className="flex flex-col gap-3">
             <Link href="/" variant="unstyled" className="text-lg font-semibold">
               {settings.siteName}

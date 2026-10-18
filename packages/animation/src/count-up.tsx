@@ -3,8 +3,9 @@
 import * as React from "react"
 import { animate, useInView, useReducedMotion } from "motion/react"
 
-import type { AnimationDelay, AnimationDuration } from "@platform/content-model"
+import { resolveCountUp, type AnimationDelay, type AnimationDuration, type LiveAnimationFields } from "@platform/content-model"
 
+import { useAnimationDefaults, useAnimationVersion } from "./live"
 import { delaySeconds, durationSeconds, revealViewport } from "./presets"
 import { formatNumber, parseNumber } from "./number"
 
@@ -16,6 +17,8 @@ export interface CountUpProps extends Omit<React.ComponentProps<"span">, "childr
   delay?: AnimationDelay
   /** BCP 47 locale for the thousands and decimal separators. Defaults to the page language. */
   locale?: string
+  /** Live mode: the block's raw fields, resolved here against the browser's defaults (see `countUpSetting`). */
+  live?: LiveAnimationFields
 }
 
 /**
@@ -32,7 +35,12 @@ function subscribeNever() {
   return () => {}
 }
 
-function CountUp({ value, duration = "normal", delay = "none", locale, className, ...props }: CountUpProps) {
+function CountUp({ value, duration: givenDuration, delay: givenDelay, live: fields, locale, className, ...props }: CountUpProps) {
+  // Live mode resolves the block's fields here; `null` means counting is off.
+  const defaults = useAnimationDefaults()
+  const version = useAnimationVersion()
+  const settings = fields ? resolveCountUp(fields, defaults) : { duration: givenDuration, delay: givenDelay }
+  const { duration = "normal", delay = "none" } = settings ?? {}
   const parsed = React.useMemo(() => parseNumber(value), [value])
   const ref = React.useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, revealViewport)
@@ -45,7 +53,7 @@ function CountUp({ value, duration = "normal", delay = "none", locale, className
     () => false
   )
   const [counted, setCounted] = React.useState<string | null>(null)
-  const live = Boolean(parsed) && !reduced && hydrated
+  const live = Boolean(parsed) && Boolean(settings) && !reduced && hydrated
 
   React.useEffect(() => {
     if (!parsed || !live || !inView) return
@@ -57,7 +65,8 @@ function CountUp({ value, duration = "normal", delay = "none", locale, className
       onComplete: () => setCounted(value),
     })
     return () => controls.stop()
-  }, [parsed, live, inView, duration, delay, locale, value])
+    // `version` replays the count when a live editor changes the settings.
+  }, [parsed, live, inView, duration, delay, locale, value, version])
 
   const display = parsed && live ? (counted ?? formatNumber(0, parsed, locale)) : value
 

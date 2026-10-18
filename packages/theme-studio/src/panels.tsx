@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useSyncExternalStore } from "react"
 import {
   animationDelays,
   animationDurations,
@@ -16,7 +16,20 @@ import { ColorField, Field, Range, Segmented, Select, Toggle } from "./controls"
 import { fonts, type FontKind } from "./fonts"
 import { themeToPrompt } from "./prompt"
 import { replay, shareUrl } from "./store"
-import { generatePalette, themeToAnimationConfig, themeToCss, type PaletteOptions, type Theme } from "./theme"
+import {
+  cardSizes,
+  generatePalette,
+  nearestStep,
+  radiusSteps,
+  spaceScales,
+  spaceSteps,
+  themeToAnimationConfig,
+  themeToCss,
+  widthSteps,
+  type CardSize,
+  type PaletteOptions,
+  type Theme,
+} from "./theme"
 
 export type Tab = "colours" | "type" | "layout" | "motion" | "export"
 export const tabs: Tab[] = ["colours", "type", "layout", "motion", "export"]
@@ -42,14 +55,14 @@ export function StudioPanels({
 }) {
   return (
     <>
-      <nav className="grid border-b text-xs" style={{ gridTemplateColumns: `repeat(${shown.length}, 1fr)` }}>
+      <nav className="flex overflow-x-auto border-b text-sm [scrollbar-width:none]">
         {shown.map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => onTab(t)}
             aria-pressed={tab === t}
-            className={`py-2 capitalize ${tab === t ? "border-studio-primary border-b-2 font-medium" : "text-studio-muted-foreground hover:text-studio-foreground"}`}
+            className={`h-11 min-w-fit flex-1 border-b-2 px-3 capitalize ${tab === t ? "border-studio-primary font-medium" : "text-studio-muted-foreground hover:text-studio-foreground border-transparent"}`}
           >
             {t}
           </button>
@@ -117,8 +130,9 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
             onChange={(brandShift) => generate({ ...gen, brandShift })}
           />
         </Field>
-        <Field label="Scheme">
+        <StepField label="Scheme">
           <Segmented
+            fill
             value={gen.scheme}
             onChange={(scheme) => generate({ ...gen, scheme })}
             options={[
@@ -126,7 +140,7 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
               { value: "dark", label: "Dark" },
             ]}
           />
-        </Field>
+        </StepField>
       </section>
 
       <Group title="Page">
@@ -162,6 +176,28 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
         Badges show WCAG contrast against the surface the text sits on. Popover, input, ring, inverse and selection
         colours derive from these.
       </p>
+    </div>
+  )
+}
+
+/** A label above a group of buttons. Not a <label>: that would forward clicks on its text to the first button. */
+function StepField({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1.5 text-sm">
+      <span className="flex items-baseline justify-between gap-2">
+        <span className="font-medium">{label}</span>
+        {hint ? <span className="text-studio-muted-foreground text-xs tabular-nums">{hint}</span> : null}
+      </span>
+      {children}
+    </div>
+  )
+}
+
+function Readout({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="bg-studio-muted flex flex-col rounded-md px-2.5 py-2">
+      <span className="text-studio-foreground text-sm font-semibold tabular-nums">{value}</span>
+      <span className="text-studio-muted-foreground">{label}</span>
     </div>
   )
 }
@@ -269,34 +305,75 @@ function TypePanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>) 
 }
 
 function LayoutPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>) => void }) {
+  const scale = spaceScales[theme.space]
   return (
-    <div className="flex flex-col gap-4">
-      <Field label="Corner radius" hint={`${theme.radius}rem`}>
-        <Range value={theme.radius} min={0} max={2} step={0.125} onChange={(radius) => patch({ radius })} />
-      </Field>
-      <Field label="Section spacing" hint={`×${theme.rhythm.section}`}>
-        <Range
-          value={theme.rhythm.section}
-          min={0.5}
-          max={1.75}
-          step={0.05}
-          onChange={(section) => patch({ rhythm: { ...theme.rhythm, section } })}
-        />
-      </Field>
-      <Field label="Grid gaps" hint={`×${theme.rhythm.gap}`}>
-        <Range
-          value={theme.rhythm.gap}
-          min={0.5}
-          max={1.5}
-          step={0.05}
-          onChange={(gap) => patch({ rhythm: { ...theme.rhythm, gap } })}
-        />
-      </Field>
-      <Field label="Content width" hint={`${theme.container}rem`}>
-        <Range value={theme.container} min={60} max={100} step={2} onChange={(container) => patch({ container })} />
-      </Field>
-      <Field label="Colour scheme">
+    <div className="flex flex-col gap-5">
+      <Group title="Whitespace">
         <Segmented
+          fill
+          label="Whitespace"
+          value={theme.space}
+          onChange={(space) => patch({ space })}
+          options={spaceSteps.map((s) => ({ value: s, label: label(s) }))}
+        />
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          <Readout value={`${Math.round(96 * scale.section[1])}px`} label="between sections, desktop" />
+          <Readout value={`${Math.round(64 * scale.section[0])}px`} label="between sections, phone" />
+        </div>
+        <p className="text-studio-muted-foreground text-xs">
+          One step moves section padding, grid gaps and card padding together. Phones move about a third as far as
+          desktops, so Spacious stays usable on a small screen.
+        </p>
+      </Group>
+      <Group title="Grid">
+        <StepField label="Content width" hint={`${theme.container}rem`}>
+          <Segmented
+            fill
+            label="Content width"
+            value={nearestStep(widthSteps, theme.container)}
+            onChange={(step) => patch({ container: widthSteps[step] })}
+            options={Object.keys(widthSteps).map((s) => ({ value: s as keyof typeof widthSteps, label: label(s) }))}
+          />
+        </StepField>
+        <StepField label="Card size" hint={`${cardSizes[theme.cards]}rem minimum`}>
+          <Segmented
+            fill
+            label="Card size"
+            value={theme.cards}
+            onChange={(cards) => patch({ cards })}
+            options={Object.keys(cardSizes).map((s) => ({ value: s as CardSize, label: label(s) }))}
+          />
+        </StepField>
+        <p className="text-studio-muted-foreground text-xs">
+          Editors still choose each block&apos;s columns. Card size decides how narrow a card may get before the grid
+          drops a column: Small fits two across on a phone, Large keeps cards big everywhere.
+        </p>
+      </Group>
+      <Group title="Corners">
+        <Segmented
+          fill
+          label="Corners"
+          value={nearestStep(radiusSteps, theme.radius)}
+          onChange={(step) => patch({ radius: radiusSteps[step] })}
+          options={Object.keys(radiusSteps).map((s) => ({ value: s as keyof typeof radiusSteps, label: label(s) }))}
+        />
+      </Group>
+      <details className="group flex flex-col gap-3">
+        <summary className="text-studio-muted-foreground hover:text-studio-foreground cursor-pointer text-xs font-medium">
+          Fine-tune radius and width
+        </summary>
+        <div className="mt-3 flex flex-col gap-4">
+          <Field label="Corner radius" hint={`${theme.radius}rem`}>
+            <Range value={theme.radius} min={0} max={2} step={0.125} onChange={(radius) => patch({ radius })} />
+          </Field>
+          <Field label="Content width" hint={`${theme.container}rem`}>
+            <Range value={theme.container} min={60} max={100} step={2} onChange={(container) => patch({ container })} />
+          </Field>
+        </div>
+      </details>
+      <StepField label="Colour scheme">
+        <Segmented
+          fill
           value={theme.scheme}
           onChange={(scheme) => patch({ scheme })}
           options={[
@@ -304,11 +381,25 @@ function LayoutPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>
             { value: "dark", label: "Dark" },
           ]}
         />
-      </Field>
-      <p className="text-studio-muted-foreground text-xs">
-        Spacing multiplies the responsive section and gap steps in blocks.css, so mobile and desktop keep their ratio.
-      </p>
+        <p className="text-studio-muted-foreground text-xs">
+          Form controls and scrollbars only. For dark page colours, set Scheme under Generate a palette in Colours.
+        </p>
+      </StepField>
     </div>
+  )
+}
+
+const reducedQuery = "(prefers-reduced-motion: reduce)"
+
+function useReducedMotion() {
+  return useSyncExternalStore(
+    (listener) => {
+      const query = window.matchMedia(reducedQuery)
+      query.addEventListener("change", listener)
+      return () => query.removeEventListener("change", listener)
+    },
+    () => window.matchMedia(reducedQuery).matches,
+    () => false
   )
 }
 
@@ -330,6 +421,7 @@ function MotionPanel({
 }) {
   const m = theme.motion
   const set = (partial: Partial<AnimationDefaults>) => patch({ motion: { ...m, ...partial } })
+  const reduced = useReducedMotion()
   const custom = typeof m.ease !== "string"
   const curve: EaseCurve = custom ? (m.ease as EaseCurve) : easeCurves[m.ease as keyof typeof easeCurves]
   const setPoint = (i: number, v: number) => {
@@ -352,10 +444,15 @@ function MotionPanel({
       <button
         type="button"
         onClick={replay}
-        className="bg-studio-primary text-studio-primary-foreground h-8 self-start rounded-md px-3 text-sm font-medium hover:opacity-90"
+        className="bg-studio-primary text-studio-primary-foreground h-10 self-start rounded-md px-4 text-sm font-medium hover:opacity-90"
       >
         Replay
       </button>
+      {reduced ? (
+        <p className="rounded-md bg-amber-500/15 px-2.5 py-2 text-xs text-amber-800 dark:text-amber-300">
+          Reduce motion is on for this device, so you&apos;ll see fades only. Visitors with that setting see the same.
+        </p>
+      ) : null}
       <Group title="Entrance">
         <Field label="Preset">
           <Select
@@ -365,7 +462,12 @@ function MotionPanel({
             {options(animationPresets)}
           </Select>
         </Field>
-        <Toggle checked={m.stagger} onChange={(stagger) => set({ stagger })} label="Stagger items" />
+        <Toggle
+          checked={m.stagger}
+          onChange={(stagger) => set({ stagger })}
+          label="Stagger items"
+          hint="Cards and stats arrive one after another"
+        />
         <Field label="Heading effect">
           <Select
             value={m.headingAnimation}
@@ -378,20 +480,22 @@ function MotionPanel({
         </Field>
       </Group>
       <Group title="Timing">
-        <Field label="Duration">
+        <StepField label="Duration">
           <Segmented
+            fill
             value={m.duration}
             onChange={(duration) => set({ duration })}
             options={animationDurations.map((v) => ({ value: v, label: label(v) }))}
           />
-        </Field>
-        <Field label="Delay">
+        </StepField>
+        <StepField label="Delay">
           <Segmented
+            fill
             value={m.delay}
             onChange={(delay) => set({ delay })}
             options={animationDelays.map((v) => ({ value: v, label: label(v) }))}
           />
-        </Field>
+        </StepField>
         <Field label="Easing" hint={`cubic-bezier(${curve.join(", ")})`}>
           <Select
             value={custom ? "custom" : (m.ease as string)}
@@ -427,16 +531,23 @@ function MotionPanel({
         <Toggle
           checked={m.countUp}
           onChange={(countUp) => set({ countUp })}
-          label="Count numbers up (stats, pricing)"
+          label="Count numbers up"
+          hint="Stats and pricing"
         />
-        <Toggle checked={m.magnetic} onChange={(magnetic) => set({ magnetic })} label="Magnetic buttons (mouse only)" />
-        <Field label="Marquee speed">
+        <Toggle
+          checked={m.magnetic}
+          onChange={(magnetic) => set({ magnetic })}
+          label="Magnetic buttons"
+          hint="Mouse only, so phones never see it"
+        />
+        <StepField label="Marquee speed">
           <Segmented
+            fill
             value={m.marqueeSpeed}
             onChange={(marqueeSpeed) => set({ marqueeSpeed })}
             options={marqueeSpeeds.map((v) => ({ value: v, label: label(v) }))}
           />
-        </Field>
+        </StepField>
       </Group>
     </div>
   )
@@ -458,6 +569,7 @@ function ExportPanel({ theme }: { theme: Theme }) {
   return (
     <div className="flex flex-col gap-3">
       <Segmented
+        fill
         value={format}
         onChange={setFormat}
         options={[

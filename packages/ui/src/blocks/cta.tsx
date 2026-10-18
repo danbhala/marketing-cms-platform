@@ -25,10 +25,10 @@ function Cta({ block, index, className, ...props }: CtaProps) {
         <div
           className={cn(
             themeClassName(block.theme),
-            "rounded-2xl border bg-card px-6 py-12 text-card-foreground section-sm:px-12 section-sm:py-16",
+            "rounded-2xl border bg-card px-(--card-inset) py-[calc(var(--card-inset)*2)] text-card-foreground section-sm:px-[calc(var(--card-inset)*2)] section-sm:py-[calc(var(--card-inset)*8/3)]",
             split
-              ? "flex flex-col gap-8 section-lg:flex-row section-lg:items-center section-lg:justify-between"
-              : "flex flex-col items-center gap-8 text-center"
+              ? "flex flex-col gap-(--block-grid-gap) section-lg:flex-row section-lg:items-center section-lg:justify-between"
+              : "flex flex-col items-center gap-(--block-grid-gap) text-center"
           )}
         >
           <Stack gap="sm" align={split ? "start" : "center"} className="max-w-(--container-md)">

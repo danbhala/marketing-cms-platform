@@ -29,12 +29,59 @@ export const colorTokens = [
 
 export type ColorToken = (typeof colorTokens)[number]
 
+/**
+ * Whitespace, one setting for the whole page's breathing room. Each step
+ * multiplies section padding, grid gaps and card padding, with a phone value
+ * and a desktop value (from 64rem): phones move about a third as far, so
+ * Spacious doesn't waste a small screen and Compact stays readable.
+ */
+export const spaceSteps = ["compact", "snug", "balanced", "airy", "spacious"] as const
+export type SpaceStep = (typeof spaceSteps)[number]
+
+/** [phone, desktop] multipliers per step. Balanced is 1 everywhere, so it renders exactly as the tokens' defaults. */
+export const spaceScales: Record<SpaceStep, Record<"section" | "gap" | "inset", [number, number]>> = {
+  compact: { section: [0.8, 0.65], gap: [0.85, 0.7], inset: [0.9, 0.85] },
+  snug: { section: [0.9, 0.85], gap: [0.92, 0.85], inset: [0.95, 0.92] },
+  balanced: { section: [1, 1], gap: [1, 1], inset: [1, 1] },
+  airy: { section: [1.1, 1.25], gap: [1.07, 1.15], inset: [1.05, 1.12] },
+  spacious: { section: [1.25, 1.6], gap: [1.15, 1.3], inset: [1.1, 1.25] },
+}
+
+/** The `--space-*` inputs blocks.css reads for one Whitespace step. */
+export function spaceVars(step: SpaceStep): Record<string, string> {
+  const vars: Record<string, string> = {}
+  for (const [kind, [sm, lg]] of Object.entries(spaceScales[step])) {
+    vars[`--space-${kind}-sm`] = String(sm)
+    vars[`--space-${kind}-lg`] = String(lg)
+  }
+  return vars
+}
+
+/**
+ * Card size: how narrow a grid card may get before the grid drops a column.
+ * Editors still choose the column count per block; this only decides when it
+ * steps down. Medium is the default.
+ */
+export const cardSizes = { small: 10, medium: 14, large: 20 } as const
+export type CardSize = keyof typeof cardSizes
+
+/** Named stops for the studio's stepped controls; the theme stores the number, so presets can sit between them. */
+export const radiusSteps = { none: 0, sharp: 0.25, soft: 0.625, round: 1.25 } as const
+export const widthSteps = { narrow: 64, standard: 80, wide: 90 } as const
+
+/** The named stop closest to a value, for highlighting a stepped control. */
+export function nearestStep<K extends string>(steps: Record<K, number>, value: number): K {
+  const entries = Object.entries(steps) as Array<[K, number]>
+  return entries.reduce((best, entry) => (Math.abs(entry[1] - value) < Math.abs(best[1] - value) ? entry : best))[0]
+}
+
 export interface Theme {
   fonts: { heading: string; body: string; mono: string; eyebrow?: string }
   heading: { weight: number; tracking: number; uppercase: boolean }
   /** rem */
   radius: number
-  rhythm: { section: number; gap: number }
+  space: SpaceStep
+  cards: CardSize
   /** rem */
   container: number
   scheme: "light" | "dark"
@@ -47,7 +94,8 @@ export const defaultTheme: Theme = {
   fonts: { heading: "system-sans", body: "system-sans", mono: "system-mono" },
   heading: { weight: 600, tracking: -0.025, uppercase: false },
   radius: 0.625,
-  rhythm: { section: 1, gap: 1 },
+  space: "balanced",
+  cards: "medium",
   container: 80,
   scheme: "light",
   motion: baseAnimationDefaults,
@@ -82,11 +130,11 @@ export function themeToVars(theme: Theme): Record<string, string> {
     "--heading-tracking": `${theme.heading.tracking}em`,
     "--heading-case": theme.heading.uppercase ? "uppercase" : "none",
     "--radius": `${theme.radius}rem`,
-    "--section-scale": String(theme.rhythm.section),
-    "--gap-scale": String(theme.rhythm.gap),
     "--container-section": `${theme.container}rem`,
+    "--card-min": `${cardSizes[theme.cards]}rem`,
     "color-scheme": theme.scheme,
   }
+  Object.assign(vars, spaceVars(theme.space))
   for (const token of colorTokens) vars[`--${kebab(token)}`] = c(token)
   Object.assign(vars, {
     "--card-foreground": "var(--foreground)",
@@ -176,14 +224,16 @@ export const encodeTheme = (theme: Theme) => toBase64Url(JSON.stringify(theme))
 
 export function decodeTheme(encoded: string): Theme | null {
   try {
-    const parsed = JSON.parse(fromBase64Url(encoded)) as Partial<Theme>
+    const parsed = JSON.parse(fromBase64Url(encoded)) as Partial<Theme> & { rhythm?: { section?: number } }
     if (!parsed || typeof parsed !== "object" || !parsed.colors) return null
+    const { rhythm, ...rest } = parsed
     return {
       ...defaultTheme,
-      ...parsed,
+      // Links made before Whitespace had steps carry a section multiplier instead.
+      space: rhythm?.section ? spaceFromSection(rhythm.section) : defaultTheme.space,
+      ...rest,
       fonts: { ...defaultTheme.fonts, ...parsed.fonts },
       heading: { ...defaultTheme.heading, ...parsed.heading },
-      rhythm: { ...defaultTheme.rhythm, ...parsed.rhythm },
       motion: { ...defaultTheme.motion, ...parsed.motion },
       colors: { ...defaultTheme.colors, ...parsed.colors },
     }
@@ -191,6 +241,9 @@ export function decodeTheme(encoded: string): Theme | null {
     return null
   }
 }
+
+const spaceFromSection = (section: number) =>
+  nearestStep(Object.fromEntries(spaceSteps.map((s) => [s, spaceScales[s].section[1]])) as Record<SpaceStep, number>, section)
 
 // --- Palette generator -------------------------------------------------------
 
@@ -281,7 +334,8 @@ export function randomTheme(pick = Math.random): Theme {
       uppercase: !serifHeading && pick() < 0.2,
     },
     radius: choose([0, 0.125, 0.375, 0.625, 1, 1.5]),
-    rhythm: { section: choose([0.7, 1, 1, 1.3]), gap: 1 },
+    space: choose<SpaceStep>(["snug", "balanced", "balanced", "airy"]),
+    cards: "medium",
     container: 80,
     scheme,
     motion: {

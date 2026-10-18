@@ -88,7 +88,10 @@ export interface BlockItemProps extends RevealItemProps {
  * markup exactly as before.
  */
 function BlockItem({ block, as, children, ...props }: BlockItemProps) {
-  if (animationSettings(block)?.stagger) {
+  // In live mode (a theme editor on the page) the browser decides whether the
+  // block staggers, so every item is ready to; `RevealItem` stays plain if not.
+  const animation = animationSettings(block)
+  if (animation?.stagger || animation?.live) {
     return (
       <RevealItem as={as} {...props}>
         {children}

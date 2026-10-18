@@ -22,7 +22,7 @@ function LogoCloud({ block, className, ...props }: LogoCloudProps) {
         className={cn("overflow-hidden", className)}
         {...props}
       >
-        <Container className="flex flex-col items-center gap-8">
+        <Container className="flex flex-col items-center gap-(--block-grid-gap)">
           {block.title ? (
             <Text size="sm" tone="muted" weight="medium" align="center" {...fieldAttrs(block, "title")}>
               {block.title}
@@ -32,7 +32,7 @@ function LogoCloud({ block, className, ...props }: LogoCloudProps) {
         <Marquee
           speed={marqueeSpeedSetting(block)}
           gap={64}
-          className="mt-8 first:mt-0"
+          className="mt-(--block-grid-gap) first:mt-0"
           {...fieldAttrs(block, "logos")}
         >
           {block.logos.map((logo) => (
@@ -44,7 +44,7 @@ function LogoCloud({ block, className, ...props }: LogoCloudProps) {
   }
   return (
     <BlockSection block={block} spacing={block.spacing ?? "sm"} className={className} {...props}>
-      <Container className="flex flex-col items-center gap-8">
+      <Container className="flex flex-col items-center gap-(--block-grid-gap)">
         {block.title ? (
           <Text size="sm" tone="muted" weight="medium" align="center" {...fieldAttrs(block, "title")}>
             {block.title}
@@ -54,8 +54,8 @@ function LogoCloud({ block, className, ...props }: LogoCloudProps) {
           className={cn(
             "w-full",
             grid
-              ? "grid grid-cols-2 gap-x-8 gap-y-10 section-sm:grid-cols-3 section-lg:grid-cols-6"
-              : "flex flex-wrap items-center justify-center gap-x-12 gap-y-8"
+              ? "grid grid-cols-2 gap-x-(--block-grid-gap) gap-y-[calc(var(--block-grid-gap)*1.25)] section-sm:grid-cols-3 section-lg:grid-cols-6"
+              : "flex flex-wrap items-center justify-center gap-x-(--block-header-gap) gap-y-(--block-grid-gap)"
           )}
           {...fieldAttrs(block, "logos")}
         >

@@ -24,7 +24,7 @@ const sections = [
   {
     href: "/theme",
     title: "Theme studio",
-    text: "Edit fonts, colours, radius and rhythm live on a real site; copy the CSS.",
+    text: "Edit fonts, colours, corners and whitespace live on a real site; copy the CSS.",
   },
   {
     href: "/schema",

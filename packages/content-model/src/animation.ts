@@ -146,7 +146,12 @@ let current: AnimationDefaults = baseAnimationDefaults
  * resolves fields the same way.
  */
 export function defineAnimation(defaults: Partial<AnimationDefaults>): AnimationDefaults {
-  current = { ...baseAnimationDefaults, ...defaults }
+  const next = { ...baseAnimationDefaults, ...defaults }
+  // Studios call this while rendering; an unchanged value is not a change.
+  if (JSON.stringify(next) === JSON.stringify(current)) return current
+  current = next
+  version += 1
+  notify()
   return current
 }
 
@@ -154,6 +159,68 @@ export function defineAnimation(defaults: Partial<AnimationDefaults>): Animation
 export function getAnimationDefaults(): AnimationDefaults {
   return current
 }
+
+// ---------------------------------------------------------------------------
+// Live mode: a theme editor changing the defaults in the browser
+// ---------------------------------------------------------------------------
+
+let live = false
+let version = 0
+const listeners = new Set<() => void>()
+
+/**
+ * Turn on live mode, from a server module (the demo's root layout does this
+ * when its theme editor is on). Block roots are server components, so they
+ * normally resolve their fields once, on the server. In live mode the
+ * resolvers below also hand the block's raw fields to the client components
+ * in `@platform/animation`, which resolve them again in the browser against
+ * whatever `defineAnimation()` was last called with there. Off by default:
+ * a site without an editor ships exactly the markup it did before.
+ */
+export function enableLiveAnimation(on = true) {
+  live = on
+}
+
+/** Notified whenever `defineAnimation()` or `replayAnimation()` runs. */
+export function subscribeAnimation(listener: () => void): () => void {
+  listeners.add(listener)
+  return () => void listeners.delete(listener)
+}
+
+/** Counts every change to the defaults and every replay; live components remount on it so entrances play again. */
+export function getAnimationVersion(): number {
+  return version
+}
+
+/** Play every live entrance again from the top. */
+export function replayAnimation() {
+  version += 1
+  notify()
+}
+
+// Listeners hear about changes after the current render, so calling
+// `defineAnimation()` during render never updates another component mid-render.
+let queued = false
+function notify() {
+  if (queued || listeners.size === 0) return
+  queued = true
+  queueMicrotask(() => {
+    queued = false
+    for (const listener of listeners) listener()
+  })
+}
+
+/** The raw fields a live component resolves in the browser. */
+export type LiveAnimationFields = AnimationFields & { countUp?: Toggle | null }
+
+const liveFields = (block: LiveAnimationFields | null | undefined): LiveAnimationFields => ({
+  animation: block?.animation ?? null,
+  animationStagger: block?.animationStagger ?? null,
+  headingAnimation: block?.headingAnimation ?? null,
+  animationDuration: block?.animationDuration ?? null,
+  animationDelay: block?.animationDelay ?? null,
+  countUp: block?.countUp ?? null,
+})
 
 /** The control points for an ease setting. */
 export function easeCurve(ease: AnimationEase): EaseCurve {
@@ -178,16 +245,29 @@ export interface AnimationSettings {
   duration: AnimationDuration
   delay: AnimationDelay
   ease: EaseCurve
+  /** Live mode only: the block's raw fields, resolved again in the browser. */
+  live?: LiveAnimationFields
 }
 
 /**
  * Normalise a block's animation fields against the site defaults. Returns
  * `null` when the block does not animate, so callers render the plain,
- * JavaScript-free markup in that case.
+ * JavaScript-free markup in that case. In live mode it never returns `null`:
+ * the browser may turn animation on, so the client component decides.
  */
 export function animationSettings(
-  block: AnimationFields | null | undefined,
+  block: LiveAnimationFields | null | undefined,
   defaults: AnimationDefaults = getAnimationDefaults()
+): AnimationSettings | null {
+  const resolved = resolveAnimation(block, defaults)
+  if (!live) return resolved
+  return { ...(resolved ?? resolveAnimation({ ...block, animation: "fadeIn" }, defaults)!), live: liveFields(block) }
+}
+
+/** `animationSettings` without live mode: what the browser uses to resolve live fields. */
+export function resolveAnimation(
+  block: LiveAnimationFields | null | undefined,
+  defaults: AnimationDefaults
 ): AnimationSettings | null {
   const preset = inherit(block?.animation, defaults.animation)
   if (preset === "none") return null
@@ -206,15 +286,30 @@ export interface TextAnimationSettings {
   duration: AnimationDuration
   delay: AnimationDelay
   ease: EaseCurve
+  /** Live mode only (see `AnimationSettings`). */
+  live?: LiveAnimationFields
 }
 
 /**
  * Normalise a block's heading animation against the site defaults. Returns
- * `null` when the title renders as plain text.
+ * `null` when the title renders as plain text (never in live mode).
  */
 export function headingAnimationSettings(
-  block: AnimationFields | null | undefined,
+  block: LiveAnimationFields | null | undefined,
   defaults: AnimationDefaults = getAnimationDefaults()
+): TextAnimationSettings | null {
+  const resolved = resolveHeadingAnimation(block, defaults)
+  if (!live) return resolved
+  return {
+    ...(resolved ?? resolveHeadingAnimation({ ...block, headingAnimation: "words" }, defaults)!),
+    live: liveFields(block),
+  }
+}
+
+/** `headingAnimationSettings` without live mode. */
+export function resolveHeadingAnimation(
+  block: LiveAnimationFields | null | undefined,
+  defaults: AnimationDefaults
 ): TextAnimationSettings | null {
   const preset = inherit(block?.headingAnimation, defaults.headingAnimation)
   if (preset === "none") return null
@@ -236,14 +331,31 @@ export function scrollEffectSetting(
 
 /** Resolve a `countUp` field; the timing is the block's, so numbers keep step with its entrance. */
 export function countUpSetting(
-  block: (AnimationFields & { countUp?: Toggle | null }) | null | undefined,
+  block: LiveAnimationFields | null | undefined,
   defaults: AnimationDefaults = getAnimationDefaults()
-): { duration: AnimationDuration; delay: AnimationDelay } | null {
+): CountUpSettings | null {
+  const resolved = resolveCountUp(block, defaults)
+  if (!live) return resolved
+  return { ...(resolved ?? resolveCountUp({ ...block, countUp: "on" }, defaults)!), live: liveFields(block) }
+}
+
+/** `countUpSetting` without live mode. */
+export function resolveCountUp(
+  block: LiveAnimationFields | null | undefined,
+  defaults: AnimationDefaults
+): CountUpSettings | null {
   if (!toggle(block?.countUp, defaults.countUp)) return null
   return {
     duration: inherit(block?.animationDuration, defaults.duration),
     delay: inherit(block?.animationDelay, defaults.delay),
   }
+}
+
+export interface CountUpSettings {
+  duration: AnimationDuration
+  delay: AnimationDelay
+  /** Live mode only (see `AnimationSettings`). */
+  live?: LiveAnimationFields
 }
 
 /** Resolve an action's `magnetic` field. */

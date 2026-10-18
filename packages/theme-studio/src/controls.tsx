@@ -64,32 +64,46 @@ export function Select({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label={label}
-      className={className ?? "bg-studio-background h-9 w-full rounded-md border px-2 text-sm"}
+      className={className ?? "bg-studio-background h-10 w-full rounded-md border px-2 text-sm"}
     >
       {children}
     </select>
   )
 }
 
+/** An on/off switch: the whole row is the target, at least 40px tall. */
 export function Toggle({
   checked,
   onChange,
   label,
+  hint,
 }: {
   checked: boolean
   onChange: (v: boolean) => void
   label: string
+  hint?: string
 }) {
   return (
-    <label className="flex items-center gap-2 text-sm">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="accent-studio-primary size-4"
-      />
-      {label}
-    </label>
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      className="flex min-h-10 w-full items-center justify-between gap-3 text-left text-sm"
+    >
+      <span className="flex flex-col">
+        <span className="font-medium">{label}</span>
+        {hint ? <span className="text-studio-muted-foreground text-xs">{hint}</span> : null}
+      </span>
+      <span
+        aria-hidden
+        className={`relative h-6 w-10 shrink-0 rounded-full transition-colors ${checked ? "bg-studio-primary" : "bg-studio-muted border"}`}
+      >
+        <span
+          className={`bg-studio-background absolute top-0.5 size-5 rounded-full shadow-sm transition-[left] ${checked ? "left-[1.125rem]" : "left-0.5"}`}
+        />
+      </span>
+    </button>
   )
 }
 
@@ -97,20 +111,30 @@ export function Segmented<T extends string>({
   value,
   options,
   onChange,
+  label,
+  fill,
 }: {
   value: T
   options: Array<{ value: T; label: ReactNode }>
   onChange: (v: T) => void
+  /** Accessible name for the group when no visible label wraps it. */
+  label?: string
+  /** Stretch to the full width, segments sized by their labels (the panels' stepped controls). */
+  fill?: boolean
 }) {
   return (
-    <div role="group" className="bg-studio-muted inline-flex rounded-md border p-0.5 text-xs">
+    <div
+      role="group"
+      aria-label={label}
+      className={`bg-studio-muted ${fill ? "flex w-full" : "inline-grid auto-cols-fr grid-flow-col"} rounded-md border p-0.5 text-xs`}
+    >
       {options.map((o) => (
         <button
           key={o.value}
           type="button"
           aria-pressed={value === o.value}
           onClick={() => onChange(o.value)}
-          className={`rounded px-2.5 py-1 ${value === o.value ? "bg-studio-background shadow-sm" : "text-studio-muted-foreground hover:text-studio-foreground"}`}
+          className={`h-9 min-w-0 truncate rounded px-1.5 ${fill ? "flex-auto" : ""} ${value === o.value ? "bg-studio-background text-studio-foreground font-medium shadow-sm" : "text-studio-muted-foreground hover:text-studio-foreground"}`}
         >
           {o.label}
         </button>

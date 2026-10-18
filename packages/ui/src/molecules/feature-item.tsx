@@ -18,7 +18,7 @@ const featureItemVariants = cva("group/feature flex gap-4", {
     },
     appearance: {
       plain: "",
-      card: "rounded-xl border bg-card p-6 text-card-foreground",
+      card: "rounded-xl border bg-card p-(--card-inset) text-card-foreground",
     },
   },
   defaultVariants: { layout: "stacked", appearance: "plain" },

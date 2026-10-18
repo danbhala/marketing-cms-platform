@@ -34,7 +34,7 @@ function Quote({ item, variant = "card", className, ...props }: QuoteProps) {
         "flex flex-col gap-6",
         featured
           ? "items-center text-center"
-          : "h-full justify-between rounded-xl border bg-card p-6 text-card-foreground",
+          : "h-full justify-between rounded-xl border bg-card p-(--card-inset) text-card-foreground",
         className
       )}
       {...editAttrs(item)}
