@@ -1,0 +1,128 @@
+/*
+ * Entry stylesheet for @platform/ui. Apps import it once:
+ *   import "globals.css"
+ *
+ * Layers (see docs/theming.mdx):
+ *   1. tokens.css   primitive + shadcn semantic variables (:root and .dark)
+ *   2. themes.css   theme-* classes that re-declare the semantic layer
+ *   3. blocks.css   block-level variables (section spacing, container widths)
+ */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@import "./tokens.css";
+@import "./themes.css";
+@import "./blocks.css";
+
+
+/* Dark mode is a class, so themes can be nested anywhere in the tree. */
+@custom-variant dark (&:is(.dark *, .theme-dark *));
+
+/*
+ * Blocks respond to the width of the section they sit in, not the viewport.
+ * Section, SiteHeader, SiteFooter and PageTemplate are `@container/section`,
+ * and these variants query that container at Tailwind's viewport breakpoint
+ * widths (sm 40rem, md 48rem, lg 64rem, xl 80rem). On a real page the section
+ * is as wide as the viewport, so `section-lg:` behaves like `lg:`; inside a
+ * narrow preview pane (the theme studio, a CMS visual editor, the docs) the
+ * block collapses the way it would on a phone. Blocks and molecules use
+ * these instead of `sm:`/`lg:`; only the vendored primitives still use the
+ * viewport variants.
+ */
+@custom-variant section-sm (@container section (width >= 40rem));
+@custom-variant section-md (@container section (width >= 48rem));
+@custom-variant section-lg (@container section (width >= 64rem));
+@custom-variant section-xl (@container section (width >= 80rem));
+@custom-variant section-max-sm (@container section (width < 40rem));
+@custom-variant section-max-md (@container section (width < 48rem));
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --font-eyebrow: var(--font-eyebrow);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+
+  /* Marketing-specific semantic tokens (see tokens.css). */
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+
+  --container-section: var(--container-section);
+  --container-prose: var(--container-prose);
+}
+
+/* Weight, tracking and case of headings come from tokens so a theme can set
+   them once. A `weight` prop (font-semibold etc.) still wins over this. */
+@utility heading-style {
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+  text-transform: var(--heading-case);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+  /* A sticky header must never cover the element that has focus (WCAG 2.4.11),
+     so in-page jumps and focus scrolling stop below it. */
+  html:has([data-slot="site-header"][data-sticky]) {
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  ::selection {
+    background: var(--selection);
+    color: var(--selection-foreground);
+  }
+}

@@ -91,11 +91,14 @@ writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n")
 
 run([SHADCN, "add", `${NAMESPACE}/site-${cms}`, "--overwrite", "--yes"], target)
 
-// Pushes the content model to the CMS (scripts/<cms>-push.ts).
+// cms:push pushes the content model to the CMS (scripts/<cms>-push.ts).
+// typecheck generates Next's route types (PageProps, LayoutProps) first, so it
+// passes on a fresh checkout before any dev or build run.
 const pkgPath = join(target, "package.json")
 const pkg = JSON.parse(readFileSync(pkgPath, "utf8"))
 pkg.scripts = {
   ...pkg.scripts,
+  typecheck: "next typegen && tsc --noEmit",
   "cms:push": `node --experimental-strip-types --import ./scripts/ts-hook.mjs scripts/${cms}-push.ts`,
 }
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n")

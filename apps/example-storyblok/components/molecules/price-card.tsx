@@ -1,0 +1,79 @@
+import type * as React from "react"
+import { CheckIcon } from "lucide-react"
+
+import type { CountUpSettings, PricingPlan } from "@/lib/content-model"
+import { editAttrs, fieldAttrs } from "@/lib/cms-core/edit"
+import { CountUp } from "@/lib/animation"
+
+import { Heading } from "../atoms/heading"
+import { Text } from "../atoms/text"
+import { ActionGroup } from "./action-group"
+import { Badge } from "../primitives/badge"
+import { cn } from "../lib/utils"
+
+export interface PriceCardProps extends React.ComponentProps<"div"> {
+  /** The pricing plan content item (name, price, features, actions, highlighted). */
+  plan: PricingPlan
+  /** Count the price up from zero when it scrolls into view (the Pricing block's `countUp` field). */
+  countUp?: CountUpSettings | null
+}
+
+/** One pricing plan. `highlighted` gives it the primary border and a badge. */
+function PriceCard({ plan, countUp, className, ...props }: PriceCardProps) {
+  return (
+    <div
+      data-slot="price-card"
+      data-highlighted={plan.highlighted ? "" : undefined}
+      className={cn(
+        "relative flex h-full flex-col gap-6 rounded-xl border bg-card p-(--card-inset) text-card-foreground",
+        plan.highlighted && "border-primary shadow-lg ring-1 ring-primary",
+        className
+      )}
+      {...editAttrs(plan)}
+      {...props}
+    >
+      {plan.badge ? (
+        <Badge className="absolute -top-3 left-6" {...fieldAttrs(plan, "badge")}>
+          {plan.badge}
+        </Badge>
+      ) : null}
+      <div className="flex flex-col gap-2">
+        <Heading as="h3" size="h5" {...fieldAttrs(plan, "name")}>
+          {plan.name}
+        </Heading>
+        {plan.description ? (
+          <Text size="sm" tone="muted" {...fieldAttrs(plan, "description")}>
+            {plan.description}
+          </Text>
+        ) : null}
+      </div>
+      <p className="flex items-baseline gap-1">
+        <span className="font-heading text-4xl heading-style" {...fieldAttrs(plan, "price")}>
+          {countUp ? (
+            <CountUp value={plan.price} duration={countUp.duration} delay={countUp.delay} live={countUp.live} />
+          ) : (
+            plan.price
+          )}
+        </span>
+        {plan.period ? (
+          <span className="text-sm text-muted-foreground" {...fieldAttrs(plan, "period")}>
+            {plan.period}
+          </span>
+        ) : null}
+      </p>
+      <ActionGroup actions={plan.action} size="default" className="*:w-full" />
+      {plan.features?.length ? (
+        <ul className="flex flex-col gap-3 text-sm" {...fieldAttrs(plan, "features")}>
+          {plan.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-2">
+              <CheckIcon className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  )
+}
+
+export { PriceCard }
