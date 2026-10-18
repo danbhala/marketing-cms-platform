@@ -2,7 +2,7 @@ import { ImageZoom } from "fumadocs-ui/components/image-zoom"
 
 /**
  * A screenshot from /public/screenshots, captured by
- * `packages/ui/scripts/screenshot.mjs` (run `pnpm screenshots` in apps/docs).
+ * `packages/ui/scripts/screenshot.mjs` (see the Screenshots section of the app README).
  */
 export function Screenshot({ name, alt, width = 1280, height }: { name: string; alt: string; width?: number; height?: number }) {
   return (

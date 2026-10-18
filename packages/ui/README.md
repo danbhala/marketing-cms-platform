@@ -38,4 +38,4 @@ pnpm test                # Vitest browser mode: stories, interactions, axe
 pnpm vendor:shadcn       # refresh primitives from the shadcn registry
 ```
 
-Browser tests need Chromium; set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` if Playwright has not downloaded one.
+Browser tests and the scripts in `scripts/` need Chromium; set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` if Playwright has not downloaded one.

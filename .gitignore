@@ -15,3 +15,4 @@ next-env.d.ts
 
 *storybook.log
 .claude/worktrees/
+__pycache__/

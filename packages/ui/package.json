@@ -17,8 +17,7 @@
     "./blocks": "./src/blocks/index.ts",
     "./templates/*": "./src/templates/*.tsx",
     "./templates": "./src/templates/index.ts",
-    "./lib/*": "./src/lib/*.ts",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./lib/*": "./src/lib/*.ts"
   },
   "scripts": {
     "lint": "eslint .",

@@ -5,7 +5,7 @@ import { chromium } from "playwright"
 // Captures full-page PNGs of a running docs site (next start) for progress reports.
 const [base, outDir, ...specs] = process.argv.slice(2)
 
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" })
+const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH })
 for (const spec of specs) {
   const m = spec.match(/^([^@]+)(?:@(\d+))?$/)
   const path = m[1], width = Number(m[2] ?? 1280)
