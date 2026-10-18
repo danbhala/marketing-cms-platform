@@ -2,7 +2,7 @@ import Link from "next/link"
 
 import { BlockWall } from "@/components/block-wall"
 import { HomeHero } from "@/components/home-hero"
-import "@/theme-studio/fonts-load"
+import "@platform/theme-studio/fonts-load"
 
 const sections = [
   { href: "/docs", title: "Getting started", text: "Install, run the demo site on the local adapter, open Storybook." },

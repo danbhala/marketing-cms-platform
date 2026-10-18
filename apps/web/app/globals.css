@@ -1,6 +1,26 @@
 @import "@platform/ui/globals.css";
 @import "./brand.css";
+@import "@platform/theme-studio/studio.css";
 
 /* App-local sources so Tailwind sees classes used in this app's own files. */
 @source "../app";
 @source "../components";
+
+/*
+ * The "Edit theme" drawer keeps fixed neutral colours, borders and type so it
+ * stays readable whatever theme it is editing.
+ */
+.studio-chrome {
+  --studio-background: oklch(1 0 0);
+  --studio-foreground: oklch(0.205 0 0);
+  --studio-card: oklch(0.985 0 0);
+  --studio-muted: oklch(0.96 0 0);
+  --studio-muted-foreground: oklch(0.45 0 0);
+  --studio-primary: oklch(0.205 0 0);
+  --studio-primary-foreground: oklch(0.985 0 0);
+  --border: oklch(0.9 0 0);
+  --radius: 0.5rem;
+  color-scheme: light;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: normal;
+}

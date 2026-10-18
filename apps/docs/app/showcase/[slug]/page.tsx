@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { ThemeEditor } from "@/components/theme-editor"
+import { ThemeEditor } from "@platform/theme-studio/theme-editor"
+
 import { ThemedFrame } from "@/components/themed-frame"
 import { findShowcase, showcases } from "@/showcases"
 
@@ -25,7 +26,12 @@ export default async function ShowcasePage({ params }: PageProps<"/showcase/[slu
   return (
     <>
       <ThemedFrame showcase={showcase} />
-      <ThemeEditor showcase={showcase} />
+      <ThemeEditor
+        seed={showcase.theme}
+        name={showcase.name}
+        sharePath={`/showcase/${showcase.slug}`}
+        studioUrl="/theme"
+      />
     </>
   )
 }

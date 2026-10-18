@@ -6,8 +6,8 @@ import { BlockList, SiteHeader } from "@platform/ui/templates"
 
 import { demoBlocks, demoSettings } from "@/home/demo-site"
 import { showcases } from "@/showcases"
-import { fontById } from "@/theme-studio/fonts"
-import { encodeTheme, themeToStyle, themeToVars } from "@/theme-studio/theme"
+import { fontById } from "@platform/theme-studio/fonts"
+import { encodeTheme, themeToStyle, themeToVars } from "@platform/theme-studio/theme"
 
 const INTERVAL = 4000
 const DESKTOP = 1024

@@ -15,6 +15,13 @@ export const siteConfig: SiteConfig = {
   noIndex: process.env.SITE_NOINDEX === "true",
 }
 
+/**
+ * The floating "Edit theme" drawer. On by default with the local adapter (the
+ * demo site), off with a real CMS unless THEME_EDITOR=true.
+ */
+export const themeEditor =
+  process.env.THEME_EDITOR === "true" || (siteConfig.provider === "local" && process.env.THEME_EDITOR !== "false")
+
 const providers: Record<string, () => Promise<CmsAdapter>> = {
   // The demo site's own content (./content); the shared fixtures are the default.
   local: () => import("@platform/cms-local").then((m) => m.createLocalAdapter(demoContent)),

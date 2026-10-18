@@ -11,7 +11,7 @@ export function Field({ label, hint, children }: { label: string; hint?: ReactNo
     <label className="flex flex-col gap-1.5 text-sm">
       <span className="flex items-baseline justify-between gap-2">
         <span className="font-medium">{label}</span>
-        {hint ? <span className="text-fd-muted-foreground text-xs tabular-nums">{hint}</span> : null}
+        {hint ? <span className="text-studio-muted-foreground text-xs tabular-nums">{hint}</span> : null}
       </span>
       {children}
     </label>
@@ -41,7 +41,7 @@ export function Range({
       max={max}
       step={step}
       onChange={(e) => onChange(Number(e.target.value))}
-      className={className ?? "accent-fd-primary w-full"}
+      className={className ?? "accent-studio-primary w-full"}
     />
   )
 }
@@ -64,7 +64,7 @@ export function Select({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label={label}
-      className={className ?? "bg-fd-background h-9 w-full rounded-md border px-2 text-sm"}
+      className={className ?? "bg-studio-background h-9 w-full rounded-md border px-2 text-sm"}
     >
       {children}
     </select>
@@ -86,7 +86,7 @@ export function Toggle({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="accent-fd-primary size-4"
+        className="accent-studio-primary size-4"
       />
       {label}
     </label>
@@ -103,14 +103,14 @@ export function Segmented<T extends string>({
   onChange: (v: T) => void
 }) {
   return (
-    <div role="group" className="bg-fd-muted inline-flex rounded-md border p-0.5 text-xs">
+    <div role="group" className="bg-studio-muted inline-flex rounded-md border p-0.5 text-xs">
       {options.map((o) => (
         <button
           key={o.value}
           type="button"
           aria-pressed={value === o.value}
           onClick={() => onChange(o.value)}
-          className={`rounded px-2.5 py-1 ${value === o.value ? "bg-fd-background shadow-sm" : "text-fd-muted-foreground hover:text-fd-foreground"}`}
+          className={`rounded px-2.5 py-1 ${value === o.value ? "bg-studio-background shadow-sm" : "text-studio-muted-foreground hover:text-studio-foreground"}`}
         >
           {o.label}
         </button>
@@ -170,12 +170,12 @@ export function ColorField({
         }}
         className="absolute top-1.5 left-2 z-10 size-6 cursor-pointer rounded border opacity-0 focus-visible:opacity-100"
       />
-      <details className="group bg-fd-card open:bg-fd-muted/40 rounded-md border">
+      <details className="group bg-studio-card open:bg-studio-muted/40 rounded-md border">
         <summary className="flex cursor-pointer list-none items-center gap-2 px-2 py-1.5 text-sm">
           <span aria-hidden className="size-6 shrink-0 rounded border" style={{ background: hex }} />
           <span className="flex-1 truncate">{label}</span>
           {against ? <ContrastBadge a={value} b={against} /> : null}
-          <span className="text-fd-muted-foreground font-mono text-[11px]">{hex}</span>
+          <span className="text-studio-muted-foreground font-mono text-[11px]">{hex}</span>
         </summary>
         <div className="flex flex-col gap-2 border-t px-2 py-2">
           <Field label="Lightness" hint={l.toFixed(3)}>
@@ -194,7 +194,7 @@ export function ColorField({
               className="hue-range w-full"
             />
           </Field>
-          <code className="text-fd-muted-foreground text-[11px]">{formatOklch(value)}</code>
+          <code className="text-studio-muted-foreground text-[11px]">{formatOklch(value)}</code>
         </div>
       </details>
     </div>

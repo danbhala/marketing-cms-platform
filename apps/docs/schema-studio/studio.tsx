@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "reac
 
 import type { AnyDefinition } from "@platform/content-model"
 
-import { Field, Segmented, Select, Toggle } from "@/theme-studio/controls"
+import { Field, Segmented, Select, Toggle } from "@platform/theme-studio/controls"
 
 import { cmsIds, cmsLabels, fieldNames, generate, type CmsId, type CodeView } from "./generate"
 import { findRange, type Range } from "./highlight"

@@ -2,7 +2,7 @@ import Link from "next/link"
 import { BlockList } from "@platform/ui/templates"
 
 import { blockLabels, wallRows, type WallTile } from "@/home/block-wall"
-import { themeToStyle } from "@/theme-studio/theme"
+import { themeToStyle } from "@platform/theme-studio/theme"
 
 /** Each tile lays its block out at desktop width (past the 64rem `section-lg` breakpoint) and scales it down to the tile. */
 const LAYOUT_WIDTH = 1120

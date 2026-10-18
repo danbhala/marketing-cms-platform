@@ -8,7 +8,8 @@ import "@/animation.config"
 import "@fontsource/dm-serif-display"
 import "@fontsource-variable/dm-sans"
 import "@fontsource-variable/geist-mono"
-import { siteConfig } from "@/cms.config"
+import { siteConfig, themeEditor } from "@/cms.config"
+import { ThemeEditor } from "@/components/theme-editor"
 import { UiProvider } from "@/components/ui-provider"
 
 import "../globals.css"
@@ -35,6 +36,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[lo
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <UiProvider>
           <Suspense fallback={null}>{children}</Suspense>
+          {themeEditor ? <ThemeEditor /> : null}
         </UiProvider>
       </body>
     </html>

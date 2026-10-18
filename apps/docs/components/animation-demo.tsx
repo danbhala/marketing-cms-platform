@@ -16,7 +16,7 @@ import {
 import { allBlockFixtures } from "@platform/content-model/fixtures"
 import { BlockList } from "@platform/ui/templates"
 
-import { Segmented, Select, Toggle } from "@/theme-studio/controls"
+import { Segmented, Select, Toggle } from "@platform/theme-studio/controls"
 
 /** Blocks that have per-item stagger wrappers, with the fixture tweaks that show them best. */
 const demoBlocks: Array<{ type: keyof typeof allBlockFixtures; label: string; patch?: Partial<Block> }> = [

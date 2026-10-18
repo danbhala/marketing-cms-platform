@@ -17,6 +17,7 @@
         "WAGTAIL_*",
         "SITE_URL",
         "SITE_NOINDEX",
+        "THEME_EDITOR",
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"
       ],
@@ -36,6 +37,7 @@
         "WAGTAIL_*",
         "SITE_URL",
         "SITE_NOINDEX",
+        "THEME_EDITOR",
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"
       ],

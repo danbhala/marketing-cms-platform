@@ -8,12 +8,12 @@ import {
 } from "@platform/content-model"
 import { placeholderAvatar, placeholderLogo } from "@platform/content-model/fixtures"
 
-import { presetBySlug } from "@/theme-studio/presets"
-import type { Theme } from "@/theme-studio/theme"
+import { presetBySlug } from "@platform/theme-studio/presets"
+import type { Theme } from "@platform/theme-studio/theme"
 
 /**
  * Six fictional brands, each a complete page on the same blocks and the same
- * components, restyled only by a theme preset (`theme-studio/presets.ts`).
+ * components, restyled only by a theme preset (`@platform/theme-studio/presets`).
  * They exist to show how far variables alone can take a site; nothing here
  * is a product.
  */
