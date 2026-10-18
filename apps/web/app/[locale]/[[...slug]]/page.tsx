@@ -15,7 +15,7 @@ import { createLatestNewsBlock } from "@/components/latest-news-block"
 import { PreviewBridge } from "@/components/preview-bridge"
 import { getBreadcrumbs } from "@/lib/breadcrumb-trail"
 import { getPublishedDocument, getPublishedPaths, getPublishedSettings } from "@/lib/cms"
-import { pathToSlug, slugToPath } from "@/lib/paths"
+import { localePath, pathToSlug, slugToPath } from "@/lib/paths"
 
 type Props = PageProps<"/[locale]/[[...slug]]">
 
@@ -41,7 +41,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const path = slugToPath(slug)
   const doc = await getPublishedDocument(locale, path)
   if (!doc) return {}
-  const canonicalPath = `/${locale}${path === "/" ? "" : path}`
+  const canonicalPath = localePath(locale, path)
   const metadata: Metadata = {
     title: doc.seoTitle ?? doc.title,
     description: doc.seoDescription ?? (doc.type === "article" ? doc.excerpt : undefined),
@@ -110,7 +110,7 @@ export default async function CmsPage({ params, searchParams }: Props) {
     ...registry.components,
     collection: createCollectionBlock({
       locale,
-      basePath: `/${locale}${path === "/" ? "" : path}`,
+      basePath: localePath(locale, path),
       searchParams,
       draft: draftCtx,
     }),
@@ -126,6 +126,7 @@ export default async function CmsPage({ params, searchParams }: Props) {
           components={components}
           breadcrumbs={breadcrumbs}
           siteUrl={siteConfig.siteUrl}
+          url={`${siteConfig.siteUrl}${localePath(locale, path)}`}
           locale={locale}
           chrome={chrome}
           currentPath={path}
