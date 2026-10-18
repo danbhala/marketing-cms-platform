@@ -4,6 +4,10 @@ import { Suspense } from "react"
 import { themeClassName } from "@platform/content-model"
 
 import "@/animation.config"
+// The brand's fonts (see app/brand.css).
+import "@fontsource/dm-serif-display"
+import "@fontsource-variable/dm-sans"
+import "@fontsource-variable/geist-mono"
 import { siteConfig } from "@/cms.config"
 import { UiProvider } from "@/components/ui-provider"
 

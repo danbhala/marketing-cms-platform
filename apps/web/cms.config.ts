@@ -1,5 +1,7 @@
 import type { CmsAdapter, SiteConfig } from "@platform/cms-core"
 
+import { demoContent } from "@/content"
+
 /**
  * The only file in the app that knows CMS names. Pick the adapter with
  * CMS_PROVIDER; adding a CMS is one line here plus its `@platform/cms-*`
@@ -14,7 +16,8 @@ export const siteConfig: SiteConfig = {
 }
 
 const providers: Record<string, () => Promise<CmsAdapter>> = {
-  local: () => import("@platform/cms-local").then((m) => m.localAdapter),
+  // The demo site's own content (./content); the shared fixtures are the default.
+  local: () => import("@platform/cms-local").then((m) => m.createLocalAdapter(demoContent)),
   contentful: () => import("@platform/cms-contentful").then((m) => m.contentfulAdapter),
   storyblok: () => import("@platform/cms-storyblok").then((m) => m.storyblokAdapter),
   optimizely: () => import("@platform/cms-optimizely").then((m) => m.optimizelyAdapter),

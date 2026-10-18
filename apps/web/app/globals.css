@@ -1,4 +1,5 @@
 @import "@platform/ui/globals.css";
+@import "./brand.css";
 
 /* App-local sources so Tailwind sees classes used in this app's own files. */
 @source "../app";
