@@ -449,7 +449,8 @@ export const homePage: Page = {
       eyebrow: "Journal",
       title: "New homes, new coasts and what the hosts are up to",
       source: "article",
-      count: "3",
+      count: "4",
+      layout: "featured",
       actions: [act("home-a5", "Read the journal", "/news", "outline")],
     },
     {

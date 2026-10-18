@@ -401,6 +401,7 @@ function destinationPage(d: Destination): Page {
       title: "Latest from the coasts",
       source: "article",
       count: "3",
+      layout: "list",
       actions: [],
     },
     {
