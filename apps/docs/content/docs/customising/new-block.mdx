@@ -1,0 +1,241 @@
+---
+title: A new block
+description: "Compose a bespoke section from atoms and molecules, register it, and let the CMS schemas follow."
+---
+
+When no block fits, write one. A block is a definition plus a component; the atoms and molecules in `packages/ui` give you the pieces, and registering the component is one line. The example is an office **locations** grid: a heading, then a card per office with a photo, address and map link.
+
+<Steps>
+<Step>
+### Define the item and the block
+
+Repeatable content inside a block is an item, so the office is one:
+
+```ts title="packages/content-model/src/definitions/items.ts"
+export const location = defineItem("location", {
+  label: "Location",
+  fields: {
+    city: field.text({ required: true }),
+    address: field.textarea({ required: true }),
+    photo: field.media(),
+    mapHref: field.link({ description: "Link to the map or directions." }),
+  },
+})
+```
+
+```ts title="packages/content-model/src/definitions/blocks.ts"
+export const locations = defineBlock("locations", {
+  label: "Locations",
+  fields: {
+    ...heading,
+    locations: field.items([location], { max: 8 }),
+    columns: field.select(["2", "3", "4"] as const, { defaultValue: "3" }),
+    ...presentation,
+  },
+})
+
+export const allBlocks = [hero, logoCloud, /* … */ collection, latestNews, locations] as const // [!code highlight]
+```
+
+Adding the block to `allBlocks` puts it in `page.blocks` (the page document is `field.blocks(allBlocks)`), in the `Block` union, and in every generated schema. Items need adding to `allItems` in the same file family. Export the types:
+
+```ts title="packages/content-model/src/types.ts"
+export type Location = InferContent<typeof defs.location>
+export type LocationsBlock = InferContent<typeof defs.locations>
+
+export type Block =
+  | HeroBlock
+  // …
+  | LatestNewsBlock
+  | LocationsBlock // [!code ++]
+```
+
+From here `pnpm typecheck` fails in exactly the places that still need work: `blockComponents` has no entry for `locations`, and `allBlockFixtures` has none either.
+
+</Step>
+
+<Step>
+### Add a fixture
+
+```ts title="packages/content-model/src/fixtures/content.ts"
+export const locationsBlock: LocationsBlock = {
+  id: "blk-locations",
+  type: "locations",
+  eyebrow: "Offices",
+  title: "Where to find us",
+  locations: [
+    {
+      id: "loc-1",
+      type: "location",
+      city: "London",
+      address: "12 Example Street\nEC1A 1AA",
+      photo: placeholderMedia(600, 400, "London office"),
+      mapHref: "https://maps.example.com/london",
+    },
+    {
+      id: "loc-2",
+      type: "location",
+      city: "Amsterdam",
+      address: "Voorbeeldstraat 1\n1012 AB",
+      photo: placeholderMedia(600, 400, "Amsterdam office"),
+    },
+  ],
+  columns: "3",
+}
+```
+
+Add it to `allBlockFixtures` and, if it belongs on a sample page, to a composition such as `aboutPage`. The fixture is what Storybook, the local adapter, the tests and the docs render.
+
+</Step>
+
+<Step>
+### Compose the component
+
+Build from the atoms (`Container`, `Grid`, `Stack`, `Heading`, `Text`, `Eyebrow`, `Image`, `Link`, `Button`, `Icon`) and molecules (`SectionHeader`, `ActionGroup`, `ContentCard`, …). The root is `BlockSection`; the header and each item sit in a `BlockItem` so the shared animation fields work; each editable field carries `fieldAttrs`; each item carries `editAttrs` and `key={item.id}`.
+
+```tsx title="packages/ui/src/blocks/locations.tsx"
+import type { Location, LocationsBlock } from "@platform/content-model"
+import { editAttrs, fieldAttrs } from "@platform/cms-core/edit"
+
+import { Container } from "../atoms/container"
+import { Heading } from "../atoms/heading"
+import { Image } from "../atoms/image"
+import { Grid } from "../atoms/layout"
+import { Link } from "../atoms/link"
+import { Text } from "../atoms/text"
+import { SectionHeader } from "../molecules/section-header"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
+
+export type LocationsProps = BlockComponentProps<LocationsBlock>
+
+/** A grid of offices: photo, city, address and an optional map link. */
+function Locations({ block, index, className, ...props }: LocationsProps) {
+  return (
+    <BlockSection block={block} className={className} {...props}>
+      <Container className="flex flex-col gap-(--block-header-gap)">
+        <BlockItem block={block}>
+          <SectionHeader
+            eyebrow={block.eyebrow}
+            title={block.title}
+            description={block.description}
+            as={index === 0 ? "h1" : "h2"}
+            source={block}
+          />
+        </BlockItem>
+        <Grid columns={block.columns ?? "3"} {...fieldAttrs(block, "locations")}>
+          {block.locations.map((office) => (
+            <BlockItem key={office.id} block={block}>
+              <LocationCard item={office} />
+            </BlockItem>
+          ))}
+        </Grid>
+      </Container>
+    </BlockSection>
+  )
+}
+
+function LocationCard({ item }: { item: Location }) {
+  return (
+    <article
+      data-slot="location-card"
+      className="flex flex-col gap-3 rounded-xl border bg-card p-4 text-card-foreground"
+      {...editAttrs(item)}
+    >
+      {item.photo ? <Image media={item.photo} ratio="3/2" radius="lg" {...fieldAttrs(item, "photo")} /> : null}
+      <Heading as="h3" size="h5" {...fieldAttrs(item, "city")}>
+        {item.city}
+      </Heading>
+      <Text size="sm" tone="muted" className="whitespace-pre-line" {...fieldAttrs(item, "address")}>
+        {item.address}
+      </Text>
+      {item.mapHref ? (
+        <Link href={item.mapHref} variant="muted" className="mt-auto" {...fieldAttrs(item, "mapHref")}>
+          Get directions
+        </Link>
+      ) : null}
+    </article>
+  )
+}
+
+export { Locations }
+```
+
+A sub-component used by one block can live in the block file, as here. Promote it to `molecules/` when a second block wants it.
+
+Things the atoms do for you: `Image` renders through the host's `next/image` and keeps a fixed ratio so nothing shifts; `Link` goes through `next/link` for internal paths and a plain anchor with safe `rel` for external ones; `Grid` uses the section container queries; `Heading` keeps the visual size (`h5`) separate from the element (`h3`).
+
+</Step>
+
+<Step>
+### Register it
+
+```ts title="packages/ui/src/blocks/index.ts"
+import { Locations } from "./locations"
+
+export const blockComponents: BlockComponentMap = {
+  // …
+  form: FormBlock,
+  locations: Locations, // [!code ++]
+}
+
+export { Locations, type LocationsProps } from "./locations" // [!code ++]
+```
+
+`BlockComponentMap` is `{ [T in BlockType]: BlockComponent<T> }`, so the map is exhaustive by type and the component's `block` prop is checked against `LocationsBlock`. The registry and `PageTemplate` read this map; the app needs no change.
+
+</Step>
+
+<Step>
+### Story and docs page
+
+```tsx title="packages/ui/src/blocks/locations.stories.tsx"
+import type { Meta, StoryObj } from "@storybook/react-vite"
+import * as fixtures from "@platform/content-model/fixtures"
+import { Locations } from "./locations"
+
+const meta = {
+  title: "Blocks/Locations",
+  component: Locations,
+  parameters: { layout: "fullscreen" },
+  args: { block: fixtures.locationsBlock },
+} satisfies Meta<typeof Locations>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const ThreeColumns: Story = {}
+export const TwoColumnsMuted: Story = {
+  args: { block: { ...fixtures.locationsBlock, columns: "2", theme: "muted" } },
+}
+```
+
+Include one themed story: the tests run axe on each, so contrast problems on a `theme-brand` or `theme-dark` section surface here. For a docs page, copy `apps/docs/content/docs/blocks/stats.mdx` to `locations.mdx`, change the `type`, and add it to `blocks/meta.json`. `BlockPreview`, `BlockReference` and `SchemaCompare` read the definition and fixture, so the page needs no other content.
+
+</Step>
+
+<Step>
+### Generate the schemas and run the checks
+
+```sh
+pnpm schema:generate
+pnpm --filter "@platform/cms-*" test -- -u   # refresh the schema count and snapshots, review the diff
+pnpm format
+pnpm lint && pnpm typecheck && pnpm test
+```
+
+The new content types appear in every `packages/cms-*/schema/` output. Applying them to a space is per CMS; see [CMS adapters](/docs/cms).
+
+</Step>
+</Steps>
+
+## A block that lists documents
+
+A block whose content comes from a query rather than from its own fields (news, case studies, events) is the `collection` pattern: a routable document type, a `source` option on the `collection` and `latestNews` blocks, and `getCollection` in each adapter. The route binds those two blocks per request with the locale and URL, which is why they are rebound in the registry map rather than rendered straight from `blockComponents`. [Listing pages](/docs/listing-pages#adding-another-listable-type) has the steps.
+
+## Blocks that need client-side code
+
+Blocks render as Server Components by default. If the new block needs state or effects (a carousel, a tabbed panel, a map), keep the block itself a Server Component and put the interactive part in a `"use client"` file, as `tabs.tsx` does: the block maps the content, and the `Tabs` primitive it renders from `packages/ui/src/primitives` carries the client boundary. Entrance animation comes free from `BlockSection` and `BlockItem`; for anything else that moves, use the `@platform/animation` primitives (`Reveal`, `CountUp`, `Marquee`, `ScrollEffect`) rather than importing Motion into the block, so Motion stays in one package. Third-party embeds (maps, video players) are fine inside `packages/ui` as long as they are not a CMS SDK and do not import from `next/*`; put the API key in the app and pass it down through a wrapper in the registry.
+
+## A block without a CMS field set
+
+Sometimes a section is pure code: a product configurator, a pricing calculator fed by an API. It is still a block. Define it with the fields editors do control (a `title`, maybe a `select` for the variant) and nothing else, so editors can place it on a page in the right order, and have the component fetch or compute the rest.
