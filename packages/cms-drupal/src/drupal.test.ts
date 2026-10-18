@@ -384,7 +384,7 @@ describe("listings", () => {
 describe("transform: site settings", () => {
   it("maps a mega menu group through the prefixed columns field", async () => {
     const settings = await adapter.getSiteSettings(published)
-    expect(settings.navigation[3]).toMatchObject({
+    expect(settings?.navigation[3]).toMatchObject({
       label: "Solutions",
       links: [],
       columns: [{ title: "By team", links: [{ label: "Product teams", href: "/solutions/product" }] }],

@@ -1,6 +1,14 @@
-import type { SiteSettings } from "@platform/content-model"
+import { richTextFromParagraphs, type NavLink, type SiteSettings } from "@platform/content-model"
 
-import { act } from "./media"
+import { act, photo } from "./media"
+
+const link = (id: string, label: string, href: string, description?: string): NavLink => ({
+  id,
+  type: "navLink",
+  label,
+  href,
+  ...(description ? { description } : {}),
+})
 
 export const settings: SiteSettings = {
   id: "site",
@@ -38,56 +46,68 @@ export const settings: SiteSettings = {
           description: "A pool, a view and a housekeeper.",
         },
       ],
+      columns: [],
+      feature: [],
     },
     {
       id: "nav-destinations",
       type: "navGroup",
       label: "Destinations",
       href: "/destinations",
-      links: [
+      links: [],
+      columns: [
         {
-          id: "nav-dest-1",
-          type: "navLink",
-          label: "Cornwall",
-          href: "/destinations/cornwall",
-          description: "Granite coves and surf.",
+          id: "nav-col-atlantic",
+          type: "navColumn",
+          title: "Atlantic",
+          links: [
+            link("nav-dest-1", "Cornwall", "/destinations/cornwall", "Granite coves and surf."),
+            link("nav-dest-2", "Brittany", "/destinations/brittany", "Long light, long beaches."),
+          ],
         },
         {
-          id: "nav-dest-2",
-          type: "navLink",
-          label: "Brittany",
-          href: "/destinations/brittany",
-          description: "Long light, long beaches.",
+          id: "nav-col-south",
+          type: "navColumn",
+          title: "South",
+          links: [
+            link("nav-dest-3", "Algarve", "/destinations/algarve", "Warm sea from April to November."),
+            link("nav-dest-5", "Amalfi", "/destinations/amalfi", "Villages stacked above the sea."),
+          ],
         },
         {
-          id: "nav-dest-3",
-          type: "navLink",
-          label: "Algarve",
-          href: "/destinations/algarve",
-          description: "Warm sea from April to November.",
+          id: "nav-col-north",
+          type: "navColumn",
+          title: "North",
+          links: [link("nav-dest-4", "Lofoten", "/destinations/lofoten", "Fishing cabins under the midnight sun.")],
         },
+      ],
+      feature: [
         {
-          id: "nav-dest-4",
-          type: "navLink",
-          label: "Lofoten",
+          id: "nav-dest-feature",
+          type: "card",
+          eyebrow: "New this season",
+          title: "Lofoten in the midnight sun",
+          excerpt: "Twelve fishing cabins, open from May.",
+          image: photo("lofoten-fjord", "A red cabin on stilts above a still fjord"),
           href: "/destinations/lofoten",
-          description: "Fishing cabins under the midnight sun.",
         },
-        {
-          id: "nav-dest-5",
-          type: "navLink",
-          label: "Amalfi",
-          href: "/destinations/amalfi",
-          description: "Villages stacked above the sea.",
-        },
-        { id: "nav-dest-6", type: "navLink", label: "All destinations", href: "/destinations" },
       ],
     },
-    { id: "nav-owners", type: "navGroup", label: "Owners", href: "/owners", links: [] },
-    { id: "nav-news", type: "navGroup", label: "Journal", href: "/news", links: [] },
-    { id: "nav-help", type: "navGroup", label: "Help", href: "/help", links: [] },
+    { id: "nav-owners", type: "navGroup", label: "Owners", href: "/owners", links: [], columns: [], feature: [] },
+    { id: "nav-news", type: "navGroup", label: "Journal", href: "/news", links: [], columns: [], feature: [] },
+    { id: "nav-help", type: "navGroup", label: "Help", href: "/help", links: [], columns: [], feature: [] },
   ],
   headerActions: [act("hdr-1", "List your home", "/owners", "ghost"), act("hdr-2", "Find a home", "/homes")],
+  utilityLinks: [],
+  footerHeading: "Not sure where to go?",
+  footerText: "Tell us who is coming and when. We will send three homes that fit, usually the same day.",
+  footerActions: [act("ft-a1", "Plan a stay", "/contact"), act("ft-a2", "Browse homes", "/homes", "outline")],
+  footerTagline: "Two hundred homes on six coasts, each visited by us before it goes online.",
+  contactDetails: richTextFromParagraphs(
+    "Harbor & Co, 4 Quay Street, Falmouth TR11 3HH",
+    "hello@harbor.example",
+    "+44 1326 000 000, every day 8am to 8pm"
+  ),
   footerColumns: [
     {
       id: "fc-1",
@@ -119,16 +139,8 @@ export const settings: SiteSettings = {
         { id: "fl-9", type: "navLink", label: "Contact", href: "/contact" },
       ],
     },
-    {
-      id: "fc-4",
-      type: "footerColumn",
-      title: "Legal",
-      links: [
-        { id: "fl-10", type: "navLink", label: "Privacy", href: "/help#privacy" },
-        { id: "fl-11", type: "navLink", label: "Booking terms", href: "/help#terms" },
-      ],
-    },
   ],
+  legalLinks: [link("fl-10", "Privacy", "/help#privacy"), link("fl-11", "Booking terms", "/help#terms")],
   footerNote: "© 2026 Harbor & Co. Cornwall, Brittany, Algarve, Lofoten, Amalfi.",
   socialLinks: [
     { id: "soc-1", type: "socialLink", platform: "instagram", href: "https://instagram.com/example" },

@@ -62,7 +62,9 @@ export const siteSettings = defineDocument("siteSettings", {
     utilityLinks: field.items([navLink], {
       description: "Small links in a bar above the header, e.g. contact, locations, sign in.",
     }),
-    footerHeading: field.text({ description: "Heading of the band at the top of the footer. The band shows when set." }),
+    footerHeading: field.text({
+      description: "Heading of the band at the top of the footer. The band shows when set.",
+    }),
     footerText: field.textarea({ description: "Supporting line under the footer band heading." }),
     footerActions: field.items([action], { max: 2, description: "Buttons in the footer band." }),
     footerSignupEndpoint: field.link({

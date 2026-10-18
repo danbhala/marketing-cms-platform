@@ -894,7 +894,11 @@ export const siteSettingsFull: SiteSettings = {
   footerSignupEndpoint: "/api/newsletter",
   footerSignupLabel: "Subscribe",
   footerTagline: "Privacy-first product analytics for teams who would rather ship than configure.",
-  contactDetails: richTextFromParagraphs("Metrica, Inc.", "12 Harbour Street, Dublin D02 X285", "hello@metrica.example"),
+  contactDetails: richTextFromParagraphs(
+    "Metrica, Inc.",
+    "12 Harbour Street, Dublin D02 X285",
+    "hello@metrica.example"
+  ),
   footerColumns: siteSettings.footerColumns.slice(0, 3),
   legalLinks: [
     link("lg-1", "Privacy", "/legal/privacy"),

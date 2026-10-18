@@ -421,7 +421,13 @@ const settingsParagraphs: JsonApiResourceObject[] = [
       field_feature: [paragraphRel("card", "feat-1", 509)],
     }
   ),
-  paragraph("nav_column", "col-1", 508, { field_title: "By team" }, { field_links: [paragraphRel("nav_link", "mn-1", 604)] }),
+  paragraph(
+    "nav_column",
+    "col-1",
+    508,
+    { field_title: "By team" },
+    { field_links: [paragraphRel("nav_link", "mn-1", 604)] }
+  ),
   paragraph("nav_link", "mn-1", 604, {
     field_label: "Product teams",
     field_href: internal("/solutions/product"),

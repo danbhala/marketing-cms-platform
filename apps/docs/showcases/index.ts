@@ -65,8 +65,13 @@ function settings(siteName: string, nav: string[], actions: Action[], footerNote
       label,
       href: slug(label),
       links: [],
+      columns: [],
+      feature: [],
     })),
     headerActions: actions,
+    utilityLinks: [],
+    footerActions: [],
+    legalLinks: [],
     footerColumns: [
       {
         id: `${siteName}-fc-1`,

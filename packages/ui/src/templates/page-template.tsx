@@ -7,8 +7,11 @@ import { blockComponents, type BlockComponentMap } from "../blocks"
 import { cn } from "../lib/utils"
 import { Breadcrumbs, type Crumb } from "../molecules/breadcrumbs"
 import { AnnouncementBar } from "./announcement-bar"
+import { defaultChromeLabels, type ChromeConfig, type ChromeLabels } from "./chrome"
 import { SiteFooter } from "./site-footer"
 import { SiteHeader } from "./site-header"
+import { SkipLink } from "./skip-link"
+import { UtilityBar } from "./utility-bar"
 
 export interface BlockListProps {
   /** The page's blocks, in page order. */
@@ -46,6 +49,12 @@ export interface PageTemplateProps extends React.ComponentProps<"div"> {
   before?: React.ReactNode
   /** Content rendered inside `<main>` above the blocks (an article's header and body). */
   children?: React.ReactNode
+  /** Header and footer layout and behaviour (the host's chrome config). */
+  chrome?: ChromeConfig
+  /** Path of this page without the locale, e.g. `/pricing`, so its nav links get `aria-current="page"`. */
+  currentPath?: string
+  /** Header and footer strings, for localisation. */
+  labels?: Partial<ChromeLabels>
 }
 
 /**
@@ -61,9 +70,18 @@ function PageTemplate({
   siteUrl,
   before,
   children,
+  chrome,
+  currentPath,
+  labels,
   className,
   ...props
 }: PageTemplateProps) {
+  const showBreadcrumbs = Boolean(breadcrumbs && !page.hideBreadcrumbs)
+  // The header only goes transparent when the first thing under it is a hero with a background image.
+  const first = page.blocks[0]
+  const opensWithBackgroundHero = first?.type === "hero" && first.layout === "background" && Boolean(first.media)
+  const transparent =
+    Boolean(chrome?.header?.transparent) && opensWithBackgroundHero && !showBreadcrumbs && !before && !children
   return (
     <div
       data-slot="page"
@@ -74,11 +92,19 @@ function PageTemplate({
       )}
       {...props}
     >
+      <SkipLink>{labels?.skipToContent ?? defaultChromeLabels.skipToContent}</SkipLink>
       <AnnouncementBar settings={settings} />
-      <SiteHeader settings={settings} />
+      <UtilityBar settings={settings} currentPath={currentPath} labels={labels} />
+      <SiteHeader
+        settings={settings}
+        {...chrome?.header}
+        transparent={transparent}
+        currentPath={currentPath}
+        labels={labels}
+      />
       {before}
-      <main id="main" className="flex-1">
-        {breadcrumbs && !page.hideBreadcrumbs ? (
+      <main id="main" tabIndex={-1} className="flex-1 outline-none">
+        {breadcrumbs && showBreadcrumbs ? (
           <Container className="pt-6">
             <Breadcrumbs items={breadcrumbs} siteUrl={siteUrl} />
           </Container>
@@ -86,7 +112,7 @@ function PageTemplate({
         {children}
         <BlockList blocks={page.blocks} components={components} />
       </main>
-      <SiteFooter settings={settings} />
+      <SiteFooter settings={settings} {...chrome?.footer} currentPath={currentPath} labels={labels} />
     </div>
   )
 }

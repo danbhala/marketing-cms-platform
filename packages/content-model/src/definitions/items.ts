@@ -179,8 +179,7 @@ export const navColumn = defineItem("navColumn", {
 
 export const navGroup = defineItem("navGroup", {
   label: "Navigation group",
-  description:
-    "A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel.",
+  description: "A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel.",
   fields: {
     label: field.text({ required: true }),
     href: field.link(),
