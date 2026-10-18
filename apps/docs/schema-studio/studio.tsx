@@ -23,6 +23,7 @@ import {
   type StudioType,
 } from "./model"
 import { modelToPrompt } from "./prompt"
+import { deleteDesign, saveDesign, useSavedDesigns } from "./saved"
 import { shareUrl, useModel } from "./store"
 
 /**
@@ -46,6 +47,8 @@ export function SchemaStudio() {
   const [showFile, setShowFile] = useState(true)
   const [mobile, setMobile] = useState<MobileView>("build")
   const [mobileCode, setMobileCode] = useState<"canonical" | CmsId>("canonical")
+  const [saveName, setSaveName] = useState<string | null>(null)
+  const saved = useSavedDesigns()
   const wide = useIsWide()
 
   const gen = useMemo(() => generate(model), [model])
@@ -58,12 +61,20 @@ export function SchemaStudio() {
       : (gen.definitions.items.find((d) => d.type === type.type) ?? gen.definitions.block)
 
   function applyPreset(slug: string) {
+    const design = slug.startsWith("saved:") ? saved.find((d) => d.id === slug.slice(6)) : undefined
     const p = presets.find((p) => p.slug === slug)
-    if (!p) return
+    if (!design && !p) return
     setPreset(slug)
-    setModel(p.model())
+    setModel(design ? structuredClone(design.model) : p!.model())
     setEditing(-1)
     setSelected(null)
+  }
+
+  function save() {
+    const name = saveName?.trim()
+    if (!name) return
+    setPreset(`saved:${saveDesign(name, model)}`)
+    setSaveName(null)
   }
 
   function patchModel(fn: (m: StudioModel) => StudioModel) {
@@ -177,7 +188,64 @@ export function SchemaStudio() {
               {p.name}
             </option>
           ))}
+          {saved.length ? (
+            <optgroup label="Saved in this browser">
+              {saved.map((d) => (
+                <option key={d.id} value={`saved:${d.id}`}>
+                  {d.name}
+                </option>
+              ))}
+            </optgroup>
+          ) : null}
         </Select>
+        {saveName === null ? (
+          <button
+            type="button"
+            onClick={() => setSaveName(model.block.label || model.block.type)}
+            className="hover:bg-fd-muted h-8 rounded-md border px-2.5"
+          >
+            Save
+          </button>
+        ) : (
+          <form
+            className="flex items-center gap-1"
+            onSubmit={(e) => {
+              e.preventDefault()
+              save()
+            }}
+          >
+            <input
+              autoFocus
+              aria-label="Name for the saved design"
+              value={saveName}
+              onChange={(e) => setSaveName(e.target.value)}
+              onKeyDown={(e) => e.key === "Escape" && setSaveName(null)}
+              className="bg-fd-background h-8 w-44 rounded-md border px-2 text-sm"
+            />
+            <button type="submit" className="bg-fd-primary text-fd-primary-foreground h-8 rounded-md px-2.5">
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => setSaveName(null)}
+              className="hover:bg-fd-muted h-8 rounded-md border px-2.5"
+            >
+              Cancel
+            </button>
+          </form>
+        )}
+        {preset.startsWith("saved:") ? (
+          <button
+            type="button"
+            onClick={() => {
+              deleteDesign(preset.slice(6))
+              setPreset("custom")
+            }}
+            className="text-fd-muted-foreground hover:text-fd-foreground h-8 rounded-md border px-2.5"
+          >
+            Delete saved
+          </button>
+        ) : null}
         <span className="flex-1" />
         <CopyButton label="Copy link" getText={() => shareUrl(model)} />
         <CopyButton label="Copy definition" getText={() => gen.canonical} primary />
