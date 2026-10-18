@@ -302,6 +302,9 @@ catalogs:
     lucide-react:
       specifier: ^1.59.0
       version: 1.59.0
+    motion:
+      specifier: ^14.3.0
+      version: 14.3.0
     next:
       specifier: ^16.4.2
       version: 16.4.2
@@ -1057,6 +1060,9 @@ importers:
       lucide-react:
         specifier: 'catalog:'
         version: 1.59.0(@types/react@19.3.0)(react@19.3.1)
+      motion:
+        specifier: 'catalog:'
+        version: 14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       tw-animate-css:
         specifier: 'catalog:'
         version: 1.4.0

@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_animation
+    - paragraphs.paragraphs_type.team_grid
+  module:
+    - options
+id: paragraph.team_grid.field_animation
+field_name: field_animation
+entity_type: paragraph
+bundle: team_grid
+label: Animation
+description: Entrance animation played once when the block scrolls into view.
+required: false
+translatable: true
+default_value:
+  - value: none
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -635,6 +635,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -686,6 +710,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -750,6 +798,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -821,6 +893,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -878,6 +974,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -937,6 +1057,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -988,6 +1132,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -1047,6 +1215,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -1105,6 +1297,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -1162,6 +1378,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -1227,6 +1467,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -1284,6 +1548,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -1343,6 +1631,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -1395,6 +1707,30 @@
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
           "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
         }
       ]
     },
@@ -1434,6 +1770,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -1480,6 +1840,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]
@@ -1563,6 +1947,30 @@
           "name": "anchor",
           "python": "anchor",
           "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
           "required": false
         }
       ]

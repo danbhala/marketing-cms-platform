@@ -1,0 +1,56 @@
+---
+title: Animation
+description: "Entrance animation presets every block can switch on from the CMS: off by default, staggered items, duration and delay, reduced-motion aware."
+---
+
+Every block has four animation fields next to `theme`, `spacing` and `anchor`. They are off by default; a page is static until an editor picks a preset on a block.
+
+<AnimationDemo />
+
+<Video src="/video/animation-presets.mp4" caption="The live demo above: each preset on the feature grid, stagger off and on, slow timing with a delay, then the hero, pricing and call to action" />
+
+## Fields
+
+| Field | Options | Default |
+| --- | --- | --- |
+| `animation` | `none` `fadeUp` `fadeIn` `scaleIn` `slideFromLeft` `slideFromRight` `blurIn` | `none` |
+| `animationStagger` | boolean: reveal the block's items one after another | off |
+| `animationDuration` | `fast` 0.35s · `normal` 0.6s · `slow` 0.9s | `normal` |
+| `animationDelay` | `none` · `short` 0.15s · `medium` 0.3s · `long` 0.6s | `none` |
+
+A block reveals once, when its top edge passes the bottom 10% of the viewport, and never animates out. With `animationStagger` on, the heading and each item (cards, stats, plans, people, steps, logos; a hero's eyebrow, title, description, actions and media) start a fraction of the duration apart. Blocks with one body (rich text, media, FAQ, tabs, comparison table, form) ignore the stagger flag and animate as a whole.
+
+Like `theme`, the fields come from the shared `presentation` set in the content model, so they appear on every block in every CMS after `pnpm schema:generate`, and `BlockReference` lists them on each [block page](/docs/blocks).
+
+## How it works
+
+- **[Motion](https://motion.dev)** (`motion/react`, the library formerly known as Framer Motion) does the animating. The UI package uses its small build: `m` components plus the `domAnimation` feature bundle, no gestures, drag or layout animation.
+- **Zero cost when off.** `BlockSection` renders a plain `<section>` unless the block has a preset. Only then does it render `Reveal`, a client component, so pages without animated blocks ship none of Motion's JavaScript.
+- **One place to tune.** Presets are Motion variants in `packages/ui/src/lib/animation.ts`; they only touch `opacity`, transforms and `filter`, which the browser composites off the main thread. Change a curve or distance there and every block follows.
+- **Reduced motion.** `Reveal` wraps its block in `MotionConfig reducedMotion="user"`: people who ask their OS for less motion get the opacity fade without the movement.
+- **Server rendering.** The hidden start state is rendered on the server, so a block is invisible until the script runs. Leave animation off on anything that must be readable without JavaScript, and prefer it below the fold.
+
+## In a block
+
+Blocks opt their items into stagger with `BlockItem`, a fragment when the block is not staggered and a Motion element when it is:
+
+```tsx
+<BlockSection block={block}>
+  <Container>
+    <BlockItem block={block}>
+      <SectionHeader title={block.title} source={block} />
+    </BlockItem>
+    <Grid columns="3">
+      {block.features.map((feature) => (
+        <BlockItem key={feature.id} block={block}>
+          <FeatureItem item={feature} />
+        </BlockItem>
+      ))}
+    </Grid>
+  </Container>
+</BlockSection>
+```
+
+<StorybookEmbed story="blocks-animation--page" height={720} />
+
+The [Animation stories](/storybook/?path=/docs/blocks-animation--docs) show each preset on a fitting block; re-select a story to replay it.

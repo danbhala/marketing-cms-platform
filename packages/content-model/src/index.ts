@@ -1,6 +1,7 @@
 export * from "./primitives"
 export * from "./fields"
 export * from "./themes"
+export * from "./animation"
 export * from "./definitions"
 export * from "./validation"
 export * from "./types"

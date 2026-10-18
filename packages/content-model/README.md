@@ -18,7 +18,7 @@ export const faq = defineBlock("faq", {
 
 | Import | Contents |
 | --- | --- |
-| `@platform/content-model` | `field` DSL, `defineBlock/Item/Document`, `allBlocks/allItems/allDocuments`, types (`Page`, `Block`, `SiteSettings`, `Media`, rich text AST), `schemaFor()` validators, `themeClassName()`. |
+| `@platform/content-model` | `field` DSL, `defineBlock/Item/Document`, `allBlocks/allItems/allDocuments`, types (`Page`, `Block`, `SiteSettings`, `Media`, rich text AST), `schemaFor()` validators, `themeClassName()`, `animationSettings()`. |
 | `@platform/content-model/fixtures` | Sample content for every block and six page compositions, used by Storybook, the docs and the local adapter. |
 
 ## Conventions
@@ -26,6 +26,6 @@ export const faq = defineBlock("faq", {
 - Field kinds: `text`, `textarea`, `richText`, `number`, `boolean`, `select`, `link`, `media`, `items`, `blocks`, `textList`.
 - `Media` is `{ kind, url, alt, width, height }`; rich text is a portable JSON AST, never CMS-specific markup.
 - Every node carries `id` and `type`; adapters may add `$edit` (live-edit attributes) in draft mode.
-- `presentation` adds `theme`, `spacing` and `anchor` to every block.
+- `presentation` adds `theme`, `spacing`, `anchor` and the entrance-animation fields (`animation`, `animationStagger`, `animationDuration`, `animationDelay`; off by default, see `src/animation.ts`) to every block.
 
 To add a block: define it in `src/definitions/blocks.ts`, export its type from `types.ts`, add a fixture in `src/fixtures/content.ts`, then build the component in `@platform/ui`.

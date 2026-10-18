@@ -3,6 +3,10 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.stats.field_anchor
+    - field.field.paragraph.stats.field_animation
+    - field.field.paragraph.stats.field_animation_delay
+    - field.field.paragraph.stats.field_animation_duration
+    - field.field.paragraph.stats.field_animation_stagger
     - field.field.paragraph.stats.field_description
     - field.field.paragraph.stats.field_eyebrow
     - field.field.paragraph.stats.field_spacing
@@ -87,6 +91,31 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_animation:
+    type: options_select
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_stagger:
+    type: boolean_checkbox
+    weight: 9
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_animation_duration:
+    type: options_select
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_delay:
+    type: options_select
+    weight: 11
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

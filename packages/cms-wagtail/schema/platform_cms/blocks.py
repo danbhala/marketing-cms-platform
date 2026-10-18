@@ -384,6 +384,10 @@ class HeroSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Hero"
@@ -399,6 +403,10 @@ class LogoCloudSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Logo cloud"
@@ -416,6 +424,10 @@ class FeatureGridSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Feature grid"
@@ -434,6 +446,10 @@ class FeatureSplitSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Feature split"
@@ -450,6 +466,10 @@ class StatsSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Stats"
@@ -466,6 +486,10 @@ class TestimonialsSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Testimonials"
@@ -481,6 +505,10 @@ class PricingSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Pricing table"
@@ -497,6 +525,10 @@ class ComparisonTableSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Comparison table"
@@ -513,6 +545,10 @@ class FaqSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "FAQ"
@@ -529,6 +565,10 @@ class CtaSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Call to action"
@@ -546,6 +586,10 @@ class CardGridSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Card grid"
@@ -562,6 +606,10 @@ class TeamGridSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Team grid"
@@ -578,6 +626,10 @@ class StepsSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Steps"
@@ -593,6 +645,10 @@ class TabsSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Tabbed content"
@@ -606,6 +662,10 @@ class RichTextSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Rich text"
@@ -620,6 +680,10 @@ class MediaSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Media"
@@ -640,6 +704,10 @@ class FormSection(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
     spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
     class Meta:
         label = "Form"

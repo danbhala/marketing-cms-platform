@@ -6,7 +6,7 @@ import { Heading } from "../atoms/heading"
 import { Text } from "../atoms/text"
 import { SectionHeader } from "../molecules/section-header"
 import { cn } from "../lib/utils"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 /** Props for the Steps block: the `StepsBlock` content plus section attributes. */
 export type StepsProps = BlockComponentProps<StepsBlock>
@@ -17,19 +17,21 @@ function Steps({ block, index, className, ...props }: StepsProps) {
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container size={vertical ? "md" : "section"} className="flex flex-col gap-(--block-header-gap)">
-        <SectionHeader
-          eyebrow={block.eyebrow}
-          title={block.title}
-          description={block.description}
-          as={index === 0 ? "h1" : "h2"}
-          source={block}
-        />
+        <BlockItem block={block}>
+          <SectionHeader
+            eyebrow={block.eyebrow}
+            title={block.title}
+            description={block.description}
+            as={index === 0 ? "h1" : "h2"}
+            source={block}
+          />
+        </BlockItem>
         <ol
           className={cn("grid gap-8", !vertical && "section-md:grid-cols-[repeat(auto-fit,minmax(0,1fr))]")}
           {...fieldAttrs(block, "steps")}
         >
           {block.steps.map((step, i) => (
-            <li key={step.id} className="relative flex gap-4 section-md:flex-col" {...editAttrs(step)}>
+            <BlockItem key={step.id} block={block} as="li" className="relative flex gap-4 section-md:flex-col" {...editAttrs(step)}>
               <div className="flex flex-col items-center section-md:flex-row">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full border bg-background text-sm font-semibold text-primary">
                   {i + 1}
@@ -48,7 +50,7 @@ function Steps({ block, index, className, ...props }: StepsProps) {
                   </Text>
                 ) : null}
               </div>
-            </li>
+            </BlockItem>
           ))}
         </ol>
       </Container>

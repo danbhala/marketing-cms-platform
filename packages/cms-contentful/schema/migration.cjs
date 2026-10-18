@@ -1198,6 +1198,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -1334,6 +1422,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -1504,6 +1680,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -1712,6 +1976,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -1861,6 +2213,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -2009,6 +2449,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -2141,6 +2669,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -2291,6 +2907,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -2438,6 +3142,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -2592,6 +3384,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -2770,6 +3650,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -2917,6 +3885,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -3066,6 +4122,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -3192,6 +4336,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -3324,6 +4556,94 @@ const contentTypes = [
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -3439,6 +4759,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -3638,6 +5046,94 @@ const contentTypes = [
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]

@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_animation_stagger
+    - paragraphs.paragraphs_type.feature_split
+id: paragraph.feature_split.field_animation_stagger
+field_name: field_animation_stagger
+entity_type: paragraph
+bundle: feature_split
+label: Stagger items
+description: 'Reveal the block''s items one after another instead of all at once.'
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

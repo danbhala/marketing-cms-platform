@@ -3,6 +3,10 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.rich_text.field_anchor
+    - field.field.paragraph.rich_text.field_animation
+    - field.field.paragraph.rich_text.field_animation_delay
+    - field.field.paragraph.rich_text.field_animation_duration
+    - field.field.paragraph.rich_text.field_animation_stagger
     - field.field.paragraph.rich_text.field_body
     - field.field.paragraph.rich_text.field_rich_text_width
     - field.field.paragraph.rich_text.field_spacing
@@ -49,6 +53,31 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_animation:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_stagger:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_animation_duration:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_delay:
+    type: options_select
+    weight: 8
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

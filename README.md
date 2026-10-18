@@ -15,7 +15,7 @@ One marketing front-end that renders from any CMS. Content from Contentful, Stor
 | `packages/cms-contentful` · `cms-storyblok` · `cms-optimizely` · `cms-sanity` · `cms-drupal` · `cms-wagtail` | `@platform/cms-*` | One adapter per CMS: schema generator, transform, preview, live-edit bridge, webhook. |
 | `packages/component-registry` | `@platform/component-registry` | Maps block types to components; the app renders through it. |
 | `packages/eslint-config` · `typescript-config` | `@platform/*-config` | Shared lint and TS settings. |
-| `.claude/skills` | | Vendor-installed Claude skills (Next.js, Contentful, Optimizely, shadcn, Storybook, Turborepo). |
+| `.claude/skills` | | Vendor-installed Claude skills (Next.js, Contentful, Optimizely, shadcn, Storybook, Turborepo, Motion). |
 | `.claude/skills/platform` | | Our own skills as one plugin (`/platform:add-block`, `/platform:write-adapter`, `/platform:theming`, `/platform:checks`). |
 
 ## Quick start

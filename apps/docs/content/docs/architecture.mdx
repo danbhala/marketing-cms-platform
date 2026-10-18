@@ -31,7 +31,7 @@ export const faq = defineBlock("faq", {
     ...heading,                               // eyebrow, title, description
     items: field.items([faqItem]),
     layout: field.select(["single", "split"], { defaultValue: "single" }),
-    ...presentation,                          // theme, spacing, anchor
+    ...presentation,                          // theme, spacing, anchor, animation*
   },
 })
 ```

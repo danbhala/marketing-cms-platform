@@ -21,7 +21,7 @@ describe("definitions", () => {
 
   it("every block carries the shared presentation fields", () => {
     for (const block of allBlocks) {
-      expect(Object.keys(block.fields)).toEqual(expect.arrayContaining(["theme", "spacing", "anchor"]))
+      expect(Object.keys(block.fields)).toEqual(expect.arrayContaining(["theme", "spacing", "anchor", "animation", "animationStagger", "animationDuration", "animationDelay"]))
     }
   })
 })
