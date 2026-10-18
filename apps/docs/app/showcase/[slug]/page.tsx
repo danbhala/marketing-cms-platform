@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { ThemeEditor } from "@/components/theme-editor"
 import { ThemedFrame } from "@/components/themed-frame"
 import { findShowcase, showcases } from "@/showcases"
 
@@ -21,5 +22,10 @@ export async function generateMetadata({ params }: PageProps<"/showcase/[slug]">
 export default async function ShowcasePage({ params }: PageProps<"/showcase/[slug]">) {
   const showcase = findShowcase((await params).slug)
   if (!showcase) notFound()
-  return <ThemedFrame showcase={showcase} />
+  return (
+    <>
+      <ThemedFrame showcase={showcase} />
+      <ThemeEditor showcase={showcase} />
+    </>
+  )
 }

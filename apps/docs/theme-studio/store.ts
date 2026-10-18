@@ -37,13 +37,55 @@ function set(theme: Theme) {
 
 function subscribe(listener: () => void) {
   listeners.add(listener)
-  return () => listeners.delete(listener)
+  window.addEventListener("hashchange", listener)
+  return () => {
+    listeners.delete(listener)
+    window.removeEventListener("hashchange", listener)
+  }
 }
 
-export function useTheme(): [Theme, (next: Theme | ((prev: Theme) => Theme)) => void] {
-  const theme = useSyncExternalStore(subscribe, get, () => fallback)
+/**
+ * The theme being edited and a setter. `seed` is what to start from when the
+ * URL carries no theme: the studio uses the Verso preset, a showcase page its
+ * own preset.
+ */
+export function useTheme(seed: Theme = fallback): [Theme, (next: Theme | ((prev: Theme) => Theme)) => void] {
+  const theme = useSyncExternalStore(
+    subscribe,
+    () => (current ??= readThemeFromHash() ?? seed),
+    () => seed
+  )
   const update = (next: Theme | ((prev: Theme) => Theme)) => set(typeof next === "function" ? next(get()) : next)
   return [theme, update]
+}
+
+/**
+ * The theme a showcase page should show instead of its preset: the edited
+ * theme while the URL carries one, else `null`. Follows edits as they happen,
+ * before the debounced hash write.
+ */
+export function useThemeOverride(): Theme | null {
+  return useSyncExternalStore(
+    subscribe,
+    () => (window.location.hash.includes("t=") ? (current ?? readThemeFromHash()) : null),
+    () => null
+  )
+}
+
+let runs = 0
+
+/** Bumps a counter the previews key on, so the entrance animations play again. */
+export function replay() {
+  runs += 1
+  for (const l of listeners) l()
+}
+
+export function useReplay(): number {
+  return useSyncExternalStore(
+    subscribe,
+    () => runs,
+    () => 0
+  )
 }
 
 export const shareUrl = (theme: Theme, path = "/theme") => `${window.location.origin}${path}#t=${encodeTheme(theme)}`
