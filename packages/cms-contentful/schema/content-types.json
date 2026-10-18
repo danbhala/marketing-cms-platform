@@ -954,9 +954,50 @@
     ]
   },
   {
+    "id": "navColumn",
+    "name": "Navigation column",
+    "description": "A titled column of links inside a mega menu panel.",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "links",
+        "name": "Links",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "navLink"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      }
+    ]
+  },
+  {
     "id": "navGroup",
     "name": "Navigation group",
-    "description": "A top-level navigation entry. With links it renders as a dropdown.",
+    "description": "A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel.",
     "displayField": "label",
     "fields": [
       {
@@ -1001,6 +1042,68 @@
         },
         "editor": {
           "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 4
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "navColumn"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown."
+          }
+        }
+      },
+      {
+        "id": "feature",
+        "name": "Feature",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 1
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "card"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Optional featured card at the end of the mega menu panel."
+          }
         }
       }
     ]
@@ -7753,6 +7856,173 @@
         }
       },
       {
+        "id": "utilityLinks",
+        "name": "Utility links",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "navLink"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Small links in a bar above the header, e.g. contact, locations, sign in."
+          }
+        }
+      },
+      {
+        "id": "footerHeading",
+        "name": "Footer heading",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Heading of the band at the top of the footer. The band shows when set."
+          }
+        }
+      },
+      {
+        "id": "footerText",
+        "name": "Footer text",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine",
+          "settings": {
+            "helpText": "Supporting line under the footer band heading."
+          }
+        }
+      },
+      {
+        "id": "footerActions",
+        "name": "Footer actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 2
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Buttons in the footer band."
+          }
+        }
+      },
+      {
+        "id": "footerSignupEndpoint",
+        "name": "Footer signup endpoint",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Email sign-up in the footer band posts here as JSON ({ email }). Leave empty for no sign-up."
+          }
+        }
+      },
+      {
+        "id": "footerSignupLabel",
+        "name": "Footer signup label",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Sign-up button label. Defaults to Subscribe."
+          }
+        }
+      },
+      {
+        "id": "footerTagline",
+        "name": "Footer tagline",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine",
+          "settings": {
+            "helpText": "Short description under the logo in the footer."
+          }
+        }
+      },
+      {
+        "id": "contactDetails",
+        "name": "Contact details",
+        "type": "RichText",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "enabledNodeTypes": [
+              "heading-2",
+              "heading-3",
+              "heading-4",
+              "heading-5",
+              "heading-6",
+              "ordered-list",
+              "unordered-list",
+              "hr",
+              "blockquote",
+              "embedded-asset-block",
+              "hyperlink",
+              "entry-hyperlink",
+              "asset-hyperlink"
+            ]
+          },
+          {
+            "enabledMarks": [
+              "bold",
+              "italic",
+              "underline",
+              "code",
+              "strikethrough"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "richTextEditor",
+          "settings": {
+            "helpText": "Address, phone and email, shown in the footer's split layout."
+          }
+        }
+      },
+      {
         "id": "footerColumns",
         "name": "Footer columns",
         "type": "Array",
@@ -7772,6 +8042,31 @@
         },
         "editor": {
           "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "legalLinks",
+        "name": "Legal links",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "navLink"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Privacy, terms, cookies. Shown on the footer's bottom row."
+          }
         }
       },
       {

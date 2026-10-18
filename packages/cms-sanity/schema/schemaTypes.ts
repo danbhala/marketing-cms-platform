@@ -826,10 +826,39 @@ export const schemaTypes = [
     },
   },
   {
+    name: "navColumn",
+    title: "Navigation column",
+    type: "object",
+    description: "A titled column of links inside a mega menu panel.",
+    fields: [
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "links",
+        title: "Links",
+        type: "array",
+        of: [
+          {
+            type: "navLink",
+          },
+        ],
+      },
+    ],
+    preview: {
+      select: {
+        title: "title",
+      },
+    },
+  },
+  {
     name: "navGroup",
     title: "Navigation group",
     type: "object",
-    description: "A top-level navigation entry. With links it renders as a dropdown.",
+    description: "A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel.",
     fields: [
       {
         name: "label",
@@ -853,6 +882,30 @@ export const schemaTypes = [
             type: "navLink",
           },
         ],
+      },
+      {
+        name: "columns",
+        title: "Columns",
+        type: "array",
+        description: "Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown.",
+        of: [
+          {
+            type: "navColumn",
+          },
+        ],
+        validation: (rule: SanityRule) => rule.max(4),
+      },
+      {
+        name: "feature",
+        title: "Feature",
+        type: "array",
+        description: "Optional featured card at the end of the mega menu panel.",
+        of: [
+          {
+            type: "card",
+          },
+        ],
+        validation: (rule: SanityRule) => rule.max(1),
       },
     ],
     preview: {
@@ -7804,12 +7857,85 @@ export const schemaTypes = [
         validation: (rule: SanityRule) => rule.max(2),
       },
       {
+        name: "utilityLinks",
+        title: "Utility Links",
+        type: "array",
+        description: "Small links in a bar above the header, e.g. contact, locations, sign in.",
+        of: [
+          {
+            type: "navLink",
+          },
+        ],
+      },
+      {
+        name: "footerHeading",
+        title: "Footer Heading",
+        type: "string",
+        description: "Heading of the band at the top of the footer. The band shows when set.",
+      },
+      {
+        name: "footerText",
+        title: "Footer Text",
+        type: "text",
+        description: "Supporting line under the footer band heading.",
+        rows: 3,
+      },
+      {
+        name: "footerActions",
+        title: "Footer Actions",
+        type: "array",
+        description: "Buttons in the footer band.",
+        of: [
+          {
+            type: "action",
+          },
+        ],
+        validation: (rule: SanityRule) => rule.max(2),
+      },
+      {
+        name: "footerSignupEndpoint",
+        title: "Footer Signup Endpoint",
+        type: "url",
+        description: "Email sign-up in the footer band posts here as JSON ({ email }). Leave empty for no sign-up.",
+        validation: (rule: SanityRule) => rule.uri({ allowRelative: true, scheme: ["http", "https", "mailto", "tel"] }),
+      },
+      {
+        name: "footerSignupLabel",
+        title: "Footer Signup Label",
+        type: "string",
+        description: "Sign-up button label. Defaults to Subscribe.",
+      },
+      {
+        name: "footerTagline",
+        title: "Footer Tagline",
+        type: "text",
+        description: "Short description under the logo in the footer.",
+        rows: 3,
+      },
+      {
+        name: "contactDetails",
+        title: "Contact Details",
+        type: "portableText",
+        description: "Address, phone and email, shown in the footer's split layout.",
+      },
+      {
         name: "footerColumns",
         title: "Footer Columns",
         type: "array",
         of: [
           {
             type: "footerColumn",
+          },
+        ],
+      },
+      {
+        name: "legalLinks",
+        title: "Legal Links",
+        type: "array",
+        description: "Privacy, terms, cookies. Shown on the footer's bottom row.",
+        of: [
+          {
+            type: "navLink",
           },
         ],
       },

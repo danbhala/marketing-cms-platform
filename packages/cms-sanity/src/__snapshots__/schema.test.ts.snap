@@ -23,7 +23,8 @@ exports[`sanity schema generator > keeps a stable snapshot of the type names and
   "object tab: label:string! title:string body:portableText media:anyMedia",
   "object formField: name:string! label:string! inputType:string! placeholder:string required:boolean options:array",
   "object navLink: label:string! href:url! description:string",
-  "object navGroup: label:string! href:url links:array",
+  "object navColumn: title:string! links:array",
+  "object navGroup: label:string! href:url links:array columns:array feature:array",
   "object footerColumn: title:string! links:array",
   "object socialLink: platform:string! href:url!",
   "object hero: eyebrow:string title:string! description:text actions:array media:anyMedia layout:string scrollEffect:string theme:string spacing:string anchor:string animation:string animationStagger:string headingAnimation:string animationDuration:string animationDelay:string",
@@ -49,6 +50,6 @@ exports[`sanity schema generator > keeps a stable snapshot of the type names and
   "document page: title:string! slug:slug! seoTitle:string seoDescription:text ogImage:imageWithAlt noIndex:boolean hideBreadcrumbs:boolean theme:string blocks:array",
   "document article: title:string! slug:slug! publishedAt:date! excerpt:text image:imageWithAlt category:reference tags:array body:portableText! blocks:array seoTitle:string seoDescription:text noIndex:boolean",
   "document category: title:string! slug:slug! description:text",
-  "document siteSettings: siteName:string! logo:imageWithAlt announcementText:string announcementHref:url announcementLinkLabel:string navigation:array headerActions:array footerColumns:array footerNote:string socialLinks:array",
+  "document siteSettings: siteName:string! logo:imageWithAlt announcementText:string announcementHref:url announcementLinkLabel:string navigation:array headerActions:array utilityLinks:array footerHeading:string footerText:text footerActions:array footerSignupEndpoint:url footerSignupLabel:string footerTagline:text contactDetails:portableText footerColumns:array legalLinks:array footerNote:string socialLinks:array",
 ]
 `;

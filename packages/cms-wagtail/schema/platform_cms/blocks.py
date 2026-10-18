@@ -363,12 +363,24 @@ class NavLinkItem(blocks.StructBlock):
         label = "Navigation link"
 
 
+class NavColumnItem(blocks.StructBlock):
+    """A titled column of links inside a mega menu panel."""
+
+    title = blocks.CharBlock(required=True, label="Title")
+    links = ItemListBlock(NavLinkItem(), default=[], label="Links")
+
+    class Meta:
+        label = "Navigation column"
+
+
 class NavGroupItem(blocks.StructBlock):
-    """A top-level navigation entry. With links it renders as a dropdown."""
+    """A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel."""
 
     label = blocks.CharBlock(required=True, label="Label")
     href = LinkBlock(required=False, label="Href")
     links = ItemListBlock(NavLinkItem(), default=[], label="Links")
+    columns = ItemListBlock(NavColumnItem(), max_num=4, default=[], label="Columns", help_text="Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown.")
+    feature = ItemListBlock(CardItem(), max_num=1, default=[], label="Feature", help_text="Optional featured card at the end of the mega menu panel.")
 
     class Meta:
         label = "Navigation group"

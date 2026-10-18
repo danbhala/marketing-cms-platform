@@ -382,6 +382,16 @@ describe("listings", () => {
 })
 
 describe("transform: site settings", () => {
+  it("maps a mega menu group through the prefixed columns field", async () => {
+    const settings = await adapter.getSiteSettings(published)
+    expect(settings.navigation[3]).toMatchObject({
+      label: "Solutions",
+      links: [],
+      columns: [{ title: "By team", links: [{ label: "Product teams", href: "/solutions/product" }] }],
+      feature: [{ type: "card", title: "Cohorts are live", href: "/blog/october" }],
+    })
+  })
+
   it("maps the settings node and validates it", async () => {
     const settings = await adapter.getSiteSettings(published)
     expect(() => schemaFor(siteSettingsDefinition).parse(settings)).not.toThrow()
@@ -394,7 +404,7 @@ describe("transform: site settings", () => {
       socialLinks: [{ platform: "x", href: "https://x.com/example" }],
     })
     expect(settings).not.toHaveProperty("logo")
-    expect(settings?.navigation.map((g) => g.href)).toEqual([undefined, "/pricing", "/"])
+    expect(settings?.navigation.map((g) => g.href)).toEqual([undefined, "/pricing", "/", undefined])
     expect(settings?.navigation[0]?.links[1]).toEqual({
       id: "nav-2",
       type: "navLink",

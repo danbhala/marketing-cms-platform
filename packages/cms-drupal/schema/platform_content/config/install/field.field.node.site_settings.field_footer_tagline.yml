@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_footer_tagline
+    - node.type.site_settings
+id: node.site_settings.field_footer_tagline
+field_name: field_footer_tagline
+entity_type: node
+bundle: site_settings
+label: Footer tagline
+description: Short description under the logo in the footer.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: string_long

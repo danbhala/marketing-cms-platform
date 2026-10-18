@@ -530,13 +530,36 @@
       ]
     },
     {
+      "name": "navColumn",
+      "kind": "item",
+      "python": "NavColumnItem",
+      "base": "StructBlock",
+      "stream": "nav_column",
+      "label": "Navigation column",
+      "description": "A titled column of links inside a mega menu panel.",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=True, label=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "links",
+          "python": "links",
+          "definition": "ItemListBlock(NavLinkItem(), default=[], label=\"Links\")",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "navGroup",
       "kind": "item",
       "python": "NavGroupItem",
       "base": "StructBlock",
       "stream": "nav_group",
       "label": "Navigation group",
-      "description": "A top-level navigation entry. With links it renders as a dropdown.",
+      "description": "A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel.",
       "fields": [
         {
           "name": "label",
@@ -554,6 +577,18 @@
           "name": "links",
           "python": "links",
           "definition": "ItemListBlock(NavLinkItem(), default=[], label=\"Links\")",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "python": "columns",
+          "definition": "ItemListBlock(NavColumnItem(), max_num=4, default=[], label=\"Columns\", help_text=\"Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown.\")",
+          "required": true
+        },
+        {
+          "name": "feature",
+          "python": "feature",
+          "definition": "ItemListBlock(CardItem(), max_num=1, default=[], label=\"Feature\", help_text=\"Optional featured card at the end of the mega menu panel.\")",
           "required": true
         }
       ]
@@ -2707,9 +2742,63 @@
           "required": true
         },
         {
+          "name": "utilityLinks",
+          "python": "utility_links",
+          "definition": "StreamField([(\"nav_link\", NavLinkItem())], blank=True, verbose_name=\"Utility links\", help_text=\"Small links in a bar above the header, e.g. contact, locations, sign in.\")",
+          "required": true
+        },
+        {
+          "name": "footerHeading",
+          "python": "footer_heading",
+          "definition": "models.CharField(max_length=255, blank=True, verbose_name=\"Footer heading\", help_text=\"Heading of the band at the top of the footer. The band shows when set.\")",
+          "required": false
+        },
+        {
+          "name": "footerText",
+          "python": "footer_text",
+          "definition": "models.TextField(blank=True, verbose_name=\"Footer text\", help_text=\"Supporting line under the footer band heading.\")",
+          "required": false
+        },
+        {
+          "name": "footerActions",
+          "python": "footer_actions",
+          "definition": "StreamField([(\"action\", ActionItem())], blank=True, max_num=2, verbose_name=\"Footer actions\", help_text=\"Buttons in the footer band.\")",
+          "required": true
+        },
+        {
+          "name": "footerSignupEndpoint",
+          "python": "footer_signup_endpoint",
+          "definition": "models.CharField(max_length=2048, blank=True, verbose_name=\"Footer signup endpoint\", help_text=\"Email sign-up in the footer band posts here as JSON ({ email }). Leave empty for no sign-up.\")",
+          "required": false
+        },
+        {
+          "name": "footerSignupLabel",
+          "python": "footer_signup_label",
+          "definition": "models.CharField(max_length=255, blank=True, verbose_name=\"Footer signup label\", help_text=\"Sign-up button label. Defaults to Subscribe.\")",
+          "required": false
+        },
+        {
+          "name": "footerTagline",
+          "python": "footer_tagline",
+          "definition": "models.TextField(blank=True, verbose_name=\"Footer tagline\", help_text=\"Short description under the logo in the footer.\")",
+          "required": false
+        },
+        {
+          "name": "contactDetails",
+          "python": "contact_details",
+          "definition": "RichTextField(blank=True, verbose_name=\"Contact details\", help_text=\"Address, phone and email, shown in the footer's split layout.\")",
+          "required": false
+        },
+        {
           "name": "footerColumns",
           "python": "footer_columns",
           "definition": "StreamField([(\"footer_column\", FooterColumnItem())], blank=True, verbose_name=\"Footer columns\")",
+          "required": true
+        },
+        {
+          "name": "legalLinks",
+          "python": "legal_links",
+          "definition": "StreamField([(\"nav_link\", NavLinkItem())], blank=True, verbose_name=\"Legal links\", help_text=\"Privacy, terms, cookies. Shown on the footer's bottom row.\")",
           "required": true
         },
         {

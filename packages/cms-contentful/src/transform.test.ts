@@ -143,6 +143,17 @@ describe("transformSiteSettings", () => {
     expect(() => schemaFor(siteSettingsDefinition).parse(settings)).not.toThrow()
   })
 
+  it("maps a mega menu group's columns and featured card", () => {
+    expect(settings.navigation[2]).toMatchObject({
+      label: "Solutions",
+      links: [],
+      columns: [{ type: "navColumn", title: "By team", links: [{ label: "Product", href: "/solutions/product" }] }],
+      feature: [{ type: "card", title: "Cohorts are live", href: "/blog/october" }],
+    })
+    expect(settings.legalLinks).toEqual([{ id: "lg-1", type: "navLink", label: "Privacy", href: "/legal/privacy" }])
+    expect(settings.utilityLinks).toEqual([])
+  })
+
   it("defaults missing lists to []", () => {
     expect(settings.navigation[1]).toEqual(canonicalSettings.navigation[1])
     expect(settings.navigation[1]?.links).toEqual([])

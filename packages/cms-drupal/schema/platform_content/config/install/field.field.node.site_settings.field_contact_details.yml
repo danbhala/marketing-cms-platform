@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_details
+    - node.type.site_settings
+  module:
+    - text
+id: node.site_settings.field_contact_details
+field_name: field_contact_details
+entity_type: node
+bundle: site_settings
+label: Contact details
+description: 'Address, phone and email, shown in the footer''s split layout.'
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -409,6 +409,25 @@ const settingsParagraphs: JsonApiResourceObject[] = [
     { field_label: "Home", field_href: { uri: "route:<front>", title: "", options: [] } },
     { field_links: [] }
   ),
+  // A mega menu group. `columns` collides with other types' storage, so the field is prefixed.
+  paragraph(
+    "nav_group",
+    "nav-solutions",
+    507,
+    { field_label: "Solutions", field_href: null },
+    {
+      field_links: [],
+      field_nav_group_columns: [paragraphRel("nav_column", "col-1", 508)],
+      field_feature: [paragraphRel("card", "feat-1", 509)],
+    }
+  ),
+  paragraph("nav_column", "col-1", 508, { field_title: "By team" }, { field_links: [paragraphRel("nav_link", "mn-1", 604)] }),
+  paragraph("nav_link", "mn-1", 604, {
+    field_label: "Product teams",
+    field_href: internal("/solutions/product"),
+    field_description: null,
+  }),
+  paragraph("card", "feat-1", 509, { field_title: "Cohorts are live", field_href: internal("/blog/october") }),
   paragraph("action", "hdr-2", 504, {
     field_label: "Start free",
     field_href: internal("/signup"),
@@ -455,6 +474,7 @@ export const settingsNode: JsonApiResourceObject = {
         paragraphRel("nav_group", "nav-product", 501),
         paragraphRel("nav_group", "nav-pricing", 502),
         paragraphRel("nav_group", "nav-home", 503),
+        paragraphRel("nav_group", "nav-solutions", 507),
       ],
     },
     field_header_actions: { data: [paragraphRel("action", "hdr-2", 504)] },

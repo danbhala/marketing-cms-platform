@@ -212,6 +212,8 @@ describe("transformSiteSettings", () => {
       label: "Pricing",
       href: "/pricing",
       links: [],
+      columns: [],
+      feature: [],
     })
     expect(settings.headerActions[0]).toMatchObject({ variant: "ghost" })
     expect(settings.footerColumns[0]?.links.map((l) => l.href)).toEqual(["/product/dashboards", "/pricing"])

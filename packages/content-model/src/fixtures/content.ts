@@ -742,8 +742,10 @@ export const siteSettings: SiteSettings = {
           description: "Warehouses, CDPs and 60 more.",
         },
       ],
+      columns: [],
+      feature: [],
     },
-    { id: "nav-pricing", type: "navGroup", label: "Pricing", href: "/pricing", links: [] },
+    { id: "nav-pricing", type: "navGroup", label: "Pricing", href: "/pricing", links: [], columns: [], feature: [] },
     {
       id: "nav-resources",
       type: "navGroup",
@@ -753,13 +755,17 @@ export const siteSettings: SiteSettings = {
         { id: "nav-5", type: "navLink", label: "Docs", href: "/docs" },
         { id: "nav-6", type: "navLink", label: "Changelog", href: "/changelog" },
       ],
+      columns: [],
+      feature: [],
     },
-    { id: "nav-about", type: "navGroup", label: "About", href: "/about", links: [] },
+    { id: "nav-about", type: "navGroup", label: "About", href: "/about", links: [], columns: [], feature: [] },
   ],
   headerActions: [
     { id: "hdr-1", type: "action", label: "Sign in", href: "/login", variant: "ghost" },
     { id: "hdr-2", type: "action", label: "Start free", href: "/signup", variant: "default" },
   ],
+  utilityLinks: [],
+  footerActions: [],
   footerColumns: [
     {
       id: "fc-1",
@@ -802,11 +808,98 @@ export const siteSettings: SiteSettings = {
       ],
     },
   ],
+  legalLinks: [],
   footerNote: "© 2026 Metrica, Inc. All rights reserved.",
   socialLinks: [
     { id: "soc-1", type: "socialLink", platform: "x", href: "https://x.com/example" },
     { id: "soc-2", type: "socialLink", platform: "linkedin", href: "https://linkedin.com/company/example" },
     { id: "soc-3", type: "socialLink", platform: "github", href: "https://github.com/example" },
+  ],
+}
+
+const link = (id: string, label: string, href: string, description?: string) => ({
+  id,
+  type: "navLink" as const,
+  label,
+  href,
+  ...(description ? { description } : {}),
+})
+
+/**
+ * Site settings with every header and footer option filled in: a mega menu
+ * (titled columns and a featured card), utility links, the footer band with
+ * an email sign-up, a tagline, contact details and legal links.
+ */
+export const siteSettingsFull: SiteSettings = {
+  ...siteSettings,
+  navigation: [
+    {
+      id: "nav-product",
+      type: "navGroup",
+      label: "Product",
+      links: [],
+      columns: [
+        {
+          id: "col-analyse",
+          type: "navColumn",
+          title: "Analyse",
+          links: [
+            link("mn-1", "Dashboards", "/product/dashboards", "Real-time and shareable."),
+            link("mn-2", "Funnels", "/product/funnels", "Versioned, so last quarter still adds up."),
+            link("mn-3", "Cohorts", "/product/cohorts", "Retention by signup week."),
+          ],
+        },
+        {
+          id: "col-act",
+          type: "navColumn",
+          title: "Act",
+          links: [
+            link("mn-4", "Alerts", "/product/alerts", "Slack or email when a metric moves."),
+            link("mn-5", "Experiments", "/product/experiments", "Read A/B results without a stats degree."),
+          ],
+        },
+        {
+          id: "col-connect",
+          type: "navColumn",
+          title: "Connect",
+          links: [
+            link("mn-6", "Integrations", "/integrations", "Warehouses, CDPs and 60 more."),
+            link("mn-7", "API", "/docs/api"),
+            link("mn-8", "Security", "/security"),
+          ],
+        },
+      ],
+      feature: [
+        {
+          id: "feat-1",
+          type: "card",
+          eyebrow: "New",
+          title: "Cohorts and alerts are live",
+          excerpt: "What shipped in the October release.",
+          image: placeholderPhoto(640, 400, "October release", 210),
+          href: "/blog/october",
+        },
+      ],
+    },
+    ...siteSettings.navigation.slice(1),
+  ],
+  utilityLinks: [
+    link("ut-1", "Contact sales", "/contact"),
+    link("ut-2", "Status", "https://status.example.com"),
+    link("ut-3", "Sign in", "/login"),
+  ],
+  footerHeading: "Product notes, once a month",
+  footerText: "What shipped, what we learned, and nothing else. Unsubscribe in one click.",
+  footerActions: [],
+  footerSignupEndpoint: "/api/newsletter",
+  footerSignupLabel: "Subscribe",
+  footerTagline: "Privacy-first product analytics for teams who would rather ship than configure.",
+  contactDetails: richTextFromParagraphs("Metrica, Inc.", "12 Harbour Street, Dublin D02 X285", "hello@metrica.example"),
+  footerColumns: siteSettings.footerColumns.slice(0, 3),
+  legalLinks: [
+    link("lg-1", "Privacy", "/legal/privacy"),
+    link("lg-2", "Terms", "/legal/terms"),
+    link("lg-3", "Cookies", "/legal/cookies"),
   ],
 }
 
