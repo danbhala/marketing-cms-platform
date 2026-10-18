@@ -22,12 +22,17 @@ function LogoItem({ item, grayscale, className, ...props }: LogoItemProps) {
       radius="none"
       className={cn(
         "h-8 w-auto max-w-32 bg-transparent object-contain section-sm:h-10",
-        grayscale && "opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0",
+        grayscale && "opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
       )}
     />
   )
   return (
-    <div data-slot="logo-item" className={cn("flex items-center justify-center", className)} {...editAttrs(item)} {...props}>
+    <div
+      data-slot="logo-item"
+      className={cn("flex items-center justify-center", className)}
+      {...editAttrs(item)}
+      {...props}
+    >
       {item.href ? (
         <Link href={item.href} variant="unstyled" aria-label={item.name}>
           {img}

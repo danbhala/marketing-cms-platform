@@ -40,7 +40,12 @@ export function readEditorToken(params: URLSearchParams): EditorToken | null {
   return spaceId && timestamp && token ? { spaceId, timestamp, token } : null
 }
 
-export function verifyEditorToken(editor: EditorToken, previewToken: string, spaceId?: string, nowSeconds = Math.floor(Date.now() / 1000)): boolean {
+export function verifyEditorToken(
+  editor: EditorToken,
+  previewToken: string,
+  spaceId?: string,
+  nowSeconds = Math.floor(Date.now() / 1000)
+): boolean {
   if (!previewToken) return false
   if (spaceId && editor.spaceId !== spaceId) return false
   const issued = Number(editor.timestamp)
@@ -57,12 +62,16 @@ export function safeEqual(a: string, b: string): boolean {
 
 /** Only on-site, absolute paths: never a protocol-relative or full URL from the query. */
 export function safePath(input: string | null | undefined): string | null {
-  if (!input || !input.startsWith("/") || input.startsWith("//") || input.includes("://") || input.includes("\\")) return null
+  if (!input || !input.startsWith("/") || input.startsWith("//") || input.includes("://") || input.includes("\\"))
+    return null
   return normalizePath(input)
 }
 
 /** Story id → site path via the draft API; falls back to a safe `path` param. */
-export async function resolvePreviewPath(searchParams: URLSearchParams, options: Pick<PreviewOptions, "api" | "homeSlug">): Promise<string | null> {
+export async function resolvePreviewPath(
+  searchParams: URLSearchParams,
+  options: Pick<PreviewOptions, "api" | "homeSlug">
+): Promise<string | null> {
   const storyId = searchParams.get("_storyblok")
   if (storyId && /^\d+$/.test(storyId)) {
     const story = await options.api().getStory(storyId, { version: "draft" })

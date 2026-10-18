@@ -53,7 +53,9 @@ function DefaultImage({ media, fill, sizes, priority, className, style, ...props
       fetchPriority={priority ? "high" : undefined}
       decoding="async"
       className={className}
-      style={fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", ...style } : style}
+      style={
+        fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", ...style } : style
+      }
       {...props}
     />
   )

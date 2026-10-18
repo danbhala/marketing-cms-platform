@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
 await new Promise((r) => server.once("listening", r))
 const port = server.address().port
 
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" })
+const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH })
 for (const spec of ids) {
   // spec: id[@width][#theme]
   const m = spec.match(/^([^@#]+)(?:@(\d+))?(?:#(.+))?$/)

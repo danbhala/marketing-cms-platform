@@ -58,7 +58,13 @@ function useReveal() {
  * that need it, such as the gallery lightbox; a nested root with fewer
  * features does not take them away again.
  */
-function MotionRoot({ children, features = "animation" }: { children: React.ReactNode; features?: "animation" | "max" }) {
+function MotionRoot({
+  children,
+  features = "animation",
+}: {
+  children: React.ReactNode
+  features?: "animation" | "max"
+}) {
   return (
     <LazyMotion features={features === "max" ? domMax : domAnimation} strict>
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
@@ -73,16 +79,8 @@ export interface RevealProps extends PlainProps {
   as?: "section" | "div"
 }
 
-function Reveal({
-  animation,
-  as = "section",
-  children,
-  ...props
-}: RevealProps) {
-  const { root, item } = React.useMemo(
-    () => revealVariants(animation),
-    [animation]
-  )
+function Reveal({ animation, as = "section", children, ...props }: RevealProps) {
+  const { root, item } = React.useMemo(() => revealVariants(animation), [animation])
   const motionProps = {
     initial: "hidden",
     whileInView: "visible",
@@ -98,10 +96,7 @@ function Reveal({
             {children}
           </m.div>
         ) : (
-          <m.section
-            {...motionProps}
-            {...(props as HTMLMotionProps<"section">)}
-          >
+          <m.section {...motionProps} {...(props as HTMLMotionProps<"section">)}>
             {children}
           </m.section>
         )}

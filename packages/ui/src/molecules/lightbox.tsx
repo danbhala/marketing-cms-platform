@@ -42,7 +42,7 @@ function Lightbox({ items, index, onIndexChange, label, labels }: LightboxProps)
       if (index === null) return
       onIndexChange((index + direction + count) % count)
     },
-    [index, count, onIndexChange],
+    [index, count, onIndexChange]
   )
   const onKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "ArrowRight") step(1)
@@ -59,8 +59,12 @@ function Lightbox({ items, index, onIndexChange, label, labels }: LightboxProps)
       >
         <DialogTitle className="sr-only">{label}</DialogTitle>
         <div className="flex items-center justify-between gap-4 px-4 py-3">
-          <DialogDescription className="text-sm text-white/80">{current ? counter(index!, count) : null}</DialogDescription>
-          <DialogClose render={<Button variant="ghost" size="icon" className="text-white hover:bg-white/15 hover:text-white" />}>
+          <DialogDescription className="text-sm text-white/80">
+            {current ? counter(index!, count) : null}
+          </DialogDescription>
+          <DialogClose
+            render={<Button variant="ghost" size="icon" className="text-white hover:bg-white/15 hover:text-white" />}
+          >
             <XIcon />
             <span className="sr-only">{labels?.close ?? "Close"}</span>
           </DialogClose>
@@ -70,7 +74,13 @@ function Lightbox({ items, index, onIndexChange, label, labels }: LightboxProps)
             <Swipeable key={current.id} onSwipe={step} className="flex max-h-full w-full items-center justify-center">
               <SharedLayout id={current.id} className="flex max-h-full max-w-full items-center justify-center">
                 {current.media.kind === "video" ? (
-                  <video src={current.media.url} controls playsInline className="max-h-[calc(100dvh-8rem)] max-w-full rounded-md" aria-label={galleryAlt(current, index!)} />
+                  <video
+                    src={current.media.url}
+                    controls
+                    playsInline
+                    className="max-h-[calc(100dvh-8rem)] max-w-full rounded-md"
+                    aria-label={galleryAlt(current, index!)}
+                  />
                 ) : (
                   <Image
                     media={{ ...current.media, alt: galleryAlt(current, index!) }}
@@ -85,16 +95,31 @@ function Lightbox({ items, index, onIndexChange, label, labels }: LightboxProps)
           ) : null}
           {count > 1 ? (
             <>
-              <Button variant="ghost" size="icon-lg" onClick={() => step(-1)} aria-label={labels?.previous ?? "Previous"} className="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-black/40 text-white hover:bg-white/20 hover:text-white">
+              <Button
+                variant="ghost"
+                size="icon-lg"
+                onClick={() => step(-1)}
+                aria-label={labels?.previous ?? "Previous"}
+                className="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-black/40 text-white hover:bg-white/20 hover:text-white"
+              >
                 <ChevronLeftIcon />
               </Button>
-              <Button variant="ghost" size="icon-lg" onClick={() => step(1)} aria-label={labels?.next ?? "Next"} className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-black/40 text-white hover:bg-white/20 hover:text-white">
+              <Button
+                variant="ghost"
+                size="icon-lg"
+                onClick={() => step(1)}
+                aria-label={labels?.next ?? "Next"}
+                className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-black/40 text-white hover:bg-white/20 hover:text-white"
+              >
                 <ChevronRightIcon />
               </Button>
             </>
           ) : null}
         </div>
-        <p className={cn("min-h-12 px-4 py-3 text-center text-sm text-white/80", !current?.caption && "invisible")} aria-live="polite">
+        <p
+          className={cn("min-h-12 px-4 py-3 text-center text-sm text-white/80", !current?.caption && "invisible")}
+          aria-live="polite"
+        >
           {current?.caption ?? " "}
         </p>
       </DialogContent>

@@ -39,7 +39,11 @@ function CountUp({ value, duration = "normal", delay = "none", locale, className
   const reduced = useReducedMotion()
   // The server and the hydration pass render the final value; from then on
   // the number starts at zero and counts once in view.
-  const hydrated = React.useSyncExternalStore(subscribeNever, () => true, () => false)
+  const hydrated = React.useSyncExternalStore(
+    subscribeNever,
+    () => true,
+    () => false
+  )
   const [counted, setCounted] = React.useState<string | null>(null)
   const live = Boolean(parsed) && !reduced && hydrated
 

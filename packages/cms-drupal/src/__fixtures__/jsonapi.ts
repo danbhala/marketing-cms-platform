@@ -19,7 +19,11 @@ export const HOME_NID = 1
 export const PRICING_NID = 2
 export const SETTINGS_NID = 3
 
-const rel = (type: string, id: string, meta?: Record<string, unknown>): JsonApiRelationship => ({ type, id, ...(meta ? { meta } : {}) })
+const rel = (type: string, id: string, meta?: Record<string, unknown>): JsonApiRelationship => ({
+  type,
+  id,
+  ...(meta ? { meta } : {}),
+})
 
 const paragraphRel = (bundle: string, uuid: string, internalId: number) =>
   rel(`paragraph--${bundle}`, uuid, { target_revision_id: internalId * 10, drupal_internal__target_id: internalId })
@@ -29,7 +33,7 @@ const paragraph = (
   uuid: string,
   internalId: number,
   attributes: Record<string, unknown>,
-  relationships: Record<string, JsonApiRelationship | JsonApiRelationship[] | null> = {},
+  relationships: Record<string, JsonApiRelationship | JsonApiRelationship[] | null> = {}
 ): JsonApiResourceObject => ({
   type: `paragraph--${bundle}`,
   id: uuid,
@@ -58,7 +62,9 @@ const screenshotIncluded: JsonApiResourceObject[] = [
     id: "m-image-1",
     attributes: { drupal_internal__mid: 11, name: "Product screenshot", status: true, langcode: "en" },
     relationships: {
-      field_media_image: { data: rel("file--file", "f-image-1", { alt: "Product screenshot", title: "", width: 1200, height: 800 }) },
+      field_media_image: {
+        data: rel("file--file", "f-image-1", { alt: "Product screenshot", title: "", width: 1200, height: 800 }),
+      },
       thumbnail: { data: rel("file--file", "f-image-1", { alt: "Product screenshot", width: 1200, height: 800 }) },
     },
   },
@@ -68,7 +74,10 @@ const screenshotIncluded: JsonApiResourceObject[] = [
     attributes: {
       drupal_internal__fid: 21,
       filename: "product-screenshot.png",
-      uri: { value: "public://2026-10/product-screenshot.png", url: "/sites/default/files/2026-10/product-screenshot.png" },
+      uri: {
+        value: "public://2026-10/product-screenshot.png",
+        url: "/sites/default/files/2026-10/product-screenshot.png",
+      },
       filemime: "image/png",
       filesize: 48213,
       status: true,
@@ -83,7 +92,9 @@ const walkthroughIncluded: JsonApiResourceObject[] = [
     type: "media--video",
     id: "m-video-1",
     attributes: { drupal_internal__mid: 12, name: "Funnel walkthrough", status: true, langcode: "en" },
-    relationships: { field_media_video_file: { data: rel("file--file", "f-video-1", { display: true, description: "" }) } },
+    relationships: {
+      field_media_video_file: { data: rel("file--file", "f-video-1", { display: true, description: "" }) },
+    },
   },
   {
     type: "file--file",
@@ -91,7 +102,10 @@ const walkthroughIncluded: JsonApiResourceObject[] = [
     attributes: {
       drupal_internal__fid: 22,
       filename: "funnel-walkthrough.mp4",
-      uri: { value: "public://2026-10/funnel-walkthrough.mp4", url: "/sites/default/files/2026-10/funnel-walkthrough.mp4" },
+      uri: {
+        value: "public://2026-10/funnel-walkthrough.mp4",
+        url: "/sites/default/files/2026-10/funnel-walkthrough.mp4",
+      },
       filemime: "video/mp4",
       filesize: 9031211,
       status: true,
@@ -143,10 +157,20 @@ const homeParagraphs: JsonApiResourceObject[] = [
     {
       field_hero_actions: [paragraphRel("action", "act-1", 201), paragraphRel("action", "act-2", 202)],
       field_media: screenshotMedia,
-    },
+    }
   ),
-  paragraph("action", "act-1", 201, { field_label: "Start free trial", field_href: internal("/signup"), field_variant: "default", field_icon: null }),
-  paragraph("action", "act-2", 202, { field_label: "Book a demo", field_href: internal("/demo"), field_variant: "outline", field_icon: "" }),
+  paragraph("action", "act-1", 201, {
+    field_label: "Start free trial",
+    field_href: internal("/signup"),
+    field_variant: "default",
+    field_icon: null,
+  }),
+  paragraph("action", "act-2", 202, {
+    field_label: "Book a demo",
+    field_href: internal("/demo"),
+    field_variant: "outline",
+    field_icon: "",
+  }),
   paragraph(
     "feature_split",
     "blk-split",
@@ -155,7 +179,7 @@ const homeParagraphs: JsonApiResourceObject[] = [
       field_eyebrow: "Funnels",
       field_title: "Versioned funnels you can trust",
       field_body: text(
-        "<p>Change a step, rename an event or add a filter and the old version stays put. Compare them side by side and see exactly what moved.</p>",
+        "<p>Change a step, rename an event or add a filter and the old version stays put. Compare them side by side and see exactly what moved.</p>"
       ),
       field_bullets: ["Compare any two versions", "Annotate changes for your team", "Export to your warehouse"],
       field_media_position: "right",
@@ -163,9 +187,14 @@ const homeParagraphs: JsonApiResourceObject[] = [
       field_spacing: null,
       field_anchor: null,
     },
-    { field_feature_split_actions: [paragraphRel("action", "act-3", 203)], field_media: walkthroughMedia },
+    { field_feature_split_actions: [paragraphRel("action", "act-3", 203)], field_media: walkthroughMedia }
   ),
-  paragraph("action", "act-3", 203, { field_label: "View documentation", field_href: { uri: "entity:node/7", title: "Docs", options: [] }, field_variant: "link", field_icon: "arrow-right" }),
+  paragraph("action", "act-3", 203, {
+    field_label: "View documentation",
+    field_href: { uri: "entity:node/7", title: "Docs", options: [] },
+    field_variant: "link",
+    field_icon: "arrow-right",
+  }),
   paragraph(
     "pricing",
     "blk-pricing",
@@ -178,7 +207,7 @@ const homeParagraphs: JsonApiResourceObject[] = [
       field_spacing: null,
       field_anchor: "pricing",
     },
-    { field_plans: [paragraphRel("pricing_plan", "plan-1", 301), paragraphRel("pricing_plan", "plan-2", 302)] },
+    { field_plans: [paragraphRel("pricing_plan", "plan-1", 301), paragraphRel("pricing_plan", "plan-2", 302)] }
   ),
   paragraph(
     "pricing_plan",
@@ -193,9 +222,14 @@ const homeParagraphs: JsonApiResourceObject[] = [
       field_highlighted: false,
       field_badge: null,
     },
-    { field_action: [paragraphRel("action", "plan-1-act", 303)] },
+    { field_action: [paragraphRel("action", "plan-1-act", 303)] }
   ),
-  paragraph("action", "plan-1-act", 303, { field_label: "Get started", field_href: internal("/signup"), field_variant: "outline", field_icon: null }),
+  paragraph("action", "plan-1-act", 303, {
+    field_label: "Get started",
+    field_href: internal("/signup"),
+    field_variant: "outline",
+    field_icon: null,
+  }),
   paragraph(
     "pricing_plan",
     "plan-2",
@@ -209,24 +243,43 @@ const homeParagraphs: JsonApiResourceObject[] = [
       field_highlighted: true,
       field_badge: "Most popular",
     },
-    { field_action: [paragraphRel("action", "plan-2-act", 304)] },
+    { field_action: [paragraphRel("action", "plan-2-act", 304)] }
   ),
-  paragraph("action", "plan-2-act", 304, { field_label: "Start free trial", field_href: internal("/signup?plan=growth"), field_variant: "default", field_icon: null }),
+  paragraph("action", "plan-2-act", 304, {
+    field_label: "Start free trial",
+    field_href: internal("/signup?plan=growth"),
+    field_variant: "default",
+    field_icon: null,
+  }),
   paragraph(
     "faq",
     "blk-faq",
     104,
-    { field_eyebrow: "FAQ", field_title: "Frequently asked questions", field_description: null, field_faq_layout: "split", field_theme: null, field_spacing: null, field_anchor: null },
-    { field_items: [paragraphRel("faq_item", "faq-1", 401), paragraphRel("faq_item", "faq-hidden", 402)] },
+    {
+      field_eyebrow: "FAQ",
+      field_title: "Frequently asked questions",
+      field_description: null,
+      field_faq_layout: "split",
+      field_theme: null,
+      field_spacing: null,
+      field_anchor: null,
+    },
+    { field_items: [paragraphRel("faq_item", "faq-1", 401), paragraphRel("faq_item", "faq-hidden", 402)] }
   ),
   paragraph("faq_item", "faq-1", 401, {
     field_question: "Do I need a cookie banner?",
     field_answer: text(
-      "<p>No. Collection is anonymous by design and stores nothing on the visitor&#039;s device, so no consent prompt is required in the EU or UK.</p>",
+      "<p>No. Collection is anonymous by design and stores nothing on the visitor&#039;s device, so no consent prompt is required in the EU or UK.</p>"
     ),
   }),
   // faq-hidden is referenced but unpublished, so Drupal leaves it out of `included`.
-  paragraph("rich_text", "blk-richtext", 105, { field_body: text(richTextHtml, "full_html"), field_rich_text_width: "prose", field_theme: null, field_spacing: null, field_anchor: null }),
+  paragraph("rich_text", "blk-richtext", 105, {
+    field_body: text(richTextHtml, "full_html"),
+    field_rich_text_width: "prose",
+    field_theme: null,
+    field_spacing: null,
+    field_anchor: null,
+  }),
   paragraph(
     "cta",
     "blk-cta",
@@ -240,13 +293,29 @@ const homeParagraphs: JsonApiResourceObject[] = [
       field_spacing: null,
       field_anchor: null,
     },
-    { field_cta_actions: [paragraphRel("action", "act-1b", 205), paragraphRel("action", "act-4", 206)] },
+    { field_cta_actions: [paragraphRel("action", "act-1b", 205), paragraphRel("action", "act-4", 206)] }
   ),
-  paragraph("action", "act-1b", 205, { field_label: "Start free trial", field_href: internal("/signup"), field_variant: "default", field_icon: null }),
-  paragraph("action", "act-4", 206, { field_label: "Talk to sales", field_href: { uri: "mailto:sales@example.com", title: "", options: [] }, field_variant: "secondary", field_icon: null }),
+  paragraph("action", "act-1b", 205, {
+    field_label: "Start free trial",
+    field_href: internal("/signup"),
+    field_variant: "default",
+    field_icon: null,
+  }),
+  paragraph("action", "act-4", 206, {
+    field_label: "Talk to sales",
+    field_href: { uri: "mailto:sales@example.com", title: "", options: [] },
+    field_variant: "secondary",
+    field_icon: null,
+  }),
 ]
 
-const pageNode = (uuid: string, nid: number, alias: string, attributes: Record<string, unknown>, blocks: JsonApiRelationship[]): JsonApiResourceObject => ({
+const pageNode = (
+  uuid: string,
+  nid: number,
+  alias: string,
+  attributes: Record<string, unknown>,
+  blocks: JsonApiRelationship[]
+): JsonApiResourceObject => ({
   type: "node--page",
   id: uuid,
   attributes: {
@@ -289,14 +358,20 @@ export const homeDocument: JsonApiDocument = {
       paragraphRel("faq", "blk-faq", 104),
       paragraphRel("rich_text", "blk-richtext", 105),
       paragraphRel("cta", "blk-cta", 106),
-    ],
+    ]
   ),
   included: [...homeParagraphs, ...screenshotIncluded, ...walkthroughIncluded],
   links: { self: { href: `${BASE_URL}/jsonapi/node/page/${HOME_UUID}` } },
 }
 
 export const pricingDocument: JsonApiDocument = {
-  data: pageNode(PRICING_UUID, PRICING_NID, "/pricing", { title: "Pricing", field_no_index: true, field_theme: "muted" }, []),
+  data: pageNode(
+    PRICING_UUID,
+    PRICING_NID,
+    "/pricing",
+    { title: "Pricing", field_no_index: true, field_theme: "muted" },
+    []
+  ),
   included: [],
 }
 
@@ -306,16 +381,54 @@ const settingsParagraphs: JsonApiResourceObject[] = [
     "nav-product",
     501,
     { field_label: "Product", field_href: { uri: "route:<nolink>", title: "", options: [] } },
-    { field_links: [paragraphRel("nav_link", "nav-1", 601), paragraphRel("nav_link", "nav-2", 602)] },
+    { field_links: [paragraphRel("nav_link", "nav-1", 601), paragraphRel("nav_link", "nav-2", 602)] }
   ),
-  paragraph("nav_link", "nav-1", 601, { field_label: "Dashboards", field_href: internal("/product/dashboards"), field_description: "Real-time, shareable, boring in the best way." }),
-  paragraph("nav_link", "nav-2", 602, { field_label: "Funnels", field_href: internal("/product/funnels"), field_description: null }),
-  paragraph("nav_group", "nav-pricing", 502, { field_label: "Pricing", field_href: internal("/pricing") }, { field_links: [] }),
-  paragraph("nav_group", "nav-home", 503, { field_label: "Home", field_href: { uri: "route:<front>", title: "", options: [] } }, { field_links: [] }),
-  paragraph("action", "hdr-2", 504, { field_label: "Start free", field_href: internal("/signup"), field_variant: "default", field_icon: null }),
-  paragraph("footer_column", "fc-1", 505, { field_title: "Product" }, { field_links: [paragraphRel("nav_link", "fl-9", 603)] }),
-  paragraph("nav_link", "fl-9", 603, { field_label: "Status", field_href: { uri: "https://status.example.com", title: "", options: [] }, field_description: null }),
-  paragraph("social_link", "soc-1", 506, { field_platform: "x", field_href: { uri: "https://x.com/example", title: "", options: [] } }),
+  paragraph("nav_link", "nav-1", 601, {
+    field_label: "Dashboards",
+    field_href: internal("/product/dashboards"),
+    field_description: "Real-time, shareable, boring in the best way.",
+  }),
+  paragraph("nav_link", "nav-2", 602, {
+    field_label: "Funnels",
+    field_href: internal("/product/funnels"),
+    field_description: null,
+  }),
+  paragraph(
+    "nav_group",
+    "nav-pricing",
+    502,
+    { field_label: "Pricing", field_href: internal("/pricing") },
+    { field_links: [] }
+  ),
+  paragraph(
+    "nav_group",
+    "nav-home",
+    503,
+    { field_label: "Home", field_href: { uri: "route:<front>", title: "", options: [] } },
+    { field_links: [] }
+  ),
+  paragraph("action", "hdr-2", 504, {
+    field_label: "Start free",
+    field_href: internal("/signup"),
+    field_variant: "default",
+    field_icon: null,
+  }),
+  paragraph(
+    "footer_column",
+    "fc-1",
+    505,
+    { field_title: "Product" },
+    { field_links: [paragraphRel("nav_link", "fl-9", 603)] }
+  ),
+  paragraph("nav_link", "fl-9", 603, {
+    field_label: "Status",
+    field_href: { uri: "https://status.example.com", title: "", options: [] },
+    field_description: null,
+  }),
+  paragraph("social_link", "soc-1", 506, {
+    field_platform: "x",
+    field_href: { uri: "https://x.com/example", title: "", options: [] },
+  }),
 ]
 
 export const settingsNode: JsonApiResourceObject = {
@@ -335,7 +448,13 @@ export const settingsNode: JsonApiResourceObject = {
   },
   relationships: {
     field_logo: { data: null },
-    field_navigation: { data: [paragraphRel("nav_group", "nav-product", 501), paragraphRel("nav_group", "nav-pricing", 502), paragraphRel("nav_group", "nav-home", 503)] },
+    field_navigation: {
+      data: [
+        paragraphRel("nav_group", "nav-product", 501),
+        paragraphRel("nav_group", "nav-pricing", 502),
+        paragraphRel("nav_group", "nav-home", 503),
+      ],
+    },
     field_header_actions: { data: [paragraphRel("action", "hdr-2", 504)] },
     field_footer_columns: { data: [paragraphRel("footer_column", "fc-1", 505)] },
     field_social_links: { data: [paragraphRel("social_link", "soc-1", 506)] },
@@ -348,9 +467,21 @@ export const settingsDocument: JsonApiDocument = { data: settingsNode, included:
 /** `GET /jsonapi/node/page?fields[node--page]=path,status&filter[status]=1` */
 export const pageCollection: JsonApiDocument = {
   data: [
-    { type: "node--page", id: HOME_UUID, attributes: { status: true, path: { alias: "/home", pid: 1, langcode: "en" } } },
-    { type: "node--page", id: PRICING_UUID, attributes: { status: true, path: { alias: "/pricing", pid: 2, langcode: "en" } } },
-    { type: "node--page", id: "no-alias", attributes: { status: true, path: { alias: null, pid: null, langcode: "en" } } },
+    {
+      type: "node--page",
+      id: HOME_UUID,
+      attributes: { status: true, path: { alias: "/home", pid: 1, langcode: "en" } },
+    },
+    {
+      type: "node--page",
+      id: PRICING_UUID,
+      attributes: { status: true, path: { alias: "/pricing", pid: 2, langcode: "en" } },
+    },
+    {
+      type: "node--page",
+      id: "no-alias",
+      attributes: { status: true, path: { alias: null, pid: null, langcode: "en" } },
+    },
   ],
   included: [],
 }

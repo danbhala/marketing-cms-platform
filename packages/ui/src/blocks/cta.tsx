@@ -26,7 +26,9 @@ function Cta({ block, index, className, ...props }: CtaProps) {
           className={cn(
             themeClassName(block.theme),
             "rounded-2xl border bg-card px-6 py-12 text-card-foreground section-sm:px-12 section-sm:py-16",
-            split ? "flex flex-col gap-8 section-lg:flex-row section-lg:items-center section-lg:justify-between" : "flex flex-col items-center gap-8 text-center",
+            split
+              ? "flex flex-col gap-8 section-lg:flex-row section-lg:items-center section-lg:justify-between"
+              : "flex flex-col items-center gap-8 text-center"
           )}
         >
           <Stack gap="sm" align={split ? "start" : "center"} className="max-w-(--container-md)">
@@ -36,7 +38,12 @@ function Cta({ block, index, className, ...props }: CtaProps) {
               </BlockItem>
             ) : null}
             <BlockItem block={block}>
-              <Heading as={index === 0 ? "h1" : "h2"} size="h2" animation={headingAnimationSettings(block)} {...fieldAttrs(block, "title")}>
+              <Heading
+                as={index === 0 ? "h1" : "h2"}
+                size="h2"
+                animation={headingAnimationSettings(block)}
+                {...fieldAttrs(block, "title")}
+              >
                 {block.title}
               </Heading>
             </BlockItem>
@@ -49,7 +56,12 @@ function Cta({ block, index, className, ...props }: CtaProps) {
             ) : null}
           </Stack>
           <BlockItem block={block} as="div" className="shrink-0">
-            <ActionGroup actions={block.actions} align={split ? "end" : "center"} stackOnMobile {...fieldAttrs(block, "actions")} />
+            <ActionGroup
+              actions={block.actions}
+              align={split ? "end" : "center"}
+              stackOnMobile
+              {...fieldAttrs(block, "actions")}
+            />
           </BlockItem>
         </div>
       </Container>

@@ -15,7 +15,8 @@ describe("sanity schema generator", () => {
     for (const def of [...allItems, ...allBlocks]) expect(byName.get(def.type)?.type).toBe("object")
     for (const def of allDocuments) expect(byName.get(def.type)?.type).toBe("document")
     expect(new Set(types.map((t) => t.name)).size).toBe(types.length)
-    for (const shared of ["imageWithAlt", "videoWithAlt", "anyMedia", "codeBlock", "portableText"]) expect(byName.has(shared)).toBe(true)
+    for (const shared of ["imageWithAlt", "videoWithAlt", "anyMedia", "codeBlock", "portableText"])
+      expect(byName.has(shared)).toBe(true)
   })
 
   it("marks required fields and carries min/max onto arrays", () => {
@@ -26,7 +27,10 @@ describe("sanity schema generator", () => {
     expect(field("actions")).toMatchObject({ type: "array", of: [{ type: "action" }], validation: { max: 3 } })
     expect(field("media").type).toBe("anyMedia")
     expect(field("layout")).toMatchObject({ type: "string", initialValue: "centered" })
-    expect(field("theme").options).toEqual({ list: themeNames.map((value) => ({ title: expect.any(String), value })), layout: "dropdown" })
+    expect(field("theme").options).toEqual({
+      list: themeNames.map((value) => ({ title: expect.any(String), value })),
+      layout: "dropdown",
+    })
 
     const logo = byName.get("logo")!.fields!.find((f) => f.name === "image")!
     expect(logo).toMatchObject({ type: "imageWithAlt", validation: { required: true } })
@@ -47,9 +51,18 @@ describe("sanity schema generator", () => {
     const plan = byName.get("pricingPlan")!
     expect(plan.fields!.find((f) => f.name === "features")).toMatchObject({ type: "array", of: [{ type: "string" }] })
     expect(plan.fields!.find((f) => f.name === "highlighted")).toMatchObject({ type: "boolean" })
-    expect(byName.get("action")!.fields!.find((f) => f.name === "href")).toMatchObject({ type: "url", validation: { required: true, allowRelative: true } })
-    expect(byName.get("faqItem")!.fields!.find((f) => f.name === "answer")).toMatchObject({ type: "portableText", validation: { required: true } })
-    expect(byName.get("featureItem")!.fields!.find((f) => f.name === "description")).toMatchObject({ type: "text", rows: 3 })
+    expect(byName.get("action")!.fields!.find((f) => f.name === "href")).toMatchObject({
+      type: "url",
+      validation: { required: true, allowRelative: true },
+    })
+    expect(byName.get("faqItem")!.fields!.find((f) => f.name === "answer")).toMatchObject({
+      type: "portableText",
+      validation: { required: true },
+    })
+    expect(byName.get("featureItem")!.fields!.find((f) => f.name === "description")).toMatchObject({
+      type: "text",
+      rows: 3,
+    })
   })
 
   it("renders a TS module with validation functions and matches the checked-in output", () => {
@@ -66,6 +79,11 @@ describe("sanity schema generator", () => {
   })
 
   it("keeps a stable snapshot of the type names and their fields", () => {
-    expect(types.map((t) => `${t.type} ${t.name}: ${(t.fields ?? []).map((f) => `${f.name}:${f.type}${f.validation?.required ? "!" : ""}`).join(" ")}`)).toMatchSnapshot()
+    expect(
+      types.map(
+        (t) =>
+          `${t.type} ${t.name}: ${(t.fields ?? []).map((f) => `${f.name}:${f.type}${f.validation?.required ? "!" : ""}`).join(" ")}`
+      )
+    ).toMatchSnapshot()
   })
 })

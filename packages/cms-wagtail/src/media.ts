@@ -55,7 +55,11 @@ export function mediaToCanonical(value: unknown, baseUrl: string): Media | null 
   return imageToMedia(record, baseUrl)
 }
 
-export function imageToMedia(image: WagtailImageData & { full_url?: string | null }, baseUrl: string, alt?: string): Media | null {
+export function imageToMedia(
+  image: WagtailImageData & { full_url?: string | null },
+  baseUrl: string,
+  alt?: string
+): Media | null {
   const url = image.full_url || image.url || image.download_url || image.meta?.download_url
   if (!url) return null
   const width = Number(image.width)

@@ -29,7 +29,7 @@ describe("schema generator", () => {
 
   it("keys pages by a unique absolute path", () => {
     expect(fieldOf("page", "path")?.validations).toEqual(
-      expect.arrayContaining([{ unique: true }, expect.objectContaining({ regexp: { pattern: "^/" } })]),
+      expect.arrayContaining([{ unique: true }, expect.objectContaining({ regexp: { pattern: "^/" } })])
     )
   })
 
@@ -39,8 +39,14 @@ describe("schema generator", () => {
       required: false,
       items: { type: "Link", linkType: "Entry", validations: [{ linkContentType: allBlocks.map((b) => b.type) }] },
     })
-    expect(fieldOf("hero", "actions")).toMatchObject({ items: { validations: [{ linkContentType: ["action"] }] }, validations: [{ size: { max: 3 } }] })
-    expect(fieldOf("navGroup", "links")?.items).toMatchObject({ linkType: "Entry", validations: [{ linkContentType: ["navLink"] }] })
+    expect(fieldOf("hero", "actions")).toMatchObject({
+      items: { validations: [{ linkContentType: ["action"] }] },
+      validations: [{ size: { max: 3 } }],
+    })
+    expect(fieldOf("navGroup", "links")?.items).toMatchObject({
+      linkType: "Entry",
+      validations: [{ linkContentType: ["navLink"] }],
+    })
   })
 
   it("maps selects, media, text lists and rich text", () => {
@@ -52,7 +58,12 @@ describe("schema generator", () => {
     })
     expect(fieldOf("formField", "inputType")).toMatchObject({ required: true, defaultValue: { "en-US": "text" } })
     expect(fieldOf("hero", "media")).toMatchObject({ type: "Link", linkType: "Asset", validations: [] })
-    expect(fieldOf("logo", "image")).toMatchObject({ type: "Link", linkType: "Asset", required: true, validations: [{ linkMimetypeGroup: ["image"] }] })
+    expect(fieldOf("logo", "image")).toMatchObject({
+      type: "Link",
+      linkType: "Asset",
+      required: true,
+      validations: [{ linkMimetypeGroup: ["image"] }],
+    })
     expect(fieldOf("pricingPlan", "features")).toMatchObject({ type: "Array", items: { type: "Symbol" } })
     expect(fieldOf("richText", "body")).toMatchObject({ type: "RichText", required: true })
     expect(fieldOf("richText", "body")?.validations[0]).toHaveProperty("enabledNodeTypes")
@@ -61,10 +72,17 @@ describe("schema generator", () => {
   })
 
   it("turns descriptions into editor help text and ids into names", () => {
-    expect(fieldOf("form", "endpoint")?.editor).toEqual({ widgetId: "singleLine", settings: { helpText: "Where the form posts to." } })
+    expect(fieldOf("form", "endpoint")?.editor).toEqual({
+      widgetId: "singleLine",
+      settings: { helpText: "Where the form posts to." },
+    })
     expect(fieldOf("featureItem", "title")?.name).toBe("Title")
     expect(humanize("announcementLinkLabel")).toBe("Announcement link label")
-    expect(buildContentTypes({ defaultLocale: "de-DE" }).find((ct) => ct.id === "hero")?.fields.find((f) => f.id === "layout")?.defaultValue).toEqual({
+    expect(
+      buildContentTypes({ defaultLocale: "de-DE" })
+        .find((ct) => ct.id === "hero")
+        ?.fields.find((f) => f.id === "layout")?.defaultValue
+    ).toEqual({
       "de-DE": "centered",
     })
   })

@@ -54,7 +54,11 @@ export function renderContentTypesModule(descriptions: ContentTypeDescription[])
 }
 
 export function renderContentTypesJson(descriptions: ContentTypeDescription[]): string {
-  return `${JSON.stringify(descriptions.map(({ description: _description, ...rest }) => rest), null, 2)}\n`
+  return `${JSON.stringify(
+    descriptions.map(({ description: _description, ...rest }) => rest),
+    null,
+    2
+  )}\n`
 }
 
 /** The CLI entry point: tells `config push` which files hold content types. */

@@ -47,15 +47,40 @@ function ScrollEffect({ effect, children, className, ...props }: ScrollEffectPro
   )
 }
 
-function Moving({ effect, amount = 0.12, children, className, style, ...props }: ScrollEffectProps & { effect: Exclude<ScrollEffectName, "none"> }) {
+function Moving({
+  effect,
+  amount = 0.12,
+  children,
+  className,
+  style,
+  ...props
+}: ScrollEffectProps & { effect: Exclude<ScrollEffectName, "none"> }) {
   const ref = React.useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
   const drift = `${amount * 100}%`
   const y = useTransform(scrollYProgress, [0, 1], effect === "parallax" ? [`-${drift}`, drift] : ["0%", "0%"])
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], effect === "zoom" ? [1, 1.075, 1.15] : effect === "parallax" ? [1 + amount * 2, 1 + amount * 2, 1 + amount * 2] : [1, 1, 1])
-  const opacity: MotionValue<number> = useTransform(scrollYProgress, [0, 0.5, 1], effect === "fade" ? [0.3, 1, 0.3] : [1, 1, 1])
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    effect === "zoom"
+      ? [1, 1.075, 1.15]
+      : effect === "parallax"
+        ? [1 + amount * 2, 1 + amount * 2, 1 + amount * 2]
+        : [1, 1, 1]
+  )
+  const opacity: MotionValue<number> = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    effect === "fade" ? [0.3, 1, 0.3] : [1, 1, 1]
+  )
   return (
-    <div ref={ref} data-scroll-effect={effect} className={["overflow-hidden", className].filter(Boolean).join(" ")} style={style} {...props}>
+    <div
+      ref={ref}
+      data-scroll-effect={effect}
+      className={["overflow-hidden", className].filter(Boolean).join(" ")}
+      style={style}
+      {...props}
+    >
       <m.div className="absolute inset-0 will-change-transform" style={{ y, scale, opacity }}>
         {children}
       </m.div>

@@ -39,7 +39,7 @@ export class TransformError extends Error {
   constructor(
     message: string,
     readonly entryId: string,
-    readonly field?: string,
+    readonly field?: string
   ) {
     super(message)
     this.name = "StoryblokTransformError"
@@ -74,7 +74,12 @@ export function storyToSiteSettings(story: ISbStoryData, options: TransformOptio
  * validated. `id` is the story id for documents (what webhooks and the
  * Visual Editor identify a story by) and the blok `_uid` for nested bloks.
  */
-export function transformNode(raw: RawBlok, definition: AnyDefinition, options: TransformOptions, id?: string): Record<string, unknown> {
+export function transformNode(
+  raw: RawBlok,
+  definition: AnyDefinition,
+  options: TransformOptions,
+  id?: string
+): Record<string, unknown> {
   const nodeId = id ?? (typeof raw._uid === "string" ? raw._uid : "")
   const out: Record<string, unknown> = { id: nodeId, type: definition.type }
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
@@ -90,7 +95,13 @@ export function transformNode(raw: RawBlok, definition: AnyDefinition, options: 
   return result.data as Record<string, unknown>
 }
 
-function transformField(value: unknown, field: Field, options: TransformOptions, entryId: string, name: string): unknown {
+function transformField(
+  value: unknown,
+  field: Field,
+  options: TransformOptions,
+  entryId: string,
+  name: string
+): unknown {
   switch (field.kind) {
     case "text":
     case "textarea":
@@ -118,7 +129,8 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
       // Storyblok's number field is stored as a string ("" when empty).
       if (value === "" || value === null || value === undefined) return undefined
       const n = typeof value === "number" ? value : Number(value)
-      if (Number.isNaN(n)) throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
+      if (Number.isNaN(n))
+        throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
       return n
     }
     case "boolean":
@@ -134,7 +146,7 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
         throw new TransformError(
           `Field "${name}" of ${entryId} has value "${selected}", expected one of ${field.options.join(", ")}`,
           entryId,
-          name,
+          name
         )
       }
       return selected
@@ -148,7 +160,7 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
           throw new TransformError(
             `Field "${name}" of ${entryId} holds a "${String(blok.component)}" blok at index ${index}; allowed: ${field.of.map((d: AnyDefinition) => d.type).join(", ")}`,
             entryId,
-            name,
+            name
           )
         }
         return transformNode(blok, definition, options)
@@ -166,10 +178,20 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
 function textList(value: unknown): string[] {
   if (Array.isArray(value)) {
     return value
-      .map((entry) => (typeof entry === "string" ? entry : typeof (entry as RawBlok)?.text === "string" ? ((entry as RawBlok).text as string) : ""))
+      .map((entry) =>
+        typeof entry === "string"
+          ? entry
+          : typeof (entry as RawBlok)?.text === "string"
+            ? ((entry as RawBlok).text as string)
+            : ""
+      )
       .filter((entry) => entry !== "")
   }
-  if (typeof value === "string") return value.split(/\r?\n/).map((s) => s.trim()).filter(Boolean)
+  if (typeof value === "string")
+    return value
+      .split(/\r?\n/)
+      .map((s) => s.trim())
+      .filter(Boolean)
   return []
 }
 

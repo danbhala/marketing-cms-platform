@@ -38,7 +38,7 @@ export function createFetcher(config: FetcherConfig): ContentfulFetcher {
       if (!client) {
         if (!config.space || !config.accessToken) {
           throw new Error(
-            `@platform/cms-contentful: missing CONTENTFUL_SPACE_ID or the ${api} token (CONTENTFUL_${config.preview ? "PREVIEW" : "DELIVERY"}_TOKEN)`,
+            `@platform/cms-contentful: missing CONTENTFUL_SPACE_ID or the ${api} token (CONTENTFUL_${config.preview ? "PREVIEW" : "DELIVERY"}_TOKEN)`
           )
         }
         client = createClient({

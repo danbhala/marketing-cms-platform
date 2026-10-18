@@ -13,7 +13,7 @@ const PACE = stills ? 1 : Number(mode ?? 1) || 1
 const secret = secretArg ?? process.env.PREVIEW_SECRET ?? "change-me"
 mkdirSync(outDir, { recursive: true })
 
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" })
+const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH })
 const context = await browser.newContext({
   viewport: { width: 1440, height: 900 },
   deviceScaleFactor: 1,

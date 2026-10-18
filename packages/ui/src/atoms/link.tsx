@@ -7,20 +7,17 @@ import { isExternalHref } from "@platform/content-model"
 import { useUi, type UiLinkProps } from "../lib/ui-provider"
 import { cn } from "../lib/utils"
 
-const linkVariants = cva(
-  "rounded-sm outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
-  {
-    variants: {
-      variant: {
-        inline: "text-primary underline underline-offset-4 hover:text-primary/80",
-        nav: "text-sm font-medium text-foreground/80 hover:text-foreground",
-        muted: "text-sm text-muted-foreground hover:text-foreground",
-        unstyled: "",
-      },
+const linkVariants = cva("rounded-sm transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50", {
+  variants: {
+    variant: {
+      inline: "text-primary underline underline-offset-4 hover:text-primary/80",
+      nav: "text-sm font-medium text-foreground/80 hover:text-foreground",
+      muted: "text-sm text-muted-foreground hover:text-foreground",
+      unstyled: "",
     },
-    defaultVariants: { variant: "inline" },
   },
-)
+  defaultVariants: { variant: "inline" },
+})
 
 export interface LinkProps extends UiLinkProps, VariantProps<typeof linkVariants> {
   /**

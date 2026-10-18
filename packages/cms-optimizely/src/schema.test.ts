@@ -26,9 +26,15 @@ describe("schema generator", () => {
     const hero = byKey.get("HeroBlock")!
     expect(hero.properties.title).toMatchObject({ type: "string", format: "shortString", isRequired: true })
     expect(hero.properties.eyebrow).not.toHaveProperty("isRequired")
-    expect(hero.properties.actions).toMatchObject({ type: "array", maxItems: 3, items: { type: "content", allowedTypes: ["ActionItem"] } })
+    expect(hero.properties.actions).toMatchObject({
+      type: "array",
+      maxItems: 3,
+      items: { type: "content", allowedTypes: ["ActionItem"] },
+    })
     expect(hero.properties.actions).not.toHaveProperty("isRequired")
-    expect(byKey.get("WebPage")!.properties.blocks).toMatchObject({ items: { type: "content", allowedTypes: allBlocks.map(contentTypeKey) } })
+    expect(byKey.get("WebPage")!.properties.blocks).toMatchObject({
+      items: { type: "content", allowedTypes: allBlocks.map(contentTypeKey) },
+    })
     expect(byKey.get("WebPage")!.properties).not.toHaveProperty("path")
   })
 
@@ -36,7 +42,10 @@ describe("schema generator", () => {
     const hero = byKey.get("HeroBlock")!
     expect(hero.properties.description).toMatchObject({ type: "string" })
     expect(hero.properties.description).not.toHaveProperty("format")
-    expect(hero.properties.media).toMatchObject({ type: "contentReference", allowedTypes: ["_image", "_video", "_media"] })
+    expect(hero.properties.media).toMatchObject({
+      type: "contentReference",
+      allowedTypes: ["_image", "_video", "_media"],
+    })
     expect(hero.properties.layout).toMatchObject({
       type: "string",
       format: "selectOne",
@@ -48,13 +57,25 @@ describe("schema generator", () => {
       ],
     })
     expect(hero.properties.theme).toMatchObject({ group: "Settings" })
-    expect(byKey.get("LogoBlock") ?? byKey.get("LogoItem")!.properties.image).toMatchObject({ allowedTypes: ["_image"], isRequired: true })
+    expect(byKey.get("LogoBlock") ?? byKey.get("LogoItem")!.properties.image).toMatchObject({
+      allowedTypes: ["_image"],
+      isRequired: true,
+    })
     expect(byKey.get("FeatureSplitBlock")!.properties.body).toMatchObject({ type: "richText" })
-    expect(byKey.get("FeatureSplitBlock")!.properties.bullets).toMatchObject({ type: "array", items: { type: "string" } })
-    expect(byKey.get("ActionItem")!.properties.href).toMatchObject({ type: "string", format: "shortString", isRequired: true })
+    expect(byKey.get("FeatureSplitBlock")!.properties.bullets).toMatchObject({
+      type: "array",
+      items: { type: "string" },
+    })
+    expect(byKey.get("ActionItem")!.properties.href).toMatchObject({
+      type: "string",
+      format: "shortString",
+      isRequired: true,
+    })
     expect(byKey.get("FormFieldItem")!.properties.required).toMatchObject({ type: "boolean" })
     expect(byKey.get("WebPage")!.properties.seoTitle).toMatchObject({ maxLength: 70, group: "Settings" })
-    expect(byKey.get("WebPage")!.properties.hideBreadcrumbs).toMatchObject({ description: expect.stringContaining("Breadcrumbs") })
+    expect(byKey.get("WebPage")!.properties.hideBreadcrumbs).toMatchObject({
+      description: expect.stringContaining("Breadcrumbs"),
+    })
   })
 
   it("orders referenced types before the types that reference them", () => {
@@ -78,7 +99,7 @@ describe("schema generator", () => {
     const ts = renderContentTypesModule(descriptions)
     expect(ts).toContain('import { contentType } from "@optimizely/cms-sdk"')
     expect(ts).toContain("export const HeroBlockContentType = contentType({")
-    expect(ts).toContain('allowedTypes: [ActionItemContentType]')
+    expect(ts).toContain("allowedTypes: [ActionItemContentType]")
     expect(ts).toContain('allowedTypes: ["_image", "_video", "_media"]')
     expect(ts).toContain("isRequired: true")
     expect(ts).toContain("export const allContentTypes = [")

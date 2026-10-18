@@ -87,7 +87,12 @@ export default function DrupalPreviewBridge({ ctx }: PreviewBridgeProps) {
         {hovered ? ` · ${hovered}` : ""}
       </span>
       {edit && editPath && drupalUrl ? (
-        <a href={`${drupalUrl}${editPath}`} target="_blank" rel="noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>
+        <a
+          href={`${drupalUrl}${editPath}`}
+          target="_blank"
+          rel="noreferrer"
+          style={{ color: "inherit", textDecoration: "underline" }}
+        >
           Edit in Drupal
         </a>
       ) : null}

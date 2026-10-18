@@ -60,14 +60,31 @@ function Marquee({
   }
   return (
     <MotionRoot>
-      <MovingMarquee speed={speed} direction={direction} gap={gap} pauseLabel={pauseLabel} playLabel={playLabel} className={className} {...props}>
+      <MovingMarquee
+        speed={speed}
+        direction={direction}
+        gap={gap}
+        pauseLabel={pauseLabel}
+        playLabel={playLabel}
+        className={className}
+        {...props}
+      >
         {children}
       </MovingMarquee>
     </MotionRoot>
   )
 }
 
-function MovingMarquee({ children, speed = "normal", direction = "left", gap = 48, pauseLabel, playLabel, className, ...props }: MarqueeProps) {
+function MovingMarquee({
+  children,
+  speed = "normal",
+  direction = "left",
+  gap = 48,
+  pauseLabel,
+  playLabel,
+  className,
+  ...props
+}: MarqueeProps) {
   const x = useMotionValue(0)
   const copy = React.useRef<HTMLDivElement>(null)
   const width = React.useRef(0)
@@ -130,13 +147,18 @@ function MovingMarquee({ children, speed = "normal", direction = "left", gap = 4
         aria-pressed={paused}
         aria-label={paused ? playLabel : pauseLabel}
         onClick={() => setPaused((p) => !p)}
-        className="absolute -bottom-1 right-0 size-8 translate-y-full rounded-full border border-border bg-background text-foreground opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="absolute right-0 -bottom-1 size-8 translate-y-full rounded-full border border-border bg-background text-foreground opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
         <span aria-hidden className="flex items-center justify-center">
           {paused ? (
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9l7-4.5z" /></svg>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+              <path d="M3 1.5v9l7-4.5z" />
+            </svg>
           ) : (
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><rect x="2" y="1.5" width="3" height="9" rx="0.5" /><rect x="7" y="1.5" width="3" height="9" rx="0.5" /></svg>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+              <rect x="2" y="1.5" width="3" height="9" rx="0.5" />
+              <rect x="7" y="1.5" width="3" height="9" rx="0.5" />
+            </svg>
           )}
         </span>
       </button>

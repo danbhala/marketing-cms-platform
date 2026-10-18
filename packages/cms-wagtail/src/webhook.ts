@@ -63,7 +63,8 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
       const body = (typeof payload === "object" && payload !== null ? payload : {}) as WagtailWebhookPayload
       const event = typeof body.event === "string" ? body.event : "unknown"
       const list: string[] = []
-      const locales = typeof body.locale === "string" && options.locales.includes(body.locale) ? [body.locale] : options.locales
+      const locales =
+        typeof body.locale === "string" && options.locales.includes(body.locale) ? [body.locale] : options.locales
 
       if (body.id !== undefined && body.id !== null) list.push(tags.entry(String(body.id)))
 
@@ -82,7 +83,8 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
 
       return {
         tags: uniqueTags(list),
-        summary: `wagtail: ${event} ${body.type ?? ""} ${String(body.id ?? "?")}${typeof body.path === "string" ? ` ${body.path}` : ""}`.trim(),
+        summary:
+          `wagtail: ${event} ${body.type ?? ""} ${String(body.id ?? "?")}${typeof body.path === "string" ? ` ${body.path}` : ""}`.trim(),
       }
     },
   }

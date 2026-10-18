@@ -6,7 +6,8 @@
   "description": "Canonical content shape every CMS is normalised into, and the single source of truth for block field definitions.",
   "exports": {
     ".": "./src/index.ts",
-    "./fixtures": "./src/fixtures/index.ts"
+    "./fixtures": "./src/fixtures/index.ts",
+    "./strip-types": "./scripts/strip-types.mjs"
   },
   "scripts": {
     "lint": "eslint .",

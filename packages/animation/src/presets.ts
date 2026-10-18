@@ -1,9 +1,4 @@
-import type {
-  AnimationDelay,
-  AnimationDuration,
-  AnimationPreset,
-  AnimationSettings,
-} from "@platform/content-model"
+import type { AnimationDelay, AnimationDuration, AnimationPreset, AnimationSettings } from "@platform/content-model"
 import { stagger, type Transition, type Variants } from "motion/react"
 
 /**
@@ -35,10 +30,7 @@ export const delaySeconds: Record<AnimationDelay, number> = {
 export const revealEase: Transition["ease"] = [0.16, 1, 0.3, 1]
 
 /** Start state of each preset; `visible` is always the identity. */
-const hiddenStates: Record<
-  Exclude<AnimationPreset, "none">,
-  Record<string, number | string>
-> = {
+const hiddenStates: Record<Exclude<AnimationPreset, "none">, Record<string, number | string>> = {
   fadeUp: { opacity: 0, y: 24 },
   fadeIn: { opacity: 0 },
   scaleIn: { opacity: 0, scale: 0.94 },
@@ -50,10 +42,7 @@ const hiddenStates: Record<
 const visibleState = { opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)" }
 
 /** Variants for one element revealing on its own. */
-function elementVariants(
-  preset: Exclude<AnimationPreset, "none">,
-  transition: Transition
-): Variants {
+function elementVariants(preset: Exclude<AnimationPreset, "none">, transition: Transition): Variants {
   return {
     hidden: hiddenStates[preset],
     visible: { ...visibleState, transition },
@@ -68,12 +57,7 @@ export interface RevealVariants {
   item: Variants | null
 }
 
-export function revealVariants({
-  preset,
-  stagger: staggered,
-  duration,
-  delay,
-}: AnimationSettings): RevealVariants {
+export function revealVariants({ preset, stagger: staggered, duration, delay }: AnimationSettings): RevealVariants {
   const seconds = durationSeconds[duration]
   const startDelay = delaySeconds[delay]
   if (!staggered) {

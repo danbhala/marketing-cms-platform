@@ -86,7 +86,7 @@ function Carousel({ children, label, slideClassName, labels, className, ...props
         role="group"
         aria-label={label}
         tabIndex={0}
-        className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-(--block-grid-gap) overflow-x-auto px-4 pb-1 outline-none [scrollbar-width:none] focus-visible:ring-3 focus-visible:ring-ring/50 section-sm:-mx-6 section-sm:scroll-px-6 section-sm:px-6 section-lg:-mx-8 section-lg:scroll-px-8 section-lg:px-8"
+        className="-mx-4 flex snap-x snap-mandatory scroll-px-4 [scrollbar-width:none] gap-(--block-grid-gap) overflow-x-auto px-4 pb-1 outline-none focus-visible:ring-3 focus-visible:ring-ring/50 section-sm:-mx-6 section-sm:scroll-px-6 section-sm:px-6 section-lg:-mx-8 section-lg:scroll-px-8 section-lg:px-8"
       >
         {children.map((child, index) => (
           <div
@@ -94,7 +94,10 @@ function Carousel({ children, label, slideClassName, labels, className, ...props
             role="group"
             aria-roledescription="slide"
             aria-label={slideLabel(index, count)}
-            className={cn("w-[88%] shrink-0 snap-start section-sm:w-[calc((100%-var(--block-grid-gap))/2)] section-lg:w-[calc((100%-2*var(--block-grid-gap))/3)]", slideClassName)}
+            className={cn(
+              "w-[88%] shrink-0 snap-start section-sm:w-[calc((100%-var(--block-grid-gap))/2)] section-lg:w-[calc((100%-2*var(--block-grid-gap))/3)]",
+              slideClassName
+            )}
           >
             {child}
           </div>
@@ -111,15 +114,33 @@ function Carousel({ children, label, slideClassName, labels, className, ...props
               onClick={() => goTo(index)}
               className="flex size-6 items-center justify-center rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
             >
-              <span aria-hidden className={cn("block size-2 rounded-full transition-colors", index === active ? "bg-foreground" : "bg-foreground/30")} />
+              <span
+                aria-hidden
+                className={cn(
+                  "block size-2 rounded-full transition-colors",
+                  index === active ? "bg-foreground" : "bg-foreground/30"
+                )}
+              />
             </button>
           ))}
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="icon" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label={labels?.previous ?? "Previous"}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => goTo(active - 1)}
+            disabled={active === 0}
+            aria-label={labels?.previous ?? "Previous"}
+          >
             <ChevronLeftIcon />
           </Button>
-          <Button variant="outline" size="icon" onClick={() => goTo(active + 1)} disabled={active >= count - 1} aria-label={labels?.next ?? "Next"}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => goTo(active + 1)}
+            disabled={active >= count - 1}
+            aria-label={labels?.next ?? "Next"}
+          >
             <ChevronRightIcon />
           </Button>
         </div>

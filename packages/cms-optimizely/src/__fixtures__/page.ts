@@ -50,7 +50,14 @@ export const heroItem: GraphItem = {
       _id: "act-1_en_Published",
       _metadata: metadata("act-1", "ActionItem", "_Component"),
       label: "Start free trial",
-      href: { type: "internal", default: "/signup/", hierarchical: "/signup/", internal: null, graph: null, base: null },
+      href: {
+        type: "internal",
+        default: "/signup/",
+        hierarchical: "/signup/",
+        internal: null,
+        graph: null,
+        base: null,
+      },
       variant: "default",
       icon: null,
     },
@@ -107,7 +114,11 @@ export const featureSplitItem: GraphItem = {
     },
   ],
   // A CMS-native image: only its URL is exposed through the reference.
-  media: { key: "img-funnel", url: { default: "/globalassets/funnel-chart.png", hierarchical: null, base: null }, item: null },
+  media: {
+    key: "img-funnel",
+    url: { default: "/globalassets/funnel-chart.png", hierarchical: null, base: null },
+    item: null,
+  },
   mediaPosition: "right",
 }
 
@@ -178,7 +189,14 @@ export const homePageItem: GraphItem = {
   __typename: "WebPage",
   _id: "page-home_en_Published",
   _metadata: metadata("page-home", "WebPage", "_Page", {
-    url: { type: "simple", default: "/en/", hierarchical: "/en/", internal: null, graph: null, base: "https://www.example.com" },
+    url: {
+      type: "simple",
+      default: "/en/",
+      hierarchical: "/en/",
+      internal: null,
+      graph: null,
+      base: "https://www.example.com",
+    },
     displayName: "Home",
   }),
   title: "Metrica · Privacy-first product analytics",
@@ -195,7 +213,14 @@ export const pricingPageItem: GraphItem = {
   __typename: "WebPage",
   _id: "page-pricing_en_Published",
   _metadata: metadata("page-pricing", "WebPage", "_Page", {
-    url: { type: "simple", default: "/en/pricing/", hierarchical: "/en/pricing/", internal: null, graph: null, base: "https://www.example.com" },
+    url: {
+      type: "simple",
+      default: "/en/pricing/",
+      hierarchical: "/en/pricing/",
+      internal: null,
+      graph: null,
+      base: "https://www.example.com",
+    },
     displayName: "Pricing",
   }),
   title: "Pricing",

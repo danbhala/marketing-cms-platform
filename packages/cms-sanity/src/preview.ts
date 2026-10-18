@@ -36,7 +36,8 @@ function safeEqual(a: string, b: string): boolean {
  * The query string is kept because Presentation navigates with it.
  */
 export function safePath(input: string | null | undefined): string | null {
-  if (!input || !input.startsWith("/") || input.startsWith("//") || input.includes("://") || input.includes("\\")) return null
+  if (!input || !input.startsWith("/") || input.startsWith("//") || input.includes("://") || input.includes("\\"))
+    return null
   try {
     const url = new URL(input, "http://preview.invalid")
     if (url.origin !== "http://preview.invalid") return null
@@ -53,7 +54,9 @@ export async function resolvePath(config: ResolvedSanityConfig, params: URLSearc
   const id = params.get("id")
   if (!id) return null
   const published = publishedId(id)
-  const slug = await config.client(true).fetch<string | null>(PATH_BY_ID_QUERY, { ids: [published, `drafts.${published}`] })
+  const slug = await config
+    .client(true)
+    .fetch<string | null>(PATH_BY_ID_QUERY, { ids: [published, `drafts.${published}`] })
   return typeof slug === "string" ? normalizePath(slug) : null
 }
 

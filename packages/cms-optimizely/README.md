@@ -4,14 +4,14 @@ Optimizely SaaS CMS adapter: content model generator, Graph fetching, Draft Mode
 
 ## Environment
 
-| Variable | Purpose |
-| --- | --- |
-| `OPTIMIZELY_CMS_URL` | CMS instance, e.g. `https://example.cms.optimizely.com` (no trailing slash). Used for the live-edit script and CSP `frame-ancestors`. |
-| `OPTIMIZELY_GRAPH_SINGLE_KEY` | Graph single key (Settings → API Keys). All reads, published and draft, use it. |
-| `OPTIMIZELY_GRAPH_SECRET` | Shared secret the Graph webhook presents to `/api/revalidate` (falls back to `REVALIDATE_SECRET`). |
-| `OPTIMIZELY_GRAPH_GATEWAY` | Optional Graph URL; defaults to `https://cg.optimizely.com/content/v2`. |
-| `OPTIMIZELY_HOST` | Optional application host for multi-site instances. |
-| `OPTIMIZELY_SETTINGS_PATH` / `OPTIMIZELY_SETTINGS_KEY` | Where the `SiteSettings` page lives: by path (default `/site-settings`) or by content key. |
+| Variable                                               | Purpose                                                                                                                               |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `OPTIMIZELY_CMS_URL`                                   | CMS instance, e.g. `https://example.cms.optimizely.com` (no trailing slash). Used for the live-edit script and CSP `frame-ancestors`. |
+| `OPTIMIZELY_GRAPH_SINGLE_KEY`                          | Graph single key (Settings → API Keys). All reads, published and draft, use it.                                                       |
+| `OPTIMIZELY_GRAPH_SECRET`                              | Shared secret the Graph webhook presents to `/api/revalidate` (falls back to `REVALIDATE_SECRET`).                                    |
+| `OPTIMIZELY_GRAPH_GATEWAY`                             | Optional Graph URL; defaults to `https://cg.optimizely.com/content/v2`.                                                               |
+| `OPTIMIZELY_HOST`                                      | Optional application host for multi-site instances.                                                                                   |
+| `OPTIMIZELY_SETTINGS_PATH` / `OPTIMIZELY_SETTINGS_KEY` | Where the `SiteSettings` page lives: by path (default `/site-settings`) or by content key.                                            |
 
 `createOptimizelyAdapter(options)` takes the same values explicitly; the env vars are only defaults. The Graph client is created on the first fetch, so importing the package without credentials is fine.
 

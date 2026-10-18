@@ -12,7 +12,11 @@ const blockOf = (page: ReturnType<typeof transformPage>, id: string) => page.blo
 describe("transformPage (published)", () => {
   // A plain collector rather than vi.fn(): the transform runs once at collection time.
   const warnings: string[] = []
-  const page = transformPage(pageEntry, { edit: false, locale: "en-US", warn: (message) => void warnings.push(message) })
+  const page = transformPage(pageEntry, {
+    edit: false,
+    locale: "en-US",
+    warn: (message) => void warnings.push(message),
+  })
 
   it("maps system keys and scalar fields", () => {
     expect(page).toMatchObject({
@@ -27,7 +31,14 @@ describe("transformPage (published)", () => {
   })
 
   it("skips entries of unknown content types with a warning", () => {
-    expect(page.blocks.map((block) => block.id)).toEqual(["blk-hero", "blk-features", "blk-faq", "blk-richtext", "blk-media", "blk-cta"])
+    expect(page.blocks.map((block) => block.id)).toEqual([
+      "blk-hero",
+      "blk-features",
+      "blk-faq",
+      "blk-richtext",
+      "blk-media",
+      "blk-cta",
+    ])
     expect(warnings).toContainEqual(expect.stringContaining('"blk-legacy"'))
   })
 
@@ -71,9 +82,13 @@ describe("transformPage (published)", () => {
 
   it("throws naming the entry and field when required content is missing", () => {
     expect(() => transformPage(pageMissingTitle, { edit: false, locale: "en-US" })).toThrow(ContentfulTransformError)
-    expect(() => transformPage(pageMissingTitle, { edit: false, locale: "en-US" })).toThrow(/"page-untitled" \(page\) field "title"/)
+    expect(() => transformPage(pageMissingTitle, { edit: false, locale: "en-US" })).toThrow(
+      /"page-untitled" \(page\) field "title"/
+    )
     // The nearest entry is named, not the page that contains it.
-    expect(() => transformPage(pageWithBrokenHero, { edit: false, locale: "en-US" })).toThrow(/"blk-nohero" \(hero\) field "title"/)
+    expect(() => transformPage(pageWithBrokenHero, { edit: false, locale: "en-US" })).toThrow(
+      /"blk-nohero" \(hero\) field "title"/
+    )
   })
 })
 
@@ -114,7 +129,12 @@ describe("transformSiteSettings", () => {
   const settings = transformSiteSettings(siteSettingsEntry, { edit: false, locale: "en-US" })
 
   it("matches the canonical fixture shape", () => {
-    expect(settings).toMatchObject({ id: "site", type: "siteSettings", siteName: "Metrica", footerNote: canonicalSettings.footerNote })
+    expect(settings).toMatchObject({
+      id: "site",
+      type: "siteSettings",
+      siteName: "Metrica",
+      footerNote: canonicalSettings.footerNote,
+    })
     expect(settings.navigation[0]).toEqual(canonicalSettings.navigation[0])
     expect(settings.headerActions).toEqual(canonicalSettings.headerActions)
     expect(settings.footerColumns[0]).toEqual(canonicalSettings.footerColumns[0])

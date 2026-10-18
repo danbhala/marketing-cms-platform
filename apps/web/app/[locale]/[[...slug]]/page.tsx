@@ -61,7 +61,13 @@ export default async function CmsPage({ params, searchParams }: Props) {
 
   return (
     <>
-      <PageTemplate page={page} settings={settings} components={registry.components} breadcrumbs={breadcrumbs} siteUrl={siteConfig.siteUrl} />
+      <PageTemplate
+        page={page}
+        settings={settings}
+        components={registry.components}
+        breadcrumbs={breadcrumbs}
+        siteUrl={siteConfig.siteUrl}
+      />
       {draft ? <PreviewBridge provider={siteConfig.provider} ctx={preview} locale={locale} /> : null}
     </>
   )

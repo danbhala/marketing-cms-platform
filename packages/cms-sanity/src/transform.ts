@@ -25,7 +25,7 @@ export class SanityTransformError extends Error {
     readonly documentType: string,
     readonly documentId: string,
     readonly field: string,
-    detail: string,
+    detail: string
   ) {
     super(`sanity: ${documentType} "${documentId}" is invalid at "${field}": ${detail}`)
     this.name = "SanityTransformError"
@@ -40,9 +40,14 @@ const str = (value: unknown): string | undefined => (typeof value === "string" ?
 export const publishedId = (id: string): string => id.replace(/^drafts\./, "").replace(/^versions\.[^.]+\./, "")
 
 /** Text fields whose value drives logic (DOM ids, input names) rather than copy. */
-const isLogicText = (definition: AnyDefinition, name: string) => name === "anchor" || (definition.type === "formField" && name === "name")
+const isLogicText = (definition: AnyDefinition, name: string) =>
+  name === "anchor" || (definition.type === "formField" && name === "name")
 
-export function transformDocument<T extends Editable>(raw: unknown, definition: AnyDocumentDefinition, options: TransformOptions): T | null {
+export function transformDocument<T extends Editable>(
+  raw: unknown,
+  definition: AnyDocumentDefinition,
+  options: TransformOptions
+): T | null {
   if (!isRecord(raw)) return null
   const id = str(raw._id) ? publishedId(raw._id as string) : definition.singleton ? definition.type : ""
   const target = options.edit
@@ -54,7 +59,9 @@ export function transformDocument<T extends Editable>(raw: unknown, definition: 
         dataset: options.config.dataset || undefined,
       })
     : null
-  const rootField = Object.entries(definition.fields as Record<string, Field>).find(([, f]) => f.kind === "blocks" || f.kind === "items")?.[0]
+  const rootField = Object.entries(definition.fields as Record<string, Field>).find(
+    ([, f]) => f.kind === "blocks" || f.kind === "items"
+  )?.[0]
   const node = buildNode(raw, definition, id, target, rootField, options)
 
   const result = schemaFor(definition).safeParse(node)
@@ -103,7 +110,7 @@ function buildNode(
   id: string,
   target: EditTarget | null,
   rootField: string | undefined,
-  options: TransformOptions,
+  options: TransformOptions
 ): Record<string, unknown> {
   const out: Record<string, unknown> = { id, type: definition.type }
   const fields: Record<string, EditAttrs> = {}
@@ -126,7 +133,7 @@ function convertField(
   name: string,
   definition: AnyDefinition,
   target: EditTarget | null,
-  options: TransformOptions,
+  options: TransformOptions
 ): unknown {
   switch (field.kind) {
     case "text":
@@ -146,7 +153,11 @@ function convertField(
       return typeof value === "boolean" ? value : undefined
     case "textList":
       // Compared against literals by the UI ("yes"/"no" in comparison rows), so always clean.
-      return Array.isArray(value) ? value.filter((v): v is string => typeof v === "string").map((v) => stegaClean(v)) : field.required ? [] : undefined
+      return Array.isArray(value)
+        ? value.filter((v): v is string => typeof v === "string").map((v) => stegaClean(v))
+        : field.required
+          ? []
+          : undefined
     case "richText": {
       if (!Array.isArray(value)) return field.required ? { type: "root", children: [] } : undefined
       return portableTextToRichText(value, (raw) => toMedia(raw, options.config))
@@ -185,15 +196,21 @@ interface RawAsset {
  */
 export function toMedia(raw: unknown, config: TransformOptions["config"]): Media | undefined {
   if (!isRecord(raw)) return undefined
-  if (isRecord(raw.video) && isRecord(raw.video.asset)) return toMedia({ ...raw.video, alt: raw.video.alt ?? raw.alt, _type: "file" }, config)
-  if (isRecord(raw.image) && isRecord(raw.image.asset)) return toMedia({ ...raw.image, alt: raw.image.alt ?? raw.alt }, config)
+  if (isRecord(raw.video) && isRecord(raw.video.asset))
+    return toMedia({ ...raw.video, alt: raw.video.alt ?? raw.alt, _type: "file" }, config)
+  if (isRecord(raw.image) && isRecord(raw.image.asset))
+    return toMedia({ ...raw.image, alt: raw.image.alt ?? raw.alt }, config)
   if (!isRecord(raw.asset)) return undefined
 
   const asset = raw.asset as RawAsset
   const alt = stegaClean(str(raw.alt) ?? "")
   const mimeType = str(asset.mimeType)
   const dims = asset.metadata?.dimensions
-  const isVideo = raw._type === "file" || raw._type === "videoWithAlt" || mimeType?.startsWith("video/") || (!mimeType && str(asset._id)?.startsWith("file-"))
+  const isVideo =
+    raw._type === "file" ||
+    raw._type === "videoWithAlt" ||
+    mimeType?.startsWith("video/") ||
+    (!mimeType && str(asset._id)?.startsWith("file-"))
 
   if (isVideo) {
     const url = str(asset.url)

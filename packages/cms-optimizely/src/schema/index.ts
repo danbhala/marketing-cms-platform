@@ -49,7 +49,9 @@ export function contentTypeKey(definition: AnyDefinition): string {
 
 export const allDefinitions: readonly AnyDefinition[] = [...allItems, ...allBlocks, ...allDocuments]
 
-const byKey = new Map<string, AnyDefinition>(allDefinitions.map((definition) => [contentTypeKey(definition), definition]))
+const byKey = new Map<string, AnyDefinition>(
+  allDefinitions.map((definition) => [contentTypeKey(definition), definition])
+)
 
 /** The canonical definition behind a Graph `__typename`, or undefined for foreign types. */
 export function definitionForTypename(typename: string | undefined | null): AnyDefinition | undefined {
@@ -57,15 +59,21 @@ export function definitionForTypename(typename: string | undefined | null): AnyD
 }
 
 /** Fields that are presentation or SEO rather than content: shown on the Settings tab. */
-const settingsFields = new Set(["theme", "spacing", "anchor", "seoTitle", "seoDescription", "ogImage", "noIndex", "hideBreadcrumbs"])
+const settingsFields = new Set([
+  "theme",
+  "spacing",
+  "anchor",
+  "seoTitle",
+  "seoDescription",
+  "ogImage",
+  "noIndex",
+  "hideBreadcrumbs",
+])
 
 /** `path` is not a property in Optimizely: the URL comes from the content tree. */
 const derivedFields = new Set(["path"])
 
-const humanize = (value: string) =>
-  value
-    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-    .replace(/^./, (c) => c.toUpperCase())
+const humanize = (value: string) => value.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/^./, (c) => c.toUpperCase())
 
 function mediaTypes(accept: "image" | "video" | "any" | undefined): string[] {
   switch (accept) {

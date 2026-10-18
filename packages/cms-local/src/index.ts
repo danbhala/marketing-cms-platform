@@ -77,7 +77,8 @@ export function createLocalAdapter(options: LocalCmsOptions = {}): CmsAdapter {
         if (Array.isArray(body.paths)) {
           for (const path of body.paths) if (typeof path === "string") list.push(tags.page(locale, path))
         }
-        if (body.all) list.push(tags.global(locale), tags.paths(locale), ...pages.map((page) => tags.page(locale, page.path)))
+        if (body.all)
+          list.push(tags.global(locale), tags.paths(locale), ...pages.map((page) => tags.page(locale, page.path)))
         return { tags: uniqueTags(list), summary: `local: ${list.length} tag(s)` }
       },
     },

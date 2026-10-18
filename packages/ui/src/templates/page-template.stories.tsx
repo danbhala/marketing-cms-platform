@@ -27,13 +27,21 @@ export const About: Story = { args: { page: fixtures.aboutPage } }
 export const Article: Story = {
   args: {
     page: fixtures.articlePage,
-    breadcrumbs: [{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: "Why event-based analytics" }],
+    breadcrumbs: [
+      { label: "Home", href: "/" },
+      { label: "Blog", href: "/blog" },
+      { label: "Why event-based analytics" },
+    ],
   },
 }
 export const Contact: Story = { args: { page: fixtures.contactPage } }
 export const LandingDark: Story = {
   args: { page: { ...fixtures.landingPage, theme: "dark" } },
-  parameters: { docs: { description: { story: "A page-level `theme` wraps every block; block themes still override per section." } } },
+  parameters: {
+    docs: {
+      description: { story: "A page-level `theme` wraps every block; block themes still override per section." },
+    },
+  },
 }
 export const LandingVioletCompact: Story = {
   args: { page: { ...fixtures.landingPage, theme: "violet" }, className: "theme-compact" },

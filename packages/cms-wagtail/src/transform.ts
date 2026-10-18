@@ -47,7 +47,7 @@ export class TransformError extends Error {
   constructor(
     message: string,
     readonly entryId: string,
-    readonly field?: string,
+    readonly field?: string
   ) {
     super(message)
     this.name = "WagtailTransformError"
@@ -60,14 +60,22 @@ export function pageToCanonical(raw: WagtailPage, options: TransformOptions): Pa
   // generated model only adds what Wagtail lacks.
   const source: Record<string, unknown> = { ...raw }
   for (const [name, core] of Object.entries(corePageFields)) {
-    source[snake(name)] = core === "title" ? raw.title : core === "html_url" ? (pathFromHtmlUrl(raw.meta.html_url) ?? "/") : raw.meta[core]
+    source[snake(name)] =
+      core === "title" ? raw.title : core === "html_url" ? (pathFromHtmlUrl(raw.meta.html_url) ?? "/") : raw.meta[core]
   }
   return transformNode(source, pageDefinition, options, id, id, pageEditUrl(options.adminUrl, id)) as Page
 }
 
 export function settingsToCanonical(raw: WagtailRecord, options: TransformOptions): SiteSettings {
   const id = String(raw.id)
-  return transformNode(raw, siteSettingsDefinition, options, id, id, settingsEditUrl(options.adminUrl, raw.meta.type)) as SiteSettings
+  return transformNode(
+    raw,
+    siteSettingsDefinition,
+    options,
+    id,
+    id,
+    settingsEditUrl(options.adminUrl, raw.meta.type)
+  ) as SiteSettings
 }
 
 /**
@@ -81,7 +89,7 @@ export function transformNode(
   options: TransformOptions,
   id: string,
   pageId: string,
-  editUrl?: string,
+  editUrl?: string
 ): Record<string, unknown> {
   const out: Record<string, unknown> = { id, type: definition.type }
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
@@ -94,7 +102,14 @@ export function transformNode(
   return result.data as Record<string, unknown>
 }
 
-function transformField(value: unknown, field: Field, options: TransformOptions, entryId: string, name: string, pageId: string): unknown {
+function transformField(
+  value: unknown,
+  field: Field,
+  options: TransformOptions,
+  entryId: string,
+  name: string,
+  pageId: string
+): unknown {
   switch (field.kind) {
     case "text":
     case "textarea":
@@ -120,7 +135,8 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
     case "number": {
       if (value === "" || value === null || value === undefined) return undefined
       const n = typeof value === "number" ? value : Number(value)
-      if (Number.isNaN(n)) throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
+      if (Number.isNaN(n))
+        throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
       return n
     }
     case "boolean":
@@ -131,7 +147,11 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
       const selected = typeof value === "string" ? value : ""
       if (selected === "") return field.required ? field.defaultValue : undefined
       if (!field.options.includes(selected)) {
-        throw new TransformError(`Field "${name}" of ${entryId} has value "${selected}", expected one of ${field.options.join(", ")}`, entryId, name)
+        throw new TransformError(
+          `Field "${name}" of ${entryId} has value "${selected}", expected one of ${field.options.join(", ")}`,
+          entryId,
+          name
+        )
       }
       return selected
     }
@@ -141,7 +161,11 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
       return children.map((child, index) => {
         const { definition, value: childValue, id } = streamChild(child, field.of, entryId, name, index)
         if (typeof childValue !== "object" || childValue === null) {
-          throw new TransformError(`Field "${name}" of ${entryId} holds a non-object value at index ${index}`, entryId, name)
+          throw new TransformError(
+            `Field "${name}" of ${entryId} holds a non-object value at index ${index}`,
+            entryId,
+            name
+          )
         }
         return transformNode(childValue as Record<string, unknown>, definition, options, id, pageId)
       })
@@ -158,28 +182,41 @@ function transformField(value: unknown, field: Field, options: TransformOptions,
  */
 function streamChild(child: unknown, of: readonly AnyDefinition[], entryId: string, name: string, index: number) {
   const fallbackId = `${entryId}.${snake(name)}.${index}`
-  const wrapped = typeof child === "object" && child !== null && "type" in child && "value" in child ? (child as StreamChild) : null
+  const wrapped =
+    typeof child === "object" && child !== null && "type" in child && "value" in child ? (child as StreamChild) : null
   if (!wrapped) {
     // A plain ListBlock value (no wrapper) can only be the single allowed item type.
-    if (of.length !== 1) throw new TransformError(`Field "${name}" of ${entryId} has an untyped child at index ${index}`, entryId, name)
+    if (of.length !== 1)
+      throw new TransformError(`Field "${name}" of ${entryId} has an untyped child at index ${index}`, entryId, name)
     return { definition: of[0]!, value: child, id: fallbackId }
   }
-  const definition = wrapped.type === "item" && of.length === 1 ? of[0]! : of.find((d) => streamName(d.type) === wrapped.type)
+  const definition =
+    wrapped.type === "item" && of.length === 1 ? of[0]! : of.find((d) => streamName(d.type) === wrapped.type)
   if (!definition) {
     throw new TransformError(
       `Field "${name}" of ${entryId} holds a "${wrapped.type}" block at index ${index}; allowed: ${of.map((d) => streamName(d.type)).join(", ")}`,
       entryId,
-      name,
+      name
     )
   }
-  return { definition, value: wrapped.value, id: typeof wrapped.id === "string" && wrapped.id !== "" ? wrapped.id : fallbackId }
+  return {
+    definition,
+    value: wrapped.value,
+    id: typeof wrapped.id === "string" && wrapped.id !== "" ? wrapped.id : fallbackId,
+  }
 }
 
 /** `ListBlock(CharBlock)` gives `string[]`; a model-level `StreamField` gives `[{ type: "text", value }]`. */
 function textList(value: unknown): string[] {
   if (!Array.isArray(value)) return []
   return value
-    .map((entry) => (typeof entry === "string" ? entry : typeof (entry as StreamChild)?.value === "string" ? ((entry as StreamChild).value as string) : ""))
+    .map((entry) =>
+      typeof entry === "string"
+        ? entry
+        : typeof (entry as StreamChild)?.value === "string"
+          ? ((entry as StreamChild).value as string)
+          : ""
+    )
     .map((entry) => entry.trim())
     .filter((entry) => entry !== "")
 }

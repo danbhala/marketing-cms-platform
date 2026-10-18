@@ -25,7 +25,7 @@ function ContentCard({ item, className, ...props }: ContentCardProps) {
       data-slot="content-card"
       className={cn(
         "group/card relative flex h-full flex-col overflow-hidden rounded-xl border bg-card text-card-foreground",
-        className,
+        className
       )}
       {...editAttrs(item)}
       {...props}
@@ -50,7 +50,7 @@ function ContentCard({ item, className, ...props }: ContentCardProps) {
             <Link
               href={item.href}
               variant="unstyled"
-              className="after:absolute after:inset-0 after:content-[''] group-hover/card:underline"
+              className="group-hover/card:underline after:absolute after:inset-0 after:content-['']"
             >
               {item.title}
             </Link>

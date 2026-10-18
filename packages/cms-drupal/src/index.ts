@@ -69,10 +69,19 @@ export function createDrupalAdapter(options: DrupalAdapterOptions = {}): CmsAdap
   const query = (ctx: FetchContext): DrupalQuery => ({
     draft: ctx.draft,
     ...(ctx.locale !== defaultLocale ? { locale: ctx.locale } : {}),
-    ...(ctx.draft ? { resourceVersion: typeof ctx.preview?.resourceVersion === "string" ? ctx.preview.resourceVersion : WORKING_COPY } : {}),
+    ...(ctx.draft
+      ? {
+          resourceVersion:
+            typeof ctx.preview?.resourceVersion === "string" ? ctx.preview.resourceVersion : WORKING_COPY,
+        }
+      : {}),
   })
   // "Edit in Drupal" affordances only make sense when the preview was opened from Drupal.
-  const transformOptions = (ctx: FetchContext) => ({ edit: ctx.draft && (ctx.preview == null || ctx.preview.mode === "edit"), baseUrl, frontPage })
+  const transformOptions = (ctx: FetchContext) => ({
+    edit: ctx.draft && (ctx.preview == null || ctx.preview.mode === "edit"),
+    baseUrl,
+    frontPage,
+  })
 
   const pageParams = { include: includesFor(pageDefinition).join(",") }
   const settingsParams = { include: includesFor(siteSettingsDefinition).join(",") }
@@ -82,7 +91,8 @@ export function createDrupalAdapter(options: DrupalAdapterOptions = {}): CmsAdap
 
     async getPage(path, ctx) {
       const translated = await getApi().translatePath(path, query(ctx))
-      if (!translated || translated.entity.type !== "node" || translated.entity.bundle !== bundleFor(pageDefinition)) return null
+      if (!translated || translated.entity.type !== "node" || translated.entity.bundle !== bundleFor(pageDefinition))
+        return null
       const doc = await getApi().getResource(PAGE_TYPE, translated.entity.uuid, pageParams, query(ctx))
       if (!doc) return null
       return nodeToPage(doc, transformOptions(ctx))
@@ -92,7 +102,11 @@ export function createDrupalAdapter(options: DrupalAdapterOptions = {}): CmsAdap
       const q = query(ctx)
       // The collection finds the singleton (unpublished too in draft). Drafts take a second request because
       // JSON:API applies resourceVersion to single resources only.
-      const list = await getApi().getCollection(SETTINGS_TYPE, { ...(ctx.draft ? {} : { "filter[status]": "1" }), "page[limit]": "1", ...settingsParams }, q)
+      const list = await getApi().getCollection(
+        SETTINGS_TYPE,
+        { ...(ctx.draft ? {} : { "filter[status]": "1" }), "page[limit]": "1", ...settingsParams },
+        q
+      )
       const first = Array.isArray(list.data) ? list.data[0] : null
       if (!first) return null
       if (!ctx.draft) return nodeToSiteSettings({ data: first, included: list.included }, transformOptions(ctx))
@@ -101,7 +115,11 @@ export function createDrupalAdapter(options: DrupalAdapterOptions = {}): CmsAdap
     },
 
     async getPaths(locale) {
-      const list = await getApi().getCollection(PAGE_TYPE, { [`fields[${PAGE_TYPE}]`]: "path,status", "filter[status]": "1" }, { draft: false, ...(locale !== defaultLocale ? { locale } : {}) })
+      const list = await getApi().getCollection(
+        PAGE_TYPE,
+        { [`fields[${PAGE_TYPE}]`]: "path,status", "filter[status]": "1" },
+        { draft: false, ...(locale !== defaultLocale ? { locale } : {}) }
+      )
       const nodes = Array.isArray(list.data) ? list.data : []
       const paths = nodes.map((node) => {
         const alias = (node.attributes?.path as { alias?: string | null } | undefined)?.alias
@@ -141,6 +159,13 @@ export { nodeToPage, nodeToSiteSettings, transformResource, linkToHref, sitePath
 export { htmlToAst, isEmptyHtml } from "./rich-text"
 export { mediaToMedia, absoluteUrl } from "./media"
 export { generateModule, MODULE_NAME } from "./schema"
-export { bundleFor, fieldNameFor, includesFor, resourceTypeFor, definitionForResourceType, snake } from "./schema/naming"
+export {
+  bundleFor,
+  fieldNameFor,
+  includesFor,
+  resourceTypeFor,
+  definitionForResourceType,
+  snake,
+} from "./schema/naming"
 export { safePath, frameAncestorsFor } from "./preview"
 export { SECRET_HEADER } from "./webhook"

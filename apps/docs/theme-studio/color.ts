@@ -69,18 +69,35 @@ export function clampToGamut(color: Oklch): Oklch {
 
 export function oklchToHex(color: Oklch): string {
   const rgb = oklchToLinearSrgb(clampToGamut(color)).map((v) => Math.min(1, Math.max(0, v)))
-  return "#" + rgb.map((v) => Math.round(gamma(v) * 255).toString(16).padStart(2, "0")).join("")
+  return (
+    "#" +
+    rgb
+      .map((v) =>
+        Math.round(gamma(v) * 255)
+          .toString(16)
+          .padStart(2, "0")
+      )
+      .join("")
+  )
 }
 
 export function hexToOklch(hex: string): Oklch | null {
   const m = hex.trim().match(/^#?([0-9a-f]{6})$/i)
   if (!m?.[1]) return null
   const n = parseInt(m[1], 16)
-  return linearSrgbToOklch([degamma(((n >> 16) & 255) / 255), degamma(((n >> 8) & 255) / 255), degamma((n & 255) / 255)])
+  return linearSrgbToOklch([
+    degamma(((n >> 16) & 255) / 255),
+    degamma(((n >> 8) & 255) / 255),
+    degamma((n & 255) / 255),
+  ])
 }
 
 function luminance(color: Oklch): number {
-  const [r, g, b] = oklchToLinearSrgb(clampToGamut(color)).map((v) => Math.min(1, Math.max(0, v))) as [number, number, number]
+  const [r, g, b] = oklchToLinearSrgb(clampToGamut(color)).map((v) => Math.min(1, Math.max(0, v))) as [
+    number,
+    number,
+    number,
+  ]
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
@@ -91,4 +108,5 @@ export function contrast(a: Oklch, b: Oklch): number {
   return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
 }
 
-export const contrastGrade = (ratio: number) => (ratio >= 7 ? "AAA" : ratio >= 4.5 ? "AA" : ratio >= 3 ? "AA large" : "fail")
+export const contrastGrade = (ratio: number) =>
+  ratio >= 7 ? "AAA" : ratio >= 4.5 ? "AA" : ratio >= 3 ? "AA large" : "fail"

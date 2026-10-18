@@ -12,11 +12,11 @@ A block is declared once in `@platform/content-model`:
 export const featureGrid = defineBlock("featureGrid", {
   label: "Feature grid",
   fields: {
-    ...heading,                       // eyebrow, title, description
+    ...heading, // eyebrow, title, description
     features: field.items([featureItem]),
     columns: field.select(["2", "3", "4"], { defaultValue: "3" }),
     itemStyle: field.select(["plain", "card"], { defaultValue: "plain" }),
-    ...presentation,                  // theme, spacing, anchor
+    ...presentation, // theme, spacing, anchor
   },
 })
 ```
@@ -31,12 +31,21 @@ canonical shape.
 ```tsx
 function FeatureGrid({ block, index, ...props }: FeatureGridProps) {
   return (
-    <BlockSection block={block} {...props}>          {/* theme, spacing, anchor, $edit */}
+    <BlockSection block={block} {...props}>
+      {" "}
+      {/* theme, spacing, anchor, $edit */}
       <Container className="flex flex-col gap-(--block-header-gap)">
-        <SectionHeader eyebrow={block.eyebrow} title={block.title} description={block.description}
-          as={index === 0 ? "h1" : "h2"} source={block} />
+        <SectionHeader
+          eyebrow={block.eyebrow}
+          title={block.title}
+          description={block.description}
+          as={index === 0 ? "h1" : "h2"}
+          source={block}
+        />
         <Grid columns={block.columns} {...fieldAttrs(block, "features")}>
-          {block.features.map((f) => <FeatureItem key={f.id} item={f} appearance={block.itemStyle} />)}
+          {block.features.map((f) => (
+            <FeatureItem key={f.id} item={f} appearance={block.itemStyle} />
+          ))}
         </Grid>
       </Container>
     </BlockSection>

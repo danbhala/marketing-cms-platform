@@ -11,37 +11,96 @@ export function Field({ label, hint, children }: { label: string; hint?: ReactNo
     <label className="flex flex-col gap-1.5 text-sm">
       <span className="flex items-baseline justify-between gap-2">
         <span className="font-medium">{label}</span>
-        {hint ? <span className="text-xs tabular-nums text-fd-muted-foreground">{hint}</span> : null}
+        {hint ? <span className="text-fd-muted-foreground text-xs tabular-nums">{hint}</span> : null}
       </span>
       {children}
     </label>
   )
 }
 
-export function Range({ value, min, max, step, onChange, className }: { value: number; min: number; max: number; step: number; onChange: (v: number) => void; className?: string }) {
-  return <input type="range" value={value} min={min} max={max} step={step} onChange={(e) => onChange(Number(e.target.value))} className={className ?? "w-full accent-fd-primary"} />
+export function Range({
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  className,
+}: {
+  value: number
+  min: number
+  max: number
+  step: number
+  onChange: (v: number) => void
+  className?: string
+}) {
+  return (
+    <input
+      type="range"
+      value={value}
+      min={min}
+      max={max}
+      step={step}
+      onChange={(e) => onChange(Number(e.target.value))}
+      className={className ?? "accent-fd-primary w-full"}
+    />
+  )
 }
 
-export function Select({ value, onChange, children, className }: { value: string; onChange: (v: string) => void; children: ReactNode; className?: string }) {
+export function Select({
+  value,
+  onChange,
+  children,
+  className,
+}: {
+  value: string
+  onChange: (v: string) => void
+  children: ReactNode
+  className?: string
+}) {
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value)} className={className ?? "h-9 w-full rounded-md border bg-fd-background px-2 text-sm"}>
+    <select
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={className ?? "bg-fd-background h-9 w-full rounded-md border px-2 text-sm"}
+    >
       {children}
     </select>
   )
 }
 
-export function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
+export function Toggle({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean
+  onChange: (v: boolean) => void
+  label: string
+}) {
   return (
     <label className="flex items-center gap-2 text-sm">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="size-4 accent-fd-primary" />
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="accent-fd-primary size-4"
+      />
       {label}
     </label>
   )
 }
 
-export function Segmented<T extends string>({ value, options, onChange }: { value: T; options: Array<{ value: T; label: ReactNode }>; onChange: (v: T) => void }) {
+export function Segmented<T extends string>({
+  value,
+  options,
+  onChange,
+}: {
+  value: T
+  options: Array<{ value: T; label: ReactNode }>
+  onChange: (v: T) => void
+}) {
   return (
-    <div role="group" className="inline-flex rounded-md border bg-fd-muted p-0.5 text-xs">
+    <div role="group" className="bg-fd-muted inline-flex rounded-md border p-0.5 text-xs">
       {options.map((o) => (
         <button
           key={o.value}
@@ -60,9 +119,17 @@ export function Segmented<T extends string>({ value, options, onChange }: { valu
 export function ContrastBadge({ a, b }: { a: Oklch; b: Oklch }) {
   const ratio = contrast(a, b)
   const grade = contrastGrade(ratio)
-  const tone = grade === "fail" ? "bg-red-500/15 text-red-700 dark:text-red-300" : grade === "AA large" ? "bg-amber-500/15 text-amber-700 dark:text-amber-300" : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+  const tone =
+    grade === "fail"
+      ? "bg-red-500/15 text-red-700 dark:text-red-300"
+      : grade === "AA large"
+        ? "bg-amber-500/15 text-amber-700 dark:text-amber-300"
+        : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
   return (
-    <span className={`rounded px-1.5 py-0.5 text-[10px] font-medium tabular-nums ${tone}`} title={`Contrast ${ratio.toFixed(2)}:1`}>
+    <span
+      className={`rounded px-1.5 py-0.5 text-[10px] font-medium tabular-nums ${tone}`}
+      title={`Contrast ${ratio.toFixed(2)}:1`}
+    >
       {ratio.toFixed(1)} {grade}
     </span>
   )
@@ -72,12 +139,22 @@ export function ContrastBadge({ a, b }: { a: Oklch; b: Oklch }) {
  * One colour token: a swatch that opens the native picker, the hex, and
  * L/C/H sliders behind a disclosure for fine control in the native space.
  */
-export function ColorField({ label, value, onChange, against }: { label: string; value: Oklch; onChange: (v: Oklch) => void; against?: Oklch }) {
+export function ColorField({
+  label,
+  value,
+  onChange,
+  against,
+}: {
+  label: string
+  value: Oklch
+  onChange: (v: Oklch) => void
+  against?: Oklch
+}) {
   const id = useId()
   const hex = oklchToHex(value)
   const [l, c, h] = value
   return (
-    <details className="group rounded-md border bg-fd-card open:bg-fd-muted/40">
+    <details className="group bg-fd-card open:bg-fd-muted/40 rounded-md border">
       <summary className="flex cursor-pointer list-none items-center gap-2 px-2 py-1.5 text-sm">
         <span className="relative size-6 shrink-0 overflow-hidden rounded border" style={{ background: hex }}>
           <input
@@ -95,7 +172,7 @@ export function ColorField({ label, value, onChange, against }: { label: string;
         </span>
         <span className="flex-1 truncate">{label}</span>
         {against ? <ContrastBadge a={value} b={against} /> : null}
-        <span className="font-mono text-[11px] text-fd-muted-foreground">{hex}</span>
+        <span className="text-fd-muted-foreground font-mono text-[11px]">{hex}</span>
       </summary>
       <div className="flex flex-col gap-2 border-t px-2 py-2">
         <Field label="Lightness" hint={l.toFixed(3)}>
@@ -105,9 +182,16 @@ export function ColorField({ label, value, onChange, against }: { label: string;
           <Range value={c} min={0} max={0.37} step={0.002} onChange={(v) => onChange([l, v, h])} />
         </Field>
         <Field label="Hue" hint={`${Math.round(h)}°`}>
-          <Range value={h} min={0} max={360} step={1} onChange={(v) => onChange([l, c, v])} className="hue-range w-full" />
+          <Range
+            value={h}
+            min={0}
+            max={360}
+            step={1}
+            onChange={(v) => onChange([l, c, v])}
+            className="hue-range w-full"
+          />
         </Field>
-        <code className="text-[11px] text-fd-muted-foreground">{formatOklch(value)}</code>
+        <code className="text-fd-muted-foreground text-[11px]">{formatOklch(value)}</code>
       </div>
     </details>
   )

@@ -26,7 +26,8 @@ export function safePath(input: string | null | undefined): string | null {
  * always runs inspector mode. So the default is edit and `?mode=preview`
  * opts out, which is handy for sharing a draft link without outlines.
  */
-const modeFrom = (params: URLSearchParams): PreviewContext["mode"] => (params.get("mode") === "preview" ? "preview" : "edit")
+const modeFrom = (params: URLSearchParams): PreviewContext["mode"] =>
+  params.get("mode") === "preview" ? "preview" : "edit"
 
 export function createPreviewHandlers(options: PreviewOptions): PreviewHandlers {
   const context = (mode: PreviewContext["mode"]): PreviewContext => ({ mode, localeMap: options.localeMap })

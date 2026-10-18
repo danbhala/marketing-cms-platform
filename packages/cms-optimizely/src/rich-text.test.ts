@@ -13,7 +13,11 @@ describe("rich text from Slate JSON", () => {
   })
 
   it("maps headings, marks, links, lists, quotes and code", () => {
-    expect(doc.children[0]).toEqual({ type: "heading", level: 2, children: [{ type: "text", value: "Why event-based analytics" }] })
+    expect(doc.children[0]).toEqual({
+      type: "heading",
+      level: 2,
+      children: [{ type: "text", value: "Why event-based analytics" }],
+    })
     expect(doc.children[1]).toEqual({
       type: "paragraph",
       children: [
@@ -26,7 +30,12 @@ describe("rich text from Slate JSON", () => {
       type: "list",
       ordered: false,
       children: [
-        { type: "listItem", children: [{ type: "paragraph", children: [{ type: "text", value: "Name events after what the user did." }] }] },
+        {
+          type: "listItem",
+          children: [
+            { type: "paragraph", children: [{ type: "text", value: "Name events after what the user did." }] },
+          ],
+        },
         {
           type: "listItem",
           children: [
@@ -44,9 +53,20 @@ describe("rich text from Slate JSON", () => {
     expect(doc.children[3]).toMatchObject({ type: "list", ordered: true })
     expect(doc.children[4]).toEqual({
       type: "blockquote",
-      children: [{ type: "paragraph", children: [{ type: "text", value: "The best tracking plan is the one your team follows.", marks: ["italic"] }] }],
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            { type: "text", value: "The best tracking plan is the one your team follows.", marks: ["italic"] },
+          ],
+        },
+      ],
     })
-    expect(doc.children[5]).toEqual({ type: "codeBlock", language: "ts", code: 'track("checkout_completed", {\n  plan: "growth",\n})' })
+    expect(doc.children[5]).toEqual({
+      type: "codeBlock",
+      language: "ts",
+      code: 'track("checkout_completed", {\n  plan: "growth",\n})',
+    })
     expect(doc.children[6]).toEqual({
       type: "paragraph",
       children: [
@@ -108,10 +128,16 @@ describe("rich text from HTML", () => {
       ],
     })
     expect(doc.children[2]).toMatchObject({ type: "list", ordered: false })
-    expect(richTextToPlainText({ type: "root", children: [doc.children[2]!] })).toContain("Attach properties generously")
+    expect(richTextToPlainText({ type: "root", children: [doc.children[2]!] })).toContain(
+      "Attach properties generously"
+    )
     expect(doc.children[3]).toMatchObject({ type: "list", ordered: true })
     expect(doc.children[4]).toMatchObject({ type: "blockquote" })
-    expect(doc.children[5]).toEqual({ type: "codeBlock", language: "ts", code: 'track("checkout_completed", {\n  plan: "growth",\n})' })
+    expect(doc.children[5]).toEqual({
+      type: "codeBlock",
+      language: "ts",
+      code: 'track("checkout_completed", {\n  plan: "growth",\n})',
+    })
     expect(doc.children[6]).toEqual({
       type: "paragraph",
       children: [
@@ -128,7 +154,9 @@ describe("rich text from HTML", () => {
   })
 
   it("flattens tables to one paragraph per row and ignores comments", () => {
-    expect(richTextToPlainText({ type: "root", children: doc.children.slice(9, 11) })).toBe("Plan | Price\n\nStarter | $0")
+    expect(richTextToPlainText({ type: "root", children: doc.children.slice(9, 11) })).toBe(
+      "Plan | Price\n\nStarter | $0"
+    )
     expect(doc.children[11]).toEqual({ type: "paragraph", children: [{ type: "text", value: "<not a tag> © ©" }] })
     expect(doc.children).toHaveLength(12)
   })

@@ -15,9 +15,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Horizontal: Story = {
-  args: { block: { ...fixtures.stepsBlock, ...{ orientation: 'horizontal' } } },
+  args: { block: { ...fixtures.stepsBlock, ...{ orientation: "horizontal" } } },
 }
 
 export const Vertical: Story = {
-  args: { block: { ...fixtures.stepsBlock, ...{ orientation: 'vertical' } } },
+  args: { block: { ...fixtures.stepsBlock, ...{ orientation: "vertical" } } },
 }

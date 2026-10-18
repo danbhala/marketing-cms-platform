@@ -15,17 +15,17 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const ThreeColumns: Story = {
-  args: { block: { ...fixtures.featureGridBlock, ...{ columns: '3' } } },
+  args: { block: { ...fixtures.featureGridBlock, ...{ columns: "3" } } },
 }
 
 export const TwoColumns: Story = {
-  args: { block: { ...fixtures.featureGridBlock, ...{ columns: '2' } } },
+  args: { block: { ...fixtures.featureGridBlock, ...{ columns: "2" } } },
 }
 
 export const FourColumnsCards: Story = {
-  args: { block: { ...fixtures.featureGridBlock, ...{ columns: '4', itemStyle: 'card' } } },
+  args: { block: { ...fixtures.featureGridBlock, ...{ columns: "4", itemStyle: "card" } } },
 }
 
 export const Muted: Story = {
-  args: { block: { ...fixtures.featureGridBlock, ...{ theme: 'muted' } } },
+  args: { block: { ...fixtures.featureGridBlock, ...{ theme: "muted" } } },
 }

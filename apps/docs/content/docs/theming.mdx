@@ -15,13 +15,13 @@ Layout is responsive to the **section**, not the viewport: every block root is a
 
 ## Theme classes
 
-| Class | Effect |
-| --- | --- |
-| `theme-light` / `theme-dark` | The stock light and dark palettes |
-| `theme-muted` | Soft grey band for alternating sections |
-| `theme-brand` | Fills the surface with the brand colour (clients override `--brand`) |
-| `theme-blue` `theme-green` `theme-orange` `theme-rose` `theme-violet` | Change the primary hue only; compose with the above |
-| `theme-compact` | Tighter section spacing and grid gaps |
+| Class                                                                 | Effect                                                               |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `theme-light` / `theme-dark`                                          | The stock light and dark palettes                                    |
+| `theme-muted`                                                         | Soft grey band for alternating sections                              |
+| `theme-brand`                                                         | Fills the surface with the brand colour (clients override `--brand`) |
+| `theme-blue` `theme-green` `theme-orange` `theme-rose` `theme-violet` | Change the primary hue only; compose with the above                  |
+| `theme-compact`                                                       | Tighter section spacing and grid gaps                                |
 
 <Screenshot name="atoms-layout--section-themes" alt="The same section rendered with each theme class" height={1216} />
 
@@ -39,7 +39,10 @@ Themes nest: a brand-coloured CTA on a dark page keeps the brand colours inside 
 
 The quickest way to a brand is the [theme studio](/theme): pick a preset, change fonts, colours, radius and rhythm with live preview on a showcase site, check contrast, then copy the CSS, or copy a prompt that has any LLM set the theme up in your project for you. The URL carries the theme, so a link is a shareable draft, and the [showcases](/docs/showcases) are its presets.
 
-<Video src="/video/theme-studio-walkthrough.mp4" caption="A tour of the theme studio: presets, palette, type, layout, mobile preview, surprise me, export and the full page" />
+<Video
+  src="/video/theme-studio-walkthrough.mp4"
+  caption="A tour of the theme studio: presets, palette, type, layout, mobile preview, surprise me, export and the full page"
+/>
 
 <Screenshot name="docs-theme-studio" alt="The theme studio editing the Verso preset" height={800} />
 
@@ -57,8 +60,13 @@ Override variables; never edit components:
   --font-heading: "Fraunces Variable", serif;
   --heading-weight: 500;
 }
-.theme-brand { --brand: var(--primary); }
-.theme-airy { --section-scale: 1.4; --gap-scale: 1.2; }
+.theme-brand {
+  --brand: var(--primary);
+}
+.theme-airy {
+  --section-scale: 1.4;
+  --gap-scale: 1.2;
+}
 ```
 
 Add a new theme name to `themeNames` in `content-model/src/themes.ts` and it appears as an option in every CMS after `pnpm schema:generate`.

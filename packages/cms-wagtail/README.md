@@ -7,16 +7,16 @@ bridge. Targets **Wagtail 8.0** with [wagtail-headless-preview](https://pypi.org
 
 ## Environment
 
-| Variable                 | Purpose                                                                                                        |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `WAGTAIL_API_URL`        | Base of the API, e.g. `https://cms.example.com/api/v2`. Required for any read.                                 |
-| `PREVIEW_SECRET`         | Shared secret for hand-opened previews: `/api/preview?secret=…&path=/pricing`.                                 |
-| `REVALIDATE_SECRET`      | Fallback for `WAGTAIL_WEBHOOK_SECRET`; must equal `PLATFORM_REVALIDATE_SECRET` in Django settings.             |
-| `WAGTAIL_ADMIN_URL`      | Optional, e.g. `https://cms.example.com/admin`: "Edit in Wagtail" links and the `frame-ancestors` origin.      |
-| `WAGTAIL_SITE_HOSTNAME`  | Optional: hostname of the Wagtail `Site` to read, sent as `?site=` when one Wagtail serves several sites.      |
-| `WAGTAIL_I18N_ENABLED`   | Optional `true`: send `?locale=<locale>` on page reads (needs `WAGTAIL_I18N_ENABLED = True` in Django).        |
-| `WAGTAIL_PREVIEW_SECRET` | Optional override of `PREVIEW_SECRET`.                                                                         |
-| `WAGTAIL_WEBHOOK_SECRET` | Optional override of `REVALIDATE_SECRET`.                                                                      |
+| Variable                 | Purpose                                                                                                   |
+| ------------------------ | --------------------------------------------------------------------------------------------------------- |
+| `WAGTAIL_API_URL`        | Base of the API, e.g. `https://cms.example.com/api/v2`. Required for any read.                            |
+| `PREVIEW_SECRET`         | Shared secret for hand-opened previews: `/api/preview?secret=…&path=/pricing`.                            |
+| `REVALIDATE_SECRET`      | Fallback for `WAGTAIL_WEBHOOK_SECRET`; must equal `PLATFORM_REVALIDATE_SECRET` in Django settings.        |
+| `WAGTAIL_ADMIN_URL`      | Optional, e.g. `https://cms.example.com/admin`: "Edit in Wagtail" links and the `frame-ancestors` origin. |
+| `WAGTAIL_SITE_HOSTNAME`  | Optional: hostname of the Wagtail `Site` to read, sent as `?site=` when one Wagtail serves several sites. |
+| `WAGTAIL_I18N_ENABLED`   | Optional `true`: send `?locale=<locale>` on page reads (needs `WAGTAIL_I18N_ENABLED = True` in Django).   |
+| `WAGTAIL_PREVIEW_SECRET` | Optional override of `PREVIEW_SECRET`.                                                                    |
+| `WAGTAIL_WEBHOOK_SECRET` | Optional override of `REVALIDATE_SECRET`.                                                                 |
 
 Everything can also be passed explicitly: `createWagtailAdapter({ apiUrl, pageType: "platform_cms.ContentPage", locales: ["en"] })`.
 Nothing touches the network until the first read, so importing the package without credentials is safe.
@@ -106,7 +106,14 @@ Wagtail has no outbound webhooks. `schema/platform_cms/signals.py` connects `pag
 `post_page_move` for `ContentPage` and `post_save` for `SiteSettings`, and POSTs
 
 ```json
-{ "event": "page_published", "id": 3, "type": "platform_cms.ContentPage", "locale": "en", "path": "/pricing/", "old_path": null }
+{
+  "event": "page_published",
+  "id": 3,
+  "type": "platform_cms.ContentPage",
+  "locale": "en",
+  "path": "/pricing/",
+  "old_path": null
+}
 ```
 
 to `PLATFORM_REVALIDATE_URL` with `X-Wagtail-Signature: sha256=<HMAC-SHA256 hex of the raw body>` using

@@ -76,14 +76,23 @@ export function storageFor(field: Field): FieldStorage {
       return {
         type: "string",
         module: "core",
-        settings: { max_length: field.kind === "text" && field.maxLength ? field.maxLength : 255, case_sensitive: false, is_ascii: false },
+        settings: {
+          max_length: field.kind === "text" && field.maxLength ? field.maxLength : 255,
+          case_sensitive: false,
+          is_ascii: false,
+        },
         cardinality: 1,
       }
     case "textarea":
       return { type: "string_long", module: "core", settings: { case_sensitive: false }, cardinality: 1 }
     case "textList":
       // Drupal has no list-of-strings type; an unlimited-cardinality string field is the idiom.
-      return { type: "string", module: "core", settings: { max_length: 255, case_sensitive: false, is_ascii: false }, cardinality: -1 }
+      return {
+        type: "string",
+        module: "core",
+        settings: { max_length: 255, case_sensitive: false, is_ascii: false },
+        cardinality: -1,
+      }
     case "richText":
       return { type: "text_long", module: "text", settings: {}, cardinality: 1 }
     case "number":
@@ -98,7 +107,10 @@ export function storageFor(field: Field): FieldStorage {
       return {
         type: "list_string",
         module: "options",
-        settings: { allowed_values: field.options.map((value) => ({ value, label: humanize(value) })), allowed_values_function: "" },
+        settings: {
+          allowed_values: field.options.map((value) => ({ value, label: humanize(value) })),
+          allowed_values_function: "",
+        },
         cardinality: 1,
       }
     case "items":
@@ -109,7 +121,12 @@ export function storageFor(field: Field): FieldStorage {
         cardinality: field.max ?? -1,
       }
     case "blocks":
-      return { type: "entity_reference_revisions", module: "entity_reference_revisions", settings: { target_type: "paragraph" }, cardinality: -1 }
+      return {
+        type: "entity_reference_revisions",
+        module: "entity_reference_revisions",
+        settings: { target_type: "paragraph" },
+        cardinality: -1,
+      }
   }
 }
 
@@ -187,7 +204,9 @@ function resolve(definitions: readonly AnyDefinition[]): DrupalNaming {
 function assertLength(machine: string, uses: { definition: AnyDefinition; name: string }[]): string {
   if (machine.length > MAX_MACHINE_NAME) {
     const where = uses.map((use) => `${use.definition.type}.${use.name}`).join(", ")
-    throw new Error(`Drupal field name "${machine}" exceeds ${MAX_MACHINE_NAME} characters (used by ${where}); shorten the field name in the content model`)
+    throw new Error(
+      `Drupal field name "${machine}" exceeds ${MAX_MACHINE_NAME} characters (used by ${where}); shorten the field name in the content model`
+    )
   }
   return machine
 }

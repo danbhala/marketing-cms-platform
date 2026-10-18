@@ -85,7 +85,8 @@ export function createWebhookHandlers(options: WebhookOptions): CmsAdapter["webh
 
       return {
         tags: uniqueTags(list),
-        summary: `contentful: ${topic ?? "unknown topic"} ${entityType ?? ""}${contentType ? `/${contentType}` : ""} ${id ?? ""}`.trim(),
+        summary:
+          `contentful: ${topic ?? "unknown topic"} ${entityType ?? ""}${contentType ? `/${contentType}` : ""} ${id ?? ""}`.trim(),
       }
     },
   }
@@ -100,7 +101,8 @@ function unwrap(payload: unknown): { topic: string | null; body: WebhookBody } {
   return { topic: null, body: asBody(payload) }
 }
 
-const asBody = (value: unknown): WebhookBody => (typeof value === "object" && value !== null ? (value as WebhookBody) : {})
+const asBody = (value: unknown): WebhookBody =>
+  typeof value === "object" && value !== null ? (value as WebhookBody) : {}
 
 /**
  * Webhook bodies carry CMA-style localized fields (`{ "en-US": "/pricing" }`);

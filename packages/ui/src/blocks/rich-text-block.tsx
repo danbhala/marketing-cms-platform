@@ -14,7 +14,13 @@ function RichTextBlock({ block, className, ...props }: RichTextBlockProps) {
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container size={full ? "section" : "md"}>
-        <RichText content={block.body} width={full ? "full" : "prose"} size="lg" className="mx-auto" {...fieldAttrs(block, "body")} />
+        <RichText
+          content={block.body}
+          width={full ? "full" : "prose"}
+          size="lg"
+          className="mx-auto"
+          {...fieldAttrs(block, "body")}
+        />
       </Container>
     </BlockSection>
   )

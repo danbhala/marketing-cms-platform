@@ -43,7 +43,11 @@ export function createStoryblokApi(options: StoryblokClientOptions): StoryblokAp
     const token = version === "published" && options.publicToken ? options.publicToken : options.previewToken
     let client = clients.get(token)
     if (!client) {
-      client = new StoryblokClient({ accessToken: token, region: options.region ?? "eu", cache: { type: "none", cv: "manual" } })
+      client = new StoryblokClient({
+        accessToken: token,
+        region: options.region ?? "eu",
+        cache: { type: "none", cv: "manual" },
+      })
       clients.set(token, client)
     }
     return client

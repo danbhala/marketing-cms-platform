@@ -1,14 +1,24 @@
-// Writes the Optimizely content model to ../schema. Run with
-//   pnpm --filter @platform/cms-optimizely schema:generate
-// (node --experimental-strip-types with the register-ts.mjs loader hook).
+/**
+ * Writes the Optimizely content model to schema/: `pnpm schema:generate`
+ * (plain Node with type stripping; the resolve hook comes from
+ * @platform/content-model/strip-types).
+ */
 import { mkdirSync, writeFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { describeAllContentTypes, renderBuildConfig, renderContentTypesJson, renderContentTypesModule } from "../src/schema/index.ts"
+import {
+  describeAllContentTypes,
+  renderBuildConfig,
+  renderContentTypesJson,
+  renderContentTypesModule,
+} from "../src/schema/index"
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), "..", "schema")
-const locales = (process.env.OPTIMIZELY_LOCALES ?? "en").split(",").map((l) => l.trim()).filter(Boolean)
+const locales = (process.env.OPTIMIZELY_LOCALES ?? "en")
+  .split(",")
+  .map((l) => l.trim())
+  .filter(Boolean)
 
 const descriptions = describeAllContentTypes()
 mkdirSync(outDir, { recursive: true })

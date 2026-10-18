@@ -44,7 +44,11 @@ function ScrollStrip({ children, gap = 24, header, className, ...props }: Scroll
       {flat ? (
         <div className="flex flex-col gap-(--block-header-gap)">
           {header}
-          <div tabIndex={0} className="flex snap-x snap-mandatory overflow-x-auto pb-4 outline-none [scrollbar-width:thin] focus-visible:ring-3 focus-visible:ring-ring/50" style={{ gap }}>
+          <div
+            tabIndex={0}
+            className="flex snap-x snap-mandatory overflow-x-auto pb-4 outline-none [scrollbar-width:thin] focus-visible:ring-3 focus-visible:ring-ring/50"
+            style={{ gap }}
+          >
             {children}
           </div>
         </div>

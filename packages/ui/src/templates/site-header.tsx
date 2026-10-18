@@ -36,9 +36,17 @@ function Brand({ settings }: { settings: SiteHeaderProps["settings"] }) {
   return (
     <Link href="/" variant="unstyled" className="flex items-center gap-2 font-semibold">
       {settings.logo ? (
-        <Image media={settings.logo} radius="none" className="h-7 w-auto bg-transparent" {...fieldAttrs(settings, "logo")} />
+        <Image
+          media={settings.logo}
+          radius="none"
+          className="h-7 w-auto bg-transparent"
+          {...fieldAttrs(settings, "logo")}
+        />
       ) : (
-        <span aria-hidden className="flex size-7 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">
+        <span
+          aria-hidden
+          className="flex size-7 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground"
+        >
           {settings.siteName.slice(0, 1)}
         </span>
       )}
@@ -52,7 +60,10 @@ function DesktopNavItem({ group }: { group: NavGroup }) {
   if (!group.links.length) {
     return (
       <NavigationMenuItem {...editAttrs(group)}>
-        <NavigationMenuLink render={<Link href={group.href ?? "#"} variant="unstyled" />} className={navigationMenuTriggerStyle()}>
+        <NavigationMenuLink
+          render={<Link href={group.href ?? "#"} variant="unstyled" />}
+          className={navigationMenuTriggerStyle()}
+        >
           {group.label}
         </NavigationMenuLink>
       </NavigationMenuItem>
@@ -65,7 +76,10 @@ function DesktopNavItem({ group }: { group: NavGroup }) {
         <ul className="grid w-80 gap-1 p-1" {...fieldAttrs(group, "links")}>
           {group.links.map((link) => (
             <li key={link.id} {...editAttrs(link)}>
-              <NavigationMenuLink render={<Link href={link.href} variant="unstyled" />} className="flex flex-col gap-1 rounded-md p-3 hover:bg-accent">
+              <NavigationMenuLink
+                render={<Link href={link.href} variant="unstyled" />}
+                className="flex flex-col gap-1 rounded-md p-3 hover:bg-accent"
+              >
                 <span className="text-sm font-medium">{link.label}</span>
                 {link.description ? <span className="text-xs text-muted-foreground">{link.description}</span> : null}
               </NavigationMenuLink>
@@ -88,7 +102,7 @@ function SiteHeader({ settings, sticky = true, className, ...props }: SiteHeader
       className={cn(
         "@container/section z-40 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80",
         sticky && "sticky top-0",
-        className,
+        className
       )}
       {...props}
     >
@@ -105,9 +119,16 @@ function SiteHeader({ settings, sticky = true, className, ...props }: SiteHeader
         </NavigationMenu>
 
         <div className="flex items-center gap-2">
-          <ActionGroup actions={settings.headerActions} size="sm" className="hidden gap-2 section-sm:flex" {...fieldAttrs(settings, "headerActions")} />
+          <ActionGroup
+            actions={settings.headerActions}
+            size="sm"
+            className="hidden gap-2 section-sm:flex"
+            {...fieldAttrs(settings, "headerActions")}
+          />
           <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon" className="section-lg:hidden" aria-label="Open menu" />}>
+            <SheetTrigger
+              render={<Button variant="ghost" size="icon" className="section-lg:hidden" aria-label="Open menu" />}
+            >
               <MenuIcon className="size-5" aria-hidden />
             </SheetTrigger>
             <SheetContent side="right" className="w-80 overflow-y-auto">

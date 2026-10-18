@@ -1,6 +1,14 @@
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types"
 
-import type { BlockNode, HeadingNode, InlineNode, ListItemNode, Mark, RichText, TextNode } from "@platform/content-model"
+import type {
+  BlockNode,
+  HeadingNode,
+  InlineNode,
+  ListItemNode,
+  Mark,
+  RichText,
+  TextNode,
+} from "@platform/content-model"
 
 import { toMedia } from "./media"
 

@@ -19,13 +19,7 @@
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"
       ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "!.next/dev/**",
-        "dist/**",
-        ".source/**"
-      ]
+      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**", ".source/**"]
     },
     "docs#build": {
       "dependsOn": ["^build", "@platform/ui#build-storybook"],
@@ -43,13 +37,7 @@
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"
       ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "!.next/dev/**",
-        "dist/**",
-        ".source/**"
-      ]
+      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**", ".source/**"]
     },
     "build-storybook": {
       "dependsOn": ["^build"],

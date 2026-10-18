@@ -15,9 +15,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Split: Story = {
-  args: { block: { ...fixtures.faqBlock, ...{ layout: 'split' } } },
+  args: { block: { ...fixtures.faqBlock, ...{ layout: "split" } } },
 }
 
 export const Single: Story = {
-  args: { block: { ...fixtures.faqBlock, ...{ layout: 'single' } } },
+  args: { block: { ...fixtures.faqBlock, ...{ layout: "single" } } },
 }

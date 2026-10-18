@@ -37,7 +37,8 @@ function sortedItems(schema: WagtailSchema): WagtailTypeSchema[] {
     if (seen.has(type.python)) return
     seen.add(type.python)
     for (const dependency of list) {
-      if (dependency !== type && type.fields.some((f) => f.definition.includes(`${dependency.python}()`))) visit(byPython.get(dependency.python)!)
+      if (dependency !== type && type.fields.some((f) => f.definition.includes(`${dependency.python}()`)))
+        visit(byPython.get(dependency.python)!)
     }
     out.push(type)
   }
@@ -61,7 +62,9 @@ export function renderStructBlocks(types: readonly WagtailTypeSchema[]): string 
 export function renderBlocksPy(schema: WagtailSchema): string {
   const streamChildren = blocks(schema)
   const parts: string[] = [
-    header("StreamField blocks: one StructBlock per item and per block of the content model,\nand the ContentStreamBlock pages are built from."),
+    header(
+      "StreamField blocks: one StructBlock per item and per block of the content model,\nand the ContentStreamBlock pages are built from."
+    ),
     `from django.core.exceptions import ValidationError
 from rest_framework.fields import Field
 from wagtail import blocks
@@ -249,7 +252,9 @@ function modelClass(type: WagtailTypeSchema, bases: string, decorator?: string):
     lines.push(`    api_fields = [`)
   }
   for (const field of own) {
-    const serializer = field.definition.startsWith("models.ForeignKey(\"wagtailimages.Image\"") ? ", serializer=ImageSerializer()" : ""
+    const serializer = field.definition.startsWith('models.ForeignKey("wagtailimages.Image"')
+      ? ", serializer=ImageSerializer()"
+      : ""
     lines.push(`        APIField(${py(field.python)}${serializer}),`)
   }
   lines.push("    ]", "", "    class Meta:", `        verbose_name = ${py(type.label)}`)
@@ -258,7 +263,17 @@ function modelClass(type: WagtailTypeSchema, bases: string, decorator?: string):
 }
 
 export function renderModelsPy(schema: WagtailSchema): string {
-  const blockImports = [...new Set(schema.types.filter((t) => t.base !== "StructBlock").flatMap((t) => t.fields.flatMap((f) => [...f.definition.matchAll(/\b([A-Z][A-Za-z]+(?:Item|Section|StreamBlock))\(\)/g)].map((m) => m[1]!))))]
+  const blockImports = [
+    ...new Set(
+      schema.types
+        .filter((t) => t.base !== "StructBlock")
+        .flatMap((t) =>
+          t.fields.flatMap((f) =>
+            [...f.definition.matchAll(/\b([A-Z][A-Za-z]+(?:Item|Section|StreamBlock))\(\)/g)].map((m) => m[1]!)
+          )
+        )
+    ),
+  ]
   const imports = ["ImageSerializer", ...blockImports].sort()
   const parts = [
     header("Page and settings models for the content model's documents."),
@@ -277,7 +292,8 @@ ${imports.map((name) => `    ${name},`).join("\n")}
 `,
   ]
   for (const type of pages(schema)) parts.push(`\n\n${modelClass(type, "HeadlessMixin, Page")}`)
-  for (const type of settings(schema)) parts.push(`\n\n${modelClass(type, "BaseGenericSetting", "@register_setting(icon=\"cog\")")}`)
+  for (const type of settings(schema))
+    parts.push(`\n\n${modelClass(type, "BaseGenericSetting", '@register_setting(icon="cog")')}`)
   return parts.join("").replace(/blocks\.CharBlock\(/g, "CharBlock(")
 }
 
@@ -299,7 +315,7 @@ ${type.fields
   .join("\n")}
     ]
     name = ${py(settingsEndpoint(type))}
-`,
+`
     )
     .join("")
   return `${header("API v2 router: pages, images, documents, headless previews and site settings.")}
@@ -441,7 +457,7 @@ def on_page_unpublished(sender, instance, **kwargs):
 @receiver(post_page_move, sender=${type.python})
 def on_page_moved(sender, instance, instance_before, **kwargs):
     post_event(page_payload("page_moved", instance, old_path=page_path(instance_before)))
-`,
+`
   )
   .join("")}
 ${settingsTypes
@@ -450,7 +466,7 @@ ${settingsTypes
 @receiver(post_save, sender=${type.python})
 def on_settings_saved(sender, instance, **kwargs):
     post_event({"event": "settings_updated", "id": instance.pk, "type": ${py(type.apiType ?? "")}})
-`,
+`
   )
   .join("")}`
 }

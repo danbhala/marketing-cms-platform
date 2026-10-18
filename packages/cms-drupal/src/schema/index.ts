@@ -137,7 +137,9 @@ function nodeType(definition: AnyDefinition): Record<string, YamlValue> {
     dependencies: {},
     name: definition.label,
     type: bundleFor(definition),
-    description: definition.description ?? (definition.singleton ? "Exactly one of these exists per site." : "A page built from paragraph blocks."),
+    description:
+      definition.description ??
+      (definition.singleton ? "Exactly one of these exists per site." : "A page built from paragraph blocks."),
     help: "",
     // Every save makes a revision so `resourceVersion=rel:working-copy` has a draft to show.
     new_revision: true,
@@ -307,7 +309,13 @@ function formDisplay(definition: AnyDefinition, naming: DrupalNaming): Record<st
   let weight = 0
 
   if (entityType === "node") {
-    content.title = { type: "string_textfield", weight: weight++, region: "content", settings: { size: 60, placeholder: "" }, third_party_settings: {} }
+    content.title = {
+      type: "string_textfield",
+      weight: weight++,
+      region: "content",
+      settings: { size: 60, placeholder: "" },
+      third_party_settings: {},
+    }
   }
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
     if (base[name]) continue
@@ -315,12 +323,25 @@ function formDisplay(definition: AnyDefinition, naming: DrupalNaming): Record<st
     const widget = widgetFor(field)
     if (widget.module) modules.add(widget.module)
     config.push(`field.field.${entityType}.${bundle}.${machine}`)
-    content[machine] = { type: widget.type, weight: weight++, region: "content", settings: widget.settings, third_party_settings: {} }
+    content[machine] = {
+      type: widget.type,
+      weight: weight++,
+      region: "content",
+      settings: widget.settings,
+      third_party_settings: {},
+    }
   }
   if (entityType === "node") {
     modules.add("path")
-    if (base.path) content.path = { type: "path", weight: weight++, region: "content", settings: {}, third_party_settings: {} }
-    content.status = { type: "boolean_checkbox", weight, region: "content", settings: { display_label: true }, third_party_settings: {} }
+    if (base.path)
+      content.path = { type: "path", weight: weight++, region: "content", settings: {}, third_party_settings: {} }
+    content.status = {
+      type: "boolean_checkbox",
+      weight,
+      region: "content",
+      settings: { display_label: true },
+      third_party_settings: {},
+    }
   }
 
   return {
@@ -332,7 +353,10 @@ function formDisplay(definition: AnyDefinition, naming: DrupalNaming): Record<st
     bundle,
     mode: "default",
     content,
-    hidden: entityType === "node" ? { created: true, promote: true, sticky: true, uid: true } : { created: true, status: true, uid: true },
+    hidden:
+      entityType === "node"
+        ? { created: true, promote: true, sticky: true, uid: true }
+        : { created: true, status: true, uid: true },
   }
 }
 

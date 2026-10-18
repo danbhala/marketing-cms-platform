@@ -6,14 +6,16 @@ import { Fragment } from "react"
  */
 export function FlowDiagram({ columns }: { columns: { title?: string; nodes: string[] }[] }) {
   return (
-    <div className="not-prose my-6 flex items-center gap-2 overflow-x-auto rounded-xl border bg-fd-card p-4 text-sm">
+    <div className="not-prose bg-fd-card my-6 flex items-center gap-2 overflow-x-auto rounded-xl border p-4 text-sm">
       {columns.map((column, i) => (
         <Fragment key={i}>
-          {i > 0 ? <span className="shrink-0 text-fd-muted-foreground">→</span> : null}
+          {i > 0 ? <span className="text-fd-muted-foreground shrink-0">→</span> : null}
           <div className="flex min-w-32 shrink-0 flex-col gap-2">
-            {column.title ? <div className="text-xs uppercase tracking-wide text-fd-muted-foreground">{column.title}</div> : null}
+            {column.title ? (
+              <div className="text-fd-muted-foreground text-xs tracking-wide uppercase">{column.title}</div>
+            ) : null}
             {column.nodes.map((node) => (
-              <div key={node} className="rounded-md border bg-fd-background px-3 py-1.5 font-mono text-xs">
+              <div key={node} className="bg-fd-background rounded-md border px-3 py-1.5 font-mono text-xs">
                 {node}
               </div>
             ))}
