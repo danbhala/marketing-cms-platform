@@ -105,7 +105,9 @@ export function toFieldSchema(name: string, field: Field, pos: number): Storyblo
     pos,
     display_name: field.label ?? humanize(name),
     ...(field.description ? { description: field.description } : {}),
-    ...(field.required ? { required: true } : {}),
+    // Canonical content defaults lists to [], and a required bloks field in
+    // Storyblok means "not empty", so lists only carry their min bound.
+    ...(field.required && !isList(field) ? { required: true } : {}),
   }
   switch (field.kind) {
     case "text":
@@ -172,6 +174,10 @@ export function toFieldSchema(name: string, field: Field, pos: number): Storyblo
         component_whitelist: field.of.map((d: AnyDefinition) => d.type),
       }
   }
+}
+
+function isList(field: Field): boolean {
+  return field.kind === "items" || field.kind === "blocks" || field.kind === "textList"
 }
 
 /** `seoTitle` → "Seo title", "splitReverse" → "Split reverse". */

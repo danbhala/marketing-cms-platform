@@ -126,6 +126,9 @@ function resolvePlatform(spec, from) {
     .slice("./src/".length)
     .replace(/\.(ts|tsx)$/, "")
     .replace(/(^|\/)index$/, "")
+  // A bare `@/components` resolves to shadcn's components.json before the
+  // folder's index, so that root keeps an explicit `/index`.
+  if (!path && base === "components") return "@/components/index"
   return "@/" + [base, path].filter(Boolean).join("/")
 }
 
