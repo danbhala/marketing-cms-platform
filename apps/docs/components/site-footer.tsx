@@ -8,6 +8,7 @@ const links = [
   { href: "/theme", label: "Theme studio" },
   { href: "/schema", label: "Schema studio" },
   { href: storybookUrl(), label: "Storybook" },
+  { href: "https://marketing-cms-platform-demo.vercel.app", label: "Demo site" },
   { href: "https://github.com/danbhala/marketing-cms-platform", label: "GitHub" },
 ]
 
