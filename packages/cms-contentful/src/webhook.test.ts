@@ -2,7 +2,15 @@ import { describe, expect, it } from "vitest"
 
 import { tags } from "@platform/cms-core/tags"
 
-import { actionSave, assetPublish, pagePublish, pageUnpublish, siteSettingsPublish } from "./__fixtures__/webhook"
+import {
+  actionSave,
+  articlePublish,
+  assetPublish,
+  categorySave,
+  pagePublish,
+  pageUnpublish,
+  siteSettingsPublish,
+} from "./__fixtures__/webhook"
 import { createWebhookHandlers, type ContentfulWebhookPayload } from "./webhook"
 
 const webhook = createWebhookHandlers({ secret: "hook", locales: ["en"], localeMap: { en: "en-US" } })
@@ -66,6 +74,31 @@ describe("webhook.toEvent", () => {
     const event = webhook.toEvent(pageUnpublish)
     expect(event.tags).toEqual([tags.entry("page-pricing"), tags.type("page"), tags.paths("en")])
     expect(event.summary).toContain("unpublish")
+  })
+
+  it("maps a published article to its page, the paths list and every listing", () => {
+    expect(webhook.toEvent(articlePublish).tags).toEqual([
+      tags.entry("article-1"),
+      tags.type("article"),
+      tags.page("en", "/news/cohorts-and-alerts-are-live"),
+      tags.paths("en"),
+      tags.collection("en", "article"),
+    ])
+    const multi = createWebhookHandlers({
+      secret: "hook",
+      locales: ["en", "de"],
+      localeMap: { en: "en-US", de: "de-DE" },
+    })
+    expect(multi.toEvent(articlePublish).tags).toContain(tags.collection("de", "article"))
+    expect(multi.toEvent(articlePublish).tags).not.toContain(tags.page("de", "/news/cohorts-and-alerts-are-live"))
+  })
+
+  it("maps a category to its type and every listing", () => {
+    expect(webhook.toEvent(categorySave).tags).toEqual([
+      tags.entry("cat-product"),
+      tags.type("category"),
+      tags.collection("en", "article"),
+    ])
   })
 
   it("maps site settings to the global tag", () => {

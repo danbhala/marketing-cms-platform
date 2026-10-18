@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_animation
+    - paragraphs.paragraphs_type.latest_news
+  module:
+    - options
+id: paragraph.latest_news.field_animation
+field_name: field_animation
+entity_type: paragraph
+bundle: latest_news
+label: Animation
+description: Entrance animation played once when the block scrolls into view. Inherit follows the site setting.
+required: false
+translatable: true
+default_value:
+  - value: inherit
+default_value_callback: ''
+settings: {  }
+field_type: list_string

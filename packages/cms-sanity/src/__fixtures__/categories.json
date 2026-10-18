@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "cat-company",
+    "_type": "category",
+    "title": "Company",
+    "slug": "company",
+    "description": "Hiring, funding and the occasional office dog."
+  },
+  {
+    "_id": "cat-events",
+    "_type": "category",
+    "title": "Events",
+    "slug": "events",
+    "description": "Talks, webinars and meetups."
+  },
+  {
+    "_id": "cat-product",
+    "_type": "category",
+    "title": "Product news",
+    "slug": "product-news",
+    "description": "Releases, improvements and deprecations."
+  }
+]

@@ -8,6 +8,8 @@ import { tags } from "@platform/cms-core/tags"
 import {
   allBlocks,
   allItems,
+  article as articleDefinition,
+  category as categoryDefinition,
   hero,
   navLink,
   page as pageDefinition,
@@ -27,16 +29,21 @@ import type {
 import {
   BASE_URL,
   HOME_NID,
+  LAUNCH_NID,
   SETTINGS_NID,
+  articleNodes,
   documentsByUuid,
   homeDocument,
+  launchDocument,
   pageCollection,
   richTextExtrasHtml,
   settingsCollection,
+  terms,
   translatedPaths,
 } from "./__fixtures__/jsonapi"
 import type { DrupalApi, DrupalQuery, JsonApiDocument } from "./client"
 import {
+  collectionParams,
   createDrupalAdapter,
   fieldNameFor,
   generateModule,
@@ -66,7 +73,19 @@ const fakeApi: DrupalApi = {
     calls.push({ kind: "collection", type, params, query })
     if (type === "node--page") return pageCollection
     if (type === "node--site_settings") return settingsCollection
+    if (type === "node--article") return { data: articleNodes.filter((n) => n.attributes?.status), included: [] }
+    if (type === "taxonomy_term--category") return { data: terms, included: [] }
     return { data: [], included: [] }
+  },
+  // Pages the articles by offset/limit like Drupal, with `links.next` while more remain and no `meta.count`.
+  async getCollectionPage(type, params, query) {
+    calls.push({ kind: "page", type, params, query })
+    const nodes = params["filter[status]"] ? articleNodes.filter((n) => n.attributes?.status) : articleNodes
+    const offset = Number(params["page[offset]"])
+    const limit = Number(params["page[limit]"])
+    const doc: JsonApiDocument = { data: nodes.slice(offset, offset + limit), included: launchDocument.included }
+    if (offset + limit < nodes.length) doc.links = { next: { href: `${BASE_URL}/jsonapi/node/article?page[offset]=1` } }
+    return doc
   },
   async validateDraftUrl(searchParams) {
     return searchParams.get("secret") === DRUPAL_SECRET
@@ -190,7 +209,7 @@ describe("transform: page", () => {
 
   it("derives paths from aliases and lists every routable page", async () => {
     expect((await adapter.getPage("/pricing", published))?.path).toBe("/pricing")
-    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing"])
+    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing", "/news/launch", "/news/summit"])
   })
 
   it("asks for the working copy only in draft mode and prefixes non-default locales", async () => {
@@ -242,6 +261,123 @@ describe("transform: page", () => {
     expect(linkToHref({ uri: "route:<nolink>" }, "/home")).toBe("")
     expect(linkToHref({ uri: "tel:+1555" }, "/home")).toBe("tel:+1555")
     expect(linkToHref(null, "/home")).toBe("")
+  })
+})
+
+describe("listings", () => {
+  const base = { source: "article", page: 1, pageSize: 2, sort: "newest", filters: {} } as const
+
+  it("resolves articles and pages through getDocument and lists both in getPaths", async () => {
+    expect((await adapter.getDocument("/pricing", published))?.type).toBe("page")
+    const article = await adapter.getDocument("/news/launch", published)
+    expect(article?.type).toBe("article")
+    expect(() => schemaFor(articleDefinition).parse(article)).not.toThrow()
+    expect(article).toMatchObject({
+      id: String(LAUNCH_NID),
+      path: "/news/launch",
+      publishedAt: "2026-10-14",
+      category: { id: "21", type: "category", title: "Product news", slug: "product-news" },
+      // t-missing is referenced but not in `included` (unpublished), so it is dropped.
+      tags: [{ id: "22", slug: "events" }],
+      image: { kind: "image", alt: "Product screenshot" },
+    })
+    expect(article && "body" in article && article.body.children[0]).toMatchObject({ type: "paragraph" })
+    // getPage never returns an article.
+    expect(await adapter.getPage("/news/launch", published)).toBeNull()
+    expect(await adapter.getDocument("/nope", published)).toBeNull()
+    // Unpublished articles have no public path.
+    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing", "/news/launch", "/news/summit"])
+  })
+
+  it("asks JSON:API for one sparse page of published articles, sorted, with the terms included", async () => {
+    calls.length = 0
+    const result = await adapter.getCollection(base, published)
+    const call = calls.find((c) => c.kind === "page")
+    expect(call?.type).toBe("node--article")
+    expect(call?.params).toMatchObject({
+      "fields[node--article]":
+        "drupal_internal__nid,title,path,status,field_published_at,field_excerpt,field_image,field_category,field_tags",
+      include: "field_image.field_media_image,field_category,field_tags",
+      sort: "-field_published_at",
+      "page[offset]": "0",
+      "page[limit]": "2",
+      "filter[status]": "1",
+    })
+    expect(call?.query).toEqual({ draft: false })
+    expect(result).toMatchObject({ page: 1, pageSize: 2 })
+    expect(result.items.map((i) => i.id)).toEqual([String(LAUNCH_NID), "11"])
+    expect(result.items[0]).not.toHaveProperty("body")
+    expect(result.items[0]).toMatchObject({ category: { slug: "product-news" }, tags: [{ slug: "events" }] })
+    expect(result.items[1]?.publishedAt).toBe("2026-09-25T07:30:00.000Z")
+    expect(result.items[1]).not.toHaveProperty("tags")
+    // No count from core: the total is what was seen so far; `links.next` is absent here, so two in all.
+    expect(result.total).toBe(2)
+  })
+
+  it("maps filters, sorting, paging and search to JSON:API query parameters", () => {
+    expect(collectionParams({ ...base, filters: { category: ["events"] } }, false)).toMatchObject({
+      "filter[field_category.field_slug]": "events",
+    })
+    expect(collectionParams({ ...base, filters: { tags: ["events", "company"] } }, false)).toMatchObject({
+      "filter[tags][condition][path]": "field_tags.field_slug",
+      "filter[tags][condition][operator]": "IN",
+      "filter[tags][condition][value][0]": "events",
+      "filter[tags][condition][value][1]": "company",
+    })
+    expect(collectionParams({ ...base, filters: { nope: ["x"], category: [] } }, false)).not.toHaveProperty(
+      "filter[field_category.field_slug]"
+    )
+    expect(collectionParams({ ...base, sort: "oldest", page: 3 }, false)).toMatchObject({
+      sort: "field_published_at",
+      "page[offset]": "4",
+    })
+    expect(collectionParams({ ...base, sort: "title" }, false).sort).toBe("title")
+    expect(collectionParams({ ...base, q: "flame graph" }, false)).toMatchObject({
+      "filter[q][condition][path]": "title",
+      "filter[q][condition][operator]": "CONTAINS",
+      "filter[q][condition][value]": "flame graph",
+    })
+    expect(collectionParams(base, true)).not.toHaveProperty("filter[status]")
+  })
+
+  it("counts one more page while Drupal offers links.next and includes drafts with $edit in draft mode", async () => {
+    calls.length = 0
+    const first = await adapter.getCollection(base, draft)
+    expect(calls[0]?.query).toEqual({ draft: true, resourceVersion: "rel:working-copy" })
+    expect(first.items.map((i) => i.id)).toEqual([String(LAUNCH_NID), "11"])
+    expect(first.total).toBe(4)
+    expect(first.items[0]?.$edit?.self?.["data-drupal-edit"]).toBe(`/node/${LAUNCH_NID}/edit`)
+    expect(first.items[0]?.category?.$edit?.self).toEqual({
+      "data-drupal-entity": "taxonomy_term",
+      "data-drupal-id": "21",
+      "data-drupal-edit": "/taxonomy/term/21/edit",
+    })
+    const last = await adapter.getCollection({ ...base, page: 2 }, draft)
+    expect(last.items.map((i) => i.id)).toEqual(["12"])
+    expect(last.total).toBe(3)
+  })
+
+  it("returns every term of the category vocabulary", async () => {
+    calls.length = 0
+    const list = await adapter.getTaxonomy("category", published)
+    expect(calls[0]).toMatchObject({
+      kind: "collection",
+      type: "taxonomy_term--category",
+      params: { sort: "weight,name", "filter[status]": "1" },
+    })
+    expect(list).toEqual([
+      {
+        id: "21",
+        type: "category",
+        title: "Product news",
+        slug: "product-news",
+        description: "Releases, improvements and deprecations.",
+      },
+      { id: "22", type: "category", title: "Events", slug: "events" },
+    ])
+    expect(() => schemaFor(categoryDefinition).parse(list[0])).not.toThrow()
+    expect((await adapter.getTaxonomy("category", draft))[0]?.$edit?.self?.["data-drupal-id"]).toBe("21")
+    expect(await adapter.getTaxonomy("nope", published)).toEqual([])
   })
 })
 
@@ -573,6 +709,25 @@ describe("webhook", () => {
     ])
     expect(adapter.webhook.toEvent({ tags: ["media:4"] }).tags).toEqual([tags.type("page"), tags.global("en")])
     expect(adapter.webhook.toEvent({}).tags).toEqual([])
+    // An article publish: its node, the path list and every cached listing page.
+    expect(adapter.webhook.toEvent({ path: "/news/launch", tags: ["node:10", "node_list:article"] }).tags).toEqual([
+      tags.page("en", "/news/launch"),
+      tags.paths("en"),
+      tags.entry("10"),
+      tags.type("article"),
+      tags.collection("en", "article"),
+    ])
+    expect(adapter.webhook.toEvent({ tags: ["taxonomy_term:21"] }).tags).toEqual([
+      tags.entry("21"),
+      tags.type("category"),
+      tags.type("article"),
+      tags.collection("en", "article"),
+    ])
+    expect(adapter.webhook.toEvent({ tags: ["taxonomy_term_list:category"] }).tags).toEqual([
+      tags.type("category"),
+      tags.type("article"),
+      tags.collection("en", "article"),
+    ])
     expect(adapter.webhook.toEvent({ path: "/pricing" }).summary).toContain("path /pricing")
   })
 
@@ -608,7 +763,39 @@ describe("schema generator", () => {
     expect(fieldNameFor(pageDefinition, "path")).toBe("path")
     expect(fieldNameFor(siteSettingsDefinition, "siteName")).toBe("title")
     expect(fieldNameFor(siteSettingsDefinition, "announcementLinkLabel")).toBe("field_announcement_link_label")
+    expect(fieldNameFor(articleDefinition, "path")).toBe("path")
+    expect(fieldNameFor(articleDefinition, "category")).toBe("field_category")
+    expect(fieldNameFor(categoryDefinition, "title")).toBe("name")
+    expect(fieldNameFor(categoryDefinition, "slug")).toBe("field_slug")
     for (const name of Object.keys(files)) expect(name.length, name).toBeGreaterThan(0)
+  })
+
+  it("emits the article node type, the category vocabulary and the fields between them", () => {
+    expect(files["config/install/node.type.article.yml"]).toContain("type: article")
+    expect(files["config/install/taxonomy.vocabulary.category.yml"]).toContain("vid: category")
+    expect(files["config/install/paragraphs.paragraphs_type.collection.yml"]).toContain("label: Collection")
+    expect(files["config/install/field.storage.node.field_published_at.yml"]).toContain("type: datetime")
+    expect(files["config/install/field.storage.node.field_published_at.yml"]).toContain("datetime_type: date")
+    expect(files["config/install/field.storage.node.field_category.yml"]).toContain("target_type: taxonomy_term")
+    expect(files["config/install/field.storage.node.field_category.yml"]).toContain("cardinality: 1")
+    expect(files["config/install/field.storage.node.field_tags.yml"]).toContain("cardinality: -1")
+    expect(files["config/install/field.field.node.article.field_category.yml"]).toContain(
+      "handler: 'default:taxonomy_term'"
+    )
+    expect(files["config/install/field.field.node.article.field_category.yml"]).toContain(
+      "- taxonomy.vocabulary.category"
+    )
+    expect(files["config/install/field.storage.taxonomy_term.field_slug.yml"]).toContain("entity_type: taxonomy_term")
+    expect(files["config/install/core.entity_form_display.taxonomy_term.category.default.yml"]).toContain("  name:")
+    expect(files["config/install/core.entity_form_display.node.article.default.yml"]).toContain(
+      "type: entity_reference_autocomplete"
+    )
+    expect(files["config/install/core.entity_form_display.node.article.default.yml"]).toContain(
+      "type: datetime_default"
+    )
+    expect(includesFor(articleDefinition)).toEqual(
+      expect.arrayContaining(["field_image.field_media_image", "field_category", "field_tags", "field_blocks"])
+    )
   })
 
   it("derives the include paths for a document from the model", () => {

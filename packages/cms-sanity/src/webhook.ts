@@ -3,6 +3,7 @@ import { createHmac, timingSafeEqual } from "node:crypto"
 import type { WebhookEvent } from "@platform/cms-core"
 import { normalizePath, tags, uniqueTags } from "@platform/cms-core/tags"
 
+import { listedTypes, routableDocuments, taxonomyDocuments } from "./model"
 import { publishedId } from "./transform"
 
 /**
@@ -77,7 +78,7 @@ export function webhookToEvent(payload: unknown, defaultLocale: string): Webhook
     if (id) list.push(tags.entry(id))
     if (type) list.push(tags.type(type))
 
-    if (type === "page") {
+    if (type && routableDocuments.some((d) => d.type === type)) {
       const slug =
         typeof doc.slug === "string"
           ? doc.slug
@@ -85,10 +86,13 @@ export function webhookToEvent(payload: unknown, defaultLocale: string): Webhook
             ? (doc.slug as { current: string }).current
             : null
       if (slug !== null) list.push(tags.page(locale, normalizePath(slug)))
-      // Creating, deleting or re-slugging a page changes the routable path list; we cannot
+      // Creating, deleting or re-slugging a document changes the routable path list; we cannot
       // tell a rename from an edit without the previous slug, so always refresh it.
       list.push(tags.paths(locale))
     }
+    // A listed document or one of the terms its cards show changed: every page of its listings.
+    if (type && (listedTypes.includes(type) || taxonomyDocuments.some((d) => d.type === type)))
+      for (const source of listedTypes) list.push(tags.collection(locale, source))
     if (type === "siteSettings") list.push(tags.global(locale))
     summary.push(`${doc.operation ?? "update"} ${type ?? "?"} ${id ?? "?"}`)
   }

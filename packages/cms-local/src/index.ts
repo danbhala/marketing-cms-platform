@@ -1,8 +1,14 @@
 import type { CmsAdapter, FetchContext, PreviewContext, WebhookEvent } from "@platform/cms-core"
 import { normalizePath, tags, uniqueTags } from "@platform/cms-core/tags"
-import type { Page, SiteSettings } from "@platform/content-model"
-import { allPages, siteSettings as defaultSettings } from "@platform/content-model/fixtures"
+import type { Article, Category, Page, SiteSettings } from "@platform/content-model"
+import {
+  allPages,
+  articles as defaultArticles,
+  categories as defaultCategories,
+  siteSettings as defaultSettings,
+} from "@platform/content-model/fixtures"
 
+import { queryArticles, termsFrom } from "./collection"
 import { withEditAttrs } from "./edit"
 
 /**
@@ -13,6 +19,9 @@ import { withEditAttrs } from "./edit"
  */
 export interface LocalCmsOptions {
   pages?: Page[]
+  articles?: Article[]
+  /** Taxonomy terms; defaults to the fixtures plus any term the articles reference. */
+  categories?: Category[]
   settings?: SiteSettings
   /** Shared secret for /api/preview and /api/revalidate. Defaults to PREVIEW_SECRET. */
   secret?: string
@@ -29,11 +38,15 @@ function safePath(input: string | null | undefined): string | null {
 
 export function createLocalAdapter(options: LocalCmsOptions = {}): CmsAdapter {
   const pages = options.pages ?? allPages
+  const articles = options.articles ?? defaultArticles
+  const categories = termsFrom(articles, options.categories ?? defaultCategories)
   const settings = options.settings ?? defaultSettings
   const secret = options.secret ?? process.env.PREVIEW_SECRET ?? ""
   const delay = options.delay ?? 0
 
   const findPage = (path: string) => pages.find((page) => normalizePath(page.path) === normalizePath(path)) ?? null
+  const findArticle = (path: string) =>
+    articles.find((article) => normalizePath(article.path) === normalizePath(path)) ?? null
 
   return {
     name: "local",
@@ -45,13 +58,32 @@ export function createLocalAdapter(options: LocalCmsOptions = {}): CmsAdapter {
       return ctx.draft ? withEditAttrs(page) : page
     },
 
+    async getDocument(path, ctx: FetchContext) {
+      await sleep(delay)
+      const doc = findPage(path) ?? findArticle(path)
+      if (!doc) return null
+      return ctx.draft ? withEditAttrs(doc) : doc
+    },
+
+    async getCollection(query, ctx: FetchContext) {
+      await sleep(delay)
+      const result = queryArticles(articles, query)
+      return ctx.draft ? withEditAttrs(result) : result
+    },
+
+    async getTaxonomy(type, ctx: FetchContext) {
+      await sleep(delay)
+      const terms = type === "category" ? categories : []
+      return ctx.draft ? withEditAttrs(terms) : terms
+    },
+
     async getSiteSettings(ctx) {
       await sleep(delay)
       return ctx.draft ? withEditAttrs(settings) : settings
     },
 
     async getPaths() {
-      return pages.map((page) => normalizePath(page.path))
+      return [...pages, ...articles].map((doc) => normalizePath(doc.path))
     },
 
     async resolvePreviewPath(searchParams) {
@@ -78,7 +110,12 @@ export function createLocalAdapter(options: LocalCmsOptions = {}): CmsAdapter {
           for (const path of body.paths) if (typeof path === "string") list.push(tags.page(locale, path))
         }
         if (body.all)
-          list.push(tags.global(locale), tags.paths(locale), ...pages.map((page) => tags.page(locale, page.path)))
+          list.push(
+            tags.global(locale),
+            tags.paths(locale),
+            tags.collection(locale, "article"),
+            ...pages.map((page) => tags.page(locale, page.path))
+          )
         return { tags: uniqueTags(list), summary: `local: ${list.length} tag(s)` }
       },
     },

@@ -1,13 +1,27 @@
 import type { ZodError } from "zod"
 
-import type { AnyDefinition, Field, Page, SiteSettings } from "@platform/content-model"
-import { page as pageDefinition, schemaFor, siteSettings as siteSettingsDefinition } from "@platform/content-model"
+import type {
+  AnyDefinition,
+  Article,
+  ArticleSummary,
+  Category,
+  Field,
+  Page,
+  SiteSettings,
+} from "@platform/content-model"
+import {
+  article as articleDefinition,
+  category as categoryDefinition,
+  page as pageDefinition,
+  schemaFor,
+  siteSettings as siteSettingsDefinition,
+} from "@platform/content-model"
 
 import type { WagtailPage, WagtailRecord } from "./client"
-import { editAttrsFor, pageEditUrl, settingsEditUrl } from "./edit"
+import { editAttrsFor, pageEditUrl, settingsEditUrl, snippetEditUrl } from "./edit"
 import { mediaToCanonical } from "./media"
 import { isEmptyRichText, richTextToAst } from "./rich-text"
-import { snake, streamName } from "./naming"
+import { APP_LABEL, pythonClassName, snake, streamName } from "./naming"
 import { corePageFields } from "./schema/index"
 import { pathFromHtmlUrl, sitePath } from "./urls"
 
@@ -55,6 +69,44 @@ export class TransformError extends Error {
 }
 
 export function pageToCanonical(raw: WagtailPage, options: TransformOptions): Page {
+  return routableToCanonical(raw, pageDefinition, options) as Page
+}
+
+export function articleToCanonical(raw: WagtailPage, options: TransformOptions): Article {
+  return routableToCanonical(raw, articleDefinition, options) as Article
+}
+
+/** The card-sized fields of an article; what `getCollection` requests with `?fields=` and validates. */
+export const summaryFields = ["title", "path", "publishedAt", "excerpt", "image", "category", "tags"] as const
+
+/** `article` reduced to its summary fields; the same type, so API field names are unchanged. */
+export const articleSummaryDefinition: AnyDefinition = {
+  ...articleDefinition,
+  fields: Object.fromEntries(summaryFields.map((name) => [name, articleDefinition.fields[name]])),
+}
+
+/** One item of a `pages/?type=…ArticlePage&fields=…` listing to a summary. */
+export function articleToSummary(raw: WagtailPage, options: TransformOptions): ArticleSummary {
+  return routableToCanonical(raw, articleSummaryDefinition, options) as ArticleSummary
+}
+
+export function categoryToCanonical(raw: WagtailRecord, options: TransformOptions): Category {
+  const id = String(raw.id)
+  return transformNode(
+    raw,
+    categoryDefinition,
+    options,
+    id,
+    id,
+    snippetEditUrl(options.adminUrl, raw.meta.type, id)
+  ) as Category
+}
+
+function routableToCanonical(
+  raw: WagtailPage,
+  definition: AnyDefinition,
+  options: TransformOptions
+): Record<string, unknown> {
   const id = String(raw.id)
   // Wagtail's own fields live on the body (`title`) or under `meta`; the
   // generated model only adds what Wagtail lacks.
@@ -63,7 +115,7 @@ export function pageToCanonical(raw: WagtailPage, options: TransformOptions): Pa
     source[snake(name)] =
       core === "title" ? raw.title : core === "html_url" ? (pathFromHtmlUrl(raw.meta.html_url) ?? "/") : raw.meta[core]
   }
-  return transformNode(source, pageDefinition, options, id, id, pageEditUrl(options.adminUrl, id)) as Page
+  return transformNode(source, definition, options, id, id, pageEditUrl(options.adminUrl, id))
 }
 
 export function settingsToCanonical(raw: WagtailRecord, options: TransformOptions): SiteSettings {
@@ -141,6 +193,38 @@ function transformField(
     }
     case "boolean":
       return typeof value === "boolean" ? value : undefined
+    case "date": {
+      // A DateField arrives as "2026-10-18"; a DateTimeField as "2026-10-18T09:00:00Z" (or with an offset).
+      if (typeof value !== "string" || value === "") return undefined
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value
+      const time = new Date(value)
+      if (Number.isNaN(time.getTime()))
+        throw new TransformError(`Field "${name}" of ${entryId} is not a date: ${value}`, entryId, name)
+      return time.toISOString()
+    }
+    case "reference": {
+      const terms = (Array.isArray(value) ? value : value ? [value] : []).filter(
+        (term): term is WagtailRecord => typeof term === "object" && term !== null
+      )
+      const out = terms.map((term, index) => {
+        const definition =
+          field.of.length === 1
+            ? field.of[0]!
+            : field.of.find((d) => `${APP_LABEL}.${pythonClassName(d)}` === term.meta?.type)
+        if (!definition) {
+          throw new TransformError(
+            `Field "${name}" of ${entryId} references a "${String(term.meta?.type)}" at index ${index}; allowed: ${field.of.map((d) => `${APP_LABEL}.${pythonClassName(d)}`).join(", ")}`,
+            entryId,
+            name
+          )
+        }
+        const id = String(term.id)
+        const apiType = `${APP_LABEL}.${pythonClassName(definition)}`
+        return transformNode(term, definition, options, id, id, snippetEditUrl(options.adminUrl, apiType, id))
+      })
+      if (!field.multiple) return out[0]
+      return out.length === 0 && !field.required ? undefined : out
+    }
     case "media":
       return mediaToCanonical(value, options.baseUrl) ?? undefined
     case "select": {

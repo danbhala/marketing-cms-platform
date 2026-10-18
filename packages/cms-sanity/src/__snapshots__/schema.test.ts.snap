@@ -44,7 +44,11 @@ exports[`sanity schema generator > keeps a stable snapshot of the type names and
   "object media: media:anyMedia! caption:string width:string scrollEffect:string theme:string spacing:string anchor:string animation:string animationStagger:string headingAnimation:string animationDuration:string animationDelay:string",
   "object gallery: eyebrow:string title:string description:text items:array layout:string columns:string lightbox:boolean autoplay:boolean theme:string spacing:string anchor:string animation:string animationStagger:string headingAnimation:string animationDuration:string animationDelay:string",
   "object form: eyebrow:string title:string description:text fields:array submitLabel:string! endpoint:url successMessage:string consent:string layout:string theme:string spacing:string anchor:string animation:string animationStagger:string headingAnimation:string animationDuration:string animationDelay:string",
+  "object collection: eyebrow:string title:string description:text source:string pageSize:number filters:string search:boolean sort:string emptyMessage:string theme:string spacing:string anchor:string animation:string animationStagger:string headingAnimation:string animationDuration:string animationDelay:string",
+  "object latestNews: eyebrow:string title:string description:text source:string category:reference count:string actions:array theme:string spacing:string anchor:string animation:string animationStagger:string headingAnimation:string animationDuration:string animationDelay:string",
   "document page: title:string! slug:slug! seoTitle:string seoDescription:text ogImage:imageWithAlt noIndex:boolean hideBreadcrumbs:boolean theme:string blocks:array",
+  "document article: title:string! slug:slug! publishedAt:date! excerpt:text image:imageWithAlt category:reference tags:array body:portableText! blocks:array seoTitle:string seoDescription:text noIndex:boolean",
+  "document category: title:string! slug:slug! description:text",
   "document siteSettings: siteName:string! logo:imageWithAlt announcementText:string announcementHref:url announcementLinkLabel:string navigation:array headerActions:array footerColumns:array footerNote:string socialLinks:array",
 ]
 `;

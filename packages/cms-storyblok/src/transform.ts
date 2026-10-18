@@ -2,8 +2,23 @@ import type { ISbStoryData } from "storyblok-js-client"
 import type { StoryblokRichTextDoc } from "@storyblok/richtext"
 import type { ZodError } from "zod"
 
-import type { AnyDefinition, Field, Page, SiteSettings } from "@platform/content-model"
-import { page as pageDefinition, schemaFor, siteSettings as siteSettingsDefinition } from "@platform/content-model"
+import type {
+  AnyDefinition,
+  AnyDocumentDefinition,
+  Article,
+  ArticleSummary,
+  Category,
+  Field,
+  Page,
+  SiteSettings,
+} from "@platform/content-model"
+import {
+  article as articleDefinition,
+  category as categoryDefinition,
+  page as pageDefinition,
+  schemaFor,
+  siteSettings as siteSettingsDefinition,
+} from "@platform/content-model"
 
 import { editAttrsFor } from "./edit"
 import { assetToMedia, type StoryblokAsset } from "./media"
@@ -60,13 +75,62 @@ export function pathToSlug(path: string, homeSlug: string): string {
 }
 
 export function storyToPage(story: ISbStoryData, options: TransformOptions): Page {
-  // The page `path` is not a Storyblok field: the story's slug is the URL.
-  const content = { ...(story.content as RawBlok), path: storyPath(story.full_slug, options.homeSlug) }
-  return transformNode(content, pageDefinition, options, String(story.id)) as Page
+  return storyToDocument(story, pageDefinition, options) as Page
+}
+
+export function storyToArticle(story: ISbStoryData, options: TransformOptions): Article {
+  return storyToDocument(story, articleDefinition, options) as Article
+}
+
+export function storyToCategory(story: ISbStoryData, options: TransformOptions): Category {
+  return storyToDocument(story, categoryDefinition, options) as Category
 }
 
 export function storyToSiteSettings(story: ISbStoryData, options: TransformOptions): SiteSettings {
-  return transformNode(story.content as RawBlok, siteSettingsDefinition, options, String(story.id)) as SiteSettings
+  return storyToDocument(story, siteSettingsDefinition, options) as SiteSettings
+}
+
+/**
+ * A story to a document. `path` (routable) and `slug` (taxonomy) are not
+ * Storyblok fields: the story's slug is the URL, so they are filled from it.
+ */
+export function storyToDocument(
+  story: ISbStoryData,
+  definition: AnyDocumentDefinition,
+  options: TransformOptions
+): Record<string, unknown> {
+  const content: RawBlok = {
+    ...(story.content as RawBlok),
+    ...(definition.routable ? { path: storyPath(story.full_slug, options.homeSlug) } : {}),
+    ...(definition.taxonomy ? { slug: story.slug } : {}),
+  }
+  return transformNode(content, definition, options, String(story.id))
+}
+
+/** The card-sized view a listing returns: never the body or blocks. */
+export function toSummary(article: Article): ArticleSummary {
+  const { id, type, title, path, publishedAt, excerpt, image, category, tags, $edit } = article
+  return { id, type, title, path, publishedAt, excerpt, image, category, tags, ...($edit ? { $edit } : {}) }
+}
+
+/**
+ * `resolve_relations` entries for every reference field a document can
+ * contain, including those inside its blocks and items, e.g.
+ * `article.category` or `latestNews.category`. Entries are `component.field`,
+ * so nesting depth does not matter. `nested: false` stops at the document's
+ * own fields, which is all a listing summary needs.
+ */
+export function relationsFor(definition: AnyDefinition, nested = true): string[] {
+  const out = new Set<string>()
+  const walk = (def: AnyDefinition) => {
+    for (const [name, field] of Object.entries(def.fields as Record<string, Field>)) {
+      if (field.kind === "reference") out.add(`${def.type}.${name}`)
+      if (nested && (field.kind === "items" || field.kind === "blocks"))
+        for (const child of field.of as AnyDefinition[]) walk(child)
+    }
+  }
+  walk(definition)
+  return [...out]
 }
 
 /**
@@ -135,6 +199,29 @@ function transformField(
     }
     case "boolean":
       return typeof value === "boolean" ? value : value === "true" ? true : undefined
+    case "date": {
+      // Storyblok's datetime field stores "YYYY-MM-DD HH:MM" ("" when empty); a date-only value stays date-only.
+      const text = typeof value === "string" ? value.trim() : ""
+      return text === "" ? undefined : text.replace(" ", "T")
+    }
+    case "reference": {
+      const list = Array.isArray(value) ? value : value ? [value] : []
+      const docs = list.flatMap((item) => {
+        // Unresolved relations are plain UUID strings; only stories expanded by `resolve_relations` count.
+        const story = item as ISbStoryData | string
+        if (typeof story !== "object" || story === null) return []
+        const definition = field.of.find((d: AnyDefinition) => d.type === story.content?.component)
+        if (!definition) {
+          throw new TransformError(
+            `Field "${name}" of ${entryId} links a "${String(story.content?.component)}" story; allowed: ${field.of.map((d: AnyDefinition) => d.type).join(", ")}`,
+            entryId,
+            name
+          )
+        }
+        return [storyToDocument(story, definition, options)]
+      })
+      return field.multiple ? docs : docs[0]
+    }
     case "media": {
       const media = assetToMedia(value as StoryblokAsset | null | undefined)
       return media ?? undefined

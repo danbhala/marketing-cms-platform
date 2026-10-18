@@ -4,6 +4,8 @@ import type { Block, BlockType } from "@platform/content-model"
 
 import type { BlockComponentProps } from "./block-section"
 import { CardGrid } from "./card-grid"
+import { Collection } from "./collection"
+import { LatestNews } from "./latest-news"
 import { ComparisonTable } from "./comparison-table"
 import { Cta } from "./cta"
 import { Faq } from "./faq"
@@ -54,6 +56,8 @@ export const blockComponents: BlockComponentMap = {
   media: MediaBlock,
   gallery: Gallery,
   form: FormBlock,
+  collection: Collection,
+  latestNews: LatestNews,
 }
 
 export { BlockSection, type BlockSectionProps, type BlockComponentProps } from "./block-section"
@@ -75,3 +79,5 @@ export { RichTextBlock, type RichTextBlockProps } from "./rich-text-block"
 export { MediaBlock, type MediaBlockProps } from "./media-block"
 export { Gallery, type GalleryProps } from "./gallery"
 export { FormBlock, type FormBlockProps } from "./form-block"
+export { Collection, type CollectionProps } from "./collection"
+export { LatestNews, type LatestNewsProps } from "./latest-news"

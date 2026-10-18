@@ -20,13 +20,14 @@ export async function getPublishedPage(locale: string, path: string) {
 
 Defined once in `@platform/cms-core/tags` so adapters and the app agree:
 
-| Tag                        | Invalidates                                                  |
-| -------------------------- | ------------------------------------------------------------ |
-| `cms:page:{locale}:{path}` | One rendered page                                            |
-| `cms:entry:{id}`           | Every page that embeds that entry (blocks, items)            |
-| `cms:type:{type}`          | All entries of a type (e.g. all cards after a new post)      |
-| `cms:global:{locale}`      | Site settings: navigation, footer                            |
-| `cms:paths:{locale}`       | The list of routable paths (`generateStaticParams`, sitemap) |
+| Tag                                | Invalidates                                                                       |
+| ---------------------------------- | --------------------------------------------------------------------------------- |
+| `cms:page:{locale}:{path}`         | One rendered page                                                                 |
+| `cms:entry:{id}`                   | Every page that embeds that entry (blocks, items)                                 |
+| `cms:type:{type}`                  | All entries of a type (e.g. all cards after a new post)                           |
+| `cms:global:{locale}`              | Site settings: navigation, footer                                                 |
+| `cms:paths:{locale}`               | The list of routable paths (`generateStaticParams`, sitemap)                      |
+| `cms:collection:{locale}:{source}` | Every cached listing page of that type (see [Listing pages](/docs/listing-pages)) |
 
 ## Revalidation
 

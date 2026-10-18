@@ -5,6 +5,7 @@ dependencies:
     - field.storage.node.field_blocks
     - node.type.page
     - paragraphs.paragraphs_type.card_grid
+    - paragraphs.paragraphs_type.collection
     - paragraphs.paragraphs_type.comparison_table
     - paragraphs.paragraphs_type.cta
     - paragraphs.paragraphs_type.faq
@@ -13,6 +14,7 @@ dependencies:
     - paragraphs.paragraphs_type.form
     - paragraphs.paragraphs_type.gallery
     - paragraphs.paragraphs_type.hero
+    - paragraphs.paragraphs_type.latest_news
     - paragraphs.paragraphs_type.logo_cloud
     - paragraphs.paragraphs_type.media
     - paragraphs.paragraphs_type.pricing
@@ -56,6 +58,8 @@ settings:
       media: media
       gallery: gallery
       form: form
+      collection: collection
+      latest_news: latest_news
     negate: 0
     target_bundles_drag_drop:
       hero:
@@ -112,4 +116,10 @@ settings:
       form:
         enabled: true
         weight: 17
+      collection:
+        enabled: true
+        weight: 18
+      latest_news:
+        enabled: true
+        weight: 19
 field_type: entity_reference_revisions

@@ -2,7 +2,7 @@
  * The slice of Wagtail's Pages API v2 the adapter needs, behind a small
  * interface so tests can hand in a fake. Wagtail ships no JavaScript SDK; the
  * implementation is `fetch` against the endpoints the generated `api.py`
- * registers (`pages`, `page_preview`, `site_settings`).
+ * registers (`pages`, `page_preview`, `site_settings`, `category`).
  */
 export interface WagtailQuery {
   /** Wagtail `Locale.language_code`; sent as `?locale=` when i18n is on. */
@@ -41,12 +41,19 @@ export interface WagtailListing<T> {
 }
 
 export interface WagtailApi {
-  /** `GET pages/find/?html_path=<path>&type=<pageType>`, following the 302 to the detail view. */
-  findPage(path: string, query: WagtailQuery): Promise<WagtailPage | null>
+  /**
+   * `GET pages/find/?html_path=<path>&type=<type>`, following the 302 to the detail view.
+   * `type` defaults to the configured page type; `null` finds a page of any type.
+   */
+  findPage(path: string, query: WagtailQuery, type?: string | null): Promise<WagtailPage | null>
   /** `GET pages/<id>/`. */
   getPage(id: string, query: WagtailQuery): Promise<WagtailPage | null>
-  /** Every live page of the configured type, paginated with `limit` / `offset`. */
-  listPages(query: WagtailQuery): Promise<WagtailPage[]>
+  /** Every live page of one type (default: the configured page type), paginated with `limit` / `offset`. */
+  listPages(query: WagtailQuery, type?: string): Promise<WagtailPage[]>
+  /** One page of `GET pages/?…`: `params` carries type, fields, order, limit, offset, search and field filters. */
+  queryPages(params: Record<string, string>, query: WagtailQuery): Promise<WagtailListing<WagtailPage>>
+  /** Every record of a `BaseAPIViewSet` endpoint such as `category`, paginated with `limit` / `offset`. */
+  listRecords(endpoint: string, query: WagtailQuery): Promise<WagtailRecord[]>
   /** `GET page_preview/1/?content_type=…&token=…` (wagtail-headless-preview). */
   getPreviewPage(contentType: string, token: string): Promise<WagtailPage | null>
   /** The single settings record from the settings endpoint. */
@@ -101,6 +108,11 @@ export function createWagtailApi(options: WagtailClientOptions): WagtailApi {
     ...(options.siteHostname ? { site: options.siteHostname } : {}),
   })
 
+  const listingParams = (query: WagtailQuery) => ({
+    ...(options.i18n && query.locale ? { locale: query.locale } : {}),
+    ...(options.siteHostname ? { site: options.siteHostname } : {}),
+  })
+
   async function get<T>(target: string): Promise<T | null> {
     const response = await doFetch(target, { headers: { accept: "application/json" } })
     if (response.status === 404) return null
@@ -108,31 +120,38 @@ export function createWagtailApi(options: WagtailClientOptions): WagtailApi {
     return (await response.json()) as T
   }
 
+  async function listAll<T>(endpoint: string, params: Record<string, string | undefined>): Promise<T[]> {
+    const items: T[] = []
+    for (let offset = 0; ; offset += pageSize) {
+      const listing = await get<WagtailListing<T>>(
+        url(endpoint, { ...params, limit: String(pageSize), offset: String(offset) })
+      )
+      if (!listing) break
+      items.push(...listing.items)
+      if (items.length >= listing.meta.total_count || listing.items.length === 0) break
+    }
+    return items
+  }
+
   return {
-    findPage(path, query) {
+    findPage(path, query, type = options.pageType) {
       // The find view 302s to the detail view, keeping every parameter but html_path.
-      return get<WagtailPage>(url("pages/find/", { html_path: path, type: options.pageType, ...detailParams(query) }))
+      return get<WagtailPage>(
+        url("pages/find/", { html_path: path, ...(type ? { type } : {}), ...detailParams(query) })
+      )
     },
     getPage(id, query) {
       return get<WagtailPage>(url(`pages/${encodeURIComponent(id)}/`, detailParams(query)))
     },
-    async listPages(query) {
-      const pages: WagtailPage[] = []
-      for (let offset = 0; ; offset += pageSize) {
-        const listing = await get<WagtailListing<WagtailPage>>(
-          url("pages/", {
-            type: options.pageType,
-            limit: String(pageSize),
-            offset: String(offset),
-            ...(options.i18n && query.locale ? { locale: query.locale } : {}),
-            ...(options.siteHostname ? { site: options.siteHostname } : {}),
-          })
-        )
-        if (!listing) break
-        pages.push(...listing.items)
-        if (pages.length >= listing.meta.total_count || listing.items.length === 0) break
-      }
-      return pages
+    listPages(query, type = options.pageType) {
+      return listAll<WagtailPage>("pages/", { type, ...listingParams(query) })
+    },
+    async queryPages(params, query) {
+      const listing = await get<WagtailListing<WagtailPage>>(url("pages/", { ...params, ...listingParams(query) }))
+      return listing ?? { meta: { total_count: 0 }, items: [] }
+    },
+    listRecords(endpoint, query) {
+      return listAll<WagtailRecord>(`${endpoint}/`, listingParams(query))
     },
     getPreviewPage(contentType, token) {
       return get<WagtailPage>(

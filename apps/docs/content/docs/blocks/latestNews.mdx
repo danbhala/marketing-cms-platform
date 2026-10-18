@@ -1,0 +1,24 @@
+---
+title: Latest news
+description: "The newest few items of a document type, for a home page, with a link to the full listing."
+---
+
+A home page or landing page version of the [Collection](/docs/blocks/collection) block: three, four or six newest items, optionally from one category, with a "see all" link. No filters, no pagination. The host app resolves the items from the same cached collection read the listing uses, so publishing a story refreshes both. When the action is left empty the link goes to the first page that has a `collection` block of the same type.
+
+<StorybookEmbed story="blocks-latest-news--default" height={720} />
+
+## Fields
+
+<BlockReference type="latestNews" />
+
+## Variants
+
+<StorybookEmbed story="blocks-latest-news--one-category" viewMode="docs" height={720} />
+
+## Schema in each CMS
+
+<SchemaCompare type="latestNews" />
+
+## Source
+
+`packages/ui/src/blocks/latest-news.tsx` · stories in `latest-news.stories.tsx` · request binding in `apps/web/components/latest-news-block.tsx`.

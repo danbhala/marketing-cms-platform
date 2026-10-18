@@ -34,7 +34,13 @@ See [Preview & visual editing](/docs/preview) for the shared flow.
 
 ## Revalidation
 
-Wagtail has no outbound webhooks. The generated `platform_cms/signals.py` posts `{ event, id, type, locale, path, old_path? }` to `PLATFORM_REVALIDATE_URL` on `page_published`, `page_unpublished`, `post_page_move` and settings saves, signed with HMAC-SHA256 as `X-Wagtail-Signature: sha256=<hex>` using `PLATFORM_REVALIDATE_SECRET`. Tags: `cms:entry:<id>` always; pages add `cms:page:<locale>:<path>` and `cms:paths:<locale>` (plus the old path and `cms:type:page` on unpublish and move); settings map to `cms:global:<locale>`.
+Wagtail has no outbound webhooks. The generated `platform_cms/signals.py` posts `{ event, id, type, locale, path, old_path? }` to `PLATFORM_REVALIDATE_URL` on `page_published`, `page_unpublished`, `post_page_move` and settings saves, signed with HMAC-SHA256 as `X-Wagtail-Signature: sha256=<hex>` using `PLATFORM_REVALIDATE_SECRET`. Tags: `cms:entry:<id>` always; pages add `cms:page:<locale>:<path>` and `cms:paths:<locale>` (plus the old path and `cms:type:page` on unpublish and move); articles add `cms:type:article` and `cms:collection:<locale>:article`; `term_updated` maps to `cms:type:category` plus the listing tags; settings map to `cms:global:<locale>`.
+
+## Listings
+
+Articles are `platform_cms.ArticlePage` pages with `published_at` (`DateField`), `category` (`ForeignKey`) and `tags` (`ParentalManyToManyField`) to the `platform_cms.Category` snippet, which the generated app registers and exposes read-only at `/api/v2/category/` (title, slug, description; `?slug=` filters). `getCollection` is one request to `pages/?type=platform_cms.ArticlePage&fields=published_at,excerpt,image,category,tags` with `order=-published_at` / `published_at` / `title`, `limit` and `offset`; `total` is Wagtail's `meta.total_count`.
+
+Filters arrive as term slugs, and the pages endpoint filters a foreign key by exact id only, so the adapter first lists the categories (one extra request) and sends `category=<id>` or `tags=<id>`; one term per filter field is applied, which is what the filter bar offers. An unknown slug returns an empty page without querying Wagtail. `q` is passed as `search=<q>&search_operator=and`, so results depend on the project's search backend and `update_index` having run. Publishing an article posts `page_published` with `type: platform_cms.ArticlePage`, and saving or deleting a category posts `term_updated`; both invalidate every cached listing page.
 
 ## Mapping notes
 

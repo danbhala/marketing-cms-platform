@@ -3,9 +3,10 @@ import { describe, expect, it } from "vitest"
 import { page as pageDefinition, schemaFor, siteSettings as siteSettingsDefinition } from "@platform/content-model"
 import { actions, faqs, features, siteSettings as canonicalSettings } from "@platform/content-model/fixtures"
 
+import { articleCohorts, articleSeriesB, articleUndated } from "./__fixtures__/article"
 import { pageEntry, pageMissingTitle, pageWithBrokenHero } from "./__fixtures__/page"
 import { siteSettingsEntry } from "./__fixtures__/site-settings"
-import { ContentfulTransformError, transformPage, transformSiteSettings } from "./transform"
+import { ContentfulTransformError, transformArticle, transformPage, transformSiteSettings } from "./transform"
 
 const blockOf = (page: ReturnType<typeof transformPage>, id: string) => page.blocks.find((block) => block.id === id)
 
@@ -145,5 +146,42 @@ describe("transformSiteSettings", () => {
   it("defaults missing lists to []", () => {
     expect(settings.navigation[1]).toEqual(canonicalSettings.navigation[1])
     expect(settings.navigation[1]?.links).toEqual([])
+  })
+})
+
+describe("transformArticle", () => {
+  const warnings: string[] = []
+  const ctx = { edit: false, locale: "en-US", warn: (message: string) => void warnings.push(message) }
+
+  it("keeps date-only values, normalises the path and resolves references inline", () => {
+    const article = transformArticle(articleCohorts, ctx)
+    expect(article).toMatchObject({
+      id: "article-1",
+      type: "article",
+      path: "/news/cohorts-and-alerts-are-live",
+      publishedAt: "2026-10-14",
+      category: { id: "cat-product", type: "category", slug: "product-news", title: "Product news" },
+      tags: [{ id: "cat-events", type: "category", slug: "events" }],
+    })
+    expect(article.category).not.toHaveProperty("$edit")
+  })
+
+  it("passes ISO date-times through and drops links to disallowed content types with a warning", () => {
+    const article = transformArticle(articleSeriesB, ctx)
+    expect(article.publishedAt).toBe("2026-10-09T09:00:00.000Z")
+    expect(article.category).toBeUndefined()
+    expect(article.tags).toEqual([])
+    expect(warnings).toContainEqual(expect.stringContaining('"page-news"'))
+  })
+
+  it("rejects a value that is not a date", () => {
+    expect(() => transformArticle(articleUndated, ctx)).toThrow(ContentfulTransformError)
+    expect(() => transformArticle(articleUndated, ctx)).toThrow(/field "publishedAt"/)
+  })
+
+  it("attaches $edit to referenced documents in edit mode", () => {
+    const article = transformArticle(articleCohorts, { ...ctx, edit: true })
+    expect(article.$edit?.fields?.publishedAt?.["data-contentful-field-id"]).toBe("publishedAt")
+    expect(article.category?.$edit?.self?.["data-contentful-entry-id"]).toBe("cat-product")
   })
 })

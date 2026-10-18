@@ -3,8 +3,10 @@
 import type { Route } from "next"
 import NextImage from "next/image"
 import NextLink from "next/link"
+import { useRouter } from "next/navigation"
+import { useCallback } from "react"
 
-import { UiProvider as BaseUiProvider, type UiImageProps, type UiLinkProps } from "@platform/ui"
+import { UiProvider as BaseUiProvider, type UiImageProps, type UiLinkProps, type UiNavigate } from "@platform/ui"
 
 import "@/animation.config"
 
@@ -33,9 +35,21 @@ function Image({ media, fill, sizes, priority, className, style, ...props }: UiI
   )
 }
 
+/** Listing controls (search, sort) change the URL through the app router, so it is a client transition. */
+function useNavigate(): UiNavigate {
+  const router = useRouter()
+  return useCallback<UiNavigate>(
+    (href, options) => {
+      const go = options?.replace ? router.replace : router.push
+      go(href as Route, { scroll: options?.scroll ?? true })
+    },
+    [router]
+  )
+}
+
 export function UiProvider({ children }: { children: React.ReactNode }) {
   return (
-    <BaseUiProvider Link={Link} Image={Image}>
+    <BaseUiProvider Link={Link} Image={Image} useNavigate={useNavigate}>
       {children}
     </BaseUiProvider>
   )

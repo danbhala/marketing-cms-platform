@@ -61,3 +61,25 @@ export const assetPublish = {
     },
   },
 }
+
+export const articlePublish = {
+  topic: "ContentManagement.Entry.publish",
+  body: {
+    metadata: { tags: [] },
+    sys: sys("article-1", "Entry", "article"),
+    fields: {
+      title: { "en-US": "Cohorts and alerts are live" },
+      path: { "en-US": "/news/cohorts-and-alerts-are-live" },
+      publishedAt: { "en-US": "2026-10-14" },
+    },
+  },
+}
+
+export const categorySave = {
+  topic: "ContentManagement.Entry.save",
+  body: {
+    metadata: { tags: [] },
+    sys: sys("cat-product", "Entry", "category"),
+    fields: { title: { "en-US": "Product news" }, slug: { "en-US": "product-news" } },
+  },
+}

@@ -14,7 +14,7 @@ describe("schema generator", () => {
   it("emits one content type per item, block and document, dependencies first", () => {
     const expected = [...allItems, ...allBlocks, ...allDocuments].map((d) => d.type)
     expect(contentTypes.map((ct) => ct.id)).toEqual(expected)
-    expect(contentTypes).toHaveLength(39)
+    expect(contentTypes).toHaveLength(43)
   })
 
   it("marks required fields and picks a Symbol display field", () => {
@@ -69,6 +69,30 @@ describe("schema generator", () => {
     expect(fieldOf("richText", "body")?.validations[0]).toHaveProperty("enabledNodeTypes")
     expect(fieldOf("page", "seoTitle")?.validations).toEqual([{ size: { max: 70 } }])
     expect(fieldOf("logoCloud", "grayscale")?.type).toBe("Boolean")
+  })
+
+  it("maps dates and references", () => {
+    expect(fieldOf("article", "publishedAt")).toMatchObject({
+      type: "Date",
+      required: true,
+      editor: { widgetId: "datePicker" },
+    })
+    expect(fieldOf("article", "category")).toMatchObject({
+      type: "Link",
+      linkType: "Entry",
+      required: false,
+      validations: [{ linkContentType: ["category"] }],
+      editor: { widgetId: "entryLinkEditor" },
+    })
+    expect(fieldOf("article", "tags")).toMatchObject({
+      type: "Array",
+      items: { type: "Link", linkType: "Entry", validations: [{ linkContentType: ["category"] }] },
+      editor: { widgetId: "entryLinksEditor" },
+    })
+    expect(fieldOf("article", "path")?.validations).toContainEqual({ unique: true })
+    expect(fieldOf("category", "slug")?.validations).toEqual([{ unique: true }])
+    expect(byId("category")?.displayField).toBe("title")
+    expect(fieldOf("collection", "source")?.validations).toEqual([{ in: ["article"] }])
   })
 
   it("turns descriptions into editor help text and ids into names", () => {

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_page_size
+    - paragraphs.paragraphs_type.collection
+id: paragraph.collection.field_page_size
+field_name: field_page_size
+entity_type: paragraph
+bundle: collection
+label: Page size
+description: Items per page. Defaults to 12.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: float

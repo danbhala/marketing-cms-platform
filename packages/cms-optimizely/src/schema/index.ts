@@ -10,7 +10,10 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  * are a `_page` type too, so they can be fetched by a stable path without
  * configuring a GUID (see README). Lists of blocks/items are content areas
  * (`array` of `content` restricted with `allowedTypes`), which is what gives
- * nested items their own key for click-to-edit.
+ * nested items their own key for click-to-edit. Articles are `ArticlePage`;
+ * taxonomy terms are `CategoryPage` (pages so they are standalone content with
+ * a key the article's `contentReference` properties can point at); `date` is a
+ * `dateTime` and `reference` a `contentReference` (a list of them when multiple).
  *
  * The same description feeds three consumers: the runtime registry the SDK
  * needs to build Graph queries (`registry.ts`), the `schema/content-types.ts`
@@ -31,7 +34,12 @@ export interface ContentTypeDescription {
 export type PropertyDescription = Record<string, unknown> & { type: string }
 
 /** Document types get explicit keys; items and blocks get a kind suffix so they never clash with Graph's built-in types (`RichText`, `Media`, `Link`...). */
-const documentKeys: Record<string, string> = { page: "WebPage", siteSettings: "SiteSettings" }
+const documentKeys: Record<string, string> = {
+  page: "WebPage",
+  article: "ArticlePage",
+  category: "CategoryPage",
+  siteSettings: "SiteSettings",
+}
 
 const pascal = (value: string) => value.charAt(0).toUpperCase() + value.slice(1)
 
@@ -119,6 +127,14 @@ function propertyFor(name: string, field: Field, sortOrder: number): PropertyDes
       return { ...base, type: "boolean" }
     case "media":
       return { ...base, type: "contentReference", allowedTypes: mediaTypes(field.accept) }
+    case "date":
+      return { ...base, type: "dateTime" }
+    case "reference": {
+      const allowedTypes = field.of.map((d) => contentTypeKey(d))
+      return field.multiple
+        ? { ...base, type: "array", items: { type: "contentReference", allowedTypes } }
+        : { ...base, type: "contentReference", allowedTypes }
+    }
     case "select":
       return {
         ...base,
@@ -160,14 +176,18 @@ export function describeContentType(definition: AnyDefinition): ContentTypeDescr
   }
 }
 
-/** Keys of the custom content types a description references through content areas. */
+/** The `allowedTypes` of a property, whether on the property itself or on its array items. */
+function allowedTypesOf(property: Record<string, unknown>): string[] {
+  const items = property.items as { allowedTypes?: string[] } | undefined
+  const own = property.allowedTypes as string[] | undefined
+  return [...(own ?? []), ...(items?.allowedTypes ?? [])]
+}
+
+/** Keys of the custom content types a description references through content areas and references. */
 function dependencies(description: ContentTypeDescription): string[] {
-  const out: string[] = []
-  for (const property of Object.values(description.properties)) {
-    const items = property.items as { allowedTypes?: string[] } | undefined
-    for (const key of items?.allowedTypes ?? []) if (!key.startsWith("_")) out.push(key)
-  }
-  return out
+  return Object.values(description.properties)
+    .flatMap(allowedTypesOf)
+    .filter((key) => !key.startsWith("_"))
 }
 
 /**

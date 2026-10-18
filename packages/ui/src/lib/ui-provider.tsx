@@ -29,10 +29,19 @@ export interface UiImageProps extends Omit<React.ComponentProps<"img">, "src" | 
   priority?: boolean
 }
 
-/** The two framework-specific components a host can inject. */
+/** Client-side navigation. `replace` swaps the history entry (filters, search); default pushes (pagination). */
+export type UiNavigate = (href: string, options?: { replace?: boolean; scroll?: boolean }) => void
+
+/** The framework-specific pieces a host can inject. */
 export interface UiComponents {
   Link: React.ComponentType<UiLinkProps>
   Image: React.ComponentType<UiImageProps>
+  /**
+   * Hook returning the host router's navigate function (Next.js wraps
+   * `useRouter`). Controls that change the URL (search, sort) call it so the
+   * change is a client transition, not a full page load.
+   */
+  useNavigate: () => UiNavigate
 }
 
 /** Plain anchor used when no host Link is provided. */
@@ -61,7 +70,20 @@ function DefaultImage({ media, fill, sizes, priority, className, style, ...props
   )
 }
 
-export const defaultUiComponents: UiComponents = { Link: DefaultLink, Image: DefaultImage }
+/** Full navigation when no host router is provided (Storybook, tests). */
+function useDefaultNavigate(): UiNavigate {
+  return React.useCallback((href, options) => {
+    if (typeof window === "undefined") return
+    if (options?.replace) window.location.replace(href)
+    else window.location.assign(href)
+  }, [])
+}
+
+export const defaultUiComponents: UiComponents = {
+  Link: DefaultLink,
+  Image: DefaultImage,
+  useNavigate: useDefaultNavigate,
+}
 
 const UiContext = React.createContext<UiComponents>(defaultUiComponents)
 

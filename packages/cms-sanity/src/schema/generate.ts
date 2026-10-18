@@ -1,6 +1,8 @@
 import type { AnyDefinition, Field } from "@platform/content-model"
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
+import { isSlugField } from "../model"
+
 /**
  * Derives the Sanity Studio schema from the shared content model. The output
  * is the plain-object form `defineType`/`defineField` accept, so the Studio
@@ -15,7 +17,9 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  *   richText                 → `portableText`, an `array` of `block` + `imageWithAlt` + `codeBlock`
  *   select                   → `string` with `options.list`; textList → `array` of `string`
  *   link                     → `url` allowing relative paths; icon → `string`
- *   page.path                → `slug` (`source: "title"`); the transform maps `slug.current` → `path`
+ *   date                     → `date` (stored as "YYYY-MM-DD")
+ *   reference                → `reference` with `to` the allowed document types; `array` of them when multiple
+ *   routable `path`, taxonomy `slug` → `slug` (`source: "title"`); the transform reads `slug.current`
  */
 
 /** Validation is data here so the JSON output is complete; the TS renderer turns it into `(rule) => rule…`. */
@@ -36,6 +40,7 @@ export interface SanitySchemaField {
   rows?: number
   hidden?: boolean
   of?: Array<Record<string, unknown>>
+  to?: Array<{ type: string }>
   fields?: SanitySchemaField[]
   options?: Record<string, unknown>
   initialValue?: unknown
@@ -149,12 +154,13 @@ export function fieldToSanity(name: string, field: Field, definition: AnyDefinit
   const validation = validationFor(field)
   const withValidation = (f: SanitySchemaField): SanitySchemaField => (validation ? { ...f, validation } : f)
 
-  if (definition.type === "page" && name === "path") {
+  if (isSlugField(definition, name)) {
+    const home = definition.type === "page" ? ' "/" or an empty slug is the home page.' : ""
     return withValidation({
       ...base,
       name: "slug",
       type: "slug",
-      description: `${field.description ?? ""} Stored as the slug; "/" or an empty slug is the home page.`.trim(),
+      description: `${field.description ?? ""} Stored as the slug.${home}`.trim(),
       options: { source: "title" },
     })
   }
@@ -186,6 +192,14 @@ export function fieldToSanity(name: string, field: Field, definition: AnyDefinit
       })
     case "media":
       return withValidation({ ...base, type: mediaType(field.accept) })
+    case "date":
+      return withValidation({ ...base, type: "date" })
+    case "reference": {
+      const to = field.of.map((d) => ({ type: d.type }))
+      return field.multiple
+        ? withValidation({ ...base, type: "array", of: [{ type: "reference", to }] })
+        : withValidation({ ...base, type: "reference", to })
+    }
     case "select":
       return withValidation({
         ...base,
@@ -215,7 +229,7 @@ export function definitionToSanity(definition: AnyDefinition): SanitySchemaType 
   if (definition.singleton) {
     out.description = `${definition.description ? `${definition.description} ` : ""}Singleton: exactly one document with _id "${definition.type}". Pin it in the Studio structure and disable create/delete actions.`
   }
-  if (definition.type === "page") out.preview = { select: { title: "title", subtitle: "slug.current" } }
+  if (definition.routable || definition.taxonomy) out.preview = { select: { title: "title", subtitle: "slug.current" } }
   else if (titleField) out.preview = { select: { title: titleField.name } }
   return out
 }

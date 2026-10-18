@@ -3,7 +3,7 @@ import { normalizePath } from "@platform/cms-core/tags"
 
 import type { GraphLike, GraphPreviewParams } from "./graph-types"
 import { isGraphItem } from "./graph-types"
-import { isPageItem, isSettingsItem, pathFromUrl } from "./transform"
+import { isRoutableItem, isSettingsItem, pathFromUrl } from "./transform"
 
 /**
  * Optimizely's editor opens the site at the configured preview URL with
@@ -109,7 +109,7 @@ export function createPreviewHandlers(options: PreviewOptions): PreviewHandlers 
       // Site settings have no page of their own: show them on the home page.
       const path = isSettingsItem(item)
         ? "/"
-        : isPageItem(item)
+        : isRoutableItem(item)
           ? (pathFromUrl(item._metadata?.url, locale) ?? "/")
           : null
       if (path === null)

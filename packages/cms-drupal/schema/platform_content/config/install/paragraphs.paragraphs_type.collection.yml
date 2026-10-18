@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: collection
+label: Collection
+icon_uuid: null
+icon_default: null
+description: 'Paginated, filterable listing of a document type, driven by the URL''s search params.'
+behavior_plugins: {  }

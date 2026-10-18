@@ -2,6 +2,7 @@ import { timingSafeEqual } from "node:crypto"
 
 import type { WebhookEvent } from "@platform/cms-core"
 import { tags, uniqueTags } from "@platform/cms-core/tags"
+import { listableDocuments } from "@platform/content-model"
 
 /**
  * Optimizely Graph webhooks. Graph posts one JSON event per indexed document:
@@ -32,9 +33,13 @@ function safeEqual(a: string, b: string): boolean {
   return left.length === right.length && timingSafeEqual(left, right)
 }
 
+/** Document types a collection block can list. */
+const listedTypes = Object.values(listableDocuments).map((d) => d.type)
+
 export function createWebhookHandlers(options: WebhookOptions) {
   const header = options.header ?? defaultSecretHeader
   const locales = options.locales ?? ["en"]
+  const collections = (locale: string) => listedTypes.map((type) => tags.collection(locale, type))
 
   return {
     async verify(request: Request): Promise<unknown | null> {
@@ -68,8 +73,8 @@ export function createWebhookHandlers(options: WebhookOptions) {
 
         if (subject === "bulk" || (!docId && subject !== "doc")) {
           // A reindex or an unknown shape: refresh everything the site reads.
-          list.push(tags.type("page"))
-          for (const locale of locales) list.push(tags.global(locale), tags.paths(locale))
+          list.push(tags.type("page"), ...listedTypes.map(tags.type), tags.type("category"))
+          for (const locale of locales) list.push(tags.global(locale), tags.paths(locale), ...collections(locale))
           notes.push(subject ?? "unknown")
           continue
         }
@@ -85,8 +90,9 @@ export function createWebhookHandlers(options: WebhookOptions) {
         }
         // One entry tag covers the page or block itself; the app tags pages
         // with their block ids. Paths may have changed (new/moved/deleted page)
-        // and settings are cheap to refetch, so both are included.
-        list.push(tags.entry(key), tags.paths(locale), tags.global(locale))
+        // and settings are cheap to refetch, so both are included. The docId
+        // does not say what changed, so every listing is refreshed too.
+        list.push(tags.entry(key), tags.paths(locale), tags.global(locale), ...collections(locale))
         notes.push(`${key} ${body.type?.action ?? "changed"} (${locale})`)
       }
 

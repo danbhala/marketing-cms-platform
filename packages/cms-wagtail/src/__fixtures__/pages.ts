@@ -11,9 +11,12 @@ import type { WagtailListing, WagtailPage, WagtailRecord } from "../client"
 export const API_URL = "https://cms.example.com/api/v2"
 export const SITE_URL = "https://www.example.com"
 export const PAGE_TYPE = "platform_cms.ContentPage"
+export const ARTICLE_TYPE = "platform_cms.ArticlePage"
+export const CATEGORY_TYPE = "platform_cms.Category"
 export const SETTINGS_TYPE = "platform_cms.SiteSettings"
 export const HOME_PAGE_ID = 3
 export const PRICING_PAGE_ID = 5
+export const LAUNCH_PAGE_ID = 20
 export const PREVIEW_TOKEN = "id=3:1sKx7a:QJ4nF8w2Yl9bZ0eT3vR5uH6pC1dG7kM8sN2qA4jL0xo"
 
 const stream = (type: string, id: string, value: Record<string, unknown>) => ({ type, value, id })
@@ -282,6 +285,80 @@ export const settingsRecord: WagtailRecord = {
 
 export const settingsListing: WagtailListing<WagtailRecord> = { meta: { total_count: 1 }, items: [settingsRecord] }
 
+/** `GET /api/v2/category/` items, and what `CategorySerializer` inlines on an article. */
+const category = (id: number, title: string, slug: string, description = "") => ({
+  id,
+  meta: { type: CATEGORY_TYPE, detail_url: `${API_URL}/category/${id}/` },
+  title,
+  slug,
+  description,
+})
+export const productCategory = category(1, "Product news", "product-news", "Releases, improvements and deprecations.")
+export const eventsCategory = category(2, "Events", "events")
+export const categoryListing: WagtailListing<WagtailRecord> = {
+  meta: { total_count: 2 },
+  items: [productCategory, eventsCategory],
+}
+
+const articleMeta = (id: number, path: string, slug: string) => ({
+  ...pageMeta(id, path, slug),
+  type: ARTICLE_TYPE,
+  parent: { id: 7, meta: { type: PAGE_TYPE } },
+})
+
+/** `GET /api/v2/pages/find/?html_path=/news/launch` for an `ArticlePage`. */
+export const launchArticle: WagtailPage = {
+  id: LAUNCH_PAGE_ID,
+  meta: articleMeta(LAUNCH_PAGE_ID, "/news/launch/", "launch"),
+  title: "Cohorts and alerts are live",
+  published_at: "2026-10-14",
+  excerpt: "Build cohorts from any property and get a message the moment a metric moves.",
+  image: productScreenshot,
+  category: productCategory,
+  tags: [eventsCategory],
+  body: "<p>Cohorts group people by what they did.</p>",
+  blocks: [],
+  seo_title: "",
+  seo_description: "",
+  no_index: false,
+}
+
+export const summitArticle: WagtailPage = {
+  id: 21,
+  meta: articleMeta(21, "/news/summit/", "summit"),
+  title: "Join us at Measure Summit",
+  // A DateTimeField would send a timestamp; the adapter normalises it to UTC.
+  published_at: "2026-09-25T09:30:00+02:00",
+  excerpt: "",
+  image: null,
+  category: eventsCategory,
+  tags: [],
+  body: "<p>Three talks and a booth.</p>",
+  blocks: [],
+  no_index: false,
+}
+
+export const articles = [launchArticle, summitArticle]
+
+/** A `pages/?type=platform_cms.ArticlePage&fields=published_at,excerpt,image,category,tags` item: default listing fields plus the requested ones. */
+export const articleListingItem = (article: WagtailPage): WagtailPage => ({
+  id: article.id,
+  meta: {
+    type: article.meta.type,
+    detail_url: article.meta.detail_url,
+    html_url: article.meta.html_url,
+    slug: article.meta.slug,
+    first_published_at: article.meta.first_published_at,
+    locale: "en",
+  },
+  title: article.title,
+  published_at: article.published_at,
+  excerpt: article.excerpt,
+  image: article.image,
+  category: article.category,
+  tags: article.tags,
+})
+
 /** Payloads as `platform_cms/signals.py` posts them. */
 export const webhookPublished = { event: "page_published", id: HOME_PAGE_ID, type: PAGE_TYPE, locale: "en", path: "/" }
 export const webhookMoved = {
@@ -293,3 +370,11 @@ export const webhookMoved = {
   old_path: "/pricing/",
 }
 export const webhookSettings = { event: "settings_updated", id: 1, type: SETTINGS_TYPE }
+export const webhookArticle = {
+  event: "page_published",
+  id: LAUNCH_PAGE_ID,
+  type: ARTICLE_TYPE,
+  locale: "en",
+  path: "/news/launch/",
+}
+export const webhookTerm = { event: "term_updated", id: 2, type: CATEGORY_TYPE }

@@ -32,6 +32,12 @@ See [Preview & visual editing](/docs/preview) for the shared flow.
 
 Graph webhooks are unsigned, so the request must carry the shared secret in `x-optimizely-secret`, `Authorization: Bearer` or `?secret=`. Published `docId`s (`<key>_<locale>_<status>`) map to `cms:entry:<key>`, `cms:paths` and `cms:global`; drafts are ignored; bulk events fall back to `cms:type:page`.
 
+## Listings
+
+Articles are `ArticlePage` and taxonomy terms `CategoryPage` content types (push the regenerated schema). `getCollection` runs a hand-written Graph query: `ArticlePage(locale, skip, limit, orderBy: { publishedAt: DESC }, where: { _and: [{ category: { key: { in } } }, { _fulltext: { match } }] }) { total items { … } }`. Graph indexes a reference as `{ key, url }`, so slugs from the URL are first mapped to content keys through the taxonomy, and the `category`/`tags` of the returned items are filled in with one by-key query per referenced type. `getTaxonomy("category")` lists `CategoryPage` items by title (up to Graph's limit of 100); `getDocument` serves pages and articles by path through the SDK.
+
+Listings always read published content with the single key; in edit mode items carry `data-epi-*` markers but are not drafts. DAM asset fields are selected only when the schema has `cmp_*` types (probed once, or set `dam` on the adapter). Webhook events add `cms:collection:<locale>:article` for every published document and reindex, since a `docId` does not say which type changed.
+
 ## Mapping notes
 
 - Type keys are suffixed to avoid Graph's built-in names: items `<Pascal>Item`, blocks `<Pascal>Block`, page `WebPage`, site settings `SiteSettings`.

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_empty_message
+    - paragraphs.paragraphs_type.collection
+id: paragraph.collection.field_empty_message
+field_name: field_empty_message
+entity_type: paragraph
+bundle: collection
+label: Empty message
+description: Shown when no items match.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: string
