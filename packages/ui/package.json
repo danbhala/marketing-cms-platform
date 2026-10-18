@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
+    "@platform/animation": "workspace:*",
     "@platform/cms-core": "workspace:*",
     "@platform/content-model": "workspace:*",
     "class-variance-authority": "catalog:",
@@ -66,8 +67,8 @@
     "playwright": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "shadcn": "^4.22.0",
     "remark-gfm": "^4.0.1",
+    "shadcn": "^4.22.0",
     "storybook": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",

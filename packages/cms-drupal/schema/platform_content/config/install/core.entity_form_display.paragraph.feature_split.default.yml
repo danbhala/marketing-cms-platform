@@ -3,10 +3,15 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.feature_split.field_anchor
+    - field.field.paragraph.feature_split.field_animation
+    - field.field.paragraph.feature_split.field_animation_delay
+    - field.field.paragraph.feature_split.field_animation_duration
+    - field.field.paragraph.feature_split.field_animation_stagger
     - field.field.paragraph.feature_split.field_body
     - field.field.paragraph.feature_split.field_bullets
     - field.field.paragraph.feature_split.field_eyebrow
     - field.field.paragraph.feature_split.field_feature_split_actions
+    - field.field.paragraph.feature_split.field_heading_animation
     - field.field.paragraph.feature_split.field_media
     - field.field.paragraph.feature_split.field_media_position
     - field.field.paragraph.feature_split.field_spacing
@@ -106,6 +111,37 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_animation:
+    type: options_select
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_stagger:
+    type: boolean_checkbox
+    weight: 11
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_heading_animation:
+    type: options_select
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_duration:
+    type: options_select
+    weight: 13
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_delay:
+    type: options_select
+    weight: 14
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

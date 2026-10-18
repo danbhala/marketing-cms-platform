@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_animation_duration
+field_name: field_animation_duration
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    - value: fast
+      label: Fast
+    - value: normal
+      label: Normal
+    - value: slow
+      label: Slow
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

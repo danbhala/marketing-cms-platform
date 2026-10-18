@@ -1,12 +1,31 @@
 import type * as React from "react"
 
-import type { Block } from "@platform/content-model"
+import {
+  animationSettings,
+  themeClassName,
+  type Block,
+} from "@platform/content-model"
 import { editAttrs } from "@platform/cms-core/edit"
+import { Reveal, RevealItem, type RevealItemProps } from "@platform/animation"
 
-import { Section, type SectionProps } from "../atoms/section"
+import { Section, sectionVariants, type SectionProps } from "../atoms/section"
+import { cn } from "../lib/utils"
 
 /** Fields every block shares (see `presentation` in the content model). */
-type Presentation = Pick<Block, "theme" | "spacing" | "anchor"> & { id: string; type: string }
+type Presentation = Pick<
+  Block,
+  | "theme"
+  | "spacing"
+  | "anchor"
+  | "animation"
+  | "animationStagger"
+  | "headingAnimation"
+  | "animationDuration"
+  | "animationDelay"
+> & {
+  id: string
+  type: string
+}
 
 export interface BlockSectionProps extends Omit<SectionProps, "theme" | "id"> {
   /** The block being rendered; only its presentation and edit fields are read. */
@@ -17,27 +36,91 @@ export interface BlockSectionProps extends Omit<SectionProps, "theme" | "id"> {
 
 /**
  * The root element of every block. It turns the shared presentation fields
- * (theme, spacing, anchor) into the Section atom's props, stamps the block
- * type for styling and tests, and spreads the CMS edit attributes so visual
- * editors can select the whole block.
+ * (theme, spacing, anchor, animation) into the Section atom's props, stamps
+ * the block type for styling and tests, and spreads the CMS edit attributes so
+ * visual editors can select the whole block.
+ *
+ * A block with an `animation` preset renders through `Reveal`, a client
+ * component that plays the preset when the block scrolls into view. Without
+ * one it is a plain `<section>` with no client JavaScript at all.
  */
-function BlockSection({ block, applyTheme = true, spacing, children, ...props }: BlockSectionProps) {
+function BlockSection({
+  block,
+  applyTheme = true,
+  spacing,
+  surface,
+  className,
+  children,
+  ...props
+}: BlockSectionProps) {
+  const theme = applyTheme ? block.theme : undefined
+  const shared = {
+    id: block.anchor || undefined,
+    "data-block": block.type,
+    ...editAttrs(block),
+    ...props,
+  }
+  const animation = animationSettings(block)
+  if (!animation) {
+    return (
+      <Section
+        theme={theme}
+        spacing={spacing ?? block.spacing}
+        surface={surface}
+        className={className}
+        {...shared}
+      >
+        {children}
+      </Section>
+    )
+  }
   return (
-    <Section
-      id={block.anchor || undefined}
-      theme={applyTheme ? block.theme : undefined}
-      spacing={spacing ?? block.spacing}
-      data-block={block.type}
-      {...editAttrs(block)}
-      {...props}
+    <Reveal
+      animation={animation}
+      data-slot="section"
+      className={cn(
+        themeClassName(theme),
+        sectionVariants({ spacing: spacing ?? block.spacing, surface }),
+        className
+      )}
+      {...shared}
     >
       {children}
-    </Section>
+    </Reveal>
   )
 }
 
+export interface BlockItemProps extends RevealItemProps {
+  /** The block the item belongs to; decides whether the item animates on its own. */
+  block: Presentation
+}
+
+/**
+ * Wraps one item of a block (a card, a stat, a hero's title) so a staggered
+ * animation can reveal it on its own. When the block is not staggered it adds
+ * nothing to the DOM unless `as` asks for a real element, so blocks keep their
+ * markup exactly as before.
+ */
+function BlockItem({ block, as, children, ...props }: BlockItemProps) {
+  if (animationSettings(block)?.stagger) {
+    return (
+      <RevealItem as={as} {...props}>
+        {children}
+      </RevealItem>
+    )
+  }
+  if (as) {
+    const Plain = as
+    return <Plain {...props}>{children}</Plain>
+  }
+  return children
+}
+
 /** Props shared by every block component. */
-export interface BlockComponentProps<B> extends Omit<React.ComponentProps<"section">, "children"> {
+export interface BlockComponentProps<B> extends Omit<
+  React.ComponentProps<"section">,
+  "children"
+> {
   /**
    * The block's content from the CMS, already normalised to the content
    * model. Its fields are documented in `@platform/content-model`.
@@ -50,4 +133,4 @@ export interface BlockComponentProps<B> extends Omit<React.ComponentProps<"secti
   index?: number
 }
 
-export { BlockSection }
+export { BlockItem, BlockSection }

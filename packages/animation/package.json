@@ -1,0 +1,36 @@
+{
+  "name": "@platform/animation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Entrance and text animation for blocks: presets as Motion variants, the Reveal wrapper and SplitText heading effects. The only package that imports Motion.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./presets": "./src/presets.ts",
+    "./text-presets": "./src/text-presets.ts",
+    "./reveal": "./src/reveal.tsx",
+    "./split-text": "./src/split-text.tsx"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@platform/content-model": "workspace:*",
+    "motion": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "@platform/eslint-config": "workspace:*",
+    "@platform/typescript-config": "workspace:*",
+    "@storybook/react-vite": "catalog:",
+    "@types/react": "catalog:",
+    "eslint": "catalog:",
+    "react": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -3,12 +3,17 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.form.field_anchor
+    - field.field.paragraph.form.field_animation
+    - field.field.paragraph.form.field_animation_delay
+    - field.field.paragraph.form.field_animation_duration
+    - field.field.paragraph.form.field_animation_stagger
     - field.field.paragraph.form.field_consent
     - field.field.paragraph.form.field_description
     - field.field.paragraph.form.field_endpoint
     - field.field.paragraph.form.field_eyebrow
     - field.field.paragraph.form.field_fields
     - field.field.paragraph.form.field_form_layout
+    - field.field.paragraph.form.field_heading_animation
     - field.field.paragraph.form.field_spacing
     - field.field.paragraph.form.field_submit_label
     - field.field.paragraph.form.field_success_message
@@ -124,6 +129,37 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_animation:
+    type: options_select
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_stagger:
+    type: boolean_checkbox
+    weight: 13
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_heading_animation:
+    type: options_select
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_duration:
+    type: options_select
+    weight: 15
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_delay:
+    type: options_select
+    weight: 16
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

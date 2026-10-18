@@ -42,7 +42,7 @@ node packages/ui/scripts/screenshot-docs.mjs http://localhost:3001 apps/docs/pub
 
 ## Videos
 
-`public/video` holds real-pace Playwright recordings (a drawn cursor, pauses, scrolling) made by `record-studio.mjs` against the docs site and `record-preview.mjs` against the web app on the local adapter (`PREVIEW_SECRET` must match). Each writes a webm; convert it with ffmpeg:
+`public/video` holds real-pace Playwright recordings (a drawn cursor, pauses, scrolling) made by `record-studio.mjs` and `record-animation.mjs` against the docs site and `record-preview.mjs` against the web app on the local adapter (`PREVIEW_SECRET` must match). Each writes a webm; convert it with ffmpeg:
 
 ```sh
 node packages/ui/scripts/record-preview.mjs http://localhost:3000 /tmp/rec 1.2

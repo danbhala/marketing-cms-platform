@@ -1,4 +1,4 @@
-import { themeClassName, type CtaBlock } from "@platform/content-model"
+import { headingAnimationSettings, themeClassName, type CtaBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"
@@ -8,7 +8,7 @@ import { Stack } from "../atoms/layout"
 import { Text } from "../atoms/text"
 import { ActionGroup } from "../molecules/action-group"
 import { cn } from "../lib/utils"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 /** Props for the Cta block: the `CtaBlock` content plus section attributes. */
 export type CtaProps = BlockComponentProps<CtaBlock>
@@ -30,17 +30,27 @@ function Cta({ block, index, className, ...props }: CtaProps) {
           )}
         >
           <Stack gap="sm" align={split ? "start" : "center"} className="max-w-(--container-md)">
-            {block.eyebrow ? <Eyebrow {...fieldAttrs(block, "eyebrow")}>{block.eyebrow}</Eyebrow> : null}
-            <Heading as={index === 0 ? "h1" : "h2"} size="h2" {...fieldAttrs(block, "title")}>
-              {block.title}
-            </Heading>
+            {block.eyebrow ? (
+              <BlockItem block={block}>
+                <Eyebrow {...fieldAttrs(block, "eyebrow")}>{block.eyebrow}</Eyebrow>
+              </BlockItem>
+            ) : null}
+            <BlockItem block={block}>
+              <Heading as={index === 0 ? "h1" : "h2"} size="h2" animation={headingAnimationSettings(block)} {...fieldAttrs(block, "title")}>
+                {block.title}
+              </Heading>
+            </BlockItem>
             {block.description ? (
-              <Text size="lead" tone="muted" {...fieldAttrs(block, "description")}>
-                {block.description}
-              </Text>
+              <BlockItem block={block}>
+                <Text size="lead" tone="muted" {...fieldAttrs(block, "description")}>
+                  {block.description}
+                </Text>
+              </BlockItem>
             ) : null}
           </Stack>
-          <ActionGroup actions={block.actions} align={split ? "end" : "center"} stackOnMobile className="shrink-0" {...fieldAttrs(block, "actions")} />
+          <BlockItem block={block} as="div" className="shrink-0">
+            <ActionGroup actions={block.actions} align={split ? "end" : "center"} stackOnMobile {...fieldAttrs(block, "actions")} />
+          </BlockItem>
         </div>
       </Container>
     </BlockSection>

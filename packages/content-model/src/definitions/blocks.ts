@@ -1,3 +1,4 @@
+import { animationDelays, animationDurations, animationPresets, headingAnimations } from "../animation";
 import { defineBlock, field } from "../fields";
 import { themeNames } from "../themes";
 import {
@@ -17,11 +18,29 @@ import {
   testimonial,
 } from "./items";
 
-/** Presentation fields every block gets, so any block can be themed or anchored. */
+/**
+ * Presentation fields every block gets, so any block can be themed, anchored
+ * or animated. Animation is off unless an editor picks a preset.
+ */
 const presentation = {
   theme: field.select(themeNames, { description: "Applies a theme class to this block only." }),
   spacing: field.select(["none", "sm", "md", "lg"] as const, { defaultValue: "md" }),
   anchor: field.text({ description: "Optional id for in-page links, e.g. 'pricing'." }),
+  animation: field.select(animationPresets, {
+    defaultValue: "none",
+    description: "Entrance animation played once when the block scrolls into view.",
+  }),
+  animationStagger: field.boolean({
+    label: "Stagger items",
+    description: "Reveal the block's items one after another instead of all at once.",
+  }),
+  headingAnimation: field.select(headingAnimations, {
+    defaultValue: "none",
+    label: "Heading animation",
+    description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+  }),
+  animationDuration: field.select(animationDurations, { defaultValue: "normal" }),
+  animationDelay: field.select(animationDelays, { defaultValue: "none" }),
 };
 
 /** The shared heading slot: eyebrow, title and description. */

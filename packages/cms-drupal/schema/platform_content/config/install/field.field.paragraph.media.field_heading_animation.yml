@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_heading_animation
+    - paragraphs.paragraphs_type.media
+  module:
+    - options
+id: paragraph.media.field_heading_animation
+field_name: field_heading_animation
+entity_type: paragraph
+bundle: media
+label: Heading animation
+description: 'Reveals the block title by words, characters or lines, types it out, or scrambles it into place.'
+required: false
+translatable: true
+default_value:
+  - value: none
+default_value_callback: ''
+settings: {  }
+field_type: list_string

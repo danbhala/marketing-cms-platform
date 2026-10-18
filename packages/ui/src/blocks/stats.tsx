@@ -6,7 +6,7 @@ import { Grid } from "../atoms/layout"
 import { SectionHeader } from "../molecules/section-header"
 import { StatItem } from "../molecules/stat-item"
 import { cn } from "../lib/utils"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 /** Props for the Stats block: the `StatsBlock` content plus section attributes. */
 export type StatsProps = BlockComponentProps<StatsBlock>
@@ -19,16 +19,20 @@ function Stats({ block, index, className, ...props }: StatsProps) {
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container className="flex flex-col gap-(--block-header-gap)">
-        <SectionHeader
-          eyebrow={block.eyebrow}
-          title={block.title}
-          description={block.description}
-          as={index === 0 ? "h1" : "h2"}
-          source={block}
-        />
+        <BlockItem block={block}>
+          <SectionHeader
+            eyebrow={block.eyebrow}
+            title={block.title}
+            description={block.description}
+            as={index === 0 ? "h1" : "h2"}
+            source={block}
+          />
+        </BlockItem>
         <Grid columns={columns} className={cn("divide-border", divide)} {...fieldAttrs(block, "stats")}>
           {block.stats.map((stat) => (
-            <StatItem key={stat.id} item={stat} className="px-4" />
+            <BlockItem key={stat.id} block={block}>
+              <StatItem item={stat} className="px-4" />
+            </BlockItem>
           ))}
         </Grid>
       </Container>

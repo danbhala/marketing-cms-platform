@@ -20,6 +20,10 @@ Links and images go through `UiProvider`, so the same components run in Storyboo
 
 Fonts, heading weight/tracking/case and section rhythm are variables too (`--font-heading`, `--heading-weight`, `--section-scale`…), so a brand is one `:root` rule; the docs' theme studio (`/theme`) writes it. Themes are CSS classes that redefine the semantic variables: `theme-light`, `theme-dark`, `theme-muted`, `theme-brand`, `theme-blue`, `theme-green`, `theme-orange`, `theme-rose`, `theme-violet`, `theme-compact`. A page or any single block can carry one; blocks read `block.theme` and apply it to their own section.
 
+## Animation
+
+Blocks are static by default. When a block's `animation` field is set, `BlockSection` renders through `Reveal` from `@platform/animation`, which plays the preset once as the block scrolls into view. `animationStagger` reveals the block's items one after another: blocks mark those with `BlockItem`, which is a fragment when the block is not staggered. When `headingAnimation` is set, `Heading` renders the title through `SplitText` (words, characters, lines, typewriter or scramble) and keeps the full text in `aria-label`; `SectionHeader` reads the field from its `source` block, and blocks with their own title pass `animation={headingAnimationSettings(block)}`. Presets and timing live in `@platform/animation`, the field options in `@platform/content-model`; this package imports no Motion itself.
+
 ## Responsive layout
 
 Blocks respond to the width of their section, not the viewport. `Section`, `SiteHeader`, `SiteFooter` and `PageTemplate` are `@container/section`, and `globals.css` defines `section-sm|md|lg|xl:` (plus `section-max-sm|md:`) as container queries at Tailwind's viewport breakpoint widths. On a page that is the same as `sm:`/`lg:`; inside a narrow pane (the theme studio preview, a CMS visual editor, a docs embed) the block collapses the way it would on a phone. Use the `section-*` variants in atoms, molecules, blocks and templates; anything rendered outside `PageTemplate` needs a `@container/section` ancestor (Storybook adds one).

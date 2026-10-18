@@ -5,7 +5,7 @@ import { Container } from "../atoms/container"
 import { Text } from "../atoms/text"
 import { LogoItem } from "../molecules/logo-item"
 import { cn } from "../lib/utils"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 /** Props for the LogoCloud block: the `LogoCloudBlock` content plus section attributes. */
 export type LogoCloudProps = BlockComponentProps<LogoCloudBlock>
@@ -31,9 +31,9 @@ function LogoCloud({ block, className, ...props }: LogoCloudProps) {
           {...fieldAttrs(block, "logos")}
         >
           {block.logos.map((logo) => (
-            <li key={logo.id} className="flex items-center justify-center">
+            <BlockItem key={logo.id} block={block} as="li" className="flex items-center justify-center">
               <LogoItem item={logo} grayscale={block.grayscale ?? false} />
-            </li>
+            </BlockItem>
           ))}
         </ul>
       </Container>

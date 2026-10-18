@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: [
     "@platform/ui",
+    "@platform/animation",
     "@platform/content-model",
     "@platform/cms-core",
     "@platform/cms-local",

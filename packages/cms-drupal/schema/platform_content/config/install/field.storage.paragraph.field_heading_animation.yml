@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_heading_animation
+field_name: field_heading_animation
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    - value: none
+      label: None
+    - value: words
+      label: Words
+    - value: characters
+      label: Characters
+    - value: lines
+      label: Lines
+    - value: typewriter
+      label: Typewriter
+    - value: scramble
+      label: Scramble
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

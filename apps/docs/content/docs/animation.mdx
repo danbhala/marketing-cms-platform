@@ -1,0 +1,71 @@
+---
+title: Animation
+description: "Entrance and heading animation presets every block can switch on from the CMS: off by default, staggered items, split-text headings, duration and delay, reduced-motion aware."
+---
+
+Every block has five animation fields next to `theme`, `spacing` and `anchor`: a preset for the block, a stagger switch, a heading effect for its title, and the duration and delay both use. They are off by default; a page is static until an editor picks a preset on a block.
+
+<AnimationDemo />
+
+<Video src="/video/animation-presets.mp4" caption="The live demo above: each preset on the feature grid, stagger off and on, slow timing with a delay, then the hero, pricing and call to action" />
+
+## Fields
+
+| Field | Options | Default |
+| --- | --- | --- |
+| `animation` | `none` `fadeUp` `fadeIn` `scaleIn` `slideFromLeft` `slideFromRight` `blurIn` | `none` |
+| `animationStagger` | boolean: reveal the block's items one after another | off |
+| `headingAnimation` | `none` `words` `characters` `lines` `typewriter` `scramble` | `none` |
+| `animationDuration` | `fast` 0.35s · `normal` 0.6s · `slow` 0.9s | `normal` |
+| `animationDelay` | `none` · `short` 0.15s · `medium` 0.3s · `long` 0.6s | `none` |
+
+A block reveals once, when its top edge passes the bottom 10% of the viewport, and never animates out. With `animationStagger` on, the heading and each item (cards, stats, plans, people, steps, logos; a hero's eyebrow, title, description, actions and media) start a fraction of the duration apart. Blocks with one body (rich text, media, FAQ, tabs, comparison table, form) ignore the stagger flag and animate as a whole.
+
+## Heading effects
+
+`headingAnimation` animates the block's title on its own, with or without a block preset. The effects are our own take on the ones [Motion+](https://motion.dev/docs/text-animation) sells (`splitText`, `Typewriter`, `ScrambleText`), built from the same Motion variants as the block presets, so there is nothing to license and nothing new to install:
+
+| Effect | What happens |
+| --- | --- |
+| `words` | Each word rises half a line as it fades in, a beat apart. |
+| `characters` | One piece per letter; words stay unbreakable so the title wraps as usual. |
+| `lines` | Each rendered line slides up out of a clipped box. Lines are measured from the layout and re-measured on resize, so the effect follows real line breaks even with balanced wrapping. |
+| `typewriter` | Letters snap in one after another behind a caret that fades once the title is complete. |
+| `scramble` | Letters cycle through random glyphs and settle left to right, each locked to its final width so the title does not jitter. |
+
+The heading element keeps the full title in `aria-label` and the pieces are `aria-hidden`, so a screen reader hears one heading, never a letter at a time. Inside an animated block the title plays in step with the block's stagger and delay. `scramble` is skipped for people who ask for reduced motion; the other effects keep their fade and drop the movement.
+
+Like `theme`, the fields come from the shared `presentation` set in the content model, so they appear on every block in every CMS after `pnpm schema:generate`, and `BlockReference` lists them on each [block page](/docs/blocks).
+
+## How it works
+
+- **One package.** `@platform/animation` (`packages/animation`) holds the presets, `Reveal`, `RevealItem` and `SplitText`, and is the only package that imports [Motion](https://motion.dev) (`motion/react`, the library formerly known as Framer Motion), in its small build: `m` components plus the `domAnimation` feature bundle, no gestures, drag or layout animation. Copy or replace that package and the rest of the system is untouched.
+- **Zero cost when off.** `BlockSection` renders a plain `<section>` unless the block has a preset, and `Heading` renders plain text unless it has a heading effect. Only then do they render the client components, so pages without animation ship none of Motion's JavaScript.
+- **One place to tune.** Block presets are Motion variants in `packages/animation/src/presets.ts`, heading effects in `text-presets.ts`; they only touch `opacity`, transforms and `filter`, which the browser composites off the main thread. Change a curve or distance there and every block follows.
+- **Reduced motion.** `Reveal` wraps its block in `MotionConfig reducedMotion="user"`: people who ask their OS for less motion get the opacity fade without the movement.
+- **Server rendering.** The hidden start state is rendered on the server, so a block is invisible until the script runs. Leave animation off on anything that must be readable without JavaScript, and prefer it below the fold.
+
+## In a block
+
+Blocks opt their items into stagger with `BlockItem`, a fragment when the block is not staggered and a Motion element when it is. `SectionHeader` reads `headingAnimation` from its `source` block; a block that renders its own `Heading` passes `animation={headingAnimationSettings(block)}`:
+
+```tsx
+<BlockSection block={block}>
+  <Container>
+    <BlockItem block={block}>
+      <SectionHeader title={block.title} source={block} />
+    </BlockItem>
+    <Grid columns="3">
+      {block.features.map((feature) => (
+        <BlockItem key={feature.id} block={block}>
+          <FeatureItem item={feature} />
+        </BlockItem>
+      ))}
+    </Grid>
+  </Container>
+</BlockSection>
+```
+
+<StorybookEmbed story="blocks-animation--page" height={720} />
+
+The [Animation stories](/storybook/?path=/docs/blocks-animation--docs) show each preset on a fitting block, and the [SplitText stories](/storybook/?path=/docs/animation-splittext--docs) each heading effect on its own; re-select a story to replay it.

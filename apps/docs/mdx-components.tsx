@@ -5,6 +5,7 @@ import { Step, Steps } from "fumadocs-ui/components/steps"
 import { Tab, Tabs } from "fumadocs-ui/components/tabs"
 import { TypeTable } from "fumadocs-ui/components/type-table"
 
+import { AnimationDemo } from "@/components/animation-demo"
 import { BlockPreview } from "@/components/block-preview"
 import { BlockReference } from "@/components/block-reference"
 import { FlowDiagram } from "@/components/flow-diagram"
@@ -24,6 +25,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Tabs,
     Tab,
     TypeTable,
+    AnimationDemo,
     BlockPreview,
     BlockReference,
     FlowDiagram,
