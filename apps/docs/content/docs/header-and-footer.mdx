@@ -15,6 +15,7 @@ export const chrome = {
     sticky: true,
     hideOnScroll: false, // slide away on scroll down, back on scroll up
     transparent: false, // over a background-image hero until the page scrolls
+    languageSwitcher: "utility", // utility | menu, on multilingual sites
   },
   footer: { layout: "columns" }, // columns | split | minimal
 } satisfies ChromeConfig
@@ -49,6 +50,10 @@ On phones every layout except `overlay` uses one menu sheet with an expandable s
 ### Utility bar
 
 When `utilityLinks` has links, a thin bar above the header shows them (contact, locations, sign in). It is separate from the announcement bar, which carries one message.
+
+### Language switcher
+
+On a site with more than one language, `languageSwitcher` picks where the switcher sits. `utility` (the default) adds the languages at the end of the utility bar, which is hidden on phones. `menu` puts a dropdown in the header at every width, showing the language's name from tablet width and its code on phones. The footer's bottom row lists the languages either way. Each option is the current page in that language, named in its own language.
 
 ## Footer layouts
 

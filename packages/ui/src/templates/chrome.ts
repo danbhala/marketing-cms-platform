@@ -37,6 +37,12 @@ export interface HeaderOptions {
   transparent?: boolean
   /** Where the split falls in the `centered` layout: groups before this index go left. Default half. */
   splitAt?: number
+  /**
+   * Where the language switcher sits on a multilingual site. `utility`: links in the
+   * utility bar above the header (hidden on phones). `menu`: a dropdown in the header
+   * at every width. The footer lists the languages either way. Default `utility`.
+   */
+  languageSwitcher?: "utility" | "menu"
 }
 
 export interface FooterOptions {

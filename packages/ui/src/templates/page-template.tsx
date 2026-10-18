@@ -83,6 +83,7 @@ function PageTemplate({
   // The header only goes transparent when the first thing under it is a hero with a background image.
   const first = page.blocks[0]
   const opensWithBackgroundHero = first?.type === "hero" && first.layout === "background" && Boolean(first.media)
+  const languageMenu = chrome?.header?.languageSwitcher === "menu"
   const transparent =
     Boolean(chrome?.header?.transparent) && opensWithBackgroundHero && !showBreadcrumbs && !before && !children
   return (
@@ -97,12 +98,18 @@ function PageTemplate({
     >
       <SkipLink>{labels?.skipToContent ?? defaultChromeLabels.skipToContent}</SkipLink>
       <AnnouncementBar settings={settings} />
-      <UtilityBar settings={settings} currentPath={currentPath} languages={languages} labels={labels} />
+      <UtilityBar
+        settings={settings}
+        currentPath={currentPath}
+        languages={languageMenu ? undefined : languages}
+        labels={labels}
+      />
       <SiteHeader
         settings={settings}
         {...chrome?.header}
         transparent={transparent}
         currentPath={currentPath}
+        languages={languages}
         labels={labels}
       />
       {before}
