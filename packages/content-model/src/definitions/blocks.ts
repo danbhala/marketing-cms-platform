@@ -30,7 +30,7 @@ import {
  * Presentation fields every block gets, so any block can be themed, anchored
  * or animated. Animation is off unless an editor picks a preset.
  */
-const presentation = {
+export const presentation = {
   theme: field.select(themeNames, { description: "Applies a theme class to this block only." }),
   spacing: field.select(["none", "sm", "md", "lg"] as const, { defaultValue: "md" }),
   anchor: field.text({ description: "Optional id for in-page links, e.g. 'pricing'." }),
@@ -52,7 +52,7 @@ const presentation = {
 }
 
 /** The shared heading slot: eyebrow, title and description. */
-const heading = {
+export const heading = {
   eyebrow: field.text(),
   title: field.text(),
   description: field.textarea(),

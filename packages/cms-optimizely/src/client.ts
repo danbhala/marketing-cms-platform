@@ -19,7 +19,7 @@ export async function createGraphClient(options: GraphClientOptions): Promise<Gr
   }
   const [{ GraphClient, initContentTypeRegistry }, { buildContentTypes }] = await Promise.all([
     import("@optimizely/cms-sdk"),
-    import("./schema"),
+    import("./schema/registry"),
   ])
   // The SDK builds GraphQL fragments from this registry; without it every fetch
   // fails with GraphMissingContentTypeError. The registry is process-global.

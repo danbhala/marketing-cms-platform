@@ -171,6 +171,7 @@ export const optimizelyAdapter: CmsAdapter = createOptimizelyAdapter()
 export { withEditAttrs } from "./edit"
 export { toRichText } from "./rich-text"
 export { transformPage, transformSiteSettings, OptimizelyTransformError } from "./transform"
-export { buildContentTypes, contentTypeKey, describeAllContentTypes, definitionForTypename } from "./schema"
+export { contentTypeKey, describeAllContentTypes, definitionForTypename } from "./schema"
+export { buildContentTypes } from "./schema/registry"
 export type { GraphLike } from "./graph-types"
 export type { OptimizelyPreviewContext } from "./preview"
