@@ -20,6 +20,7 @@ pnpm dev                 # http://localhost:3001
 | `<SchemaCompare type="hero" />`                        | The canonical definition next to each CMS's generated schema.                                                        |
 | `<Screenshot name="…" alt="…" />`, `<Video src="…" />` | Files from `public/`.                                                                                                |
 | `<FlowDiagram columns={…} />`                          | A small CSS flow diagram.                                                                                            |
+| `<AnimationDemo />`                                    | The live block-animation playground on the Animation page.                                                           |
 | `<ShowcaseGallery />`                                  | Every showcase theme with its screenshot, palette and CSS.                                                           |
 
 ## Theme studio and showcases
