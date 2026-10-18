@@ -1,25 +1,10 @@
 "use client"
 
-import { cva, type VariantProps } from "class-variance-authority"
+import type { VariantProps } from "class-variance-authority"
 
 import { useUi, type UiImageProps } from "../lib/ui-provider"
 import { cn } from "../lib/utils"
-
-const imageFrameVariants = cva("relative overflow-hidden bg-muted", {
-  variants: {
-    ratio: {
-      auto: "",
-      square: "aspect-square",
-      video: "aspect-video",
-      "4/3": "aspect-4/3",
-      "3/2": "aspect-3/2",
-      portrait: "aspect-3/4",
-      wide: "aspect-21/9",
-    },
-    radius: { none: "rounded-none", md: "rounded-md", lg: "rounded-lg", xl: "rounded-xl", full: "rounded-full" },
-  },
-  defaultVariants: { ratio: "auto", radius: "lg" },
-})
+import { imageFrameVariants } from "./image-frame"
 
 export interface ImageProps extends UiImageProps, VariantProps<typeof imageFrameVariants> {
   /** Fixed aspect ratio for the frame. `auto` uses the media's own dimensions. */
@@ -94,4 +79,4 @@ function Image({ media, ratio, radius, fit = "cover", fill, className, sizes, pr
   )
 }
 
-export { Image, imageFrameVariants }
+export { Image }

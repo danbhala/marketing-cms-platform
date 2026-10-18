@@ -44,7 +44,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const metadata: Metadata = {
     title: doc.seoTitle ?? doc.title,
     description: doc.seoDescription ?? (doc.type === "article" ? doc.excerpt : undefined),
-    robots: doc.noIndex ? { index: false, follow: false } : undefined,
+    robots: doc.noIndex || siteConfig.noIndex ? { index: false, follow: false } : undefined,
     alternates: { canonical: canonicalPath },
   }
   if (doc.type === "page" && doc.ogImage)
@@ -69,7 +69,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
       )
       metadata.title = `${doc.seoTitle ?? doc.title}${parts.length ? ` · ${parts.join(", ")}` : ""}`
       metadata.alternates = { canonical: listingHref(canonicalPath, { ...query, q: undefined }, collection) }
-      if (query.q) metadata.robots = { index: false, follow: true }
+      if (query.q && !siteConfig.noIndex) metadata.robots = { index: false, follow: true }
     }
   }
   return metadata

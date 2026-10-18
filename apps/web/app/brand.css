@@ -1,0 +1,45 @@
+/*
+ * Harbor & Co, the demo site's brand: the "Harbor" preset exported from the
+ * theme studio (https://marketing-cms-platform.vercel.app/theme). Fonts are
+ * loaded in app/[locale]/layout.tsx. Replace this file to rebrand the site;
+ * nothing in the components changes.
+ */
+:root {
+  --font-heading: "DM Serif Display", ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-eyebrow: var(--font-sans);
+  --heading-weight: 400;
+  --heading-tracking: -0.01em;
+  --heading-case: none;
+  --radius: 1.25rem;
+  --section-scale: 1;
+  --gap-scale: 1;
+  --container-section: 80rem;
+  color-scheme: light;
+  --background: oklch(0.985 0.01 85);
+  --foreground: oklch(0.28 0.06 250);
+  --card: oklch(1 0 0);
+  --primary: oklch(0.5 0.107 235);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.94 0.02 80);
+  --muted: oklch(0.95 0.02 85);
+  --muted-foreground: oklch(0.47 0.04 250);
+  --accent: oklch(0.94 0.02 80);
+  --border: oklch(0.88 0.02 80);
+  --brand: oklch(0.5 0.107 235);
+  --brand-foreground: oklch(0.99 0 0);
+  --brand-muted: oklch(0.9 0.05 230);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --secondary-foreground: var(--foreground);
+  --accent-foreground: var(--foreground);
+  --input: var(--border);
+  --ring: var(--primary);
+  --surface: color-mix(in oklch, var(--background), var(--foreground) 4%);
+  --inverse: var(--foreground);
+  --inverse-foreground: var(--background);
+  --selection: var(--primary);
+  --selection-foreground: var(--primary-foreground);
+}

@@ -31,22 +31,25 @@ export function StudioPanels({
   patch,
   tab,
   onTab,
+  tabs: shown = tabs,
 }: {
   theme: Theme
   patch: (p: Partial<Theme>) => void
   tab: Tab
   onTab: (tab: Tab) => void
+  /** Which tabs to offer; all of them unless the host leaves some out. */
+  tabs?: Tab[]
 }) {
   return (
     <>
-      <nav className="grid grid-cols-5 border-b text-xs">
-        {tabs.map((t) => (
+      <nav className="grid border-b text-xs" style={{ gridTemplateColumns: `repeat(${shown.length}, 1fr)` }}>
+        {shown.map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => onTab(t)}
             aria-pressed={tab === t}
-            className={`py-2 capitalize ${tab === t ? "border-fd-primary border-b-2 font-medium" : "text-fd-muted-foreground hover:text-fd-foreground"}`}
+            className={`py-2 capitalize ${tab === t ? "border-studio-primary border-b-2 font-medium" : "text-studio-muted-foreground hover:text-studio-foreground"}`}
           >
             {t}
           </button>
@@ -81,7 +84,7 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
   }
   return (
     <div className="flex flex-col gap-4">
-      <section className="bg-fd-card flex flex-col gap-2 rounded-lg border p-3">
+      <section className="bg-studio-card flex flex-col gap-2 rounded-lg border p-3">
         <h3 className="text-sm font-medium">Generate a palette</h3>
         <Field label="Hue" hint={`${Math.round(gen.hue)}°`}>
           <Range
@@ -155,7 +158,7 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
         <ColorField label="Brand text" value={c.brandForeground} onChange={set("brandForeground")} against={c.brand} />
         <ColorField label="Brand muted" value={c.brandMuted} onChange={set("brandMuted")} />
       </Group>
-      <p className="text-fd-muted-foreground text-xs">
+      <p className="text-studio-muted-foreground text-xs">
         Badges show WCAG contrast against the surface the text sits on. Popover, input, ring, inverse and selection
         colours derive from these.
       </p>
@@ -166,7 +169,7 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
 function Group({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-1.5">
-      <h3 className="text-fd-muted-foreground text-xs font-medium tracking-wide uppercase">{title}</h3>
+      <h3 className="text-studio-muted-foreground text-xs font-medium tracking-wide uppercase">{title}</h3>
       {children}
     </section>
   )
@@ -302,7 +305,7 @@ function LayoutPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>
           ]}
         />
       </Field>
-      <p className="text-fd-muted-foreground text-xs">
+      <p className="text-studio-muted-foreground text-xs">
         Spacing multiplies the responsive section and gap steps in blocks.css, so mobile and desktop keep their ratio.
       </p>
     </div>
@@ -342,14 +345,14 @@ function MotionPanel({
     ))
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-fd-muted-foreground text-xs">
+      <p className="text-studio-muted-foreground text-xs">
         Site defaults every block inherits. Developers set them in <code>animation.config.ts</code> (see Export);
         editors can only override a block in the CMS. The preview replays from the top on every change.
       </p>
       <button
         type="button"
         onClick={replay}
-        className="bg-fd-primary text-fd-primary-foreground h-8 self-start rounded-md px-3 text-sm font-medium hover:opacity-90"
+        className="bg-studio-primary text-studio-primary-foreground h-8 self-start rounded-md px-3 text-sm font-medium hover:opacity-90"
       >
         Replay
       </button>
@@ -402,7 +405,7 @@ function MotionPanel({
           <div className="grid grid-cols-4 gap-1.5">
             {(["x1", "y1", "x2", "y2"] as const).map((name, i) => (
               <label key={name} className="flex flex-col gap-1 text-xs">
-                <span className="text-fd-muted-foreground">{name}</span>
+                <span className="text-studio-muted-foreground">{name}</span>
                 <input
                   type="number"
                   value={curve[i]}
@@ -410,13 +413,13 @@ function MotionPanel({
                   max={name.startsWith("x") ? 1 : 2}
                   step={0.01}
                   onChange={(e) => setPoint(i, Number(e.target.value))}
-                  className="bg-fd-background h-8 rounded-md border px-1.5 text-sm tabular-nums"
+                  className="bg-studio-background h-8 rounded-md border px-1.5 text-sm tabular-nums"
                 />
               </label>
             ))}
           </div>
         ) : null}
-        <p className="text-fd-muted-foreground text-xs">
+        <p className="text-studio-muted-foreground text-xs">
           Keep y1 and y2 within 0–1 so movement settles without bouncing. x values must stay within 0–1.
         </p>
       </Group>
@@ -464,17 +467,17 @@ function ExportPanel({ theme }: { theme: Theme }) {
         ]}
       />
       {format === "css" ? (
-        <p className="text-fd-muted-foreground text-sm">
+        <p className="text-studio-muted-foreground text-sm">
           Paste into your app's stylesheet after <code>@platform/ui/globals.css</code>. Change <code>:root</code> to a
           class to use it as a page or block theme.
         </p>
       ) : format === "motion" ? (
-        <p className="text-fd-muted-foreground text-sm">
+        <p className="text-studio-muted-foreground text-sm">
           Save as <code>apps/web/animation.config.ts</code> (it is imported from the root layout and the UI provider).
           Every block inherits it; editors override per block in the CMS.
         </p>
       ) : (
-        <p className="text-fd-muted-foreground text-sm">
+        <p className="text-studio-muted-foreground text-sm">
           Paste into any LLM. The prompt carries the CSS, the font packages, where the file goes and how to check it, so
           the model can set the theme up in your project unaided.
         </p>
@@ -488,12 +491,12 @@ function ExportPanel({ theme }: { theme: Theme }) {
         <a
           href={`data:${format === "css" ? "text/css" : "text/plain"};charset=utf-8,${encodeURIComponent(text)}`}
           download={fileName}
-          className="hover:bg-fd-muted h-8 rounded-md border px-2.5 text-sm leading-8"
+          className="hover:bg-studio-muted h-8 rounded-md border px-2.5 text-sm leading-8"
         >
           Download {format === "prompt" ? "prompt" : fileName}
         </a>
       </div>
-      <pre className="bg-fd-card overflow-auto rounded-md border p-3 text-[11px] leading-relaxed whitespace-pre-wrap">
+      <pre className="bg-studio-card overflow-auto rounded-md border p-3 text-[11px] leading-relaxed whitespace-pre-wrap">
         {text}
       </pre>
     </div>
@@ -520,7 +523,7 @@ export function CopyButton({
         setDone(true)
         setTimeout(() => setDone(false), 1500)
       }}
-      className={`h-8 rounded-md px-2.5 text-sm ${primary ? "bg-fd-primary text-fd-primary-foreground" : "hover:bg-fd-muted border"} ${className}`}
+      className={`h-8 rounded-md px-2.5 text-sm ${primary ? "bg-studio-primary text-studio-primary-foreground" : "hover:bg-studio-muted border"} ${className}`}
     >
       {done ? "Copied" : label}
     </button>

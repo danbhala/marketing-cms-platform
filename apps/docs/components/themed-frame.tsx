@@ -5,8 +5,8 @@ import { PageTemplate } from "@platform/ui/templates"
 
 import { baseAnimationDefaults, defineAnimation } from "@platform/content-model"
 
-import { useReplay, useThemeOverride } from "@/theme-studio/store"
-import { themeToStyle } from "@/theme-studio/theme"
+import { useReplay, useThemeOverride } from "@platform/theme-studio/store"
+import { themeToStyle } from "@platform/theme-studio/theme"
 import type { Showcase } from "@/showcases"
 
 /**

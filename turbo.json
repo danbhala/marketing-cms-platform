@@ -16,6 +16,8 @@
         "NEXT_PUBLIC_DRUPAL_*",
         "WAGTAIL_*",
         "SITE_URL",
+        "SITE_NOINDEX",
+        "THEME_EDITOR",
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"
       ],
@@ -34,6 +36,8 @@
         "NEXT_PUBLIC_DRUPAL_*",
         "WAGTAIL_*",
         "SITE_URL",
+        "SITE_NOINDEX",
+        "THEME_EDITOR",
         "PREVIEW_SECRET",
         "REVALIDATE_SECRET"
       ],

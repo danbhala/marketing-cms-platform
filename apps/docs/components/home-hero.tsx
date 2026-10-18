@@ -6,8 +6,8 @@ import { BlockList, SiteHeader } from "@platform/ui/templates"
 
 import { demoBlocks, demoSettings } from "@/home/demo-site"
 import { showcases } from "@/showcases"
-import { fontById } from "@/theme-studio/fonts"
-import { encodeTheme, themeToStyle, themeToVars } from "@/theme-studio/theme"
+import { fontById } from "@platform/theme-studio/fonts"
+import { encodeTheme, themeToStyle, themeToVars } from "@platform/theme-studio/theme"
 
 const INTERVAL = 4000
 const DESKTOP = 1024
@@ -88,6 +88,12 @@ export function HomeHero() {
           >
             Edit {showcase.name} in the studio
           </Link>
+          <a
+            href="https://marketing-cms-platform-demo.vercel.app"
+            className="hover:bg-fd-accent inline-flex h-10 items-center rounded-lg border px-4 text-sm font-medium"
+          >
+            See the live demo
+          </a>
         </div>
       </div>
 

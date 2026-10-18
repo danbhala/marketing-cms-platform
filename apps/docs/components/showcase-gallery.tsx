@@ -3,8 +3,8 @@ import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock"
 import { ImageZoom } from "fumadocs-ui/components/image-zoom"
 
 import { showcases } from "@/showcases"
-import { fontById } from "@/theme-studio/fonts"
-import { encodeTheme, themeToCss, themeToStyle } from "@/theme-studio/theme"
+import { fontById } from "@platform/theme-studio/fonts"
+import { encodeTheme, themeToCss, themeToStyle } from "@platform/theme-studio/theme"
 
 const swatches = ["background", "foreground", "primary", "secondary", "muted", "brand", "border"] as const
 

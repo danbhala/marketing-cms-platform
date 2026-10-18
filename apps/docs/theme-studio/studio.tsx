@@ -6,12 +6,12 @@ import { baseAnimationDefaults, defineAnimation } from "@platform/content-model"
 import { PageTemplate } from "@platform/ui/templates"
 
 import { showcases } from "@/showcases"
-import { Segmented, Select } from "./controls"
-import { presets } from "./presets"
-import { themeToPrompt } from "./prompt"
-import { CopyButton, StudioPanels, type Tab } from "./panels"
-import { shareUrl, useReplay, useTheme } from "./store"
-import { encodeTheme, randomTheme, themeToCss, themeToStyle, type Theme } from "./theme"
+import { Segmented, Select } from "@platform/theme-studio/controls"
+import { presets } from "@platform/theme-studio/presets"
+import { themeToPrompt } from "@platform/theme-studio/prompt"
+import { CopyButton, StudioPanels, type Tab } from "@platform/theme-studio/panels"
+import { shareUrl, useReplay, useTheme } from "@platform/theme-studio/store"
+import { encodeTheme, randomTheme, themeToCss, themeToStyle, type Theme } from "@platform/theme-studio/theme"
 
 type Viewport = "desktop" | "tablet" | "mobile"
 const viewportWidth: Record<Viewport, number> = { desktop: 1280, tablet: 834, mobile: 390 }
@@ -70,7 +70,7 @@ export function ThemeStudio() {
   }
 
   return (
-    <div className="theme-studio bg-fd-background text-fd-foreground flex h-dvh flex-col">
+    <div className="studio-chrome bg-fd-background text-fd-foreground flex h-dvh flex-col">
       <header className="flex flex-wrap items-center gap-2 border-b px-3 py-2 text-sm">
         <Link href="/docs/theming" className="font-semibold">
           Theme studio

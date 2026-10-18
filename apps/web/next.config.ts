@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   transpilePackages: [
     "@platform/ui",
     "@platform/animation",
+    "@platform/theme-studio",
     "@platform/content-model",
     "@platform/cms-core",
     "@platform/cms-local",

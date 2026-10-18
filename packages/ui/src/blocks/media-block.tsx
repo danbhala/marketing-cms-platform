@@ -3,7 +3,8 @@ import { fieldAttrs } from "@platform/cms-core/edit"
 import { ScrollEffect } from "@platform/animation"
 
 import { Container } from "../atoms/container"
-import { Image, imageFrameVariants } from "../atoms/image"
+import { Image } from "../atoms/image"
+import { imageFrameVariants } from "../atoms/image-frame"
 import { BlockSection, type BlockComponentProps } from "./block-section"
 
 /** Props for the MediaBlock block: the `MediaBlockContent` content plus section attributes. */

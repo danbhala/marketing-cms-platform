@@ -1,5 +1,7 @@
 import type { CmsAdapter, SiteConfig } from "@platform/cms-core"
 
+import { demoContent } from "@/content"
+
 /**
  * The only file in the app that knows CMS names. Pick the adapter with
  * CMS_PROVIDER; adding a CMS is one line here plus its `@platform/cms-*`
@@ -10,10 +12,19 @@ export const siteConfig: SiteConfig = {
   locales: ["en"],
   defaultLocale: "en",
   siteUrl: process.env.SITE_URL ?? "http://localhost:3000",
+  noIndex: process.env.SITE_NOINDEX === "true",
 }
 
+/**
+ * The floating "Edit theme" drawer. On by default with the local adapter (the
+ * demo site), off with a real CMS unless THEME_EDITOR=true.
+ */
+export const themeEditor =
+  process.env.THEME_EDITOR === "true" || (siteConfig.provider === "local" && process.env.THEME_EDITOR !== "false")
+
 const providers: Record<string, () => Promise<CmsAdapter>> = {
-  local: () => import("@platform/cms-local").then((m) => m.localAdapter),
+  // The demo site's own content (./content); the shared fixtures are the default.
+  local: () => import("@platform/cms-local").then((m) => m.createLocalAdapter(demoContent)),
   contentful: () => import("@platform/cms-contentful").then((m) => m.contentfulAdapter),
   storyblok: () => import("@platform/cms-storyblok").then((m) => m.storyblokAdapter),
   optimizely: () => import("@platform/cms-optimizely").then((m) => m.optimizelyAdapter),

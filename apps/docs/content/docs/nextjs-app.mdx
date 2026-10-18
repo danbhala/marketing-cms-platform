@@ -40,4 +40,4 @@ CMS-authored hrefs are not statically known, so the UI provider casts them to `R
 
 ## Environment
 
-See `apps/web/.env.example`. `CMS_PROVIDER`, `SITE_URL`, `PREVIEW_SECRET`, `REVALIDATE_SECRET` are shared; the rest are per CMS.
+See `apps/web/.env.example`. `CMS_PROVIDER`, `SITE_URL`, `PREVIEW_SECRET`, `REVALIDATE_SECRET` are shared; the rest are per CMS. `SITE_NOINDEX=true` keeps a demo or staging deployment out of search engines: `robots.txt` disallows everything and every page gets a `noindex` meta. The hosted demo at [marketing-cms-platform-demo.vercel.app](https://marketing-cms-platform-demo.vercel.app) runs this way on the `local` adapter.

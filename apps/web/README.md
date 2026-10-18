@@ -27,6 +27,10 @@ Published reads live in `lib/cms.ts` under `'use cache'` with tags from `@platfo
 
 A `collection` block on any page lists articles. `components/collection-block.tsx` binds it to the request: the filter bar and results await `searchParams` inside their own Suspense boundaries and read `getPublishedCollection`, which is cached per query and tagged `cms:collection:{locale}:article`. `components/latest-news-block.tsx` does the same for the `latestNews` block. The docs page "Listing pages" has the URL contract.
 
+## Deploy
+
+The demo site is a Vercel project with **Root Directory** `apps/web` and `CMS_PROVIDER=local`, so it needs no CMS account: https://marketing-cms-platform-demo.vercel.app. `vercel.json` skips builds when neither the app nor a workspace dependency changed (`turbo-ignore`). It sets `SITE_NOINDEX=true`, which makes `robots.txt` disallow everything and adds a `noindex` meta to every page; leave it unset on a real site.
+
 ## Adding a CMS
 
 Add a `@platform/cms-<name>` package implementing `CmsAdapter`, then one line in `cms.config.ts`, one in `cms.bridges.ts` if it has a visual editor, and its editor origin in `lib/frame-ancestors.ts`.

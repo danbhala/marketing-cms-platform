@@ -2,11 +2,34 @@
 @import "@platform/ui/globals.css";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+@import "@platform/theme-studio/studio.css";
 
 @source "../node_modules/fumadocs-ui/dist/**/*.js";
 @source "../app";
 @source "../components";
 @source "../content";
+
+/* The theme studio's panels use the docs chrome colours. */
+.studio-chrome {
+  --studio-background: var(--color-fd-background);
+  --studio-foreground: var(--color-fd-foreground);
+  --studio-card: var(--color-fd-card);
+  --studio-muted: var(--color-fd-muted);
+  --studio-muted-foreground: var(--color-fd-muted-foreground);
+  --studio-primary: var(--color-fd-primary);
+  --studio-primary-foreground: var(--color-fd-primary-foreground);
+}
+/*
+ * Fumadocs' light muted text measures 4.3:1 on the light background, under
+ * WCAG AA for the small labels the studio is made of; a step darker passes.
+ * The dark theme already passes and is left alone.
+ */
+.studio-chrome {
+  --color-fd-muted-foreground: hsl(0, 0%, 38%);
+}
+.dark .studio-chrome {
+  --color-fd-muted-foreground: hsla(0, 0%, 70%, 0.8);
+}
 
 /* Home hero: the demo site eases between brands instead of snapping. */
 .home-brand-frame,
