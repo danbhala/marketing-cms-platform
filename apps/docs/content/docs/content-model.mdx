@@ -5,16 +5,18 @@ description: "The field DSL, the canonical shapes for media and rich text, and t
 
 ## Field kinds
 
-| Kind | Canonical value | Notes |
-| --- | --- | --- |
-| `text`, `textarea`, `link`, `icon` | `string` | `icon` is a lucide icon name in kebab-case (`shield-check`) |
-| `textList` | `string[]` | Simple lists (bullet points, plan features) |
-| `number` / `boolean` | `number` / `boolean` | |
-| `select` | one of `options` | Options are validated; `defaultValue` applies when empty |
-| `media` | `Media` | `{ kind: "image" \| "video", url, alt, width?, height? }` |
-| `richText` | `RichText` | Portable JSON AST, see below |
-| `items` | nested items `[]` | Ordered list of one or more item types; `min`/`max` |
-| `blocks` | nested blocks `[]` | Only on `page` |
+| Kind                               | Canonical value      | Notes                                                       |
+| ---------------------------------- | -------------------- | ----------------------------------------------------------- |
+| `text`, `textarea`, `link`, `icon` | `string`             | `icon` is a lucide icon name in kebab-case (`shield-check`) |
+| `textList`                         | `string[]`           | Simple lists (bullet points, plan features)                 |
+| `number` / `boolean`               | `number` / `boolean` |                                                             |
+| `select`                           | one of `options`     | Options are validated; `defaultValue` applies when empty    |
+| `media`                            | `Media`              | `{ kind: "image" \| "video", url, alt, width?, height? }`   |
+| `richText`                         | `RichText`           | Portable JSON AST, see below                                |
+| `date`                             | `string`             | ISO 8601 (`2026-10-14` or a full timestamp)                 |
+| `reference`                        | referenced document  | `field.reference(category, { multiple })`; resolved inline  |
+| `items`                            | nested items `[]`    | Ordered list of one or more item types; `min`/`max`         |
+| `blocks`                           | nested blocks `[]`   | Only on `page`                                              |
 
 Every node (document, block, item) has `id` and `type`, and in draft mode may carry `$edit`.
 
@@ -33,6 +35,8 @@ Headings inside rich text are clamped to `h2`–`h6` so a page keeps one `h1`.
 ## Documents
 
 - **`page`** — `title`, `path`, SEO fields (`seoTitle`, `seoDescription`, `ogImage`, `noIndex`), `hideBreadcrumbs`, `theme`, and `blocks`.
+- **`article`** — routable news story: `title`, `path`, `publishedAt`, `excerpt`, `image`, `category` (reference), `tags` (references), `body` rich text, `blocks`, SEO fields. Listed by the `collection` block, see [Listing pages](/docs/listing-pages).
+- **`category`** — taxonomy term: `title`, `slug`, `description`. Marked `taxonomy: true` so adapters know it is a filter, not a page.
 - **`siteSettings`** — singleton: site name, logo, announcement bar, navigation groups, header actions, footer columns, social links.
 
 ## Blocks and items

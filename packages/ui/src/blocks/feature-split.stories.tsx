@@ -15,11 +15,11 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const MediaRight: Story = {
-  args: { block: { ...fixtures.featureSplitBlock, ...{ mediaPosition: 'right' } } },
+  args: { block: { ...fixtures.featureSplitBlock, ...{ mediaPosition: "right" } } },
 }
 
 export const MediaLeft: Story = {
-  args: { block: { ...fixtures.featureSplitBlock, ...{ mediaPosition: 'left' } } },
+  args: { block: { ...fixtures.featureSplitBlock, ...{ mediaPosition: "left" } } },
 }
 
 export const NoBullets: Story = {

@@ -5,6 +5,6 @@ Maps every canonical block type to the component that renders it. The app render
 ```ts
 import { createRegistry, registry, renderableBlocks } from "@platform/component-registry"
 
-const custom = createRegistry({ hero: MyHero })   // override one block, keep the rest
-renderableBlocks(page.blocks, custom)             // drops block types the registry cannot render
+const custom = createRegistry({ hero: MyHero }) // override one block, keep the rest
+renderableBlocks(page.blocks, custom) // drops block types the registry cannot render
 ```

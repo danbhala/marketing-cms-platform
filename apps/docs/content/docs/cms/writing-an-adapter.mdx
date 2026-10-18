@@ -8,30 +8,36 @@ description: "What a new @platform/cms-* package must provide, and how to wire i
 ### Create the package
 
 Copy `packages/cms-local` as `packages/cms-<name>`. Keep the `exports` (`.` and `./bridge`) and the `schema:generate` script.
+
 </Step>
 <Step>
 ### Implement `CmsAdapter`
 
-`getPage`, `getSiteSettings`, `getPaths`, `resolvePreviewPath`, `webhook.verify/toEvent`, `preview.enter/context/frameAncestors/bridge`. Read drafts when `ctx.draft` is true and attach `$edit` then only. Validate every transformed entry with `schemaFor(definition)`.
+`getPage`, `getDocument`, `getCollection`, `getTaxonomy`, `getSiteSettings`, `getPaths`, `resolvePreviewPath`, `webhook.verify/toEvent`, `preview.enter/context/frameAncestors/bridge`. Read drafts when `ctx.draft` is true and attach `$edit` then only. Validate every transformed entry with `schemaFor(definition)`. `getCollection` takes a parsed `ListingQuery` (page, page size, sort, filter slugs, optional `q`) and must return the total count; `getPaths` includes articles.
+
 </Step>
 <Step>
 ### Generate the schema from the content model
 
 Walk `allItems`, `allBlocks`, `allDocuments` and map each field kind to the CMS's field type. Write the output under `schema/` and commit it.
+
 </Step>
 <Step>
 ### Convert rich text
 
 Map the CMS's format to the portable AST in `@platform/content-model` (`RichText`). The UI has one renderer.
+
 </Step>
 <Step>
 ### Register it
 
 Add one line to `apps/web/cms.config.ts` and, if there is a visual editor, one to `cms.bridges.ts`. Add the editor origin to `apps/web/lib/frame-ancestors.ts` and the asset host to `images.remotePatterns`.
+
 </Step>
 <Step>
 ### Test it
 
 Mirror `packages/cms-local/src/local.test.ts` with checked-in raw payload fixtures. No network in tests.
+
 </Step>
 </Steps>

@@ -1,13 +1,27 @@
 import type { ZodError } from "zod"
 
-import type { AnyDefinition, Field, Page, SiteSettings } from "@platform/content-model"
-import { page as pageDefinition, schemaFor, siteSettings as siteSettingsDefinition } from "@platform/content-model"
+import type {
+  AnyDefinition,
+  Article,
+  ArticleSummary,
+  Category,
+  Field,
+  Page,
+  SiteSettings,
+} from "@platform/content-model"
+import {
+  article as articleDefinition,
+  category as categoryDefinition,
+  page as pageDefinition,
+  schemaFor,
+  siteSettings as siteSettingsDefinition,
+} from "@platform/content-model"
 
 import type { JsonApiDocument, JsonApiRelationship, JsonApiResourceObject } from "./client"
 import { editAttrsFor } from "./edit"
 import { includedMap, mediaToMedia, resolve, type IncludedMap } from "./media"
 import { htmlToAst, isEmptyHtml } from "./rich-text"
-import { definitionForResourceType, fieldNameFor, resourceTypeFor } from "./schema/naming"
+import { definitionForResourceType, entityTypeFor, fieldNameFor, resourceTypeFor } from "./schema/naming"
 
 /**
  * Maps raw JSON:API documents to the canonical content shape. A page is a
@@ -20,7 +34,8 @@ import { definitionForResourceType, fieldNameFor, resourceTypeFor } from "./sche
  *
  * Ids: documents use the node id (`drupal_internal__nid`) because that is what
  * Drupal's cache tags (`node:12`) and the `next` module's revalidation carry;
- * paragraphs use their uuid, the JSON:API id.
+ * terms likewise use `drupal_internal__tid`; paragraphs use their uuid, the
+ * JSON:API id.
  */
 export interface TransformOptions {
   /** Attach `$edit` (draft responses only). */
@@ -35,7 +50,7 @@ export class TransformError extends Error {
   constructor(
     message: string,
     readonly entryId: string,
-    readonly field?: string,
+    readonly field?: string
   ) {
     super(message)
     this.name = "DrupalTransformError"
@@ -63,13 +78,54 @@ export function sitePath(alias: string | null | undefined, frontPage: string): s
 
 export function nodeToPage(doc: JsonApiDocument, options: TransformOptions): Page {
   const node = single(doc, resourceTypeFor(pageDefinition))
-  const included = includedMap(doc.included)
+  return routable(node, pageDefinition, includedMap(doc.included), options) as Page
+}
+
+export function nodeToArticle(doc: JsonApiDocument, options: TransformOptions): Article {
+  const node = single(doc, resourceTypeFor(articleDefinition))
+  return routable(node, articleDefinition, includedMap(doc.included), options) as Article
+}
+
+/** The card-sized fields of an article; what `getCollection` fetches and validates. */
+export const summaryFields = ["title", "path", "publishedAt", "excerpt", "image", "category", "tags"] as const
+
+/** `article` reduced to its summary fields; the same type, so field machine names are unchanged. */
+export const articleSummaryDefinition: AnyDefinition = {
+  ...articleDefinition,
+  fields: Object.fromEntries(summaryFields.map((name) => [name, articleDefinition.fields[name]])),
+}
+
+/** One `node--article` of a sparse listing response (`fields[node--article]=…`) to a summary. */
+export function nodeToArticleSummary(
+  node: JsonApiResourceObject,
+  included: IncludedMap,
+  options: TransformOptions
+): ArticleSummary {
+  return routable(node, articleSummaryDefinition, included, options) as ArticleSummary
+}
+
+export function termToCategory(
+  term: JsonApiResourceObject,
+  included: IncludedMap,
+  options: TransformOptions
+): Category {
+  if (term.type !== resourceTypeFor(categoryDefinition))
+    throw new TransformError(`Expected ${resourceTypeFor(categoryDefinition)}, got ${term.type} ${term.id}`, term.id)
+  return transformResource(term, categoryDefinition, included, options) as Category
+}
+
+function routable(
+  node: JsonApiResourceObject,
+  definition: AnyDefinition,
+  included: IncludedMap,
+  options: TransformOptions
+): Record<string, unknown> {
   const attributes = node.attributes ?? {}
   const alias = (attributes.path as { alias?: string | null } | undefined)?.alias
   const nid = attributes.drupal_internal__nid
   // Nodes without an alias are still reachable at Drupal's canonical path.
   const path = alias ? sitePath(alias, options.frontPage) : `/node/${String(nid)}`
-  return transformResource(node, pageDefinition, included, options, { path }) as Page
+  return transformResource(node, definition, included, options, { path })
 }
 
 export function nodeToSiteSettings(doc: JsonApiDocument, options: TransformOptions): SiteSettings {
@@ -80,7 +136,8 @@ export function nodeToSiteSettings(doc: JsonApiDocument, options: TransformOptio
 function single(doc: JsonApiDocument, expectedType: string): JsonApiResourceObject {
   const node = Array.isArray(doc.data) ? doc.data[0] : doc.data
   if (!node) throw new TransformError(`Expected one ${expectedType} resource, got none`, "")
-  if (node.type !== expectedType) throw new TransformError(`Expected ${expectedType}, got ${node.type} ${node.id}`, node.id)
+  if (node.type !== expectedType)
+    throw new TransformError(`Expected ${expectedType}, got ${node.type} ${node.id}`, node.id)
   return node
 }
 
@@ -94,11 +151,17 @@ export function transformResource(
   definition: AnyDefinition,
   included: IncludedMap,
   options: TransformOptions,
-  overrides: Record<string, unknown> = {},
+  overrides: Record<string, unknown> = {}
 ): Record<string, unknown> {
   const attributes = resource.attributes ?? {}
   const relationships = resource.relationships ?? {}
-  const nodeId = definition.kind === "document" ? String(attributes.drupal_internal__nid ?? resource.id) : resource.id
+  const entityType = entityTypeFor(definition)
+  const nodeId =
+    entityType === "node"
+      ? String(attributes.drupal_internal__nid ?? resource.id)
+      : entityType === "taxonomy_term"
+        ? String(attributes.drupal_internal__tid ?? resource.id)
+        : resource.id
   const out: Record<string, unknown> = { id: nodeId, type: definition.type }
 
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
@@ -107,13 +170,16 @@ export function transformResource(
       continue
     }
     const machine = fieldNameFor(definition, name)
-    const raw = field.kind === "media" || field.kind === "items" || field.kind === "blocks" ? relationships[machine]?.data : attributes[machine]
+    const raw =
+      field.kind === "media" || field.kind === "items" || field.kind === "blocks" || field.kind === "reference"
+        ? relationships[machine]?.data
+        : attributes[machine]
     const value = transformField(raw, field, included, options, nodeId, name)
     if (value !== undefined) out[name] = value
   }
 
   if (options.edit) {
-    const edit = editAttrsFor(resource, definition.kind === "document" ? "node" : "paragraph")
+    const edit = editAttrsFor(resource, entityType)
     if (edit) out.$edit = edit
   }
 
@@ -122,7 +188,14 @@ export function transformResource(
   return result.data as Record<string, unknown>
 }
 
-function transformField(value: unknown, field: Field, included: IncludedMap, options: TransformOptions, entryId: string, name: string): unknown {
+function transformField(
+  value: unknown,
+  field: Field,
+  included: IncludedMap,
+  options: TransformOptions,
+  entryId: string,
+  name: string
+): unknown {
   switch (field.kind) {
     case "text":
     case "textarea":
@@ -136,7 +209,11 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
       return href === "" ? undefined : href
     }
     case "textList": {
-      const list = Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string" && entry !== "") : typeof value === "string" && value ? [value] : []
+      const list = Array.isArray(value)
+        ? value.filter((entry): entry is string => typeof entry === "string" && entry !== "")
+        : typeof value === "string" && value
+          ? [value]
+          : []
       return list.length === 0 && !field.required ? undefined : list
     }
     case "richText": {
@@ -148,13 +225,46 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
     case "number": {
       if (value === "" || value === null || value === undefined) return undefined
       const n = typeof value === "number" ? value : Number(value)
-      if (Number.isNaN(n)) throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
+      if (Number.isNaN(n))
+        throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
       return n
     }
     case "boolean":
       return typeof value === "boolean" ? value : undefined
+    case "date": {
+      // A date-only field arrives as "2026-10-18"; a datetime as "2026-10-18T09:00:00+00:00".
+      if (typeof value !== "string" || value === "") return undefined
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value
+      const time = new Date(value)
+      if (Number.isNaN(time.getTime()))
+        throw new TransformError(`Field "${name}" of ${entryId} is not a date: ${value}`, entryId, name)
+      return time.toISOString()
+    }
+    case "reference": {
+      const rels = Array.isArray(value) ? (value as JsonApiRelationship[]) : value ? [value as JsonApiRelationship] : []
+      const out: Record<string, unknown>[] = []
+      rels.forEach((rel, index) => {
+        const resource = resolve(included, rel)
+        // Unpublished or inaccessible terms are left out of `included`; treat them as unset.
+        if (!resource) return
+        const definition = definitionForResourceType(resource.type)
+        const allowed = (field.of as AnyDefinition[]).find((d) => d.type === definition?.type)
+        if (!definition || !allowed) {
+          throw new TransformError(
+            `Field "${name}" of ${entryId} references a "${resource.type}" at index ${index}; allowed: ${(field.of as AnyDefinition[]).map(resourceTypeFor).join(", ")}`,
+            entryId,
+            name
+          )
+        }
+        out.push(transformResource(resource, definition, included, options))
+      })
+      if (!field.multiple) return out[0]
+      return out.length === 0 && !field.required ? undefined : out
+    }
     case "media": {
-      const rel = Array.isArray(value) ? (value[0] as JsonApiRelationship | undefined) : (value as JsonApiRelationship | null | undefined)
+      const rel = Array.isArray(value)
+        ? (value[0] as JsonApiRelationship | undefined)
+        : (value as JsonApiRelationship | null | undefined)
       // A reference to media the current user may not see is omitted from `included`; treat it as unset.
       return mediaToMedia(resolve(included, rel), included, options.baseUrl) ?? undefined
     }
@@ -165,7 +275,7 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
         throw new TransformError(
           `Field "${name}" of ${entryId} has value "${selected}", expected one of ${field.options.join(", ")}`,
           entryId,
-          name,
+          name
         )
       }
       return selected
@@ -184,7 +294,7 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
           throw new TransformError(
             `Field "${name}" of ${entryId} holds a "${resource.type}" paragraph at index ${index}; allowed: ${(field.of as AnyDefinition[]).map(resourceTypeFor).join(", ")}`,
             entryId,
-            name,
+            name
           )
         }
         out.push(transformResource(resource, definition, included, options))

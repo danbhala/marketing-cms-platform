@@ -15,17 +15,17 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const CenteredBrand: Story = {
-  args: { block: { ...fixtures.ctaBlock, ...{ layout: 'centered', theme: 'brand' } } },
+  args: { block: { ...fixtures.ctaBlock, ...{ layout: "centered", theme: "brand" } } },
 }
 
 export const Split: Story = {
-  args: { block: { ...fixtures.ctaBlock, ...{ layout: 'split', theme: undefined } } },
+  args: { block: { ...fixtures.ctaBlock, ...{ layout: "split", theme: undefined } } },
 }
 
 export const Dark: Story = {
-  args: { block: { ...fixtures.ctaBlock, ...{ theme: 'dark' } } },
+  args: { block: { ...fixtures.ctaBlock, ...{ theme: "dark" } } },
 }
 
 export const Violet: Story = {
-  args: { block: { ...fixtures.ctaBlock, ...{ theme: 'violet' } } },
+  args: { block: { ...fixtures.ctaBlock, ...{ theme: "violet" } } },
 }

@@ -1,22 +1,49 @@
 import type { CmsAdapter, FetchContext } from "@platform/cms-core"
 import { normalizePath } from "@platform/cms-core/tags"
-import type { Page, SiteSettings } from "@platform/content-model"
-import { page as pageDefinition } from "@platform/content-model"
+import type {
+  AnyDefinition,
+  ArticleSummary,
+  Category,
+  Field,
+  Page,
+  RoutableDocument,
+  SiteSettings,
+} from "@platform/content-model"
+import { allDocuments, article as articleDefinition, page as pageDefinition } from "@platform/content-model"
 
 import { createGraphClient } from "./client"
 import { withEditAttrs } from "./edit"
+import {
+  articleSummary,
+  byKeysQuery,
+  collectionQuery,
+  DAM_PROBE_QUERY,
+  itemsOf,
+  resolveReferences,
+  taxonomyQuery,
+} from "./graph-queries"
 import type { GraphItem, GraphLike, GraphPreviewParams } from "./graph-types"
 import { isGraphItem } from "./graph-types"
 import { createPreviewHandlers, paramsFromContext } from "./preview"
 import { contentTypeKey } from "./schema"
-import { isPageItem, isSettingsItem, pathFromUrl, transformPage, transformSiteSettings } from "./transform"
+import {
+  isPageItem,
+  isRoutableItem,
+  isSettingsItem,
+  pathFromUrl,
+  transformNode,
+  transformRoutable,
+  transformSiteSettings,
+} from "./transform"
 import { createWebhookHandlers } from "./webhook"
 
 /**
  * Optimizely SaaS CMS adapter. Published reads go through Optimizely Graph
  * with the single key; drafts go through Graph's preview query with the
- * editor's short-lived token. Pages are `WebPage` content; site settings are a
- * `SiteSettings` page found by path (or by key when configured). See README.
+ * editor's short-lived token. Pages are `WebPage` and articles `ArticlePage`
+ * content; site settings are a `SiteSettings` page found by path (or by key
+ * when configured). Listings and taxonomies are hand-written Graph queries
+ * (see graph-queries.ts). See README.
  */
 export interface OptimizelyCmsOptions {
   /** CMS instance, e.g. https://example.cms.optimizely.com. OPTIMIZELY_CMS_URL. */
@@ -35,11 +62,14 @@ export interface OptimizelyCmsOptions {
   webhookSecret?: string
   /** Locales the site serves; used for events that name none. */
   locales?: readonly string[]
+  /** Whether the Graph schema has DAM (`cmp_*`) types. Probed once when omitted, like the SDK does. */
+  dam?: boolean
   /** A ready client, for tests. */
   client?: GraphLike
 }
 
-const pageKey = contentTypeKey(pageDefinition)
+const routableKeys = allDocuments.filter((d) => d.routable).map(contentTypeKey)
+const taxonomies = allDocuments.filter((d) => d.taxonomy)
 
 function safePath(input: string | null | undefined): string | null {
   if (!input || !input.startsWith("/") || input.startsWith("//") || input.includes("://")) return null
@@ -51,6 +81,8 @@ function pickLocale(items: unknown[], locale: string): GraphItem | null {
   const list = items.filter(isGraphItem)
   return list.find((item) => item._metadata?.locale?.toLowerCase() === locale.toLowerCase()) ?? list[0] ?? null
 }
+
+const slugOf = (term: GraphItem) => (typeof term.slug === "string" ? term.slug : null)
 
 export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): CmsAdapter {
   const env: Record<string, string | undefined> = typeof process !== "undefined" ? process.env : {}
@@ -64,7 +96,19 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
   const client = () =>
     (clientPromise ??= options.client
       ? Promise.resolve(options.client)
-      : createGraphClient({ graphKey: options.graphKey ?? env.OPTIMIZELY_GRAPH_SINGLE_KEY, graphUrl: options.graphUrl ?? env.OPTIMIZELY_GRAPH_GATEWAY }))
+      : createGraphClient({
+          graphKey: options.graphKey ?? env.OPTIMIZELY_GRAPH_SINGLE_KEY,
+          graphUrl: options.graphUrl ?? env.OPTIMIZELY_GRAPH_GATEWAY,
+        }))
+
+  let damPromise: Promise<boolean> | undefined
+  const dam = () =>
+    (damPromise ??=
+      options.dam !== undefined
+        ? Promise.resolve(options.dam)
+        : client()
+            .then((c) => c.request(DAM_PROBE_QUERY, {}))
+            .then((data) => (data as { damAssetType?: unknown } | null)?.damAssetType != null))
 
   // getPage and getSiteSettings both need the previewed item in one request;
   // a short memo keeps that to a single Graph call per preview token.
@@ -81,10 +125,22 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
     return value
   }
 
-  const publishedPage = async (path: string, locale: string) => {
+  /** Content of one type by key, selected from its definition. */
+  const fetchByKeys = async (locale: string, definition: AnyDefinition, keys: string[]) => {
+    const { query, variables } = byKeysQuery(definition, keys, { locale, dam: await dam() })
+    return itemsOf(await (await client()).request(query, variables), contentTypeKey(definition)).items
+  }
+
+  /** Fill in the documents behind an item's references (an article's category and tags). */
+  const resolve = async (items: GraphItem[], definition: AnyDefinition, locale: string) => {
+    await resolveReferences(items, definition, (target, keys) => fetchByKeys(locale, target, keys))
+    return items
+  }
+
+  const publishedRoutable = async (path: string, locale: string, accept: (item: GraphItem) => boolean) => {
     const items = await (await client()).getContentByPath(normalizePath(path), host ? { host } : undefined)
     const item = pickLocale(items, locale)
-    return item && isPageItem(item) ? item : null
+    return item && accept(item) ? item : null
   }
 
   const publishedSettings = async (locale: string) => {
@@ -95,24 +151,89 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
     return isGraphItem(item) && isSettingsItem(item) ? item : null
   }
 
+  const terms = async (definition: AnyDefinition, locale: string) => {
+    const { query, variables } = taxonomyQuery(definition, { locale, dam: await dam() })
+    return itemsOf(await (await client()).request(query, variables), contentTypeKey(definition)).items
+  }
+
   /** In edit mode, mark everything except the content the editor has open. */
   const decorate = <T>(value: T, ctx: FetchContext): T =>
-    ctx.draft && ctx.preview?.mode === "edit" ? withEditAttrs(value, typeof ctx.preview.key === "string" ? ctx.preview.key : undefined) : value
+    ctx.draft && ctx.preview?.mode === "edit"
+      ? withEditAttrs(value, typeof ctx.preview.key === "string" ? ctx.preview.key : undefined)
+      : value
+
+  /** A page or article: the previewed draft when the editor has one open, else the published item at `path`. */
+  const routable = async (path: string, ctx: FetchContext, accept: (item: GraphItem) => boolean) => {
+    const params = ctx.draft ? paramsFromContext(ctx.preview) : null
+    const token = params?.preview_token
+    const transform = { locale: ctx.locale, previewToken: token }
+    if (params) {
+      const item = await previewItem(params)
+      // Previewing a page shows that draft whatever the URL says; previewing
+      // anything else (site settings) shows the published page underneath.
+      if (item && accept(item))
+        return decorate(transformRoutable((await resolve([item], def(item), ctx.locale))[0]!, transform), ctx)
+    }
+    const item = await publishedRoutable(path, ctx.locale, accept)
+    if (!item) return null
+    await resolve([item], def(item), ctx.locale)
+    return decorate(transformRoutable(item, transform), ctx)
+  }
+  const def = (item: GraphItem) => (isPageItem(item) ? pageDefinition : articleDefinition)
 
   return {
     name: "optimizely",
 
-    async getPage(path, ctx): Promise<Page | null> {
-      const params = ctx.draft ? paramsFromContext(ctx.preview) : null
-      const token = params?.preview_token
-      if (params) {
-        const item = await previewItem(params)
-        // Previewing a page shows that draft whatever the URL says; previewing
-        // anything else (site settings) shows the published page underneath.
-        if (item && isPageItem(item)) return decorate(transformPage(item, { locale: ctx.locale, previewToken: token }), ctx)
+    getPage: (path, ctx) => routable(path, ctx, isPageItem) as Promise<Page | null>,
+
+    getDocument: (path, ctx) => routable(path, ctx, isRoutableItem) as Promise<RoutableDocument | null>,
+
+    async getCollection(query, ctx) {
+      const empty = { items: [], total: 0, page: query.page, pageSize: query.pageSize }
+      const termKeys: Record<string, string[]> = {}
+      const taxonomy = new Map<AnyDefinition, Promise<GraphItem[]>>()
+      for (const [name, slugs] of Object.entries(query.filters)) {
+        if (!slugs.length) continue
+        const field = (articleDefinition.fields as Record<string, Field>)[name]
+        if (field?.kind !== "reference") return empty
+        // Graph filters a reference by key, so map the slugs through the taxonomy first.
+        const keys: string[] = []
+        for (const target of field.of) {
+          const list = await (taxonomy.get(target) ?? taxonomy.set(target, terms(target, ctx.locale)).get(target)!)
+          for (const term of list)
+            if (term._metadata?.key && slugs.includes(slugOf(term) ?? "")) keys.push(term._metadata.key)
+        }
+        if (!keys.length) return empty
+        termKeys[name] = keys
       }
-      const item = await publishedPage(path, ctx.locale)
-      return item ? decorate(transformPage(item, { locale: ctx.locale, previewToken: token }), ctx) : null
+      const { query: gql, variables } = collectionQuery(query, termKeys, { locale: ctx.locale, dam: await dam() })
+      const { items, total } = itemsOf(
+        await (await client()).request(gql, variables),
+        contentTypeKey(articleDefinition)
+      )
+      await resolve(items, articleSummary, ctx.locale)
+      const summaries = items.map(
+        (item) =>
+          transformNode(
+            item,
+            articleSummary,
+            { locale: ctx.locale },
+            {
+              path: pathFromUrl(item._metadata?.url, ctx.locale) ?? "/",
+            }
+          ) as ArticleSummary
+      )
+      return { items: decorate(summaries, ctx), total, page: query.page, pageSize: query.pageSize }
+    },
+
+    async getTaxonomy(type, ctx) {
+      const definition = taxonomies.find((d) => d.type === type)
+      if (!definition) return []
+      const items = await terms(definition, ctx.locale)
+      return decorate(
+        items.map((item) => transformNode(item, definition, { locale: ctx.locale }) as Category),
+        ctx
+      )
     },
 
     async getSiteSettings(ctx): Promise<SiteSettings | null> {
@@ -120,7 +241,8 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
       const token = params?.preview_token
       if (params) {
         const item = await previewItem(params)
-        if (item && isSettingsItem(item)) return decorate(transformSiteSettings(item, { locale: ctx.locale, previewToken: token }), ctx)
+        if (item && isSettingsItem(item))
+          return decorate(transformSiteSettings(item, { locale: ctx.locale, previewToken: token }), ctx)
       }
       const item = await publishedSettings(ctx.locale)
       return item ? decorate(transformSiteSettings(item, { locale: ctx.locale, previewToken: token }), ctx) : null
@@ -131,7 +253,7 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
       const paths = new Set<string>(["/"])
       for (const item of items) {
         const meta = item._metadata
-        if (!meta?.types.includes(pageKey)) continue
+        if (!meta?.types.some((type) => routableKeys.includes(type))) continue
         const path = pathFromUrl(meta.url, locale)
         if (path) paths.add(path)
       }
@@ -144,7 +266,7 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
         const locale = searchParams.get("loc") ?? locales[0] ?? "en"
         const item = await (await client()).getContent({ key, locale })
         if (isGraphItem(item) && isSettingsItem(item)) return "/"
-        return isGraphItem(item) && isPageItem(item) ? pathFromUrl(item._metadata?.url, locale) : null
+        return isGraphItem(item) && isRoutableItem(item) ? pathFromUrl(item._metadata?.url, locale) : null
       }
       return safePath(searchParams.get("path"))
     },
@@ -163,7 +285,15 @@ export const optimizelyAdapter: CmsAdapter = createOptimizelyAdapter()
 
 export { withEditAttrs } from "./edit"
 export { toRichText } from "./rich-text"
-export { transformPage, transformSiteSettings, OptimizelyTransformError } from "./transform"
-export { buildContentTypes, contentTypeKey, describeAllContentTypes, definitionForTypename } from "./schema"
+export {
+  transformPage,
+  transformArticle,
+  transformCategory,
+  transformSiteSettings,
+  OptimizelyTransformError,
+} from "./transform"
+export { collectionQuery, taxonomyQuery, byKeysQuery, selection } from "./graph-queries"
+export { contentTypeKey, describeAllContentTypes, definitionForTypename } from "./schema"
+export { buildContentTypes } from "./schema/registry"
 export type { GraphLike } from "./graph-types"
 export type { OptimizelyPreviewContext } from "./preview"

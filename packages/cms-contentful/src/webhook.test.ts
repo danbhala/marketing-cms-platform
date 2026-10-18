@@ -2,15 +2,30 @@ import { describe, expect, it } from "vitest"
 
 import { tags } from "@platform/cms-core/tags"
 
-import { actionSave, assetPublish, pagePublish, pageUnpublish, siteSettingsPublish } from "./__fixtures__/webhook"
+import {
+  actionSave,
+  articlePublish,
+  assetPublish,
+  categorySave,
+  pagePublish,
+  pageUnpublish,
+  siteSettingsPublish,
+} from "./__fixtures__/webhook"
 import { createWebhookHandlers, type ContentfulWebhookPayload } from "./webhook"
 
 const webhook = createWebhookHandlers({ secret: "hook", locales: ["en"], localeMap: { en: "en-US" } })
 
-const request = (fixture: { topic: string; body: unknown }, headers: Record<string, string> = { "x-contentful-webhook-secret": "hook" }) =>
+const request = (
+  fixture: { topic: string; body: unknown },
+  headers: Record<string, string> = { "x-contentful-webhook-secret": "hook" }
+) =>
   new Request("https://site.test/api/revalidate", {
     method: "POST",
-    headers: { "content-type": "application/vnd.contentful.management.v1+json", "x-contentful-topic": fixture.topic, ...headers },
+    headers: {
+      "content-type": "application/vnd.contentful.management.v1+json",
+      "x-contentful-topic": fixture.topic,
+      ...headers,
+    },
     body: JSON.stringify(fixture.body),
   })
 
@@ -25,12 +40,21 @@ describe("webhook.verify", () => {
   it("rejects a missing or wrong secret and unparsable bodies", async () => {
     expect(await webhook.verify(request(pagePublish, {}))).toBeNull()
     expect(await webhook.verify(request(pagePublish, { "x-contentful-webhook-secret": "nope" }))).toBeNull()
-    const broken = new Request("https://site.test/api/revalidate", { method: "POST", headers: { "x-contentful-webhook-secret": "hook" }, body: "{not json" })
+    const broken = new Request("https://site.test/api/revalidate", {
+      method: "POST",
+      headers: { "x-contentful-webhook-secret": "hook" },
+      body: "{not json",
+    })
     expect(await webhook.verify(broken)).toBeNull()
   })
 
   it("supports a custom header name", async () => {
-    const custom = createWebhookHandlers({ secret: "hook", header: "x-revalidate-secret", locales: ["en"], localeMap: {} })
+    const custom = createWebhookHandlers({
+      secret: "hook",
+      header: "x-revalidate-secret",
+      locales: ["en"],
+      localeMap: {},
+    })
     expect(await custom.verify(request(pagePublish, { "x-revalidate-secret": "hook" }))).not.toBeNull()
     expect(await custom.verify(request(pagePublish))).toBeNull()
   })
@@ -52,8 +76,37 @@ describe("webhook.toEvent", () => {
     expect(event.summary).toContain("unpublish")
   })
 
+  it("maps a published article to its page, the paths list and every listing", () => {
+    expect(webhook.toEvent(articlePublish).tags).toEqual([
+      tags.entry("article-1"),
+      tags.type("article"),
+      tags.page("en", "/news/cohorts-and-alerts-are-live"),
+      tags.paths("en"),
+      tags.collection("en", "article"),
+    ])
+    const multi = createWebhookHandlers({
+      secret: "hook",
+      locales: ["en", "de"],
+      localeMap: { en: "en-US", de: "de-DE" },
+    })
+    expect(multi.toEvent(articlePublish).tags).toContain(tags.collection("de", "article"))
+    expect(multi.toEvent(articlePublish).tags).not.toContain(tags.page("de", "/news/cohorts-and-alerts-are-live"))
+  })
+
+  it("maps a category to its type and every listing", () => {
+    expect(webhook.toEvent(categorySave).tags).toEqual([
+      tags.entry("cat-product"),
+      tags.type("category"),
+      tags.collection("en", "article"),
+    ])
+  })
+
   it("maps site settings to the global tag", () => {
-    expect(webhook.toEvent(siteSettingsPublish).tags).toEqual([tags.entry("site"), tags.type("siteSettings"), tags.global("en")])
+    expect(webhook.toEvent(siteSettingsPublish).tags).toEqual([
+      tags.entry("site"),
+      tags.type("siteSettings"),
+      tags.global("en"),
+    ])
   })
 
   it("falls back to every page for nested items, which the payload cannot place", () => {
@@ -65,7 +118,11 @@ describe("webhook.toEvent", () => {
   })
 
   it("accepts a bare body and resolves Contentful locales back to site locales", () => {
-    const multi = createWebhookHandlers({ secret: "hook", locales: ["en", "de"], localeMap: { en: "en-US", de: "de-DE" } })
+    const multi = createWebhookHandlers({
+      secret: "hook",
+      locales: ["en", "de"],
+      localeMap: { en: "en-US", de: "de-DE" },
+    })
     const body = { sys: pagePublish.body.sys, fields: { path: { "en-US": "/pricing", "de-DE": "/preise" } } }
     expect(multi.toEvent(body).tags).toEqual([
       tags.entry("page-pricing"),

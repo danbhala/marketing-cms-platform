@@ -48,11 +48,11 @@ export interface GraphAsset {
   Height?: number | null
 }
 
-/** A `contentReference` property: a CMS media item or a DAM asset. */
+/** A `contentReference` property: a CMS media item, a DAM asset or (once resolved) a CMS document. */
 export interface GraphContentReference {
   key?: string | null
   url?: GraphUrl | null
-  item?: GraphAsset | null
+  item?: GraphAsset | GraphItem | null
 }
 
 /** A `link` property. The adapter models links as `url` but tolerates both. */
@@ -86,11 +86,19 @@ export interface GraphLinkItem {
  * can pass a fake and so the real client is only constructed on first use.
  */
 export interface GraphLike {
+  /** A raw GraphQL request; resolves to the response's `data`. */
+  request(query: string, variables: Record<string, unknown>, previewToken?: string): Promise<unknown>
   getContentByPath(path: string, options?: { host?: string }): Promise<unknown[]>
   getPreviewContent(params: GraphPreviewParams): Promise<unknown>
-  getContent(reference: { key: string; locale?: string; version?: string }, options?: { previewToken?: string }): Promise<unknown>
+  getContent(
+    reference: { key: string; locale?: string; version?: string },
+    options?: { previewToken?: string }
+  ): Promise<unknown>
   getItems(reference: string, options?: { locales?: string[]; host?: string }): Promise<GraphLinkItem[] | null>
 }
 
 export const isGraphItem = (value: unknown): value is GraphItem =>
-  typeof value === "object" && value !== null && !Array.isArray(value) && typeof (value as GraphItem).__typename === "string"
+  typeof value === "object" &&
+  value !== null &&
+  !Array.isArray(value) &&
+  typeof (value as GraphItem).__typename === "string"

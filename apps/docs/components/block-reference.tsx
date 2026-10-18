@@ -21,6 +21,10 @@ function describe(field: Field): string {
       return "number"
     case "boolean":
       return "boolean"
+    case "date":
+      return "string (ISO 8601)"
+    case "reference":
+      return `${field.of.map((d) => d.type).join(" | ")}${field.multiple ? "[]" : ""}`
     default:
       return "string"
   }
@@ -42,7 +46,7 @@ export function BlockReference({ type }: { type: string }) {
         required: field.required,
         default: field.kind === "select" && field.defaultValue ? `"${field.defaultValue}"` : undefined,
       },
-    ]),
+    ])
   )
   return (
     <>
@@ -56,5 +60,7 @@ export function BlockReference({ type }: { type: string }) {
 export function nestedTypes(type: string): string[] {
   const definition = definitions.find((d) => d.type === type)
   if (!definition) return []
-  return Object.values(definition.fields as Record<string, Field>).flatMap((f) => (f.kind === "items" || f.kind === "blocks" ? f.of.map((d) => d.type) : []))
+  return Object.values(definition.fields as Record<string, Field>).flatMap((f) =>
+    f.kind === "items" || f.kind === "blocks" ? f.of.map((d) => d.type) : []
+  )
 }

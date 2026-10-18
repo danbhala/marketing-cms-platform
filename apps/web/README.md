@@ -11,17 +11,21 @@ pnpm dev                 # http://localhost:3000 → /en
 
 ## Routes
 
-| Route | Purpose |
-| --- | --- |
-| `/[locale]/[[...slug]]` | Every CMS page, rendered through `PageTemplate` and the component registry. |
+| Route                          | Purpose                                                                          |
+| ------------------------------ | -------------------------------------------------------------------------------- |
+| `/[locale]/[[...slug]]`        | Every CMS page and article, rendered through the templates and the registry.     |
 | `/api/preview?secret=…&path=…` | Enters Draft Mode (the adapter validates the request) and redirects to the page. |
-| `/api/preview/exit` | Leaves Draft Mode. |
-| `/api/revalidate` | CMS webhook target; the adapter verifies it and maps the payload to cache tags. |
-| `/sitemap.xml`, `/robots.txt` | From the adapter's `getPaths`. |
+| `/api/preview/exit`            | Leaves Draft Mode.                                                               |
+| `/api/revalidate`              | CMS webhook target; the adapter verifies it and maps the payload to cache tags.  |
+| `/sitemap.xml`, `/robots.txt`  | From the adapter's `getPaths`.                                                   |
 
 ## Caching and preview
 
 Published reads live in `lib/cms.ts` under `'use cache'` with tags from `@platform/cms-core/tags`, so a webhook invalidates exactly the pages, entries or globals that changed. Draft Mode bypasses the cache, reads drafts from the adapter and renders the CMS bridge so edits refresh the page. `proxy.ts` sets a `frame-ancestors` policy per provider (`lib/frame-ancestors.ts`) so the CMS editor can embed the site.
+
+## Listings
+
+A `collection` block on any page lists articles. `components/collection-block.tsx` binds it to the request: the filter bar and results await `searchParams` inside their own Suspense boundaries and read `getPublishedCollection`, which is cached per query and tagged `cms:collection:{locale}:article`. `components/latest-news-block.tsx` does the same for the `latestNews` block. The docs page "Listing pages" has the URL contract.
 
 ## Adding a CMS
 

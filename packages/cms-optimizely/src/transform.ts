@@ -1,8 +1,23 @@
 import { normalizePath } from "@platform/cms-core/tags"
-import type { AnyDefinition, Field, Media, Page, SiteSettings } from "@platform/content-model"
-import { page as pageDefinition, schemaFor, siteSettings as settingsDefinition } from "@platform/content-model"
+import type {
+  AnyDefinition,
+  Article,
+  Category,
+  Field,
+  Media,
+  Page,
+  RoutableDocument,
+  SiteSettings,
+} from "@platform/content-model"
+import {
+  article as articleDefinition,
+  category as categoryDefinition,
+  page as pageDefinition,
+  schemaFor,
+  siteSettings as settingsDefinition,
+} from "@platform/content-model"
 
-import type { GraphContentReference, GraphItem, GraphLink, GraphUrl } from "./graph-types"
+import type { GraphAsset, GraphContentReference, GraphItem, GraphLink, GraphUrl } from "./graph-types"
 import { isGraphItem } from "./graph-types"
 import { toRichText, type OptimizelyRichText } from "./rich-text"
 import { contentTypeKey, definitionForTypename } from "./schema"
@@ -24,7 +39,7 @@ export class OptimizelyTransformError extends Error {
   constructor(
     readonly entryId: string,
     readonly field: string,
-    detail: string,
+    detail: string
   ) {
     super(`Optimizely content "${entryId}" is invalid at "${field}": ${detail}`)
     this.name = "OptimizelyTransformError"
@@ -32,9 +47,13 @@ export class OptimizelyTransformError extends Error {
 }
 
 const pageKey = contentTypeKey(pageDefinition)
+const articleKey = contentTypeKey(articleDefinition)
 const settingsKey = contentTypeKey(settingsDefinition)
 
 export const isPageItem = (item: GraphItem) => item.__typename === pageKey
+export const isArticleItem = (item: GraphItem) => item.__typename === articleKey
+/** Content with a URL of its own: a page or an article. */
+export const isRoutableItem = (item: GraphItem) => isPageItem(item) || isArticleItem(item)
 export const isSettingsItem = (item: GraphItem) => item.__typename === settingsKey
 
 /** The content key is the stable id; `_id` (key + locale + status) is the fallback for odd payloads. */
@@ -58,13 +77,31 @@ export function pathFromUrl(url: GraphUrl | null | undefined, locale: string): s
 }
 
 export function transformPage(item: GraphItem, options: TransformOptions): Page {
-  if (!isPageItem(item)) throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${pageKey}, got ${item.__typename}`)
+  if (!isPageItem(item))
+    throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${pageKey}, got ${item.__typename}`)
   const path = pathFromUrl(item._metadata?.url, options.locale) ?? "/"
   return transformNode(item, pageDefinition, options, { path }) as Page
 }
 
+export function transformArticle(item: GraphItem, options: TransformOptions): Article {
+  if (!isArticleItem(item))
+    throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${articleKey}, got ${item.__typename}`)
+  const path = pathFromUrl(item._metadata?.url, options.locale) ?? "/"
+  return transformNode(item, articleDefinition, options, { path }) as Article
+}
+
+/** A page or an article, whichever `item` is. */
+export function transformRoutable(item: GraphItem, options: TransformOptions): RoutableDocument {
+  return isArticleItem(item) ? transformArticle(item, options) : transformPage(item, options)
+}
+
+export function transformCategory(item: GraphItem, options: TransformOptions): Category {
+  return transformNode(item, categoryDefinition, options) as Category
+}
+
 export function transformSiteSettings(item: GraphItem, options: TransformOptions): SiteSettings {
-  if (!isSettingsItem(item)) throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${settingsKey}, got ${item.__typename}`)
+  if (!isSettingsItem(item))
+    throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${settingsKey}, got ${item.__typename}`)
   return transformNode(item, settingsDefinition, options) as SiteSettings
 }
 
@@ -77,7 +114,7 @@ export function transformNode(
   definition: AnyDefinition,
   options: TransformOptions,
   extra: Record<string, unknown> = {},
-  fallbackId = "unknown",
+  fallbackId = "unknown"
 ): Record<string, unknown> {
   const id = itemId(item, fallbackId)
   const out: Record<string, unknown> = { id, type: definition.type, ...extra }
@@ -113,9 +150,19 @@ function convert(raw: unknown, field: Field, ctx: FieldContext): unknown {
     case "link":
       return linkHref(raw)
     case "textList":
-      return Array.isArray(raw) ? raw.filter((v): v is string => typeof v === "string") : field.required ? [] : undefined
+      return Array.isArray(raw)
+        ? raw.filter((v): v is string => typeof v === "string")
+        : field.required
+          ? []
+          : undefined
     case "richText":
-      return isEmpty(raw) ? (field.required ? toRichText(null) : undefined) : toRichText(raw as OptimizelyRichText | string)
+      return isEmpty(raw)
+        ? field.required
+          ? toRichText(null)
+          : undefined
+        : toRichText(raw as OptimizelyRichText | string)
+    case "date":
+      return isEmpty(raw) ? undefined : toIsoDate(String(raw))
     case "number":
       return typeof raw === "number" ? raw : isEmpty(raw) ? undefined : Number(raw)
     case "boolean":
@@ -124,6 +171,20 @@ function convert(raw: unknown, field: Field, ctx: FieldContext): unknown {
       return toMedia(raw as GraphContentReference | null | undefined, ctx.previewToken)
     case "select":
       return isEmpty(raw) ? undefined : String(raw)
+    case "reference": {
+      // Resolved references carry the document in `item` (see graph-queries.ts); unresolved ones are dropped.
+      const refs = Array.isArray(raw) ? raw : isEmpty(raw) ? [] : [raw]
+      const nodes: unknown[] = []
+      refs.forEach((ref, index) => {
+        const entry = (ref as GraphContentReference | null)?.item
+        if (!isGraphItem(entry)) return
+        const definition = definitionForTypename(entry.__typename)
+        if (!definition || !field.of.some((d: AnyDefinition) => d === definition)) return
+        nodes.push(transformNode(entry, definition, ctx, {}, `${ctx.id}.${ctx.name}[${index}]`))
+      })
+      if (!field.multiple) return nodes[0]
+      return Array.isArray(raw) || field.required ? nodes : undefined
+    }
     case "items":
     case "blocks": {
       const list = Array.isArray(raw) ? raw : []
@@ -141,11 +202,21 @@ function convert(raw: unknown, field: Field, ctx: FieldContext): unknown {
   }
 }
 
+/** Graph returns date-times as ISO strings; anything else `Date` can parse becomes UTC ISO, date-only values stay as they are. */
+export function toIsoDate(value: string): string {
+  if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?$/.test(value)) return value
+  const time = Date.parse(value)
+  return Number.isNaN(time) ? value : new Date(time).toISOString()
+}
+
 /** A `url` property arrives as a ContentUrl object; a `link` property wraps one. Strings are tolerated. */
 function linkHref(raw: unknown): string | undefined {
   if (typeof raw === "string") return raw || undefined
   if (!raw || typeof raw !== "object") return undefined
-  const url = "url" in raw && (raw as GraphLink).url && typeof (raw as GraphLink).url === "object" ? (raw as GraphLink).url : (raw as GraphUrl)
+  const url =
+    "url" in raw && (raw as GraphLink).url && typeof (raw as GraphLink).url === "object"
+      ? (raw as GraphLink).url
+      : (raw as GraphUrl)
   const href = url?.default ?? url?.hierarchical ?? url?.internal
   return href || undefined
 }
@@ -159,12 +230,14 @@ const videoExtensions = /\.(mp4|webm|mov|m4v|ogv)(\?|$)/i
  */
 export function toMedia(ref: GraphContentReference | null | undefined, previewToken?: string): Media | undefined {
   if (!ref) return undefined
-  const asset = ref.item ?? undefined
+  const asset = (ref.item ?? undefined) as GraphAsset | undefined
   const rawUrl = asset?.Url ?? ref.url?.default ?? ref.url?.hierarchical
   if (!rawUrl) return undefined
   const mimeType = asset?.MimeType ?? undefined
   const kind =
-    asset?.__typename === "cmp_PublicVideoAsset" || mimeType?.startsWith("video/") || videoExtensions.test(rawUrl) ? "video" : "image"
+    asset?.__typename === "cmp_PublicVideoAsset" || mimeType?.startsWith("video/") || videoExtensions.test(rawUrl)
+      ? "video"
+      : "image"
   const width = asset?.Width ?? undefined
   const height = asset?.Height ?? undefined
   return {

@@ -10,10 +10,7 @@ import { NextResponse, type NextRequest } from "next/server"
 export function proxy(request: NextRequest) {
   const raw = new URL(request.url)
   if (raw.pathname !== "/storybook") return NextResponse.next()
-  return NextResponse.redirect(
-    new URL(`/storybook/${raw.search}`, request.url),
-    308
-  )
+  return NextResponse.redirect(new URL(`/storybook/${raw.search}`, request.url), 308)
 }
 
 export const config = { matcher: "/storybook" }

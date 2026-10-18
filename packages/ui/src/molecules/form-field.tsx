@@ -56,7 +56,13 @@ function FormField({ field, error, defaultValue }: FormFieldProps) {
     )
   } else if (field.inputType === "select") {
     control = (
-      <NativeSelect id={id} name={field.name} required={field.required} defaultValue={defaultValue ?? ""} aria-invalid={invalid || undefined}>
+      <NativeSelect
+        id={id}
+        name={field.name}
+        required={field.required}
+        defaultValue={defaultValue ?? ""}
+        aria-invalid={invalid || undefined}
+      >
         <NativeSelectOption value="" disabled>
           {field.placeholder ?? "Select…"}
         </NativeSelectOption>
@@ -86,7 +92,12 @@ function FormField({ field, error, defaultValue }: FormFieldProps) {
     <Field data-invalid={invalid || undefined} {...editAttrs(field)}>
       <FieldLabel htmlFor={id}>
         {field.label}
-        {field.required ? <span aria-hidden className="text-destructive"> *</span> : null}
+        {field.required ? (
+          <span aria-hidden className="text-destructive">
+            {" "}
+            *
+          </span>
+        ) : null}
       </FieldLabel>
       {control}
       {error ? <FieldError>{error}</FieldError> : null}

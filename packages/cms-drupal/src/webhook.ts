@@ -10,7 +10,9 @@ import { sitePath } from "./transform"
  * query: the Path plugin sends `GET /api/revalidate?secret=…&path=/pricing`
  * for the entity's path (plus any "additional paths"), the Cache Tag plugin
  * `GET …?secret=…&tags=node:12,node_list:page`. A JSON body with the same
- * keys is accepted too, so the webhook can also be driven by hand.
+ * keys is accepted too, so the webhook can also be driven by hand. Only the
+ * Cache Tag plugin reports `node_list:article` and `taxonomy_term:*`, which is
+ * what invalidates listings; the Path plugin alone covers the article's own page.
  */
 export interface WebhookOptions {
   /** The revalidate secret typed into the Next.js site in Drupal. Requests without it are rejected. */
@@ -21,6 +23,8 @@ export interface WebhookOptions {
   frontPage: string
   /** Node bundle of the site settings singleton (default `site_settings`). */
   settingsBundle: string
+  /** Node bundle of the listed document (`article`); its changes invalidate every cached listing page. */
+  articleBundle: string
 }
 
 export interface DrupalWebhookPayload {
@@ -49,7 +53,8 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
           const body = (await request.json()) as { path?: unknown; tags?: unknown }
           if (typeof body.path === "string") payload.path = body.path
           if (typeof body.tags === "string") payload.tags = [...(payload.tags ?? []), ...splitTags(body.tags)]
-          if (Array.isArray(body.tags)) payload.tags = [...(payload.tags ?? []), ...body.tags.filter((t): t is string => typeof t === "string")]
+          if (Array.isArray(body.tags))
+            payload.tags = [...(payload.tags ?? []), ...body.tags.filter((t): t is string => typeof t === "string")]
         } catch {
           // No body, or not JSON: the query string alone is a complete request.
         }
@@ -82,6 +87,11 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
             if (!bundle || bundle === options.settingsBundle) list.push(tags.global(locale))
             if (!bundle || bundle !== options.settingsBundle) list.push(tags.paths(locale))
           }
+          if (!bundle || bundle === options.articleBundle) list.push(...listingTags(options))
+        } else if (entity === "taxonomy_term" || entity === "taxonomy_term_list") {
+          // A renamed or deleted term changes every card and filter chip that shows it.
+          if (entity === "taxonomy_term" && rest) list.push(tags.entry(rest))
+          list.push(tags.type("category"), ...listingTags(options))
         } else if (entity === "media" || entity === "file" || entity === "media_list" || entity === "file_list") {
           // An image can be referenced from any page; there is no cheaper way to find them all.
           list.push(tags.type("page"))
@@ -94,6 +104,10 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
       return { tags: uniqueTags(list), summary: `drupal: ${summary.join("; ") || "nothing to revalidate"}` }
     },
   }
+}
+
+function listingTags(options: WebhookOptions): string[] {
+  return [tags.type("article"), ...options.locales.map((locale) => tags.collection(locale, "article"))]
 }
 
 function splitTags(value: string): string[] {

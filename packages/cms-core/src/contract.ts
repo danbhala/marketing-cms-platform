@@ -1,6 +1,15 @@
 import type { ComponentType } from "react"
 
-import type { Page, SiteSettings, ThemeName } from "@platform/content-model"
+import type {
+  Category,
+  CollectionItem,
+  CollectionResult,
+  ListingQuery,
+  Page,
+  RoutableDocument,
+  SiteSettings,
+  ThemeName,
+} from "@platform/content-model"
 
 /**
  * Everything the Next.js app may ask of a CMS. Each `@platform/cms-*` package
@@ -36,8 +45,7 @@ export interface PreviewBridgeProps {
 
 /** Result of a preview request: where to send the editor, or why not. */
 export type PreviewEntry =
-  | { ok: true; path: string; context?: PreviewContext | null }
-  | { ok: false; status: number; message: string }
+  { ok: true; path: string; context?: PreviewContext | null } | { ok: false; status: number; message: string }
 
 export interface PreviewHandlers {
   /**
@@ -58,8 +66,22 @@ export interface CmsAdapter {
   /** Stable machine name, e.g. "contentful". */
   readonly name: string
   getPage(path: string, ctx: FetchContext): Promise<Page | null>
+  /**
+   * Any routable document (page or article) at a path. The catch-all route
+   * calls this; `getPage` stays for callers that only want pages (breadcrumbs).
+   */
+  getDocument(path: string, ctx: FetchContext): Promise<RoutableDocument | null>
+  /**
+   * One page of a listing: card-sized items plus the total match count.
+   * Adapters translate `query.filters` (term slugs by field), `query.sort`,
+   * paging and the optional free-text `q` to their own API. Never cached by
+   * the adapter; the app caches by query (and skips the cache when `q` is set).
+   */
+  getCollection(query: ListingQuery, ctx: FetchContext): Promise<CollectionResult<CollectionItem>>
+  /** Every term of a taxonomy document type (e.g. "category"), for filter chips. */
+  getTaxonomy(type: string, ctx: FetchContext): Promise<Category[]>
   getSiteSettings(ctx: FetchContext): Promise<SiteSettings | null>
-  /** Routable paths for one locale, used by generateStaticParams and sitemaps. */
+  /** Routable paths for one locale (pages and articles), used by generateStaticParams and sitemaps. */
   getPaths(locale: string): Promise<string[]>
   /** Resolve a CMS-side preview request (entry id / story id) to a site path. */
   resolvePreviewPath(searchParams: URLSearchParams): Promise<string | null>

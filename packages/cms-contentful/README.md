@@ -4,15 +4,15 @@ Contentful adapter for the marketing platform: published reads via the Content D
 
 ## Environment
 
-| Variable | Purpose |
-| --- | --- |
-| `CONTENTFUL_SPACE_ID` | Space id |
-| `CONTENTFUL_ENVIRONMENT` | Environment or alias, default `master` |
-| `CONTENTFUL_DELIVERY_TOKEN` | CDA token (published content) |
-| `CONTENTFUL_PREVIEW_TOKEN` | CPA token (drafts) |
-| `CONTENTFUL_PREVIEW_SECRET` | `?secret=` on the preview URL; falls back to `PREVIEW_SECRET` |
-| `CONTENTFUL_WEBHOOK_SECRET` | Value of the webhook's secret header; falls back to `REVALIDATE_SECRET` |
-| `CONTENTFUL_LOCALE_MAP` | Optional `site=contentful` pairs, e.g. `en=en-US,de=de-DE` (default: same code) |
+| Variable                    | Purpose                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------- |
+| `CONTENTFUL_SPACE_ID`       | Space id                                                                        |
+| `CONTENTFUL_ENVIRONMENT`    | Environment or alias, default `master`                                          |
+| `CONTENTFUL_DELIVERY_TOKEN` | CDA token (published content)                                                   |
+| `CONTENTFUL_PREVIEW_TOKEN`  | CPA token (drafts)                                                              |
+| `CONTENTFUL_PREVIEW_SECRET` | `?secret=` on the preview URL; falls back to `PREVIEW_SECRET`                   |
+| `CONTENTFUL_WEBHOOK_SECRET` | Value of the webhook's secret header; falls back to `REVALIDATE_SECRET`         |
+| `CONTENTFUL_LOCALE_MAP`     | Optional `site=contentful` pairs, e.g. `en=en-US,de=de-DE` (default: same code) |
 
 Clients are created on first use, so importing the package without credentials is fine. `createContentfulAdapter(options)` accepts the same values explicitly, plus `clients` to inject fakes in tests.
 

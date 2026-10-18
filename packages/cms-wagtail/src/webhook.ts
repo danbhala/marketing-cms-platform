@@ -11,8 +11,9 @@ import { sitePath } from "./urls"
  * listens to `page_published`, `page_unpublished` and `post_page_move` (and
  * `post_save` on the settings model) and POSTs
  * `{ event, id, type, locale, path, old_path? }` to `/api/revalidate`, signed
- * with HMAC-SHA256 over the raw body as `X-Wagtail-Signature: sha256=<hex>`.
- * Both sides of that contract live in this package.
+ * with HMAC-SHA256 over the raw body as `X-Wagtail-Signature: sha256=<hex>`;
+ * taxonomy saves and deletes arrive as `term_updated`. Both sides of that
+ * contract live in this package.
  */
 export interface WebhookOptions {
   /** `PLATFORM_REVALIDATE_SECRET` on the Wagtail side. Unsigned requests are rejected. */
@@ -21,6 +22,10 @@ export interface WebhookOptions {
   locales: readonly string[]
   /** `app_label.ModelName` of the settings model. */
   settingsType: string
+  /** `app_label.ModelName` of the listed page model (`ArticlePage`); its events invalidate every cached listing page. */
+  articleType: string
+  /** `app_label.ModelName` of the taxonomy snippet (`Category`). */
+  categoryType: string
 }
 
 export interface WagtailWebhookPayload {
@@ -63,12 +68,17 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
       const body = (typeof payload === "object" && payload !== null ? payload : {}) as WagtailWebhookPayload
       const event = typeof body.event === "string" ? body.event : "unknown"
       const list: string[] = []
-      const locales = typeof body.locale === "string" && options.locales.includes(body.locale) ? [body.locale] : options.locales
+      const locales =
+        typeof body.locale === "string" && options.locales.includes(body.locale) ? [body.locale] : options.locales
 
       if (body.id !== undefined && body.id !== null) list.push(tags.entry(String(body.id)))
 
+      const listing = [tags.type("article"), ...options.locales.map((locale) => tags.collection(locale, "article"))]
       if (event === "settings_updated" || body.type === options.settingsType) {
         for (const locale of locales) list.push(tags.global(locale))
+      } else if (event === "term_updated" || body.type === options.categoryType) {
+        // A renamed or deleted term changes every card and filter chip that shows it.
+        list.push(tags.type("category"), ...listing)
       } else if (event.startsWith("page_")) {
         const path = typeof body.path === "string" && body.path ? sitePath(body.path) : null
         const oldPath = typeof body.old_path === "string" && body.old_path ? sitePath(body.old_path) : null
@@ -78,11 +88,13 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
           if (structuralEvents.has(event)) list.push(tags.paths(locale))
         }
         if (crossPageEvents.has(event)) list.push(tags.type("page"))
+        if (body.type === options.articleType) list.push(...listing)
       }
 
       return {
         tags: uniqueTags(list),
-        summary: `wagtail: ${event} ${body.type ?? ""} ${String(body.id ?? "?")}${typeof body.path === "string" ? ` ${body.path}` : ""}`.trim(),
+        summary:
+          `wagtail: ${event} ${body.type ?? ""} ${String(body.id ?? "?")}${typeof body.path === "string" ? ` ${body.path}` : ""}`.trim(),
       }
     },
   }

@@ -14,13 +14,12 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Newsletter: Story = {
-}
+export const Newsletter: Story = {}
 
 export const Contact: Story = {
   args: { block: fixtures.contactFormBlock },
 }
 
 export const ContactMuted: Story = {
-  args: { block: { ...fixtures.contactFormBlock, theme: 'muted' } },
+  args: { block: { ...fixtures.contactFormBlock, theme: "muted" } },
 }

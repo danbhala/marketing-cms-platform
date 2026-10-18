@@ -34,7 +34,11 @@ export const pageUnpublish = {
 
 export const siteSettingsPublish = {
   topic: "ContentManagement.Entry.publish",
-  body: { metadata: { tags: [] }, sys: sys("site", "Entry", "siteSettings"), fields: { siteName: { "en-US": "Metrica" } } },
+  body: {
+    metadata: { tags: [] },
+    sys: sys("site", "Entry", "siteSettings"),
+    fields: { siteName: { "en-US": "Metrica" } },
+  },
 }
 
 export const actionSave = {
@@ -51,6 +55,31 @@ export const assetPublish = {
   body: {
     metadata: { tags: [] },
     sys: sys("asset-hero", "Asset"),
-    fields: { title: { "en-US": "hero.png" }, file: { "en-US": { url: "//images.ctfassets.net/sp4ce1d/asset-hero/0a1b2c/hero.png" } } },
+    fields: {
+      title: { "en-US": "hero.png" },
+      file: { "en-US": { url: "//images.ctfassets.net/sp4ce1d/asset-hero/0a1b2c/hero.png" } },
+    },
+  },
+}
+
+export const articlePublish = {
+  topic: "ContentManagement.Entry.publish",
+  body: {
+    metadata: { tags: [] },
+    sys: sys("article-1", "Entry", "article"),
+    fields: {
+      title: { "en-US": "Cohorts and alerts are live" },
+      path: { "en-US": "/news/cohorts-and-alerts-are-live" },
+      publishedAt: { "en-US": "2026-10-14" },
+    },
+  },
+}
+
+export const categorySave = {
+  topic: "ContentManagement.Entry.save",
+  body: {
+    metadata: { tags: [] },
+    sys: sys("cat-product", "Entry", "category"),
+    fields: { title: { "en-US": "Product news" }, slug: { "en-US": "product-news" } },
   },
 }

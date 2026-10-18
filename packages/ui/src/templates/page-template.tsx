@@ -44,6 +44,8 @@ export interface PageTemplateProps extends React.ComponentProps<"div"> {
   siteUrl?: string
   /** Slot rendered before the blocks, e.g. a preview banner in draft mode. */
   before?: React.ReactNode
+  /** Content rendered inside `<main>` above the blocks (an article's header and body). */
+  children?: React.ReactNode
 }
 
 /**
@@ -51,11 +53,25 @@ export interface PageTemplateProps extends React.ComponentProps<"div"> {
  * by their blocks, not by template, so the CMS can build any page. A page-level
  * `theme` wraps everything; block themes still override per section.
  */
-function PageTemplate({ page, settings, components, breadcrumbs, siteUrl, before, className, ...props }: PageTemplateProps) {
+function PageTemplate({
+  page,
+  settings,
+  components,
+  breadcrumbs,
+  siteUrl,
+  before,
+  children,
+  className,
+  ...props
+}: PageTemplateProps) {
   return (
     <div
       data-slot="page"
-      className={cn(themeClassName(page.theme), "@container/section flex min-h-screen flex-col bg-background text-foreground", className)}
+      className={cn(
+        themeClassName(page.theme),
+        "@container/section flex min-h-screen flex-col bg-background text-foreground",
+        className
+      )}
       {...props}
     >
       <AnnouncementBar settings={settings} />
@@ -67,6 +83,7 @@ function PageTemplate({ page, settings, components, breadcrumbs, siteUrl, before
             <Breadcrumbs items={breadcrumbs} siteUrl={siteUrl} />
           </Container>
         ) : null}
+        {children}
         <BlockList blocks={page.blocks} components={components} />
       </main>
       <SiteFooter settings={settings} />

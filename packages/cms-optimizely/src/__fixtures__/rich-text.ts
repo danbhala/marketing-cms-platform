@@ -20,17 +20,38 @@ export const slateSample: SlateRoot = {
         {
           type: "list-item",
           children: [
-            { type: "paragraph", children: [{ text: "Attach properties ", italic: true }, { text: "generously", underline: true }] },
+            {
+              type: "paragraph",
+              children: [
+                { text: "Attach properties ", italic: true },
+                { text: "generously", underline: true },
+              ],
+            },
           ],
         },
       ],
     },
     {
       type: "numbered-list",
-      children: [{ type: "list-item", children: [{ text: "First" }] }, { type: "list-item", children: [{ text: "Second" }] }],
+      children: [
+        { type: "list-item", children: [{ text: "First" }] },
+        { type: "list-item", children: [{ text: "Second" }] },
+      ],
     },
-    { type: "quote", children: [{ type: "paragraph", children: [{ text: "The best tracking plan is the one your team follows.", italic: true }] }] },
-    { type: "pre", class: "language-ts", children: [{ type: "code", children: [{ text: 'track("checkout_completed", {\n  plan: "growth",\n})' }] }] },
+    {
+      type: "quote",
+      children: [
+        {
+          type: "paragraph",
+          children: [{ text: "The best tracking plan is the one your team follows.", italic: true }],
+        },
+      ],
+    },
+    {
+      type: "pre",
+      class: "language-ts",
+      children: [{ type: "code", children: [{ text: 'track("checkout_completed", {\n  plan: "growth",\n})' }] }],
+    },
     {
       type: "paragraph",
       children: [
@@ -43,7 +64,14 @@ export const slateSample: SlateRoot = {
         { text: " notes." },
       ],
     },
-    { type: "image", url: "/globalassets/diagram.png", alt: "Event flow diagram", width: 800, height: 450, children: [{ text: "" }] },
+    {
+      type: "image",
+      url: "/globalassets/diagram.png",
+      alt: "Event flow diagram",
+      width: 800,
+      height: 450,
+      children: [{ text: "" }],
+    },
     { type: "paragraph", children: [{ text: "Line one\nLine two" }] },
   ],
 }

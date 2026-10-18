@@ -1,6 +1,6 @@
 import type * as React from "react"
 
-import type { Editable } from "@platform/content-model"
+import { headingAnimationSettings, type AnimationFields, type Editable } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Eyebrow } from "../atoms/eyebrow"
@@ -24,8 +24,8 @@ export interface SectionHeaderProps extends Omit<React.ComponentProps<"div">, "t
   align?: "start" | "center"
   /** Right-hand slot (e.g. "View all" link). Only used with `align="start"`. */
   actions?: React.ReactNode
-  /** The block the fields belong to, so the CMS editor can target them. */
-  source?: Editable | null
+  /** The block the fields belong to, so the CMS editor can target them and the title can read its `headingAnimation`. */
+  source?: (Editable & AnimationFields) | null
 }
 
 /**
@@ -51,15 +51,17 @@ function SectionHeader({
       data-slot="section-header"
       className={cn(
         "flex gap-6",
-        centered ? "flex-col items-center text-center" : "flex-col section-sm:flex-row section-sm:items-end section-sm:justify-between",
-        className,
+        centered
+          ? "flex-col items-center text-center"
+          : "flex-col section-sm:flex-row section-sm:items-end section-sm:justify-between",
+        className
       )}
       {...props}
     >
       <Stack gap="sm" align={centered ? "center" : "start"} className={cn("max-w-(--container-md)")}>
         {eyebrow ? <Eyebrow {...fieldAttrs(source, "eyebrow")}>{eyebrow}</Eyebrow> : null}
         {title ? (
-          <Heading as={as} size={size} {...fieldAttrs(source, "title")}>
+          <Heading as={as} size={size} animation={headingAnimationSettings(source)} {...fieldAttrs(source, "title")}>
             {title}
           </Heading>
         ) : null}

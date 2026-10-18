@@ -241,6 +241,12 @@ export const schemaTypes = [
         type: "string",
         description: "Lucide icon name, e.g. arrow-right.",
       },
+      {
+        name: "magnetic",
+        title: "Magnetic",
+        type: "boolean",
+        description: "Pull the button towards the pointer on hover (mouse only).",
+      },
     ],
     preview: {
       select: {
@@ -573,6 +579,29 @@ export const schemaTypes = [
     preview: {
       select: {
         title: "title",
+      },
+    },
+  },
+  {
+    name: "galleryItem",
+    title: "Gallery item",
+    type: "object",
+    fields: [
+      {
+        name: "media",
+        title: "Media",
+        type: "anyMedia",
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "caption",
+        title: "Caption",
+        type: "string",
+      },
+    ],
+    preview: {
+      select: {
+        title: "caption",
       },
     },
   },
@@ -962,6 +991,34 @@ export const schemaTypes = [
         initialValue: "centered",
       },
       {
+        name: "scrollEffect",
+        title: "Scroll effect",
+        type: "string",
+        description: "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Parallax",
+              value: "parallax",
+            },
+            {
+              title: "Zoom",
+              value: "zoom",
+            },
+            {
+              title: "Fade",
+              value: "fade",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "theme",
         title: "Theme",
         type: "string",
@@ -1041,6 +1098,138 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
@@ -1082,10 +1271,38 @@ export const schemaTypes = [
               title: "Grid",
               value: "grid",
             },
+            {
+              title: "Marquee",
+              value: "marquee",
+            },
           ],
           layout: "dropdown",
         },
         initialValue: "row",
+      },
+      {
+        name: "marqueeSpeed",
+        title: "Marquee speed",
+        type: "string",
+        description: "Only used by the marquee layout.",
+        options: {
+          list: [
+            {
+              title: "Slow",
+              value: "slow",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Fast",
+              value: "fast",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
       },
       {
         name: "grayscale",
@@ -1171,6 +1388,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -1332,6 +1681,138 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
@@ -1485,6 +1966,138 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
@@ -1547,6 +2160,12 @@ export const schemaTypes = [
         initialValue: "3",
       },
       {
+        name: "countUp",
+        title: "Count up",
+        type: "boolean",
+        description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+      },
+      {
         name: "theme",
         title: "Theme",
         type: "string",
@@ -1625,6 +2244,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -1678,10 +2429,42 @@ export const schemaTypes = [
               title: "Featured",
               value: "featured",
             },
+            {
+              title: "Carousel",
+              value: "carousel",
+            },
+            {
+              title: "Marquee",
+              value: "marquee",
+            },
           ],
           layout: "dropdown",
         },
         initialValue: "grid",
+      },
+      {
+        name: "marqueeSpeed",
+        title: "Marquee speed",
+        type: "string",
+        description: "Only used by the marquee layout.",
+        options: {
+          list: [
+            {
+              title: "Slow",
+              value: "slow",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Fast",
+              value: "fast",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
       },
       {
         name: "theme",
@@ -1762,6 +2545,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -1803,6 +2718,12 @@ export const schemaTypes = [
         validation: (rule: SanityRule) => rule.max(4),
       },
       {
+        name: "countUp",
+        title: "Count up",
+        type: "boolean",
+        description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+      },
+      {
         name: "theme",
         title: "Theme",
         type: "string",
@@ -1881,6 +2802,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -2009,6 +3062,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -2146,6 +3331,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -2285,6 +3602,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -2438,6 +3887,138 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
@@ -2574,6 +4155,138 @@ export const schemaTypes = [
         title: "Anchor",
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
     ],
     preview: {
@@ -2712,6 +4425,138 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
@@ -2830,6 +4675,138 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
@@ -2947,6 +4924,138 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
@@ -2988,6 +5097,34 @@ export const schemaTypes = [
           layout: "dropdown",
         },
         initialValue: "contained",
+      },
+      {
+        name: "scrollEffect",
+        title: "Scroll effect",
+        type: "string",
+        description: "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Parallax",
+              value: "parallax",
+            },
+            {
+              title: "Zoom",
+              value: "zoom",
+            },
+            {
+              title: "Fade",
+              value: "fade",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "theme",
@@ -3069,10 +5206,460 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
         title: "caption",
+      },
+    },
+  },
+  {
+    name: "gallery",
+    title: "Gallery",
+    type: "object",
+    description: "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.",
+    fields: [
+      {
+        name: "eyebrow",
+        title: "Eyebrow",
+        type: "string",
+      },
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+      },
+      {
+        name: "description",
+        title: "Description",
+        type: "text",
+        rows: 3,
+      },
+      {
+        name: "items",
+        title: "Items",
+        type: "array",
+        of: [
+          {
+            type: "galleryItem",
+          },
+        ],
+      },
+      {
+        name: "layout",
+        title: "Layout",
+        type: "string",
+        description: "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.",
+        options: {
+          list: [
+            {
+              title: "Grid",
+              value: "grid",
+            },
+            {
+              title: "Masonry",
+              value: "masonry",
+            },
+            {
+              title: "Featured",
+              value: "featured",
+            },
+            {
+              title: "Stage",
+              value: "stage",
+            },
+            {
+              title: "Strip",
+              value: "strip",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "grid",
+      },
+      {
+        name: "columns",
+        title: "Columns",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "2",
+              value: "2",
+            },
+            {
+              title: "3",
+              value: "3",
+            },
+            {
+              title: "4",
+              value: "4",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "3",
+      },
+      {
+        name: "lightbox",
+        title: "Lightbox",
+        type: "boolean",
+        description: "Open items full screen on tap, with previous and next.",
+      },
+      {
+        name: "autoplay",
+        title: "Autoplay",
+        type: "boolean",
+        description: "Stage layout only: advance every few seconds, with a pause control.",
+      },
+      {
+        name: "theme",
+        title: "Theme",
+        type: "string",
+        description: "Applies a theme class to this block only.",
+        options: {
+          list: [
+            {
+              title: "Light",
+              value: "light",
+            },
+            {
+              title: "Dark",
+              value: "dark",
+            },
+            {
+              title: "Brand",
+              value: "brand",
+            },
+            {
+              title: "Muted",
+              value: "muted",
+            },
+            {
+              title: "Blue",
+              value: "blue",
+            },
+            {
+              title: "Green",
+              value: "green",
+            },
+            {
+              title: "Orange",
+              value: "orange",
+            },
+            {
+              title: "Rose",
+              value: "rose",
+            },
+            {
+              title: "Violet",
+              value: "violet",
+            },
+          ],
+          layout: "dropdown",
+        },
+      },
+      {
+        name: "spacing",
+        title: "Spacing",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Sm",
+              value: "sm",
+            },
+            {
+              title: "Md",
+              value: "md",
+            },
+            {
+              title: "Lg",
+              value: "lg",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "md",
+      },
+      {
+        name: "anchor",
+        title: "Anchor",
+        type: "string",
+        description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+    ],
+    preview: {
+      select: {
+        title: "eyebrow",
       },
     },
   },
@@ -3231,10 +5818,765 @@ export const schemaTypes = [
         type: "string",
         description: "Optional id for in-page links, e.g. 'pricing'.",
       },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
     ],
     preview: {
       select: {
         title: "submitLabel",
+      },
+    },
+  },
+  {
+    name: "collection",
+    title: "Collection",
+    type: "object",
+    description: "Paginated, filterable listing of a document type, driven by the URL's search params.",
+    fields: [
+      {
+        name: "eyebrow",
+        title: "Eyebrow",
+        type: "string",
+      },
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+      },
+      {
+        name: "description",
+        title: "Description",
+        type: "text",
+        rows: 3,
+      },
+      {
+        name: "source",
+        title: "Source",
+        type: "string",
+        description: "Which document type to list.",
+        options: {
+          list: [
+            {
+              title: "Article",
+              value: "article",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "article",
+      },
+      {
+        name: "pageSize",
+        title: "Page Size",
+        type: "number",
+        description: "Items per page. Defaults to 12.",
+      },
+      {
+        name: "filters",
+        title: "Filters",
+        type: "string",
+        description: "Taxonomy shown as filter chips.",
+        options: {
+          list: [
+            {
+              title: "Category",
+              value: "category",
+            },
+            {
+              title: "Tags",
+              value: "tags",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "category",
+      },
+      {
+        name: "search",
+        title: "Search",
+        type: "boolean",
+        description: "Show a search box. Searches use the CMS's own search and are never cached.",
+      },
+      {
+        name: "sort",
+        title: "Sort",
+        type: "string",
+        description: "Default order; visitors can change it.",
+        options: {
+          list: [
+            {
+              title: "Newest",
+              value: "newest",
+            },
+            {
+              title: "Oldest",
+              value: "oldest",
+            },
+            {
+              title: "Title",
+              value: "title",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "newest",
+      },
+      {
+        name: "emptyMessage",
+        title: "Empty Message",
+        type: "string",
+        description: "Shown when no items match.",
+      },
+      {
+        name: "theme",
+        title: "Theme",
+        type: "string",
+        description: "Applies a theme class to this block only.",
+        options: {
+          list: [
+            {
+              title: "Light",
+              value: "light",
+            },
+            {
+              title: "Dark",
+              value: "dark",
+            },
+            {
+              title: "Brand",
+              value: "brand",
+            },
+            {
+              title: "Muted",
+              value: "muted",
+            },
+            {
+              title: "Blue",
+              value: "blue",
+            },
+            {
+              title: "Green",
+              value: "green",
+            },
+            {
+              title: "Orange",
+              value: "orange",
+            },
+            {
+              title: "Rose",
+              value: "rose",
+            },
+            {
+              title: "Violet",
+              value: "violet",
+            },
+          ],
+          layout: "dropdown",
+        },
+      },
+      {
+        name: "spacing",
+        title: "Spacing",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Sm",
+              value: "sm",
+            },
+            {
+              title: "Md",
+              value: "md",
+            },
+            {
+              title: "Lg",
+              value: "lg",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "md",
+      },
+      {
+        name: "anchor",
+        title: "Anchor",
+        type: "string",
+        description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+    ],
+    preview: {
+      select: {
+        title: "eyebrow",
+      },
+    },
+  },
+  {
+    name: "latestNews",
+    title: "Latest news",
+    type: "object",
+    description: "The newest few items of a document type, for a home page or landing page, with a link to the full listing.",
+    fields: [
+      {
+        name: "eyebrow",
+        title: "Eyebrow",
+        type: "string",
+      },
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+      },
+      {
+        name: "description",
+        title: "Description",
+        type: "text",
+        rows: 3,
+      },
+      {
+        name: "source",
+        title: "Source",
+        type: "string",
+        description: "Which document type to show.",
+        options: {
+          list: [
+            {
+              title: "Article",
+              value: "article",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "article",
+      },
+      {
+        name: "category",
+        title: "Category",
+        type: "reference",
+        description: "Only show items in this category. Empty shows every category.",
+        to: [
+          {
+            type: "category",
+          },
+        ],
+      },
+      {
+        name: "count",
+        title: "Count",
+        type: "string",
+        description: "How many items; the grid always fills.",
+        options: {
+          list: [
+            {
+              title: "3",
+              value: "3",
+            },
+            {
+              title: "4",
+              value: "4",
+            },
+            {
+              title: "6",
+              value: "6",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "3",
+      },
+      {
+        name: "actions",
+        title: "Actions",
+        type: "array",
+        description: "The \"see all\" link. Left empty, it links to the page that lists this type.",
+        of: [
+          {
+            type: "action",
+          },
+        ],
+        validation: (rule: SanityRule) => rule.max(1),
+      },
+      {
+        name: "theme",
+        title: "Theme",
+        type: "string",
+        description: "Applies a theme class to this block only.",
+        options: {
+          list: [
+            {
+              title: "Light",
+              value: "light",
+            },
+            {
+              title: "Dark",
+              value: "dark",
+            },
+            {
+              title: "Brand",
+              value: "brand",
+            },
+            {
+              title: "Muted",
+              value: "muted",
+            },
+            {
+              title: "Blue",
+              value: "blue",
+            },
+            {
+              title: "Green",
+              value: "green",
+            },
+            {
+              title: "Orange",
+              value: "orange",
+            },
+            {
+              title: "Rose",
+              value: "rose",
+            },
+            {
+              title: "Violet",
+              value: "violet",
+            },
+          ],
+          layout: "dropdown",
+        },
+      },
+      {
+        name: "spacing",
+        title: "Spacing",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Sm",
+              value: "sm",
+            },
+            {
+              title: "Md",
+              value: "md",
+            },
+            {
+              title: "Lg",
+              value: "lg",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "md",
+      },
+      {
+        name: "anchor",
+        title: "Anchor",
+        type: "string",
+        description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+    ],
+    preview: {
+      select: {
+        title: "eyebrow",
       },
     },
   },
@@ -3253,7 +6595,7 @@ export const schemaTypes = [
         name: "slug",
         title: "Path",
         type: "slug",
-        description: "URL path, e.g. /pricing. The home page is /. Stored as the slug; \"/\" or an empty slug is the home page.",
+        description: "URL path, e.g. /pricing. The home page is /. Stored as the slug. \"/\" or an empty slug is the home page.",
         options: {
           source: "title",
         },
@@ -3388,9 +6730,218 @@ export const schemaTypes = [
             type: "media",
           },
           {
+            type: "gallery",
+          },
+          {
             type: "form",
           },
+          {
+            type: "collection",
+          },
+          {
+            type: "latestNews",
+          },
         ],
+      },
+    ],
+    preview: {
+      select: {
+        title: "title",
+        subtitle: "slug.current",
+      },
+    },
+  },
+  {
+    name: "article",
+    title: "Article",
+    type: "document",
+    fields: [
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "slug",
+        title: "Path",
+        type: "slug",
+        description: "URL path, usually under the listing page, e.g. /news/launch. Stored as the slug.",
+        options: {
+          source: "title",
+        },
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "publishedAt",
+        title: "Published At",
+        type: "date",
+        description: "Listings sort by this date, newest first.",
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "excerpt",
+        title: "Excerpt",
+        type: "text",
+        description: "Shown on cards and as the default meta description.",
+        rows: 3,
+      },
+      {
+        name: "image",
+        title: "Image",
+        type: "imageWithAlt",
+      },
+      {
+        name: "category",
+        title: "Category",
+        type: "reference",
+        to: [
+          {
+            type: "category",
+          },
+        ],
+      },
+      {
+        name: "tags",
+        title: "Tags",
+        type: "array",
+        description: "Optional second axis for filtering.",
+        of: [
+          {
+            type: "reference",
+            to: [
+              {
+                type: "category",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: "body",
+        title: "Body",
+        type: "portableText",
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "blocks",
+        title: "Blocks",
+        type: "array",
+        description: "Optional sections rendered below the body.",
+        of: [
+          {
+            type: "hero",
+          },
+          {
+            type: "logoCloud",
+          },
+          {
+            type: "featureGrid",
+          },
+          {
+            type: "featureSplit",
+          },
+          {
+            type: "stats",
+          },
+          {
+            type: "testimonials",
+          },
+          {
+            type: "pricing",
+          },
+          {
+            type: "comparisonTable",
+          },
+          {
+            type: "faq",
+          },
+          {
+            type: "cta",
+          },
+          {
+            type: "cardGrid",
+          },
+          {
+            type: "teamGrid",
+          },
+          {
+            type: "steps",
+          },
+          {
+            type: "tabs",
+          },
+          {
+            type: "richText",
+          },
+          {
+            type: "media",
+          },
+          {
+            type: "gallery",
+          },
+          {
+            type: "form",
+          },
+          {
+            type: "collection",
+          },
+          {
+            type: "latestNews",
+          },
+        ],
+      },
+      {
+        name: "seoTitle",
+        title: "Seo Title",
+        type: "string",
+        validation: (rule: SanityRule) => rule.max(70),
+      },
+      {
+        name: "seoDescription",
+        title: "Seo Description",
+        type: "text",
+        rows: 3,
+      },
+      {
+        name: "noIndex",
+        title: "No Index",
+        type: "boolean",
+      },
+    ],
+    preview: {
+      select: {
+        title: "title",
+        subtitle: "slug.current",
+      },
+    },
+  },
+  {
+    name: "category",
+    title: "Category",
+    type: "document",
+    fields: [
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "slug",
+        title: "Slug",
+        type: "slug",
+        description: "URL-safe key used in listing filters, e.g. product-news. Stored as the slug.",
+        options: {
+          source: "title",
+        },
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "description",
+        title: "Description",
+        type: "text",
+        rows: 3,
       },
     ],
     preview: {

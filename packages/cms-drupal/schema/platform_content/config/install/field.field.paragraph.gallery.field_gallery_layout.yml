@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_gallery_layout
+    - paragraphs.paragraphs_type.gallery
+  module:
+    - options
+id: paragraph.gallery.field_gallery_layout
+field_name: field_gallery_layout
+entity_type: paragraph
+bundle: gallery
+label: Layout
+description: 'grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.'
+required: false
+translatable: true
+default_value:
+  - value: grid
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,10 +1,12 @@
 import { stegaClean } from "@sanity/client/stega"
 
+import { normalizePath } from "@platform/cms-core/tags"
 import type { AnyDefinition, AnyDocumentDefinition, EditAttrs, Editable, Field, Media } from "@platform/content-model"
 import { schemaFor } from "@platform/content-model"
 
 import type { ResolvedSanityConfig } from "./config"
 import { createEditTarget, keyed, type EditTarget } from "./edit"
+import { isSlugField } from "./model"
 import { portableTextToRichText } from "./rich-text"
 
 /**
@@ -25,7 +27,7 @@ export class SanityTransformError extends Error {
     readonly documentType: string,
     readonly documentId: string,
     readonly field: string,
-    detail: string,
+    detail: string
   ) {
     super(`sanity: ${documentType} "${documentId}" is invalid at "${field}": ${detail}`)
     this.name = "SanityTransformError"
@@ -40,21 +42,39 @@ const str = (value: unknown): string | undefined => (typeof value === "string" ?
 export const publishedId = (id: string): string => id.replace(/^drafts\./, "").replace(/^versions\.[^.]+\./, "")
 
 /** Text fields whose value drives logic (DOM ids, input names) rather than copy. */
-const isLogicText = (definition: AnyDefinition, name: string) => name === "anchor" || (definition.type === "formField" && name === "name")
+const isLogicText = (definition: AnyDefinition, name: string) =>
+  name === "anchor" || (definition.type === "formField" && name === "name")
 
-export function transformDocument<T extends Editable>(raw: unknown, definition: AnyDocumentDefinition, options: TransformOptions): T | null {
+/** Accepts "2026-10-18" and ISO date-times as stored; anything else Date can parse becomes UTC ISO. */
+export function toIsoDate(value: string): string {
+  if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?$/.test(value)) return value
+  const time = Date.parse(value)
+  return Number.isNaN(time) ? value : new Date(time).toISOString()
+}
+
+/** The `data-sanity` target for a document root, only in edit mode. */
+function documentTarget(id: string, type: string, options: TransformOptions): EditTarget | null {
+  if (!options.edit) return null
+  return createEditTarget({
+    id,
+    type,
+    studioUrl: options.config.studioUrl || undefined,
+    projectId: options.config.projectId || undefined,
+    dataset: options.config.dataset || undefined,
+  })
+}
+
+export function transformDocument<T extends Editable>(
+  raw: unknown,
+  definition: AnyDocumentDefinition,
+  options: TransformOptions
+): T | null {
   if (!isRecord(raw)) return null
   const id = str(raw._id) ? publishedId(raw._id as string) : definition.singleton ? definition.type : ""
-  const target = options.edit
-    ? createEditTarget({
-        id,
-        type: definition.type,
-        studioUrl: options.config.studioUrl || undefined,
-        projectId: options.config.projectId || undefined,
-        dataset: options.config.dataset || undefined,
-      })
-    : null
-  const rootField = Object.entries(definition.fields as Record<string, Field>).find(([, f]) => f.kind === "blocks" || f.kind === "items")?.[0]
+  const target = documentTarget(id, definition.type, options)
+  const rootField = Object.entries(definition.fields as Record<string, Field>).find(
+    ([, f]) => f.kind === "blocks" || f.kind === "items"
+  )?.[0]
   const node = buildNode(raw, definition, id, target, rootField, options)
 
   const result = schemaFor(definition).safeParse(node)
@@ -103,7 +123,7 @@ function buildNode(
   id: string,
   target: EditTarget | null,
   rootField: string | undefined,
-  options: TransformOptions,
+  options: TransformOptions
 ): Record<string, unknown> {
   const out: Record<string, unknown> = { id, type: definition.type }
   const fields: Record<string, EditAttrs> = {}
@@ -126,13 +146,16 @@ function convertField(
   name: string,
   definition: AnyDefinition,
   target: EditTarget | null,
-  options: TransformOptions,
+  options: TransformOptions
 ): unknown {
   switch (field.kind) {
     case "text":
     case "textarea": {
       const text = str(value)
-      return text === undefined ? undefined : isLogicText(definition, name) ? stegaClean(text) : text
+      if (text === undefined) return undefined
+      // Slug-backed fields are URLs or filter keys: cleaned, and a path gets its leading slash.
+      if (isSlugField(definition, name)) return name === "path" ? normalizePath(stegaClean(text)) : stegaClean(text)
+      return isLogicText(definition, name) ? stegaClean(text) : text
     }
     case "link":
     case "icon":
@@ -140,19 +163,42 @@ function convertField(
       const text = str(value)
       return text === undefined ? undefined : stegaClean(text)
     }
+    case "date": {
+      const text = str(value)
+      return text === undefined ? undefined : toIsoDate(stegaClean(text))
+    }
     case "number":
       return typeof value === "number" ? value : undefined
     case "boolean":
       return typeof value === "boolean" ? value : undefined
     case "textList":
       // Compared against literals by the UI ("yes"/"no" in comparison rows), so always clean.
-      return Array.isArray(value) ? value.filter((v): v is string => typeof v === "string").map((v) => stegaClean(v)) : field.required ? [] : undefined
+      return Array.isArray(value)
+        ? value.filter((v): v is string => typeof v === "string").map((v) => stegaClean(v))
+        : field.required
+          ? []
+          : undefined
     case "richText": {
       if (!Array.isArray(value)) return field.required ? { type: "root", children: [] } : undefined
       return portableTextToRichText(value, (raw) => toMedia(raw, options.config))
     }
     case "media":
       return toMedia(value, options.config)
+    case "reference": {
+      // Dereferenced documents (`->` in the projection); each is a root of its own for edit attributes.
+      const list = Array.isArray(value) ? value : [value]
+      const docs: unknown[] = []
+      for (const item of list) {
+        if (!isRecord(item)) continue
+        const type = str(item._type)
+        const child = type ? field.of.find((d) => d.type === stegaClean(type)) : undefined
+        if (!child) continue
+        const id = str(item._id) ? publishedId(item._id as string) : ""
+        docs.push(buildNode(item, child, id, documentTarget(id, child.type, options), undefined, options))
+      }
+      if (!field.multiple) return docs[0]
+      return Array.isArray(value) || field.required ? docs : undefined
+    }
     case "items":
     case "blocks": {
       if (!Array.isArray(value)) return []
@@ -185,15 +231,21 @@ interface RawAsset {
  */
 export function toMedia(raw: unknown, config: TransformOptions["config"]): Media | undefined {
   if (!isRecord(raw)) return undefined
-  if (isRecord(raw.video) && isRecord(raw.video.asset)) return toMedia({ ...raw.video, alt: raw.video.alt ?? raw.alt, _type: "file" }, config)
-  if (isRecord(raw.image) && isRecord(raw.image.asset)) return toMedia({ ...raw.image, alt: raw.image.alt ?? raw.alt }, config)
+  if (isRecord(raw.video) && isRecord(raw.video.asset))
+    return toMedia({ ...raw.video, alt: raw.video.alt ?? raw.alt, _type: "file" }, config)
+  if (isRecord(raw.image) && isRecord(raw.image.asset))
+    return toMedia({ ...raw.image, alt: raw.image.alt ?? raw.alt }, config)
   if (!isRecord(raw.asset)) return undefined
 
   const asset = raw.asset as RawAsset
   const alt = stegaClean(str(raw.alt) ?? "")
   const mimeType = str(asset.mimeType)
   const dims = asset.metadata?.dimensions
-  const isVideo = raw._type === "file" || raw._type === "videoWithAlt" || mimeType?.startsWith("video/") || (!mimeType && str(asset._id)?.startsWith("file-"))
+  const isVideo =
+    raw._type === "file" ||
+    raw._type === "videoWithAlt" ||
+    mimeType?.startsWith("video/") ||
+    (!mimeType && str(asset._id)?.startsWith("file-"))
 
   if (isVideo) {
     const url = str(asset.url)

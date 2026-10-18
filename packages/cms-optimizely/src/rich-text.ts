@@ -96,7 +96,36 @@ const markTags: Record<string, Mark> = {
   var: "code",
 }
 
-const blockTags = new Set(["p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "blockquote", "pre", "hr", "table", "thead", "tbody", "tfoot", "tr", "td", "th", "img", "figure", "section", "article", "header", "footer", "caption"])
+const blockTags = new Set([
+  "p",
+  "div",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "ul",
+  "ol",
+  "li",
+  "blockquote",
+  "pre",
+  "hr",
+  "table",
+  "thead",
+  "tbody",
+  "tfoot",
+  "tr",
+  "td",
+  "th",
+  "img",
+  "figure",
+  "section",
+  "article",
+  "header",
+  "footer",
+  "caption",
+])
 
 const isElem = (node: Node): node is Elem => "tag" in node
 
@@ -177,7 +206,9 @@ function blocks(nodes: Node[]): BlockNode[] {
 }
 
 function plainText(nodes: Node[]): string {
-  return nodes.map((node) => (isElem(node) ? (node.tag === "br" ? "\n" : plainText(node.children)) : node.text)).join("")
+  return nodes
+    .map((node) => (isElem(node) ? (node.tag === "br" ? "\n" : plainText(node.children)) : node.text))
+    .join("")
 }
 
 function block(node: Elem): BlockNode[] {
@@ -340,7 +371,8 @@ export function fromHtml(html: string): RichText {
       const value = decodeEntities(text)
       const inPre = stack.some((e) => e.tag === "pre")
       // Whitespace between block tags is formatting, not content.
-      if (value.trim() || inPre || !blockTags.has(top.tag)) top.children.push({ text: inPre ? value : value.replace(/\s+/g, " "), marks: [] })
+      if (value.trim() || inPre || !blockTags.has(top.tag))
+        top.children.push({ text: inPre ? value : value.replace(/\s+/g, " "), marks: [] })
     } else if (opening) {
       const tag = opening.toLowerCase()
       const elem: Elem = { tag, attrs: parseAttrs(attrSource ?? ""), children: [] }

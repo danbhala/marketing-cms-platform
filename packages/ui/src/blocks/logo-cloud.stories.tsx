@@ -15,9 +15,18 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Row: Story = {
-  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: 'row' } } },
+  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "row" } } },
 }
 
 export const Grid: Story = {
-  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: 'grid', grayscale: false } } },
+  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "grid", grayscale: false } } },
+}
+
+/** `layout: marquee` scrolls the logos endlessly. It pauses on hover and focus, has a pause button, and renders a static row for reduced motion. */
+export const Marquee: Story = {
+  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "marquee", marqueeSpeed: "normal" } } },
+}
+
+export const MarqueeFast: Story = {
+  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "marquee", marqueeSpeed: "fast", grayscale: false } } },
 }

@@ -94,9 +94,7 @@ function block(node: SbNode): BlockNode[] | null {
     }
     case "table":
       // No table node in the portable AST: keep the cell text as paragraphs.
-      return (node.content ?? []).flatMap((row) =>
-        (row.content ?? []).flatMap((cell) => blocks(cell.content ?? [])),
-      )
+      return (node.content ?? []).flatMap((row) => (row.content ?? []).flatMap((cell) => blocks(cell.content ?? [])))
     case "blok":
       return null
     default:
@@ -110,7 +108,11 @@ function imageMedia(attrs: Record<string, unknown>): Media | null {
   const src = typeof attrs.src === "string" ? attrs.src : ""
   if (!src) return null
   const meta = (attrs.meta_data ?? null) as { alt?: string | null } | null
-  const alt = (typeof attrs.alt === "string" && attrs.alt) || meta?.alt || (typeof attrs.title === "string" ? attrs.title : "") || ""
+  const alt =
+    (typeof attrs.alt === "string" && attrs.alt) ||
+    meta?.alt ||
+    (typeof attrs.title === "string" ? attrs.title : "") ||
+    ""
   return assetToMedia({ filename: src, alt })
 }
 

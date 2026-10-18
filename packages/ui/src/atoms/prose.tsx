@@ -12,14 +12,14 @@ const proseVariants = cva(
   [
     "max-w-(--container-prose) text-pretty",
     "[&_p]:my-4 [&_p]:leading-7",
-    "[&_h2]:font-heading [&_h2]:heading-style [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-3xl",
-    "[&_h3]:font-heading [&_h3]:heading-style [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-2xl",
-    "[&_h4]:font-heading [&_h4]:heading-style [&_h4]:mt-6 [&_h4]:mb-2 [&_h4]:text-xl",
+    "[&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:font-heading [&_h2]:text-3xl [&_h2]:heading-style",
+    "[&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:font-heading [&_h3]:text-2xl [&_h3]:heading-style",
+    "[&_h4]:mt-6 [&_h4]:mb-2 [&_h4]:font-heading [&_h4]:text-xl [&_h4]:heading-style",
     "[&_h5]:mt-6 [&_h5]:mb-2 [&_h5]:text-lg [&_h5]:font-semibold",
     "[&_h6]:mt-6 [&_h6]:mb-2 [&_h6]:text-base [&_h6]:font-semibold",
     "[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/80",
-    "[&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:my-1.5",
-    "[&_blockquote]:my-6 [&_blockquote]:border-l-2 [&_blockquote]:pl-5 [&_blockquote]:italic [&_blockquote]:text-muted-foreground",
+    "[&_li]:my-1.5 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6",
+    "[&_blockquote]:my-6 [&_blockquote]:border-l-2 [&_blockquote]:pl-5 [&_blockquote]:text-muted-foreground [&_blockquote]:italic",
     "[&_hr]:my-8 [&_hr]:border-border",
     "[&_img]:my-6 [&_img]:rounded-lg",
     "[&_code]:rounded-md [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em]",
@@ -40,7 +40,7 @@ const proseVariants = cva(
       },
     },
     defaultVariants: { size: "base", width: "prose" },
-  },
+  }
 )
 
 export interface ProseProps extends React.ComponentProps<"div">, VariantProps<typeof proseVariants> {

@@ -17,3 +17,60 @@
     border-color 0.4s,
     border-radius 0.4s;
 }
+
+/* Home block wall: two rows of themed blocks drift in opposite directions. */
+.home-wall {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.home-wall-row {
+  display: flex;
+  width: max-content;
+  animation: home-wall-drift 90s linear infinite;
+}
+.home-wall-row-reverse {
+  animation-direction: reverse;
+}
+.home-wall-tile {
+  margin-right: 0.75rem;
+}
+/* Short blocks sit centred in their tile; tall ones are clipped at the bottom. */
+.home-wall-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+}
+.home-wall:hover .home-wall-row,
+.home-wall:focus-within .home-wall-row {
+  animation-play-state: paused;
+}
+@keyframes home-wall-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.home-wall-label {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.home-wall-tile:hover .home-wall-label,
+.home-wall-tile:focus-within .home-wall-label {
+  opacity: 1;
+}
+@media (hover: none) {
+  .home-wall-label {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-wall {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .home-wall-row {
+    animation: none;
+  }
+  .home-wall-dup {
+    display: none;
+  }
+}

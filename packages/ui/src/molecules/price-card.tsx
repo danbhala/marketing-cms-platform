@@ -1,8 +1,9 @@
 import type * as React from "react"
 import { CheckIcon } from "lucide-react"
 
-import type { PricingPlan } from "@platform/content-model"
+import type { AnimationDelay, AnimationDuration, PricingPlan } from "@platform/content-model"
 import { editAttrs, fieldAttrs } from "@platform/cms-core/edit"
+import { CountUp } from "@platform/animation"
 
 import { Heading } from "../atoms/heading"
 import { Text } from "../atoms/text"
@@ -13,10 +14,12 @@ import { cn } from "../lib/utils"
 export interface PriceCardProps extends React.ComponentProps<"div"> {
   /** The pricing plan content item (name, price, features, actions, highlighted). */
   plan: PricingPlan
+  /** Count the price up from zero when it scrolls into view (the Pricing block's `countUp` field). */
+  countUp?: { duration?: AnimationDuration | null; delay?: AnimationDelay | null } | null
 }
 
 /** One pricing plan. `highlighted` gives it the primary border and a badge. */
-function PriceCard({ plan, className, ...props }: PriceCardProps) {
+function PriceCard({ plan, countUp, className, ...props }: PriceCardProps) {
   return (
     <div
       data-slot="price-card"
@@ -24,7 +27,7 @@ function PriceCard({ plan, className, ...props }: PriceCardProps) {
       className={cn(
         "relative flex h-full flex-col gap-6 rounded-xl border bg-card p-6 text-card-foreground",
         plan.highlighted && "border-primary shadow-lg ring-1 ring-primary",
-        className,
+        className
       )}
       {...editAttrs(plan)}
       {...props}
@@ -45,8 +48,12 @@ function PriceCard({ plan, className, ...props }: PriceCardProps) {
         ) : null}
       </div>
       <p className="flex items-baseline gap-1">
-        <span className="font-heading heading-style text-4xl" {...fieldAttrs(plan, "price")}>
-          {plan.price}
+        <span className="font-heading text-4xl heading-style" {...fieldAttrs(plan, "price")}>
+          {countUp ? (
+            <CountUp value={plan.price} duration={countUp.duration ?? undefined} delay={countUp.delay ?? undefined} />
+          ) : (
+            plan.price
+          )}
         </span>
         {plan.period ? (
           <span className="text-sm text-muted-foreground" {...fieldAttrs(plan, "period")}>

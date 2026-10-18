@@ -1,18 +1,14 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page"
-import {
-  MarkdownCopyButton,
-  ViewOptionsPopover,
-} from "fumadocs-ui/layouts/docs/page"
+import { MarkdownCopyButton, ViewOptionsPopover } from "fumadocs-ui/layouts/docs/page"
 import { createRelativeLink } from "fumadocs-ui/mdx"
 
 import { getPageMarkdownUrl } from "@/lib/shared"
 import { source } from "@/lib/source"
 import { getMDXComponents } from "@/mdx-components"
 
-const GITHUB_CONTENT_URL =
-  "https://github.com/danbhala/marketing-cms-platform/blob/main/apps/docs/content/docs"
+const GITHUB_CONTENT_URL = "https://github.com/danbhala/marketing-cms-platform/blob/main/apps/docs/content/docs"
 
 type Props = { params: Promise<{ slug?: string[] }> }
 
@@ -30,15 +26,10 @@ export default async function Page({ params }: Props) {
       <DocsDescription>{page.data.description}</DocsDescription>
       <div className="flex flex-row items-center gap-2 border-b pb-6">
         <MarkdownCopyButton markdownUrl={markdownUrl} />
-        <ViewOptionsPopover
-          markdownUrl={markdownUrl}
-          githubUrl={`${GITHUB_CONTENT_URL}/${page.path}`}
-        />
+        <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={`${GITHUB_CONTENT_URL}/${page.path}`} />
       </div>
       <DocsBody>
-        <MDX
-          components={getMDXComponents({ a: createRelativeLink(source, page) })}
-        />
+        <MDX components={getMDXComponents({ a: createRelativeLink(source, page) })} />
       </DocsBody>
     </DocsPage>
   )

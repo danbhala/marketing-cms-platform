@@ -1,7 +1,10 @@
-import { defineDocument, field } from "../fields";
-import { themeNames } from "../themes";
-import { allBlocks } from "./blocks";
-import { action, footerColumn, navGroup, socialLink } from "./items";
+import { defineDocument, field } from "../fields"
+import { themeNames } from "../themes"
+import { allBlocks } from "./blocks"
+import { action, footerColumn, navGroup, socialLink } from "./items"
+import { category } from "./taxonomy"
+
+export { category }
 
 export const page = defineDocument("page", {
   label: "Page",
@@ -13,11 +16,37 @@ export const page = defineDocument("page", {
     seoDescription: field.textarea(),
     ogImage: field.media(),
     noIndex: field.boolean(),
-    hideBreadcrumbs: field.boolean({ description: "Breadcrumbs show on every page except the home page unless hidden." }),
+    hideBreadcrumbs: field.boolean({
+      description: "Breadcrumbs show on every page except the home page unless hidden.",
+    }),
     theme: field.select(themeNames, { description: "Theme applied to the whole page." }),
     blocks: field.blocks(allBlocks),
   },
-});
+})
+
+/**
+ * The worked example of a listed document: a news story. Copy this
+ * definition (and the collection block's `source` option) to add
+ * publications, case studies or products.
+ */
+export const article = defineDocument("article", {
+  label: "Article",
+  routable: true,
+  fields: {
+    title: field.text({ required: true }),
+    path: field.text({ required: true, description: "URL path, usually under the listing page, e.g. /news/launch." }),
+    publishedAt: field.date({ required: true, description: "Listings sort by this date, newest first." }),
+    excerpt: field.textarea({ description: "Shown on cards and as the default meta description." }),
+    image: field.media({ accept: "image" }),
+    category: field.reference([category]),
+    tags: field.reference([category], { multiple: true, description: "Optional second axis for filtering." }),
+    body: field.richText({ required: true }),
+    blocks: field.blocks(allBlocks, { description: "Optional sections rendered below the body." }),
+    seoTitle: field.text({ maxLength: 70 }),
+    seoDescription: field.textarea(),
+    noIndex: field.boolean(),
+  },
+})
 
 export const siteSettings = defineDocument("siteSettings", {
   label: "Site settings",
@@ -34,6 +63,10 @@ export const siteSettings = defineDocument("siteSettings", {
     footerNote: field.text(),
     socialLinks: field.items([socialLink]),
   },
-});
+})
 
-export const allDocuments = [page, siteSettings] as const;
+export const allDocuments = [page, article, category, siteSettings] as const
+
+/** Documents a `collection` block can list, by `source` key. */
+export const listableDocuments = { article } as const
+export type ListableType = keyof typeof listableDocuments

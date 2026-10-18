@@ -1,9 +1,9 @@
 {
   "_id": "page-home",
   "_type": "page",
-  "title": "Metrica · Privacy-first product analytics",
+  "title": "Metrica \u00b7 Privacy-first product analytics",
   "path": "/",
-  "seoTitle": "Metrica · Product analytics",
+  "seoTitle": "Metrica \u00b7 Product analytics",
   "seoDescription": "Privacy-first product analytics with real-time dashboards and versioned funnels.",
   "ogImage": null,
   "noIndex": null,
@@ -316,11 +316,7 @@
           ]
         }
       ],
-      "bullets": [
-        "Compare any two versions",
-        "Annotate changes for your team",
-        "Export to your warehouse"
-      ],
+      "bullets": ["Compare any two versions", "Annotate changes for your team", "Export to your warehouse"],
       "actions": [
         {
           "_key": "act-3",
@@ -400,6 +396,29 @@
       ],
       "columns": "4",
       "theme": "muted",
+      "spacing": null,
+      "anchor": null
+    },
+    {
+      "_key": "blk-latest-news",
+      "_type": "latestNews",
+      "eyebrow": "News",
+      "title": "What we are shipping",
+      "description": "Three recent stories from the team.",
+      "source": "article",
+      "category": null,
+      "count": "3",
+      "actions": [
+        {
+          "_key": "latest-news-all",
+          "_type": "action",
+          "label": "See all news",
+          "href": "/news",
+          "variant": "outline",
+          "icon": null
+        }
+      ],
+      "theme": null,
       "spacing": null,
       "anchor": null
     },
@@ -533,12 +552,7 @@
           "price": "$0",
           "period": "/month",
           "description": "For side projects and early experiments.",
-          "features": [
-            "100k events / month",
-            "1 project",
-            "30-day retention",
-            "Community support"
-          ],
+          "features": ["100k events / month", "1 project", "30-day retention", "Community support"],
           "action": [
             {
               "_key": "plan-1-act",
@@ -586,13 +600,7 @@
           "price": "Custom",
           "period": null,
           "description": "For organisations with data residency and SSO needs.",
-          "features": [
-            "Unlimited events",
-            "SSO and SCIM",
-            "Dedicated region",
-            "99.99% SLA",
-            "Named account manager"
-          ],
+          "features": ["Unlimited events", "SSO and SCIM", "Dedicated region", "99.99% SLA", "Named account manager"],
           "action": [
             {
               "_key": "plan-3-act",

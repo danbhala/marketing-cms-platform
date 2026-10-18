@@ -68,11 +68,17 @@ export function createWebhookHandlers(options: WebhookOptions): CmsAdapter["webh
 
       if (contentType === "siteSettings") {
         for (const locale of options.locales) list.push(tags.global(locale))
-      } else if (contentType === "page") {
+      } else if (contentType === "page" || contentType === "article") {
         for (const [contentfulLocale, path] of localizedStrings(body.fields?.path)) {
           for (const locale of siteLocalesFor(contentfulLocale)) list.push(tags.page(locale, path))
         }
         if (!topic || pathTopics.test(topic)) for (const locale of options.locales) list.push(tags.paths(locale))
+        // Any article change alters a listing card; a locale cannot be pinned down, so every listing is tagged.
+        if (contentType === "article")
+          for (const locale of options.locales) list.push(tags.collection(locale, "article"))
+      } else if (contentType === "category") {
+        // Terms appear on cards and filter chips, both inside cached listing pages.
+        for (const locale of options.locales) list.push(tags.collection(locale, "article"))
       } else if (contentType) {
         // The app tags a page with its top-level block ids only, so a changed item two levels down
         // cannot be mapped to its page from the payload. Revalidating every page is cheap under SWR.
@@ -85,7 +91,8 @@ export function createWebhookHandlers(options: WebhookOptions): CmsAdapter["webh
 
       return {
         tags: uniqueTags(list),
-        summary: `contentful: ${topic ?? "unknown topic"} ${entityType ?? ""}${contentType ? `/${contentType}` : ""} ${id ?? ""}`.trim(),
+        summary:
+          `contentful: ${topic ?? "unknown topic"} ${entityType ?? ""}${contentType ? `/${contentType}` : ""} ${id ?? ""}`.trim(),
       }
     },
   }
@@ -100,7 +107,8 @@ function unwrap(payload: unknown): { topic: string | null; body: WebhookBody } {
   return { topic: null, body: asBody(payload) }
 }
 
-const asBody = (value: unknown): WebhookBody => (typeof value === "object" && value !== null ? (value as WebhookBody) : {})
+const asBody = (value: unknown): WebhookBody =>
+  typeof value === "object" && value !== null ? (value as WebhookBody) : {}
 
 /**
  * Webhook bodies carry CMA-style localized fields (`{ "en-US": "/pricing" }`);

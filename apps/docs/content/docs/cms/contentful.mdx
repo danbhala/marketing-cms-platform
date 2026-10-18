@@ -3,7 +3,9 @@ title: Contentful
 description: "Configure the Contentful adapter: environment, migration, live preview and webhook."
 ---
 
-<Callout type="info">The adapter lives in `packages/cms-contentful`. Its README has the step-by-step setup; this page is the summary.</Callout>
+<Callout type="info">
+  The adapter lives in `packages/cms-contentful`. Its README has the step-by-step setup; this page is the summary.
+</Callout>
 
 ## Environment
 
@@ -30,12 +32,19 @@ See [Preview & visual editing](/docs/preview) for the shared flow.
 
 Settings → Webhooks → URL `https://your-site/api/revalidate`, header `x-contentful-webhook-secret`, default payload. The topic comes from `X-Contentful-Topic`. Tags: entries map to `cms:entry:<id>` and `cms:type:<contentType>`; pages add `cms:page:<locale>:<path>` and, on publish/unpublish/archive/delete, `cms:paths`; `siteSettings` maps to `cms:global`; blocks, items and assets fall back to `cms:type:page`.
 
+## Listings
+
+`getCollection` is one `getEntries` call with `content_type=article`, `order` (`-fields.publishedAt` for newest, `fields.publishedAt` for oldest, `fields.title` for title), `skip`/`limit` from the page and page size, and `query=` for free-text search. `total` comes from the response. Filters are term slugs, so the adapter first looks up the matching `category` entries and then filters by `fields.category.sys.id[in]` (or `fields.tags.sys.id[in]`); an unknown slug returns an empty page without a second request. Items are full articles reduced to the summary shape, with `$edit` in draft mode as for pages. `getTaxonomy("category")` returns every category ordered by title, `getDocument` tries `page` then `article` at a path, and `getPaths` lists both types.
+
+The generated model has everything this needs: `article.publishedAt` (`Date`), `article.category` (link to `category`), `article.tags` (array of links) and a unique `category.slug`. Webhooks for articles add `cms:collection:<locale>:article` on top of the page tags; category changes add it too.
+
 ## Mapping notes
 
 - `page.path` is unique and must start with `/`; `select` fields get an `in` validation and default value; `items` min/max become `size` validations; `media` `accept` becomes `linkMimetypeGroup`.
 - Field descriptions become editor help text; rich text node types and marks are limited to what the converter handles.
 - Lists are only required in Contentful when `min` is at least 1, since canonical content defaults them to `[]`.
 - Alt text prefers the asset description over its title.
+- `date` fields use the date picker and are passed through as the ISO string Contentful stores; `reference` fields are entry links restricted to the referenced content types, resolved inline.
 
 ## What the generator emits for a block
 

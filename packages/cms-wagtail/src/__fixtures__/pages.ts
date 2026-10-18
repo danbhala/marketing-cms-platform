@@ -11,9 +11,12 @@ import type { WagtailListing, WagtailPage, WagtailRecord } from "../client"
 export const API_URL = "https://cms.example.com/api/v2"
 export const SITE_URL = "https://www.example.com"
 export const PAGE_TYPE = "platform_cms.ContentPage"
+export const ARTICLE_TYPE = "platform_cms.ArticlePage"
+export const CATEGORY_TYPE = "platform_cms.Category"
 export const SETTINGS_TYPE = "platform_cms.SiteSettings"
 export const HOME_PAGE_ID = 3
 export const PRICING_PAGE_ID = 5
+export const LAUNCH_PAGE_ID = 20
 export const PREVIEW_TOKEN = "id=3:1sKx7a:QJ4nF8w2Yl9bZ0eT3vR5uH6pC1dG7kM8sN2qA4jL0xo"
 
 const stream = (type: string, id: string, value: Record<string, unknown>) => ({ type, value, id })
@@ -31,9 +34,14 @@ const image = (id: number, file: string, title: string, width: number, height: n
   url: `/media/images/${file}`,
 })
 
-const media = (img: ReturnType<typeof image> | null, altText = "", video: Record<string, unknown> | null = null) => ({ image: img, alt_text: altText, video })
+const media = (img: ReturnType<typeof image> | null, altText = "", video: Record<string, unknown> | null = null) => ({
+  image: img,
+  alt_text: altText,
+  video,
+})
 
-const action = (id: string, label: string, href: Record<string, unknown>, variant = "default", icon = "") => item(id, { label, href, variant, icon })
+const action = (id: string, label: string, href: Record<string, unknown>, variant = "default", icon = "") =>
+  item(id, { label, href, variant, icon })
 
 const presentation = { theme: "", spacing: "md", anchor: "" }
 
@@ -60,13 +68,22 @@ export const richTextExtras = [
 ].join("")
 
 export const productScreenshot = image(12, "product-screenshot.png", "Product screenshot", 1200, 800)
-export const funnelVideo = { id: 7, title: "Funnel walkthrough", url: `${API_URL.replace("/api/v2", "")}/documents/7/funnel-walkthrough.mp4`, content_type: "video/mp4" }
+export const funnelVideo = {
+  id: 7,
+  title: "Funnel walkthrough",
+  url: `${API_URL.replace("/api/v2", "")}/documents/7/funnel-walkthrough.mp4`,
+  content_type: "video/mp4",
+}
 
 export const heroBlock = stream("hero", "blk-hero", {
   eyebrow: "Product analytics",
   title: "Understand what your users do, not just where they went",
-  description: "Privacy-first product analytics with real-time dashboards, versioned funnels and pricing that does not punish you for inviting your team.",
-  actions: [action("act-1", "Start free trial", url("/signup")), action("act-2", "Book a demo", url("/demo"), "outline")],
+  description:
+    "Privacy-first product analytics with real-time dashboards, versioned funnels and pricing that does not punish you for inviting your team.",
+  actions: [
+    action("act-1", "Start free trial", url("/signup")),
+    action("act-2", "Book a demo", url("/demo"), "outline"),
+  ],
   media: media(productScreenshot, "Product screenshot"),
   layout: "split",
   ...presentation,
@@ -120,19 +137,29 @@ export const faqBlock = stream("faq", "blk-faq", {
   description: "",
   items: [
     item("faq-1", { question: "Do I need a cookie banner?", answer: "<p>No. Collection is anonymous by design.</p>" }),
-    item("faq-2", { question: "Is there a free plan?", answer: "<p>The Starter plan is free forever for up to 100k events a month.</p>" }),
+    item("faq-2", {
+      question: "Is there a free plan?",
+      answer: "<p>The Starter plan is free forever for up to 100k events a month.</p>",
+    }),
   ],
   layout: "split",
   ...presentation,
 })
 
-export const richTextBlock = stream("rich_text", "blk-richtext", { body: richTextHtml, width: "prose", ...presentation })
+export const richTextBlock = stream("rich_text", "blk-richtext", {
+  body: richTextHtml,
+  width: "prose",
+  ...presentation,
+})
 
 export const ctaBlock = stream("cta", "blk-cta", {
   eyebrow: "",
   title: "Start measuring what matters",
   description: "Free for up to 100k events a month. No credit card, no cookie banner.",
-  actions: [action("act-1b", "Start free trial", url("/signup")), action("act-4", "Talk to sales", url("mailto:sales@example.com"), "secondary")],
+  actions: [
+    action("act-1b", "Start free trial", url("/signup")),
+    action("act-4", "Talk to sales", url("mailto:sales@example.com"), "secondary"),
+  ],
   layout: "centered",
   ...presentation,
   theme: "brand",
@@ -191,21 +218,36 @@ export const pricingPage: WagtailPage = {
 }
 
 /** The draft behind `PREVIEW_TOKEN`: the home page with an unpublished title change. */
-export const previewPage: WagtailPage = { ...homePage, title: "Metrica · Draft title", meta: { ...homePage.meta, detail_url: `${API_URL}/pages/0/` } }
+export const previewPage: WagtailPage = {
+  ...homePage,
+  title: "Metrica · Draft title",
+  meta: { ...homePage.meta, detail_url: `${API_URL}/pages/0/` },
+}
 
 /** A page previewed before its first save: no URL yet, so `html_url` is null. */
-export const unsavedPreviewPage: WagtailPage = { ...pricingPage, id: 0, meta: { ...pricingPage.meta, html_url: null, detail_url: `${API_URL}/pages/0/` } }
+export const unsavedPreviewPage: WagtailPage = {
+  ...pricingPage,
+  id: 0,
+  meta: { ...pricingPage.meta, html_url: null, detail_url: `${API_URL}/pages/0/` },
+}
 
 export const pagesListing: WagtailListing<WagtailPage> = {
   meta: { total_count: 2 },
   items: [homePage, pricingPage].map((page) => ({
     id: page.id,
-    meta: { type: page.meta.type, detail_url: page.meta.detail_url, html_url: page.meta.html_url, slug: page.meta.slug, first_published_at: page.meta.first_published_at },
+    meta: {
+      type: page.meta.type,
+      detail_url: page.meta.detail_url,
+      html_url: page.meta.html_url,
+      slug: page.meta.slug,
+      first_published_at: page.meta.first_published_at,
+    },
     title: page.title,
   })),
 }
 
-const navLink = (id: string, label: string, href: string, description = "") => item(id, { label, href: url(href), description })
+const navLink = (id: string, label: string, href: string, description = "") =>
+  item(id, { label, href: url(href), description })
 
 export const settingsRecord: WagtailRecord = {
   id: 1,
@@ -219,19 +261,120 @@ export const settingsRecord: WagtailRecord = {
     stream("nav_group", "nav-product", {
       label: "Product",
       href: url(""),
-      links: [navLink("nav-1", "Dashboards", "/product/dashboards/", "Real-time, shareable, boring in the best way."), navLink("nav-2", "Funnels", "/product/funnels/")],
+      links: [
+        navLink("nav-1", "Dashboards", "/product/dashboards/", "Real-time, shareable, boring in the best way."),
+        navLink("nav-2", "Funnels", "/product/funnels/"),
+      ],
     }),
-    stream("nav_group", "nav-pricing", { label: "Pricing", href: pageLink(PRICING_PAGE_ID, "/pricing/", "Pricing"), links: [] }),
+    stream("nav_group", "nav-pricing", {
+      label: "Pricing",
+      href: pageLink(PRICING_PAGE_ID, "/pricing/", "Pricing"),
+      links: [],
+    }),
   ],
   header_actions: [action("hdr-1", "Sign in", url("/login"), "ghost"), action("hdr-2", "Start free", url("/signup"))],
-  footer_columns: [stream("footer_column", "fc-1", { title: "Resources", links: [navLink("fl-9", "Status", "https://status.example.com")] })],
+  footer_columns: [
+    stream("footer_column", "fc-1", {
+      title: "Resources",
+      links: [navLink("fl-9", "Status", "https://status.example.com")],
+    }),
+  ],
   footer_note: "© 2026 Metrica, Inc. All rights reserved.",
   social_links: [stream("social_link", "soc-1", { platform: "x", href: url("https://x.com/example") })],
 }
 
 export const settingsListing: WagtailListing<WagtailRecord> = { meta: { total_count: 1 }, items: [settingsRecord] }
 
+/** `GET /api/v2/category/` items, and what `CategorySerializer` inlines on an article. */
+const category = (id: number, title: string, slug: string, description = "") => ({
+  id,
+  meta: { type: CATEGORY_TYPE, detail_url: `${API_URL}/category/${id}/` },
+  title,
+  slug,
+  description,
+})
+export const productCategory = category(1, "Product news", "product-news", "Releases, improvements and deprecations.")
+export const eventsCategory = category(2, "Events", "events")
+export const categoryListing: WagtailListing<WagtailRecord> = {
+  meta: { total_count: 2 },
+  items: [productCategory, eventsCategory],
+}
+
+const articleMeta = (id: number, path: string, slug: string) => ({
+  ...pageMeta(id, path, slug),
+  type: ARTICLE_TYPE,
+  parent: { id: 7, meta: { type: PAGE_TYPE } },
+})
+
+/** `GET /api/v2/pages/find/?html_path=/news/launch` for an `ArticlePage`. */
+export const launchArticle: WagtailPage = {
+  id: LAUNCH_PAGE_ID,
+  meta: articleMeta(LAUNCH_PAGE_ID, "/news/launch/", "launch"),
+  title: "Cohorts and alerts are live",
+  published_at: "2026-10-14",
+  excerpt: "Build cohorts from any property and get a message the moment a metric moves.",
+  image: productScreenshot,
+  category: productCategory,
+  tags: [eventsCategory],
+  body: "<p>Cohorts group people by what they did.</p>",
+  blocks: [],
+  seo_title: "",
+  seo_description: "",
+  no_index: false,
+}
+
+export const summitArticle: WagtailPage = {
+  id: 21,
+  meta: articleMeta(21, "/news/summit/", "summit"),
+  title: "Join us at Measure Summit",
+  // A DateTimeField would send a timestamp; the adapter normalises it to UTC.
+  published_at: "2026-09-25T09:30:00+02:00",
+  excerpt: "",
+  image: null,
+  category: eventsCategory,
+  tags: [],
+  body: "<p>Three talks and a booth.</p>",
+  blocks: [],
+  no_index: false,
+}
+
+export const articles = [launchArticle, summitArticle]
+
+/** A `pages/?type=platform_cms.ArticlePage&fields=published_at,excerpt,image,category,tags` item: default listing fields plus the requested ones. */
+export const articleListingItem = (article: WagtailPage): WagtailPage => ({
+  id: article.id,
+  meta: {
+    type: article.meta.type,
+    detail_url: article.meta.detail_url,
+    html_url: article.meta.html_url,
+    slug: article.meta.slug,
+    first_published_at: article.meta.first_published_at,
+    locale: "en",
+  },
+  title: article.title,
+  published_at: article.published_at,
+  excerpt: article.excerpt,
+  image: article.image,
+  category: article.category,
+  tags: article.tags,
+})
+
 /** Payloads as `platform_cms/signals.py` posts them. */
 export const webhookPublished = { event: "page_published", id: HOME_PAGE_ID, type: PAGE_TYPE, locale: "en", path: "/" }
-export const webhookMoved = { event: "page_moved", id: PRICING_PAGE_ID, type: PAGE_TYPE, locale: "en", path: "/plans/pricing/", old_path: "/pricing/" }
+export const webhookMoved = {
+  event: "page_moved",
+  id: PRICING_PAGE_ID,
+  type: PAGE_TYPE,
+  locale: "en",
+  path: "/plans/pricing/",
+  old_path: "/pricing/",
+}
 export const webhookSettings = { event: "settings_updated", id: 1, type: SETTINGS_TYPE }
+export const webhookArticle = {
+  event: "page_published",
+  id: LAUNCH_PAGE_ID,
+  type: ARTICLE_TYPE,
+  locale: "en",
+  path: "/news/launch/",
+}
+export const webhookTerm = { event: "term_updated", id: 2, type: CATEGORY_TYPE }

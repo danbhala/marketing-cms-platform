@@ -41,12 +41,17 @@ export function HomeHero() {
   return (
     <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <div className="flex flex-col gap-5">
-        <h1 className="text-4xl font-semibold tracking-tight text-balance lg:text-5xl">One marketing front-end, any CMS</h1>
-        <p className="max-w-md text-lg text-fd-muted-foreground">
-          shadcn blocks, one content model, adapters for six CMSs. The demo site is one set of markup; each brand is only CSS variables.
+        <h1 className="text-4xl font-semibold tracking-tight text-balance lg:text-5xl">
+          One marketing front-end, any CMS
+        </h1>
+        <p className="text-fd-muted-foreground max-w-md text-lg">
+          shadcn blocks, one content model, adapters for six CMSs. The demo site is one set of markup; each brand is
+          only CSS variables.
         </p>
         <div className="flex flex-col gap-2">
-          <span className="text-xs font-medium tracking-wide text-fd-muted-foreground uppercase">Same page, six brands</span>
+          <span className="text-fd-muted-foreground text-xs font-medium tracking-wide uppercase">
+            Same page, six brands
+          </span>
           <div role="group" aria-label="Brand" className="flex flex-wrap gap-1.5">
             {showcases.map((s, i) => (
               <button
@@ -54,34 +59,57 @@ export function HomeHero() {
                 type="button"
                 aria-pressed={i === index}
                 onClick={() => pick(i)}
-                className="inline-flex h-8 items-center gap-2 rounded-full border px-3 text-sm transition-colors aria-pressed:border-fd-foreground aria-pressed:bg-fd-foreground aria-pressed:text-fd-background hover:border-fd-foreground/40"
+                className="aria-pressed:border-fd-foreground aria-pressed:bg-fd-foreground aria-pressed:text-fd-background hover:border-fd-foreground/40 inline-flex h-8 items-center gap-2 rounded-full border px-3 text-sm transition-colors"
               >
-                <span aria-hidden className="size-2.5 rounded-full ring-1 ring-black/10" style={{ background: themeToVars(s.theme)["--primary"] }} />
+                <span
+                  aria-hidden
+                  className="size-2.5 rounded-full ring-1 ring-black/10"
+                  style={{ background: themeToVars(s.theme)["--primary"] }}
+                />
                 {s.name}
               </button>
             ))}
           </div>
-          <p className="font-mono text-xs text-fd-muted-foreground" aria-live="polite">
-            {fontById(theme.fonts.heading).label} · {fontById(theme.fonts.body).label} · radius {theme.radius}rem · {theme.scheme}
+          <p className="text-fd-muted-foreground font-mono text-xs" aria-live="polite">
+            {fontById(theme.fonts.heading).label} · {fontById(theme.fonts.body).label} · radius {theme.radius}rem ·{" "}
+            {theme.scheme}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link href="/docs" className="inline-flex h-10 items-center rounded-lg bg-fd-primary px-4 text-sm font-medium text-fd-primary-foreground hover:bg-fd-primary/90">
+          <Link
+            href="/docs"
+            className="bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/90 inline-flex h-10 items-center rounded-lg px-4 text-sm font-medium"
+          >
             Get started
           </Link>
-          <Link href={`/theme#t=${encodeTheme(theme)}`} className="inline-flex h-10 items-center rounded-lg border px-4 text-sm font-medium hover:bg-fd-accent">
+          <Link
+            href={`/theme#t=${encodeTheme(theme)}`}
+            className="hover:bg-fd-accent inline-flex h-10 items-center rounded-lg border px-4 text-sm font-medium"
+          >
             Edit {showcase.name} in the studio
           </Link>
         </div>
       </div>
 
-      <BrandFrame onHover={setHovered} themeStyle={themeToStyle(theme)} label={`${showcase.name} brand applied to the demo site`} />
+      <BrandFrame
+        onHover={setHovered}
+        themeStyle={themeToStyle(theme)}
+        label={`${showcase.name} brand applied to the demo site`}
+      />
     </section>
   )
 }
 
 /** Renders the demo site at desktop width and scales it to fit its column, or at phone width on small screens. */
-function BrandFrame({ themeStyle, label, onHover }: { themeStyle: React.CSSProperties; label: string; onHover: (hovered: boolean) => void }) {
+function BrandFrame({
+  themeStyle,
+  label,
+  onHover,
+}: {
+  themeStyle: React.CSSProperties
+  label: string
+  onHover: (hovered: boolean) => void
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const [pane, setPane] = useState(0)
   useEffect(() => {
@@ -95,8 +123,17 @@ function BrandFrame({ themeStyle, label, onHover }: { themeStyle: React.CSSPrope
   const zoom = pane > 0 ? Math.min(1, pane / width) : 1
   return (
     <div ref={ref} className="min-w-0" onPointerEnter={() => onHover(true)} onPointerLeave={() => onHover(false)}>
-      <div className="mx-auto overflow-hidden rounded-xl border shadow-xl" style={{ width: width * zoom, visibility: pane > 0 ? "visible" : "hidden" }} aria-label={label} role="img">
-        <div className="home-brand-frame @container/section bg-background text-foreground" style={{ width, zoom, ...themeStyle }} inert>
+      <div
+        className="mx-auto overflow-hidden rounded-xl border shadow-xl"
+        style={{ width: width * zoom, visibility: pane > 0 ? "visible" : "hidden" }}
+        aria-label={label}
+        role="img"
+      >
+        <div
+          className="home-brand-frame @container/section bg-background text-foreground"
+          style={{ width, zoom, ...themeStyle }}
+          inert
+        >
           <SiteHeader settings={demoSettings} />
           <BlockList blocks={demoBlocks} />
         </div>

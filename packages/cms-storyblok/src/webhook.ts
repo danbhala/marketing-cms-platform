@@ -74,6 +74,12 @@ export function createWebhook(options: WebhookOptions): CmsAdapter["webhook"] {
         // Unpublishing, deleting or moving a story changes the links and
         // breadcrumbs other pages render, so every page is refreshed.
         if (!isSettings && crossPageActions.has(action)) list.push(tags.type("page"))
+        // The payload does not say which content type changed, so any story
+        // may be an article or a term: every listing is refreshed too.
+        if (!isSettings) {
+          list.push(tags.type("article"), tags.type("category"))
+          for (const locale of options.locales) list.push(tags.collection(locale, "article"))
+        }
       }
 
       return {

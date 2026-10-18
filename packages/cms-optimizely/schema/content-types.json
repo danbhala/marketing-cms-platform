@@ -55,6 +55,13 @@
         "sortOrder": 40,
         "type": "string",
         "format": "shortString"
+      },
+      "magnetic": {
+        "displayName": "Magnetic",
+        "description": "Pull the button towards the pointer on hover (mouse only).",
+        "group": "Content",
+        "sortOrder": 50,
+        "type": "boolean"
       }
     }
   },
@@ -388,6 +395,32 @@
         "displayName": "Href",
         "group": "Content",
         "sortOrder": 60,
+        "type": "string",
+        "format": "shortString"
+      }
+    }
+  },
+  {
+    "key": "GalleryItemItem",
+    "displayName": "Gallery item",
+    "baseType": "_component",
+    "properties": {
+      "media": {
+        "displayName": "Media",
+        "group": "Content",
+        "sortOrder": 10,
+        "isRequired": true,
+        "type": "contentReference",
+        "allowedTypes": [
+          "_image",
+          "_video",
+          "_media"
+        ]
+      },
+      "caption": {
+        "displayName": "Caption",
+        "group": "Content",
+        "sortOrder": 20,
         "type": "string",
         "format": "shortString"
       }
@@ -785,11 +818,37 @@
           }
         ]
       },
+      "scrollEffect": {
+        "displayName": "Scroll effect",
+        "description": "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+        "group": "Content",
+        "sortOrder": 70,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "parallax",
+            "displayName": "Parallax"
+          },
+          {
+            "value": "zoom",
+            "displayName": "Zoom"
+          },
+          {
+            "value": "fade",
+            "displayName": "Fade"
+          }
+        ]
+      },
       "theme": {
         "displayName": "Theme",
         "description": "Applies a theme class to this block only.",
         "group": "Settings",
-        "sortOrder": 70,
+        "sortOrder": 80,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -834,7 +893,7 @@
       "spacing": {
         "displayName": "Spacing",
         "group": "Settings",
-        "sortOrder": 80,
+        "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -860,9 +919,134 @@
         "displayName": "Anchor",
         "description": "Optional id for in-page links, e.g. 'pricing'.",
         "group": "Settings",
-        "sortOrder": 90,
+        "sortOrder": 100,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 150,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -904,20 +1088,46 @@
           {
             "value": "grid",
             "displayName": "Grid"
+          },
+          {
+            "value": "marquee",
+            "displayName": "Marquee"
+          }
+        ]
+      },
+      "marqueeSpeed": {
+        "displayName": "Marquee speed",
+        "description": "Only used by the marquee layout.",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "fast",
+            "displayName": "Fast"
           }
         ]
       },
       "grayscale": {
         "displayName": "Grayscale",
         "group": "Content",
-        "sortOrder": 40,
+        "sortOrder": 50,
         "type": "boolean"
       },
       "theme": {
         "displayName": "Theme",
         "description": "Applies a theme class to this block only.",
         "group": "Settings",
-        "sortOrder": 50,
+        "sortOrder": 60,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -962,7 +1172,7 @@
       "spacing": {
         "displayName": "Spacing",
         "group": "Settings",
-        "sortOrder": 60,
+        "sortOrder": 70,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -988,9 +1198,134 @@
         "displayName": "Anchor",
         "description": "Optional id for in-page links, e.g. 'pricing'.",
         "group": "Settings",
-        "sortOrder": 70,
+        "sortOrder": 80,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -1147,6 +1482,131 @@
         "sortOrder": 90,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -1304,6 +1764,131 @@
         "sortOrder": 100,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 150,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -1365,11 +1950,18 @@
           }
         ]
       },
+      "countUp": {
+        "displayName": "Count up",
+        "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+        "group": "Content",
+        "sortOrder": 60,
+        "type": "boolean"
+      },
       "theme": {
         "displayName": "Theme",
         "description": "Applies a theme class to this block only.",
         "group": "Settings",
-        "sortOrder": 60,
+        "sortOrder": 70,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -1414,7 +2006,7 @@
       "spacing": {
         "displayName": "Spacing",
         "group": "Settings",
-        "sortOrder": 70,
+        "sortOrder": 80,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -1440,9 +2032,134 @@
         "displayName": "Anchor",
         "description": "Optional id for in-page links, e.g. 'pricing'.",
         "group": "Settings",
-        "sortOrder": 80,
+        "sortOrder": 90,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -1497,8 +2214,289 @@
           {
             "value": "featured",
             "displayName": "Featured"
+          },
+          {
+            "value": "carousel",
+            "displayName": "Carousel"
+          },
+          {
+            "value": "marquee",
+            "displayName": "Marquee"
           }
         ]
+      },
+      "marqueeSpeed": {
+        "displayName": "Marquee speed",
+        "description": "Only used by the marquee layout.",
+        "group": "Content",
+        "sortOrder": 60,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          }
+        ]
+      },
+      "theme": {
+        "displayName": "Theme",
+        "description": "Applies a theme class to this block only.",
+        "group": "Settings",
+        "sortOrder": 70,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "light",
+            "displayName": "Light"
+          },
+          {
+            "value": "dark",
+            "displayName": "Dark"
+          },
+          {
+            "value": "brand",
+            "displayName": "Brand"
+          },
+          {
+            "value": "muted",
+            "displayName": "Muted"
+          },
+          {
+            "value": "blue",
+            "displayName": "Blue"
+          },
+          {
+            "value": "green",
+            "displayName": "Green"
+          },
+          {
+            "value": "orange",
+            "displayName": "Orange"
+          },
+          {
+            "value": "rose",
+            "displayName": "Rose"
+          },
+          {
+            "value": "violet",
+            "displayName": "Violet"
+          }
+        ]
+      },
+      "spacing": {
+        "displayName": "Spacing",
+        "group": "Settings",
+        "sortOrder": 80,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "sm",
+            "displayName": "Sm"
+          },
+          {
+            "value": "md",
+            "displayName": "Md"
+          },
+          {
+            "value": "lg",
+            "displayName": "Lg"
+          }
+        ]
+      },
+      "anchor": {
+        "displayName": "Anchor",
+        "description": "Optional id for in-page links, e.g. 'pricing'.",
+        "group": "Settings",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "PricingBlock",
+    "displayName": "Pricing table",
+    "baseType": "_component",
+    "properties": {
+      "eyebrow": {
+        "displayName": "Eyebrow",
+        "group": "Content",
+        "sortOrder": 10,
+        "type": "string",
+        "format": "shortString"
+      },
+      "title": {
+        "displayName": "Title",
+        "group": "Content",
+        "sortOrder": 20,
+        "type": "string",
+        "format": "shortString"
+      },
+      "description": {
+        "displayName": "Description",
+        "group": "Content",
+        "sortOrder": 30,
+        "type": "string"
+      },
+      "plans": {
+        "displayName": "Plans",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "PricingPlanItem"
+          ]
+        },
+        "maxItems": 4
+      },
+      "countUp": {
+        "displayName": "Count up",
+        "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+        "group": "Content",
+        "sortOrder": 50,
+        "type": "boolean"
       },
       "theme": {
         "displayName": "Theme",
@@ -1578,97 +2576,12 @@
         "sortOrder": 80,
         "type": "string",
         "format": "shortString"
-      }
-    }
-  },
-  {
-    "key": "PricingBlock",
-    "displayName": "Pricing table",
-    "baseType": "_component",
-    "properties": {
-      "eyebrow": {
-        "displayName": "Eyebrow",
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
         "group": "Content",
-        "sortOrder": 10,
-        "type": "string",
-        "format": "shortString"
-      },
-      "title": {
-        "displayName": "Title",
-        "group": "Content",
-        "sortOrder": 20,
-        "type": "string",
-        "format": "shortString"
-      },
-      "description": {
-        "displayName": "Description",
-        "group": "Content",
-        "sortOrder": 30,
-        "type": "string"
-      },
-      "plans": {
-        "displayName": "Plans",
-        "group": "Content",
-        "sortOrder": 40,
-        "type": "array",
-        "items": {
-          "type": "content",
-          "allowedTypes": [
-            "PricingPlanItem"
-          ]
-        },
-        "maxItems": 4
-      },
-      "theme": {
-        "displayName": "Theme",
-        "description": "Applies a theme class to this block only.",
-        "group": "Settings",
-        "sortOrder": 50,
-        "type": "string",
-        "format": "selectOne",
-        "enum": [
-          {
-            "value": "light",
-            "displayName": "Light"
-          },
-          {
-            "value": "dark",
-            "displayName": "Dark"
-          },
-          {
-            "value": "brand",
-            "displayName": "Brand"
-          },
-          {
-            "value": "muted",
-            "displayName": "Muted"
-          },
-          {
-            "value": "blue",
-            "displayName": "Blue"
-          },
-          {
-            "value": "green",
-            "displayName": "Green"
-          },
-          {
-            "value": "orange",
-            "displayName": "Orange"
-          },
-          {
-            "value": "rose",
-            "displayName": "Rose"
-          },
-          {
-            "value": "violet",
-            "displayName": "Violet"
-          }
-        ]
-      },
-      "spacing": {
-        "displayName": "Spacing",
-        "group": "Settings",
-        "sortOrder": 60,
+        "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -1677,26 +2590,117 @@
             "displayName": "None"
           },
           {
-            "value": "sm",
-            "displayName": "Sm"
+            "value": "fadeUp",
+            "displayName": "Fade Up"
           },
           {
-            "value": "md",
-            "displayName": "Md"
+            "value": "fadeIn",
+            "displayName": "Fade In"
           },
           {
-            "value": "lg",
-            "displayName": "Lg"
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
           }
         ]
       },
-      "anchor": {
-        "displayName": "Anchor",
-        "description": "Optional id for in-page links, e.g. 'pricing'.",
-        "group": "Settings",
-        "sortOrder": 70,
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 110,
         "type": "string",
-        "format": "shortString"
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -1827,6 +2831,131 @@
         "sortOrder": 80,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -1962,6 +3091,131 @@
         "sortOrder": 80,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -2099,6 +3353,131 @@
         "sortOrder": 80,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -2251,6 +3630,131 @@
         "sortOrder": 90,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -2386,6 +3890,131 @@
         "sortOrder": 80,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -2521,6 +4150,131 @@
         "sortOrder": 80,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -2639,6 +4393,131 @@
         "sortOrder": 70,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 80,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -2749,6 +4628,131 @@
         "sortOrder": 50,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 60,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 70,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 80,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -2793,11 +4797,37 @@
           }
         ]
       },
+      "scrollEffect": {
+        "displayName": "Scroll effect",
+        "description": "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "parallax",
+            "displayName": "Parallax"
+          },
+          {
+            "value": "zoom",
+            "displayName": "Zoom"
+          },
+          {
+            "value": "fade",
+            "displayName": "Fade"
+          }
+        ]
+      },
       "theme": {
         "displayName": "Theme",
         "description": "Applies a theme class to this block only.",
         "group": "Settings",
-        "sortOrder": 40,
+        "sortOrder": 50,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -2842,7 +4872,7 @@
       "spacing": {
         "displayName": "Spacing",
         "group": "Settings",
-        "sortOrder": 50,
+        "sortOrder": 60,
         "type": "string",
         "format": "selectOne",
         "enum": [
@@ -2868,9 +4898,442 @@
         "displayName": "Anchor",
         "description": "Optional id for in-page links, e.g. 'pricing'.",
         "group": "Settings",
-        "sortOrder": 60,
+        "sortOrder": 70,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 80,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "GalleryBlock",
+    "displayName": "Gallery",
+    "baseType": "_component",
+    "properties": {
+      "eyebrow": {
+        "displayName": "Eyebrow",
+        "group": "Content",
+        "sortOrder": 10,
+        "type": "string",
+        "format": "shortString"
+      },
+      "title": {
+        "displayName": "Title",
+        "group": "Content",
+        "sortOrder": 20,
+        "type": "string",
+        "format": "shortString"
+      },
+      "description": {
+        "displayName": "Description",
+        "group": "Content",
+        "sortOrder": 30,
+        "type": "string"
+      },
+      "items": {
+        "displayName": "Items",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "GalleryItemItem"
+          ]
+        }
+      },
+      "layout": {
+        "displayName": "Layout",
+        "description": "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.",
+        "group": "Content",
+        "sortOrder": 50,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "grid",
+            "displayName": "Grid"
+          },
+          {
+            "value": "masonry",
+            "displayName": "Masonry"
+          },
+          {
+            "value": "featured",
+            "displayName": "Featured"
+          },
+          {
+            "value": "stage",
+            "displayName": "Stage"
+          },
+          {
+            "value": "strip",
+            "displayName": "Strip"
+          }
+        ]
+      },
+      "columns": {
+        "displayName": "Columns",
+        "group": "Content",
+        "sortOrder": 60,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "2",
+            "displayName": "2"
+          },
+          {
+            "value": "3",
+            "displayName": "3"
+          },
+          {
+            "value": "4",
+            "displayName": "4"
+          }
+        ]
+      },
+      "lightbox": {
+        "displayName": "Lightbox",
+        "description": "Open items full screen on tap, with previous and next.",
+        "group": "Content",
+        "sortOrder": 70,
+        "type": "boolean"
+      },
+      "autoplay": {
+        "displayName": "Autoplay",
+        "description": "Stage layout only: advance every few seconds, with a pause control.",
+        "group": "Content",
+        "sortOrder": 80,
+        "type": "boolean"
+      },
+      "theme": {
+        "displayName": "Theme",
+        "description": "Applies a theme class to this block only.",
+        "group": "Settings",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "light",
+            "displayName": "Light"
+          },
+          {
+            "value": "dark",
+            "displayName": "Dark"
+          },
+          {
+            "value": "brand",
+            "displayName": "Brand"
+          },
+          {
+            "value": "muted",
+            "displayName": "Muted"
+          },
+          {
+            "value": "blue",
+            "displayName": "Blue"
+          },
+          {
+            "value": "green",
+            "displayName": "Green"
+          },
+          {
+            "value": "orange",
+            "displayName": "Orange"
+          },
+          {
+            "value": "rose",
+            "displayName": "Rose"
+          },
+          {
+            "value": "violet",
+            "displayName": "Violet"
+          }
+        ]
+      },
+      "spacing": {
+        "displayName": "Spacing",
+        "group": "Settings",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "sm",
+            "displayName": "Sm"
+          },
+          {
+            "value": "md",
+            "displayName": "Md"
+          },
+          {
+            "value": "lg",
+            "displayName": "Lg"
+          }
+        ]
+      },
+      "anchor": {
+        "displayName": "Anchor",
+        "description": "Optional id for in-page links, e.g. 'pricing'.",
+        "group": "Settings",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 150,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 160,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -3037,6 +5500,759 @@
         "sortOrder": 120,
         "type": "string",
         "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 150,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 160,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 170,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "CollectionBlock",
+    "displayName": "Collection",
+    "baseType": "_component",
+    "properties": {
+      "eyebrow": {
+        "displayName": "Eyebrow",
+        "group": "Content",
+        "sortOrder": 10,
+        "type": "string",
+        "format": "shortString"
+      },
+      "title": {
+        "displayName": "Title",
+        "group": "Content",
+        "sortOrder": 20,
+        "type": "string",
+        "format": "shortString"
+      },
+      "description": {
+        "displayName": "Description",
+        "group": "Content",
+        "sortOrder": 30,
+        "type": "string"
+      },
+      "source": {
+        "displayName": "Source",
+        "description": "Which document type to list.",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "article",
+            "displayName": "Article"
+          }
+        ]
+      },
+      "pageSize": {
+        "displayName": "Page Size",
+        "description": "Items per page. Defaults to 12.",
+        "group": "Content",
+        "sortOrder": 50,
+        "type": "float"
+      },
+      "filters": {
+        "displayName": "Filters",
+        "description": "Taxonomy shown as filter chips.",
+        "group": "Content",
+        "sortOrder": 60,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "category",
+            "displayName": "Category"
+          },
+          {
+            "value": "tags",
+            "displayName": "Tags"
+          }
+        ]
+      },
+      "search": {
+        "displayName": "Search",
+        "description": "Show a search box. Searches use the CMS's own search and are never cached.",
+        "group": "Content",
+        "sortOrder": 70,
+        "type": "boolean"
+      },
+      "sort": {
+        "displayName": "Sort",
+        "description": "Default order; visitors can change it.",
+        "group": "Content",
+        "sortOrder": 80,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "newest",
+            "displayName": "Newest"
+          },
+          {
+            "value": "oldest",
+            "displayName": "Oldest"
+          },
+          {
+            "value": "title",
+            "displayName": "Title"
+          }
+        ]
+      },
+      "emptyMessage": {
+        "displayName": "Empty Message",
+        "description": "Shown when no items match.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "shortString"
+      },
+      "theme": {
+        "displayName": "Theme",
+        "description": "Applies a theme class to this block only.",
+        "group": "Settings",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "light",
+            "displayName": "Light"
+          },
+          {
+            "value": "dark",
+            "displayName": "Dark"
+          },
+          {
+            "value": "brand",
+            "displayName": "Brand"
+          },
+          {
+            "value": "muted",
+            "displayName": "Muted"
+          },
+          {
+            "value": "blue",
+            "displayName": "Blue"
+          },
+          {
+            "value": "green",
+            "displayName": "Green"
+          },
+          {
+            "value": "orange",
+            "displayName": "Orange"
+          },
+          {
+            "value": "rose",
+            "displayName": "Rose"
+          },
+          {
+            "value": "violet",
+            "displayName": "Violet"
+          }
+        ]
+      },
+      "spacing": {
+        "displayName": "Spacing",
+        "group": "Settings",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "sm",
+            "displayName": "Sm"
+          },
+          {
+            "value": "md",
+            "displayName": "Md"
+          },
+          {
+            "value": "lg",
+            "displayName": "Lg"
+          }
+        ]
+      },
+      "anchor": {
+        "displayName": "Anchor",
+        "description": "Optional id for in-page links, e.g. 'pricing'.",
+        "group": "Settings",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 150,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 160,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 170,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "CategoryPage",
+    "displayName": "Category",
+    "baseType": "_page",
+    "properties": {
+      "title": {
+        "displayName": "Title",
+        "group": "Content",
+        "sortOrder": 10,
+        "isRequired": true,
+        "type": "string",
+        "format": "shortString"
+      },
+      "slug": {
+        "displayName": "Slug",
+        "description": "URL-safe key used in listing filters, e.g. product-news.",
+        "group": "Content",
+        "sortOrder": 20,
+        "isRequired": true,
+        "type": "string",
+        "format": "shortString"
+      },
+      "description": {
+        "displayName": "Description",
+        "group": "Content",
+        "sortOrder": 30,
+        "type": "string"
+      }
+    }
+  },
+  {
+    "key": "LatestNewsBlock",
+    "displayName": "Latest news",
+    "baseType": "_component",
+    "properties": {
+      "eyebrow": {
+        "displayName": "Eyebrow",
+        "group": "Content",
+        "sortOrder": 10,
+        "type": "string",
+        "format": "shortString"
+      },
+      "title": {
+        "displayName": "Title",
+        "group": "Content",
+        "sortOrder": 20,
+        "type": "string",
+        "format": "shortString"
+      },
+      "description": {
+        "displayName": "Description",
+        "group": "Content",
+        "sortOrder": 30,
+        "type": "string"
+      },
+      "source": {
+        "displayName": "Source",
+        "description": "Which document type to show.",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "article",
+            "displayName": "Article"
+          }
+        ]
+      },
+      "category": {
+        "displayName": "Category",
+        "description": "Only show items in this category. Empty shows every category.",
+        "group": "Content",
+        "sortOrder": 50,
+        "type": "contentReference",
+        "allowedTypes": [
+          "CategoryPage"
+        ]
+      },
+      "count": {
+        "displayName": "Count",
+        "description": "How many items; the grid always fills.",
+        "group": "Content",
+        "sortOrder": 60,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "3",
+            "displayName": "3"
+          },
+          {
+            "value": "4",
+            "displayName": "4"
+          },
+          {
+            "value": "6",
+            "displayName": "6"
+          }
+        ]
+      },
+      "actions": {
+        "displayName": "Actions",
+        "description": "The \"see all\" link. Left empty, it links to the page that lists this type.",
+        "group": "Content",
+        "sortOrder": 70,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "ActionItem"
+          ]
+        },
+        "maxItems": 1
+      },
+      "theme": {
+        "displayName": "Theme",
+        "description": "Applies a theme class to this block only.",
+        "group": "Settings",
+        "sortOrder": 80,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "light",
+            "displayName": "Light"
+          },
+          {
+            "value": "dark",
+            "displayName": "Dark"
+          },
+          {
+            "value": "brand",
+            "displayName": "Brand"
+          },
+          {
+            "value": "muted",
+            "displayName": "Muted"
+          },
+          {
+            "value": "blue",
+            "displayName": "Blue"
+          },
+          {
+            "value": "green",
+            "displayName": "Green"
+          },
+          {
+            "value": "orange",
+            "displayName": "Orange"
+          },
+          {
+            "value": "rose",
+            "displayName": "Rose"
+          },
+          {
+            "value": "violet",
+            "displayName": "Violet"
+          }
+        ]
+      },
+      "spacing": {
+        "displayName": "Spacing",
+        "group": "Settings",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "sm",
+            "displayName": "Sm"
+          },
+          {
+            "value": "md",
+            "displayName": "Md"
+          },
+          {
+            "value": "lg",
+            "displayName": "Lg"
+          }
+        ]
+      },
+      "anchor": {
+        "displayName": "Anchor",
+        "description": "Optional id for in-page links, e.g. 'pricing'.",
+        "group": "Settings",
+        "sortOrder": 100,
+        "type": "string",
+        "format": "shortString"
+      },
+      "animation": {
+        "displayName": "Animation",
+        "description": "Entrance animation played once when the block scrolls into view.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "fadeUp",
+            "displayName": "Fade Up"
+          },
+          {
+            "value": "fadeIn",
+            "displayName": "Fade In"
+          },
+          {
+            "value": "scaleIn",
+            "displayName": "Scale In"
+          },
+          {
+            "value": "slideFromLeft",
+            "displayName": "Slide From Left"
+          },
+          {
+            "value": "slideFromRight",
+            "displayName": "Slide From Right"
+          },
+          {
+            "value": "blurIn",
+            "displayName": "Blur In"
+          }
+        ]
+      },
+      "animationStagger": {
+        "displayName": "Stagger items",
+        "description": "Reveal the block's items one after another instead of all at once.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "boolean"
+      },
+      "headingAnimation": {
+        "displayName": "Heading animation",
+        "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "words",
+            "displayName": "Words"
+          },
+          {
+            "value": "characters",
+            "displayName": "Characters"
+          },
+          {
+            "value": "lines",
+            "displayName": "Lines"
+          },
+          {
+            "value": "typewriter",
+            "displayName": "Typewriter"
+          },
+          {
+            "value": "scramble",
+            "displayName": "Scramble"
+          }
+        ]
+      },
+      "animationDuration": {
+        "displayName": "Animation Duration",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "fast",
+            "displayName": "Fast"
+          },
+          {
+            "value": "normal",
+            "displayName": "Normal"
+          },
+          {
+            "value": "slow",
+            "displayName": "Slow"
+          }
+        ]
+      },
+      "animationDelay": {
+        "displayName": "Animation Delay",
+        "group": "Content",
+        "sortOrder": 150,
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "none",
+            "displayName": "None"
+          },
+          {
+            "value": "short",
+            "displayName": "Short"
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium"
+          },
+          {
+            "value": "long",
+            "displayName": "Long"
+          }
+        ]
       }
     }
   },
@@ -3159,9 +6375,132 @@
             "TabsBlock",
             "RichTextBlock",
             "MediaBlock",
-            "FormBlock"
+            "GalleryBlock",
+            "FormBlock",
+            "CollectionBlock",
+            "LatestNewsBlock"
           ]
         }
+      }
+    }
+  },
+  {
+    "key": "ArticlePage",
+    "displayName": "Article",
+    "baseType": "_page",
+    "properties": {
+      "title": {
+        "displayName": "Title",
+        "group": "Content",
+        "sortOrder": 10,
+        "isRequired": true,
+        "type": "string",
+        "format": "shortString"
+      },
+      "publishedAt": {
+        "displayName": "Published At",
+        "description": "Listings sort by this date, newest first.",
+        "group": "Content",
+        "sortOrder": 20,
+        "isRequired": true,
+        "type": "dateTime"
+      },
+      "excerpt": {
+        "displayName": "Excerpt",
+        "description": "Shown on cards and as the default meta description.",
+        "group": "Content",
+        "sortOrder": 30,
+        "type": "string"
+      },
+      "image": {
+        "displayName": "Image",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "contentReference",
+        "allowedTypes": [
+          "_image"
+        ]
+      },
+      "category": {
+        "displayName": "Category",
+        "group": "Content",
+        "sortOrder": 50,
+        "type": "contentReference",
+        "allowedTypes": [
+          "CategoryPage"
+        ]
+      },
+      "tags": {
+        "displayName": "Tags",
+        "description": "Optional second axis for filtering.",
+        "group": "Content",
+        "sortOrder": 60,
+        "type": "array",
+        "items": {
+          "type": "contentReference",
+          "allowedTypes": [
+            "CategoryPage"
+          ]
+        }
+      },
+      "body": {
+        "displayName": "Body",
+        "group": "Content",
+        "sortOrder": 70,
+        "isRequired": true,
+        "type": "richText"
+      },
+      "blocks": {
+        "displayName": "Blocks",
+        "description": "Optional sections rendered below the body.",
+        "group": "Content",
+        "sortOrder": 80,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "HeroBlock",
+            "LogoCloudBlock",
+            "FeatureGridBlock",
+            "FeatureSplitBlock",
+            "StatsBlock",
+            "TestimonialsBlock",
+            "PricingBlock",
+            "ComparisonTableBlock",
+            "FaqBlock",
+            "CtaBlock",
+            "CardGridBlock",
+            "TeamGridBlock",
+            "StepsBlock",
+            "TabsBlock",
+            "RichTextBlock",
+            "MediaBlock",
+            "GalleryBlock",
+            "FormBlock",
+            "CollectionBlock",
+            "LatestNewsBlock"
+          ]
+        }
+      },
+      "seoTitle": {
+        "displayName": "Seo Title",
+        "group": "Settings",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "shortString",
+        "maxLength": 70
+      },
+      "seoDescription": {
+        "displayName": "Seo Description",
+        "group": "Settings",
+        "sortOrder": 100,
+        "type": "string"
+      },
+      "noIndex": {
+        "displayName": "No Index",
+        "group": "Settings",
+        "sortOrder": 110,
+        "type": "boolean"
       }
     }
   },

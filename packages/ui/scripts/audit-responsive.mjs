@@ -31,7 +31,7 @@ const index = JSON.parse(await readFile(join(root, "index.json"), "utf8"))
 const ids = Object.values(index.entries).filter((e) => e.type === "story" && e.id.startsWith(only)).map((e) => e.id)
 await mkdir(outDir, { recursive: true })
 
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" })
+const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH })
 const context = await browser.newContext({ deviceScaleFactor: 1 })
 const report = []
 for (const id of ids) {
@@ -56,8 +56,9 @@ for (const id of ids) {
           if (r.width === 0) continue
           const cs = getComputedStyle(el)
           const over = Math.round(Math.max(r.right - vw, -r.left))
-          // A wide table inside an overflow-x-auto wrapper scrolls on purpose.
-          const scrolls = (node) => node && node !== document.body && (/(auto|scroll)/.test(getComputedStyle(node).overflowX) || scrolls(node.parentElement))
+          // A wide table inside an overflow-x-auto wrapper scrolls on purpose; a
+          // marquee track or a parallax image inside overflow-hidden is clipped on purpose.
+          const scrolls = (node) => node && node !== document.body && (/(auto|scroll|hidden|clip)/.test(getComputedStyle(node).overflowX) || scrolls(node.parentElement))
           if (over > 1 && !scrolls(el.parentElement)) {
             // Only report the outermost offender of a subtree.
             if ([...seen].some((p) => p.contains(el))) continue

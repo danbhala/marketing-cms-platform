@@ -302,6 +302,9 @@ catalogs:
     lucide-react:
       specifier: ^1.59.0
       version: 1.59.0
+    motion:
+      specifier: ^14.3.0
+      version: 14.3.0
     next:
       specifier: ^16.4.2
       version: 16.4.2
@@ -442,9 +445,27 @@ importers:
       '@fontsource/instrument-serif':
         specifier: ^5.3.0
         version: 5.3.0
+      '@platform/cms-contentful':
+        specifier: workspace:*
+        version: link:../../packages/cms-contentful
       '@platform/cms-core':
         specifier: workspace:*
         version: link:../../packages/cms-core
+      '@platform/cms-drupal':
+        specifier: workspace:*
+        version: link:../../packages/cms-drupal
+      '@platform/cms-optimizely':
+        specifier: workspace:*
+        version: link:../../packages/cms-optimizely
+      '@platform/cms-sanity':
+        specifier: workspace:*
+        version: link:../../packages/cms-sanity
+      '@platform/cms-storyblok':
+        specifier: workspace:*
+        version: link:../../packages/cms-storyblok
+      '@platform/cms-wagtail':
+        specifier: workspace:*
+        version: link:../../packages/cms-wagtail
       '@platform/content-model':
         specifier: workspace:*
         version: link:../../packages/content-model
@@ -576,6 +597,40 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
+
+  packages/animation:
+    dependencies:
+      '@platform/content-model':
+        specifier: workspace:*
+        version: link:../content-model
+      motion:
+        specifier: 'catalog:'
+        version: 14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+    devDependencies:
+      '@platform/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@platform/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@storybook/react-vite':
+        specifier: 'catalog:'
+        version: 10.6.2(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(storybook@10.6.2(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(supports-color@8.1.1)(typescript@6.0.3)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(happy-dom@20.14.6)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/cms-contentful:
     dependencies:
@@ -1042,6 +1097,9 @@ importers:
       '@base-ui/react':
         specifier: 'catalog:'
         version: 1.9.0(@date-fns/tz@1.5.0)(@types/react@19.3.0)(date-fns@4.4.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@platform/animation':
+        specifier: workspace:*
+        version: link:../animation
       '@platform/cms-core':
         specifier: workspace:*
         version: link:../cms-core

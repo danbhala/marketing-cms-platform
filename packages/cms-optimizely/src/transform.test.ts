@@ -3,12 +3,73 @@ import { describe, expect, it } from "vitest"
 import { page as pageDefinition, schemaFor, siteSettings as settingsDefinition } from "@platform/content-model"
 import type { FaqBlock, FeatureSplitBlock, HeroBlock, MediaBlock } from "@platform/content-model"
 
+import { articleItem, categoryItems } from "./__fixtures__/article"
 import { brokenPageItem, homePageItem, pricingPageItem } from "./__fixtures__/page"
 import { siteSettingsItem } from "./__fixtures__/settings"
 import { withEditAttrs } from "./edit"
-import { OptimizelyTransformError, pathFromUrl, toMedia, transformPage, transformSiteSettings } from "./transform"
+import {
+  OptimizelyTransformError,
+  pathFromUrl,
+  toIsoDate,
+  toMedia,
+  transformArticle,
+  transformCategory,
+  transformPage,
+  transformSiteSettings,
+} from "./transform"
 
 const en = { locale: "en" }
+
+describe("transformArticle", () => {
+  const resolved = {
+    ...articleItem,
+    category: { key: "cat-product", item: categoryItems[0] },
+    tags: [{ key: "cat-events", item: categoryItems[2] }],
+  }
+
+  it("maps dates, resolved references and the path from the URL", () => {
+    const article = transformArticle(resolved, en)
+    expect(article).toMatchObject({
+      id: "article-1",
+      type: "article",
+      path: "/news/cohorts-and-alerts-are-live",
+      publishedAt: "2026-10-14T00:00:00Z",
+      category: { id: "cat-product", type: "category", title: "Product news", slug: "product-news" },
+      tags: [{ id: "cat-events", type: "category", slug: "events" }],
+      blocks: [],
+    })
+    expect(article.body.children[0]).toMatchObject({ type: "paragraph" })
+    expect(transformCategory(categoryItems[1]!, en)).toEqual({
+      id: "cat-company",
+      type: "category",
+      title: "Company",
+      slug: "company",
+      description: "Hiring, funding and the occasional office dog.",
+    })
+  })
+
+  it("drops unresolved and foreign references and leaves empty ones out", () => {
+    const article = transformArticle(
+      { ...resolved, category: { key: "cat-product" }, tags: [{ key: "x", item: { __typename: "HeroBlock" } }] },
+      en
+    )
+    expect(article.category).toBeUndefined()
+    expect(article.tags).toEqual([])
+    const bare = transformArticle({ ...resolved, category: null, tags: null, publishedAt: "2026-10-14" }, en)
+    expect(bare).not.toHaveProperty("category")
+    expect(bare).not.toHaveProperty("tags")
+    expect(bare.publishedAt).toBe("2026-10-14")
+    expect(() => transformArticle({ ...resolved, publishedAt: null }, en)).toThrow(OptimizelyTransformError)
+    expect(() => transformArticle(homePageItem, en)).toThrow(/expected ArticlePage/)
+  })
+
+  it("normalises dates to ISO strings, keeping date-only values", () => {
+    expect(toIsoDate("2026-10-18")).toBe("2026-10-18")
+    expect(toIsoDate("2026-10-18T09:00:00+02:00")).toBe("2026-10-18T09:00:00+02:00")
+    expect(toIsoDate("18 Oct 2026 09:00:00 GMT")).toBe("2026-10-18T09:00:00.000Z")
+    expect(toIsoDate("not a date")).toBe("not a date")
+  })
+})
 
 describe("transformPage", () => {
   const page = transformPage(homePageItem, en)
@@ -57,7 +118,12 @@ describe("transformPage", () => {
     const split = page.blocks[1] as FeatureSplitBlock
     expect(split.media).toEqual({ kind: "image", url: "/globalassets/funnel-chart.png", alt: "" })
     const media = page.blocks[3] as MediaBlock
-    expect(media.media).toMatchObject({ kind: "video", url: "https://images.cmp.optimizely.com/dashboard-tour.mp4", alt: "A tour of the dashboard", mimeType: "video/mp4" })
+    expect(media.media).toMatchObject({
+      kind: "video",
+      url: "https://images.cmp.optimizely.com/dashboard-tour.mp4",
+      alt: "A tour of the dashboard",
+      mimeType: "video/mp4",
+    })
   })
 
   it("converts rich text from JSON and from HTML", () => {
@@ -72,7 +138,11 @@ describe("transformPage", () => {
         { type: "text", value: "." },
       ],
     })
-    expect(split.bullets).toEqual(["Compare any two versions", "Annotate changes for your team", "Export to your warehouse"])
+    expect(split.bullets).toEqual([
+      "Compare any two versions",
+      "Annotate changes for your team",
+      "Export to your warehouse",
+    ])
     const faq = page.blocks[2] as FaqBlock
     expect(faq.items[1]?.answer).toEqual({
       type: "root",
@@ -93,7 +163,9 @@ describe("transformPage", () => {
     const cta = page.blocks[4]
     expect(cta && "actions" in cta && cta.actions).toEqual([])
     const draft = transformPage(homePageItem, { locale: "en", previewToken: "tok" })
-    expect((draft.blocks[0] as HeroBlock).media?.url).toBe("https://images.cmp.optimizely.com/product-screenshot.png?preview_token=tok")
+    expect((draft.blocks[0] as HeroBlock).media?.url).toBe(
+      "https://images.cmp.optimizely.com/product-screenshot.png?preview_token=tok"
+    )
     expect((draft.blocks[1] as FeatureSplitBlock).media?.url).toBe("/globalassets/funnel-chart.png?preview_token=tok")
   })
 
@@ -103,7 +175,10 @@ describe("transformPage", () => {
   })
 
   it("rejects content types that are not allowed in a list", () => {
-    const item = { ...pricingPageItem, blocks: [{ __typename: "ActionItem", _metadata: { key: "x" }, label: "x", href: { default: "/" } }] }
+    const item = {
+      ...pricingPageItem,
+      blocks: [{ __typename: "ActionItem", _metadata: { key: "x" }, label: "x", href: { default: "/" } }],
+    }
     expect(() => transformPage(item, en)).toThrow(/"page-pricing".*"blocks".*ActionItem/)
   })
 
@@ -117,13 +192,35 @@ describe("transformSiteSettings", () => {
 
   it("validates and maps navigation, actions, footer and social links", () => {
     expect(() => schemaFor(settingsDefinition).parse(settings)).not.toThrow()
-    expect(settings).toMatchObject({ id: "site", type: "siteSettings", siteName: "Metrica", announcementHref: "/blog/october" })
+    expect(settings).toMatchObject({
+      id: "site",
+      type: "siteSettings",
+      siteName: "Metrica",
+      announcementHref: "/blog/october",
+    })
     expect(settings.navigation[0]).toMatchObject({ id: "nav-product", type: "navGroup", label: "Product" })
-    expect(settings.navigation[0]?.links[1]).toEqual({ id: "nav-2", type: "navLink", label: "Funnels", href: "/product/funnels", description: "Versioned so last quarter still makes sense." })
-    expect(settings.navigation[1]).toEqual({ id: "nav-pricing", type: "navGroup", label: "Pricing", href: "/pricing", links: [] })
+    expect(settings.navigation[0]?.links[1]).toEqual({
+      id: "nav-2",
+      type: "navLink",
+      label: "Funnels",
+      href: "/product/funnels",
+      description: "Versioned so last quarter still makes sense.",
+    })
+    expect(settings.navigation[1]).toEqual({
+      id: "nav-pricing",
+      type: "navGroup",
+      label: "Pricing",
+      href: "/pricing",
+      links: [],
+    })
     expect(settings.headerActions[0]).toMatchObject({ variant: "ghost" })
     expect(settings.footerColumns[0]?.links.map((l) => l.href)).toEqual(["/product/dashboards", "/pricing"])
-    expect(settings.socialLinks[0]).toEqual({ id: "soc-1", type: "socialLink", platform: "x", href: "https://x.com/example" })
+    expect(settings.socialLinks[0]).toEqual({
+      id: "soc-1",
+      type: "socialLink",
+      platform: "x",
+      href: "https://x.com/example",
+    })
     expect(settings).not.toHaveProperty("logo")
   })
 })

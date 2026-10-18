@@ -1,5 +1,3 @@
-import type { AnyContentType, ContentType } from "@optimizely/cms-sdk"
-import { contentType } from "@optimizely/cms-sdk"
 import type { AnyDefinition, Field } from "@platform/content-model"
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
@@ -12,11 +10,15 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  * are a `_page` type too, so they can be fetched by a stable path without
  * configuring a GUID (see README). Lists of blocks/items are content areas
  * (`array` of `content` restricted with `allowedTypes`), which is what gives
- * nested items their own key for click-to-edit.
+ * nested items their own key for click-to-edit. Articles are `ArticlePage`;
+ * taxonomy terms are `CategoryPage` (pages so they are standalone content with
+ * a key the article's `contentReference` properties can point at); `date` is a
+ * `dateTime` and `reference` a `contentReference` (a list of them when multiple).
  *
  * The same description feeds three consumers: the runtime registry the SDK
- * needs to build Graph queries, the `schema/content-types.ts` module the
- * Optimizely CLI pushes, and `schema/content-types.json`.
+ * needs to build Graph queries (`registry.ts`), the `schema/content-types.ts`
+ * module the Optimizely CLI pushes, and `schema/content-types.json`. This
+ * module has no SDK import so the docs can run it in the browser.
  */
 
 /** A serialisable content type: like the SDK's but with type keys as strings. */
@@ -32,7 +34,12 @@ export interface ContentTypeDescription {
 export type PropertyDescription = Record<string, unknown> & { type: string }
 
 /** Document types get explicit keys; items and blocks get a kind suffix so they never clash with Graph's built-in types (`RichText`, `Media`, `Link`...). */
-const documentKeys: Record<string, string> = { page: "WebPage", siteSettings: "SiteSettings" }
+const documentKeys: Record<string, string> = {
+  page: "WebPage",
+  article: "ArticlePage",
+  category: "CategoryPage",
+  siteSettings: "SiteSettings",
+}
 
 const pascal = (value: string) => value.charAt(0).toUpperCase() + value.slice(1)
 
@@ -50,7 +57,9 @@ export function contentTypeKey(definition: AnyDefinition): string {
 
 export const allDefinitions: readonly AnyDefinition[] = [...allItems, ...allBlocks, ...allDocuments]
 
-const byKey = new Map<string, AnyDefinition>(allDefinitions.map((definition) => [contentTypeKey(definition), definition]))
+const byKey = new Map<string, AnyDefinition>(
+  allDefinitions.map((definition) => [contentTypeKey(definition), definition])
+)
 
 /** The canonical definition behind a Graph `__typename`, or undefined for foreign types. */
 export function definitionForTypename(typename: string | undefined | null): AnyDefinition | undefined {
@@ -58,15 +67,21 @@ export function definitionForTypename(typename: string | undefined | null): AnyD
 }
 
 /** Fields that are presentation or SEO rather than content: shown on the Settings tab. */
-const settingsFields = new Set(["theme", "spacing", "anchor", "seoTitle", "seoDescription", "ogImage", "noIndex", "hideBreadcrumbs"])
+const settingsFields = new Set([
+  "theme",
+  "spacing",
+  "anchor",
+  "seoTitle",
+  "seoDescription",
+  "ogImage",
+  "noIndex",
+  "hideBreadcrumbs",
+])
 
 /** `path` is not a property in Optimizely: the URL comes from the content tree. */
 const derivedFields = new Set(["path"])
 
-const humanize = (value: string) =>
-  value
-    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-    .replace(/^./, (c) => c.toUpperCase())
+const humanize = (value: string) => value.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/^./, (c) => c.toUpperCase())
 
 function mediaTypes(accept: "image" | "video" | "any" | undefined): string[] {
   switch (accept) {
@@ -112,6 +127,14 @@ function propertyFor(name: string, field: Field, sortOrder: number): PropertyDes
       return { ...base, type: "boolean" }
     case "media":
       return { ...base, type: "contentReference", allowedTypes: mediaTypes(field.accept) }
+    case "date":
+      return { ...base, type: "dateTime" }
+    case "reference": {
+      const allowedTypes = field.of.map((d) => contentTypeKey(d))
+      return field.multiple
+        ? { ...base, type: "array", items: { type: "contentReference", allowedTypes } }
+        : { ...base, type: "contentReference", allowedTypes }
+    }
     case "select":
       return {
         ...base,
@@ -153,14 +176,18 @@ export function describeContentType(definition: AnyDefinition): ContentTypeDescr
   }
 }
 
-/** Keys of the custom content types a description references through content areas. */
+/** The `allowedTypes` of a property, whether on the property itself or on its array items. */
+function allowedTypesOf(property: Record<string, unknown>): string[] {
+  const items = property.items as { allowedTypes?: string[] } | undefined
+  const own = property.allowedTypes as string[] | undefined
+  return [...(own ?? []), ...(items?.allowedTypes ?? [])]
+}
+
+/** Keys of the custom content types a description references through content areas and references. */
 function dependencies(description: ContentTypeDescription): string[] {
-  const out: string[] = []
-  for (const property of Object.values(description.properties)) {
-    const items = property.items as { allowedTypes?: string[] } | undefined
-    for (const key of items?.allowedTypes ?? []) if (!key.startsWith("_")) out.push(key)
-  }
-  return out
+  return Object.values(description.properties)
+    .flatMap(allowedTypesOf)
+    .filter((key) => !key.startsWith("_"))
 }
 
 /**
@@ -183,43 +210,6 @@ export function describeAllContentTypes(): ContentTypeDescription[] {
   }
   for (const key of descriptions.keys()) visit(key, [])
   return ordered
-}
-
-/**
- * The content types as SDK objects, with `allowedTypes` resolved to object
- * references the way the SDK's query builder expects. Pass the result to
- * `initContentTypeRegistry`.
- */
-export function buildContentTypes(): ContentType<AnyContentType>[] {
-  const built = new Map<string, ContentType<AnyContentType>>()
-  for (const description of describeAllContentTypes()) {
-    const properties: Record<string, unknown> = {}
-    for (const [name, property] of Object.entries(description.properties)) {
-      const items = property.items as { type: string; allowedTypes?: string[] } | undefined
-      properties[name] =
-        items?.allowedTypes && items.type === "content"
-          ? {
-              ...property,
-              items: {
-                ...items,
-                allowedTypes: items.allowedTypes.map((key) => {
-                  const ref = built.get(key)
-                  if (!ref) throw new Error(`Content type "${key}" referenced before it was built`)
-                  return ref
-                }),
-              },
-            }
-          : property
-    }
-    const type = contentType({
-      key: description.key,
-      displayName: description.displayName,
-      baseType: description.baseType,
-      properties,
-    } as AnyContentType)
-    built.set(description.key, type)
-  }
-  return [...built.values()]
 }
 
 export { renderContentTypesModule, renderContentTypesJson, renderBuildConfig } from "./render"

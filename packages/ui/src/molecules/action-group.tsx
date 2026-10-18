@@ -29,7 +29,7 @@ function ActionGroup({ actions, size = "lg", align = "start", stackOnMobile, cla
         align === "center" && "justify-center",
         align === "end" && "justify-end",
         stackOnMobile && "section-max-sm:flex-col section-max-sm:*:w-full",
-        className,
+        className
       )}
       {...props}
     >
@@ -39,6 +39,7 @@ function ActionGroup({ actions, size = "lg", align = "start", stackOnMobile, cla
           href={action.href}
           size={size}
           variant={action.variant ?? (index === 0 ? "default" : "outline")}
+          magnetic={action.magnetic ?? false}
           {...editAttrs(action)}
         >
           {action.icon ? <Icon name={action.icon} data-icon="inline-start" /> : null}

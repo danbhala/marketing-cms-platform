@@ -108,7 +108,14 @@ export const themeToStyle = (theme: Theme): CSSProperties => {
 
 /** The CSS a host site pastes: one rule, plus the font packages it needs. */
 export function themeToCss(theme: Theme, selector = ":root"): string {
-  const pkgs = [...new Set([theme.fonts.heading, theme.fonts.body, theme.fonts.mono, theme.fonts.eyebrow].filter(Boolean).map((id) => fontById(id!).pkg).filter(Boolean))]
+  const pkgs = [
+    ...new Set(
+      [theme.fonts.heading, theme.fonts.body, theme.fonts.mono, theme.fonts.eyebrow]
+        .filter(Boolean)
+        .map((id) => fontById(id!).pkg)
+        .filter(Boolean)
+    ),
+  ]
   const imports = pkgs.map((pkg) => `@import "${pkg}";`).join("\n")
   const body = Object.entries(themeToVars(theme))
     .map(([k, v]) => `  ${k}: ${v};`)
@@ -118,7 +125,11 @@ export function themeToCss(theme: Theme, selector = ":root"): string {
 
 // --- URL state --------------------------------------------------------------
 
-const toBase64Url = (s: string) => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+const toBase64Url = (s: string) =>
+  btoa(unescape(encodeURIComponent(s)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "")
 const fromBase64Url = (s: string) => decodeURIComponent(escape(atob(s.replace(/-/g, "+").replace(/_/g, "/"))))
 
 export const encodeTheme = (theme: Theme) => toBase64Url(JSON.stringify(theme))
@@ -217,7 +228,7 @@ export function randomTheme(pick = Math.random): Theme {
   ]
   const pair = pairings[Math.floor(pick() * pairings.length)] ?? ["inter", "inter"]
   const [heading, body, mono = "jetbrains-mono"] = pair
-  const choose = <T,>(options: T[]): T => options[Math.floor(pick() * options.length)] as T
+  const choose = <T>(options: T[]): T => options[Math.floor(pick() * options.length)] as T
   const serifHeading = fontById(heading).kind === "serif"
   const scheme = pick() < 0.3 ? "dark" : "light"
   const chroma = 0.08 + pick() * 0.16
@@ -232,6 +243,12 @@ export function randomTheme(pick = Math.random): Theme {
     rhythm: { section: choose([0.7, 1, 1, 1.3]), gap: 1 },
     container: 80,
     scheme,
-    colors: generatePalette({ hue: Math.floor(pick() * 360), chroma, tint: pick() * 0.025, scheme, brandShift: pick() < 0.5 ? 0 : Math.round((pick() - 0.5) * 120) }),
+    colors: generatePalette({
+      hue: Math.floor(pick() * 360),
+      chroma,
+      tint: pick() * 0.025,
+      scheme,
+      brandShift: pick() < 0.5 ? 0 : Math.round((pick() - 0.5) * 120),
+    }),
   }
 }

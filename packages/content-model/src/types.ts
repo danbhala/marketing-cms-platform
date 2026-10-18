@@ -14,6 +14,7 @@ export type ComparisonColumn = InferContent<typeof defs.comparisonColumn>
 export type ComparisonRow = InferContent<typeof defs.comparisonRow>
 export type FaqItem = InferContent<typeof defs.faqItem>
 export type Card = InferContent<typeof defs.card>
+export type GalleryItem = InferContent<typeof defs.galleryItem>
 export type Person = InferContent<typeof defs.person>
 export type Step = InferContent<typeof defs.step>
 export type Tab = InferContent<typeof defs.tab>
@@ -40,7 +41,10 @@ export type StepsBlock = InferContent<typeof defs.steps>
 export type TabsBlock = InferContent<typeof defs.tabs>
 export type RichTextBlock = InferContent<typeof defs.richTextBlock>
 export type MediaBlock = InferContent<typeof defs.mediaBlock>
+export type GalleryBlock = InferContent<typeof defs.gallery>
 export type FormBlock = InferContent<typeof defs.form>
+export type CollectionBlock = InferContent<typeof defs.collection>
+export type LatestNewsBlock = InferContent<typeof defs.latestNews>
 
 export type Block =
   | HeroBlock
@@ -59,10 +63,24 @@ export type Block =
   | TabsBlock
   | RichTextBlock
   | MediaBlock
+  | GalleryBlock
   | FormBlock
+  | CollectionBlock
+  | LatestNewsBlock
 
 export type BlockType = Block["type"]
 
 // Documents
 export type Page = InferContent<typeof defs.page>
 export type SiteSettings = InferContent<typeof defs.siteSettings>
+export type Category = InferContent<typeof defs.category>
+export type Article = InferContent<typeof defs.article>
+
+/** Documents with their own URL, resolved by path in the catch-all route. */
+export type RoutableDocument = Page | Article
+
+/** What a listing returns per item: enough for a card, never the body. */
+export type ArticleSummary = Pick<
+  Article,
+  "id" | "type" | "title" | "path" | "publishedAt" | "excerpt" | "image" | "category" | "tags" | "$edit"
+>

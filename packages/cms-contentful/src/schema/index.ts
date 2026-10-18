@@ -10,7 +10,7 @@ import type { AnyDefinition, Field } from "@platform/content-model"
  * syntax (no enums, no parameter properties).
  */
 
-export type ContentfulFieldType = "Symbol" | "Text" | "RichText" | "Number" | "Boolean" | "Link" | "Array"
+export type ContentfulFieldType = "Symbol" | "Text" | "RichText" | "Number" | "Boolean" | "Date" | "Link" | "Array"
 
 export type ContentfulValidation = Record<string, unknown>
 
@@ -122,6 +122,10 @@ export function fieldModel(id: string, field: Field, options: SchemaOptions = {}
       model.type = "Boolean"
       model.editor = editor("boolean")
       break
+    case "date":
+      model.type = "Date"
+      model.editor = editor("datePicker")
+      break
     case "media":
       model.type = "Link"
       model.linkType = "Asset"
@@ -129,6 +133,20 @@ export function fieldModel(id: string, field: Field, options: SchemaOptions = {}
       if (field.accept === "video") model.validations.push({ linkMimetypeGroup: ["video"] })
       model.editor = editor("assetLinkEditor")
       break
+    case "reference": {
+      const validations = [{ linkContentType: field.of.map((d: AnyDefinition) => d.type) }]
+      if (field.multiple) {
+        model.type = "Array"
+        model.items = { type: "Link", linkType: "Entry", validations }
+        model.editor = editor("entryLinksEditor")
+      } else {
+        model.type = "Link"
+        model.linkType = "Entry"
+        model.validations.push(...validations)
+        model.editor = editor("entryLinkEditor")
+      }
+      break
+    }
     case "select":
       model.type = "Symbol"
       model.validations.push({ in: [...field.options] })
@@ -138,13 +156,19 @@ export function fieldModel(id: string, field: Field, options: SchemaOptions = {}
     case "items":
     case "blocks": {
       model.type = "Array"
-      model.items = { type: "Link", linkType: "Entry", validations: [{ linkContentType: field.of.map((d: AnyDefinition) => d.type) }] }
+      model.items = {
+        type: "Link",
+        linkType: "Entry",
+        validations: [{ linkContentType: field.of.map((d: AnyDefinition) => d.type) }],
+      }
       // Canonical content defaults lists to [], so only a min bound makes the field required.
       const min = field.kind === "items" ? field.min : undefined
       const max = field.kind === "items" ? field.max : undefined
       model.required = (min ?? 0) > 0
       if (min !== undefined || max !== undefined) {
-        model.validations.push({ size: { ...(min !== undefined ? { min } : {}), ...(max !== undefined ? { max } : {}) } })
+        model.validations.push({
+          size: { ...(min !== undefined ? { min } : {}), ...(max !== undefined ? { max } : {}) },
+        })
       }
       model.editor = editor("entryLinksEditor")
       break
@@ -156,11 +180,16 @@ export function fieldModel(id: string, field: Field, options: SchemaOptions = {}
 export function contentTypeFor(definition: AnyDefinition, options: SchemaOptions = {}): ContentTypeModel {
   const fields = Object.entries(definition.fields as Record<string, Field>).map(([id, field]) => {
     const model = fieldModel(id, field, options)
-    // Pages are looked up by path, so it must be unique and absolute.
-    if (definition.type === "page" && id === "path") {
-      model.validations.push({ unique: true }, { regexp: { pattern: "^/" }, message: "Paths start with /, e.g. /pricing. The home page is /." })
+    // Routable documents are looked up by path, so it must be unique and absolute.
+    if (definition.routable && id === "path") {
+      model.validations.push(
+        { unique: true },
+        { regexp: { pattern: "^/" }, message: "Paths start with /, e.g. /pricing. The home page is /." }
+      )
       model.editor = { widgetId: "singleLine", settings: { helpText: field.description ?? "URL path, e.g. /pricing" } }
     }
+    // Listings filter taxonomy terms by slug, so it must identify one term.
+    if (definition.taxonomy && id === "slug") model.validations.push({ unique: true })
     return model
   })
   const texts = fields.filter((f) => f.type === "Symbol" && !f.validations.some((v) => "in" in v))

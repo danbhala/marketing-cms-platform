@@ -1,7 +1,17 @@
 import type { PortableTextBlock } from "@portabletext/react"
 import { stegaClean } from "@sanity/client/stega"
 
-import type { BlockNode, HeadingNode, InlineNode, ListItemNode, ListNode, Mark, Media, RichText, TextNode } from "@platform/content-model"
+import type {
+  BlockNode,
+  HeadingNode,
+  InlineNode,
+  ListItemNode,
+  ListNode,
+  Mark,
+  Media,
+  RichText,
+  TextNode,
+} from "@platform/content-model"
 
 /**
  * Portable Text → portable rich-text AST. Written by hand rather than through
@@ -22,7 +32,14 @@ interface MarkDef {
 
 /** A Portable Text member: the typed block shape loosened so custom objects (`code`, `image`…) fit too. */
 type Block = Partial<Omit<PortableTextBlock, "children" | "markDefs">> &
-  Record<string, unknown> & { _type: string; children?: unknown[]; markDefs?: MarkDef[]; level?: number; listItem?: string; style?: string }
+  Record<string, unknown> & {
+    _type: string
+    children?: unknown[]
+    markDefs?: MarkDef[]
+    level?: number
+    listItem?: string
+    style?: string
+  }
 
 export type MediaResolver = (raw: unknown) => Media | undefined
 
@@ -35,7 +52,8 @@ const DECORATORS: Record<string, Mark> = {
   code: "code",
 }
 
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null && !Array.isArray(value)
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value)
 
 export function portableTextToRichText(value: unknown, resolveMedia: MediaResolver): RichText {
   const root: RichText = { type: "root", children: [] }
@@ -62,7 +80,10 @@ export function portableTextToRichText(value: unknown, resolveMedia: MediaResolv
       // Switching bullet ↔ number at the same depth starts a sibling list.
       if (listStack.length === level && listStack[level - 1]!.ordered !== ordered) listStack.pop()
       while (listStack.length < level) openList(ordered)
-      listStack[level - 1]!.children.push({ type: "listItem", children: [{ type: "paragraph", children: spans(block) }] })
+      listStack[level - 1]!.children.push({
+        type: "listItem",
+        children: [{ type: "paragraph", children: spans(block) }],
+      })
       continue
     }
 
@@ -90,7 +111,8 @@ function convertBlock(block: Block, resolveMedia: MediaResolver): BlockNode | un
         const level = Math.min(6, Math.max(2, Number(heading[1]))) as HeadingNode["level"]
         return { type: "heading", level, children: spans(block) }
       }
-      if (style === "blockquote") return { type: "blockquote", children: [{ type: "paragraph", children: spans(block) }] }
+      if (style === "blockquote")
+        return { type: "blockquote", children: [{ type: "paragraph", children: spans(block) }] }
       return { type: "paragraph", children: spans(block) }
     }
     case "image":

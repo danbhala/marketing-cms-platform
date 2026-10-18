@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_sort
+    - paragraphs.paragraphs_type.collection
+  module:
+    - options
+id: paragraph.collection.field_sort
+field_name: field_sort
+entity_type: paragraph
+bundle: collection
+label: Sort
+description: 'Default order; visitors can change it.'
+required: false
+translatable: true
+default_value:
+  - value: newest
+default_value_callback: ''
+settings: {  }
+field_type: list_string

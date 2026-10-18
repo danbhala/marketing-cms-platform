@@ -1,6 +1,8 @@
 import type { AnyDefinition, Field } from "@platform/content-model"
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
+import { isSlugField } from "../model"
+
 /**
  * Derives the Sanity Studio schema from the shared content model. The output
  * is the plain-object form `defineType`/`defineField` accept, so the Studio
@@ -15,7 +17,9 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  *   richText                 → `portableText`, an `array` of `block` + `imageWithAlt` + `codeBlock`
  *   select                   → `string` with `options.list`; textList → `array` of `string`
  *   link                     → `url` allowing relative paths; icon → `string`
- *   page.path                → `slug` (`source: "title"`); the transform maps `slug.current` → `path`
+ *   date                     → `date` (stored as "YYYY-MM-DD")
+ *   reference                → `reference` with `to` the allowed document types; `array` of them when multiple
+ *   routable `path`, taxonomy `slug` → `slug` (`source: "title"`); the transform reads `slug.current`
  */
 
 /** Validation is data here so the JSON output is complete; the TS renderer turns it into `(rule) => rule…`. */
@@ -36,6 +40,7 @@ export interface SanitySchemaField {
   rows?: number
   hidden?: boolean
   of?: Array<Record<string, unknown>>
+  to?: Array<{ type: string }>
   fields?: SanitySchemaField[]
   options?: Record<string, unknown>
   initialValue?: unknown
@@ -46,10 +51,7 @@ export interface SanitySchemaType extends SanitySchemaField {
   preview?: { select: Record<string, string> }
 }
 
-const titleCase = (name: string) =>
-  name
-    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-    .replace(/^./, (c) => c.toUpperCase())
+const titleCase = (name: string) => name.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/^./, (c) => c.toUpperCase())
 
 const ALT_FIELD: SanitySchemaField = {
   name: "alt",
@@ -152,12 +154,13 @@ export function fieldToSanity(name: string, field: Field, definition: AnyDefinit
   const validation = validationFor(field)
   const withValidation = (f: SanitySchemaField): SanitySchemaField => (validation ? { ...f, validation } : f)
 
-  if (definition.type === "page" && name === "path") {
+  if (isSlugField(definition, name)) {
+    const home = definition.type === "page" ? ' "/" or an empty slug is the home page.' : ""
     return withValidation({
       ...base,
       name: "slug",
       type: "slug",
-      description: `${field.description ?? ""} Stored as the slug; "/" or an empty slug is the home page.`.trim(),
+      description: `${field.description ?? ""} Stored as the slug.${home}`.trim(),
       options: { source: "title" },
     })
   }
@@ -176,11 +179,27 @@ export function fieldToSanity(name: string, field: Field, definition: AnyDefinit
     case "boolean":
       return withValidation({ ...base, type: "boolean" })
     case "link":
-      return withValidation({ ...base, type: "url", description: field.description ?? "Absolute URL or a site path such as /pricing." })
+      return withValidation({
+        ...base,
+        type: "url",
+        description: field.description ?? "Absolute URL or a site path such as /pricing.",
+      })
     case "icon":
-      return withValidation({ ...base, type: "string", description: field.description ?? "Lucide icon name, e.g. arrow-right." })
+      return withValidation({
+        ...base,
+        type: "string",
+        description: field.description ?? "Lucide icon name, e.g. arrow-right.",
+      })
     case "media":
       return withValidation({ ...base, type: mediaType(field.accept) })
+    case "date":
+      return withValidation({ ...base, type: "date" })
+    case "reference": {
+      const to = field.of.map((d) => ({ type: d.type }))
+      return field.multiple
+        ? withValidation({ ...base, type: "array", of: [{ type: "reference", to }] })
+        : withValidation({ ...base, type: "reference", to })
+    }
     case "select":
       return withValidation({
         ...base,
@@ -195,8 +214,11 @@ export function fieldToSanity(name: string, field: Field, definition: AnyDefinit
 }
 
 export function definitionToSanity(definition: AnyDefinition): SanitySchemaType {
-  const fields = Object.entries(definition.fields as Record<string, Field>).map(([name, field]) => fieldToSanity(name, field, definition))
-  const titleField = fields.find((f) => f.type === "string" && f.validation?.required) ?? fields.find((f) => f.type === "string")
+  const fields = Object.entries(definition.fields as Record<string, Field>).map(([name, field]) =>
+    fieldToSanity(name, field, definition)
+  )
+  const titleField =
+    fields.find((f) => f.type === "string" && f.validation?.required) ?? fields.find((f) => f.type === "string")
   const out: SanitySchemaType = {
     name: definition.type,
     title: definition.label,
@@ -207,14 +229,19 @@ export function definitionToSanity(definition: AnyDefinition): SanitySchemaType 
   if (definition.singleton) {
     out.description = `${definition.description ? `${definition.description} ` : ""}Singleton: exactly one document with _id "${definition.type}". Pin it in the Studio structure and disable create/delete actions.`
   }
-  if (definition.type === "page") out.preview = { select: { title: "title", subtitle: "slug.current" } }
+  if (definition.routable || definition.taxonomy) out.preview = { select: { title: "title", subtitle: "slug.current" } }
   else if (titleField) out.preview = { select: { title: titleField.name } }
   return out
 }
 
 /** Every type the Studio needs: shared helpers, items, blocks, documents. */
 export function generateSanitySchema(): SanitySchemaType[] {
-  return [...sharedTypes, ...allItems.map(definitionToSanity), ...allBlocks.map(definitionToSanity), ...allDocuments.map(definitionToSanity)]
+  return [
+    ...sharedTypes,
+    ...allItems.map(definitionToSanity),
+    ...allBlocks.map(definitionToSanity),
+    ...allDocuments.map(definitionToSanity),
+  ]
 }
 
 // ---------------------------------------------------------------------------
@@ -269,10 +296,10 @@ export function renderSchemaModule(types: SanitySchemaType[] = generateSanitySch
     '//   import { schemaTypes } from "./schemaTypes"',
     "//   export default defineConfig({ /* … */ schema: { types: schemaTypes } })",
     "//",
-    "// `siteSettings` is a singleton: give it the fixed _id \"siteSettings\" in your structure builder",
-    "// (S.document().schemaType(\"siteSettings\").documentId(\"siteSettings\")) and remove create/delete actions.",
+    '// `siteSettings` is a singleton: give it the fixed _id "siteSettings" in your structure builder',
+    '// (S.document().schemaType("siteSettings").documentId("siteSettings")) and remove create/delete actions.',
     "",
-    "/** The subset of Sanity's validation `Rule` these schemas use; swap for `import type { Rule } from \"sanity\"` in the Studio. */",
+    '/** The subset of Sanity\'s validation `Rule` these schemas use; swap for `import type { Rule } from "sanity"` in the Studio. */',
     "export interface SanityRule {",
     "  required(): SanityRule",
     "  min(value: number): SanityRule",

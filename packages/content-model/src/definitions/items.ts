@@ -1,6 +1,6 @@
-import { defineItem, field } from "../fields";
+import { defineItem, field } from "../fields"
 
-export const buttonVariants = ["default", "secondary", "outline", "ghost", "link"] as const;
+export const buttonVariants = ["default", "secondary", "outline", "ghost", "link"] as const
 
 export const action = defineItem("action", {
   label: "Action",
@@ -10,8 +10,9 @@ export const action = defineItem("action", {
     href: field.link({ required: true }),
     variant: field.select(buttonVariants, { defaultValue: "default" }),
     icon: field.icon(),
+    magnetic: field.boolean({ description: "Pull the button towards the pointer on hover (mouse only)." }),
   },
-});
+})
 
 export const featureItem = defineItem("featureItem", {
   label: "Feature",
@@ -21,7 +22,7 @@ export const featureItem = defineItem("featureItem", {
     description: field.textarea(),
     href: field.link(),
   },
-});
+})
 
 export const logo = defineItem("logo", {
   label: "Logo",
@@ -30,7 +31,7 @@ export const logo = defineItem("logo", {
     image: field.media({ required: true }),
     href: field.link(),
   },
-});
+})
 
 export const stat = defineItem("stat", {
   label: "Stat",
@@ -39,7 +40,7 @@ export const stat = defineItem("stat", {
     label: field.text({ required: true }),
     description: field.textarea(),
   },
-});
+})
 
 export const testimonial = defineItem("testimonial", {
   label: "Testimonial",
@@ -50,7 +51,7 @@ export const testimonial = defineItem("testimonial", {
     avatar: field.media(),
     companyLogo: field.media(),
   },
-});
+})
 
 export const pricingPlan = defineItem("pricingPlan", {
   label: "Pricing plan",
@@ -64,7 +65,7 @@ export const pricingPlan = defineItem("pricingPlan", {
     highlighted: field.boolean(),
     badge: field.text(),
   },
-});
+})
 
 export const comparisonColumn = defineItem("comparisonColumn", {
   label: "Comparison column",
@@ -72,7 +73,7 @@ export const comparisonColumn = defineItem("comparisonColumn", {
     label: field.text({ required: true }),
     highlighted: field.boolean(),
   },
-});
+})
 
 export const comparisonRow = defineItem("comparisonRow", {
   label: "Comparison row",
@@ -82,7 +83,7 @@ export const comparisonRow = defineItem("comparisonRow", {
       description: "One value per column. Use 'yes' / 'no' for check and cross icons.",
     }),
   },
-});
+})
 
 export const faqItem = defineItem("faqItem", {
   label: "FAQ item",
@@ -90,7 +91,7 @@ export const faqItem = defineItem("faqItem", {
     question: field.text({ required: true }),
     answer: field.richText({ required: true }),
   },
-});
+})
 
 export const card = defineItem("card", {
   label: "Card",
@@ -102,7 +103,15 @@ export const card = defineItem("card", {
     image: field.media(),
     href: field.link(),
   },
-});
+})
+
+export const galleryItem = defineItem("galleryItem", {
+  label: "Gallery item",
+  fields: {
+    media: field.media({ required: true, accept: "any" }),
+    caption: field.text(),
+  },
+})
 
 export const person = defineItem("person", {
   label: "Person",
@@ -112,7 +121,7 @@ export const person = defineItem("person", {
     bio: field.textarea(),
     image: field.media(),
   },
-});
+})
 
 export const step = defineItem("step", {
   label: "Step",
@@ -120,7 +129,7 @@ export const step = defineItem("step", {
     title: field.text({ required: true }),
     description: field.textarea(),
   },
-});
+})
 
 export const tab = defineItem("tab", {
   label: "Tab",
@@ -130,9 +139,9 @@ export const tab = defineItem("tab", {
     body: field.richText(),
     media: field.media({ accept: "any" }),
   },
-});
+})
 
-export const formFieldTypes = ["text", "email", "tel", "textarea", "select", "checkbox"] as const;
+export const formFieldTypes = ["text", "email", "tel", "textarea", "select", "checkbox"] as const
 
 export const formField = defineItem("formField", {
   label: "Form field",
@@ -144,7 +153,7 @@ export const formField = defineItem("formField", {
     required: field.boolean(),
     options: field.textList({ description: "Options for select fields." }),
   },
-});
+})
 
 export const navLink = defineItem("navLink", {
   label: "Navigation link",
@@ -153,7 +162,7 @@ export const navLink = defineItem("navLink", {
     href: field.link({ required: true }),
     description: field.text(),
   },
-});
+})
 
 export const navGroup = defineItem("navGroup", {
   label: "Navigation group",
@@ -163,7 +172,7 @@ export const navGroup = defineItem("navGroup", {
     href: field.link(),
     links: field.items([navLink]),
   },
-});
+})
 
 export const footerColumn = defineItem("footerColumn", {
   label: "Footer column",
@@ -171,16 +180,9 @@ export const footerColumn = defineItem("footerColumn", {
     title: field.text({ required: true }),
     links: field.items([navLink]),
   },
-});
+})
 
-export const socialPlatforms = [
-  "x",
-  "linkedin",
-  "github",
-  "youtube",
-  "instagram",
-  "facebook",
-] as const;
+export const socialPlatforms = ["x", "linkedin", "github", "youtube", "instagram", "facebook"] as const
 
 export const socialLink = defineItem("socialLink", {
   label: "Social link",
@@ -188,7 +190,7 @@ export const socialLink = defineItem("socialLink", {
     platform: field.select(socialPlatforms, { required: true }),
     href: field.link({ required: true }),
   },
-});
+})
 
 export const allItems = [
   action,
@@ -201,6 +203,7 @@ export const allItems = [
   comparisonRow,
   faqItem,
   card,
+  galleryItem,
   person,
   step,
   tab,
@@ -209,4 +212,4 @@ export const allItems = [
   navGroup,
   footerColumn,
   socialLink,
-] as const;
+] as const

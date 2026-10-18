@@ -38,10 +38,18 @@ export const Variants: Story = {
 export const Sizes: Story = {
   render: (args) => (
     <Stack direction="row" gap="md" align="center">
-      <Button {...args} size="sm">Small</Button>
-      <Button {...args} size="default">Default</Button>
-      <Button {...args} size="lg">Large</Button>
-      <Button {...args} size="icon" aria-label="Next"><ArrowRightIcon /></Button>
+      <Button {...args} size="sm">
+        Small
+      </Button>
+      <Button {...args} size="default">
+        Default
+      </Button>
+      <Button {...args} size="lg">
+        Large
+      </Button>
+      <Button {...args} size="icon" aria-label="Next">
+        <ArrowRightIcon />
+      </Button>
     </Stack>
   ),
 }
@@ -54,4 +62,9 @@ export const AsLink: Story = {
 /** An external `href` renders a plain anchor with `rel="noopener noreferrer"` when it opens a new tab. */
 export const ExternalLink: Story = {
   args: { href: "https://example.com", variant: "outline", children: "External link (opens in new tab)" },
+}
+
+/** `magnetic` pulls the button towards the pointer while it hovers nearby (mouse only; touch, keyboard and reduced motion get a still button). */
+export const Magnetic: Story = {
+  args: { magnetic: true, size: "lg", children: "Hover me" },
 }

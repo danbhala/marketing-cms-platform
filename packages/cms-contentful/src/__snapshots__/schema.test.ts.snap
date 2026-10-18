@@ -64,6 +64,20 @@ exports[`schema generator > is stable 1`] = `
         "editor": {
           "widgetId": "singleLine"
         }
+      },
+      {
+        "id": "magnetic",
+        "name": "Magnetic",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Pull the button towards the pointer on hover (mouse only)."
+          }
+        }
       }
     ]
   },
@@ -592,6 +606,36 @@ exports[`schema generator > is stable 1`] = `
       {
         "id": "href",
         "name": "Href",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      }
+    ]
+  },
+  {
+    "id": "galleryItem",
+    "name": "Gallery item",
+    "displayField": "caption",
+    "fields": [
+      {
+        "id": "media",
+        "name": "Media",
+        "type": "Link",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "caption",
+        "name": "Caption",
         "type": "Symbol",
         "required": false,
         "localized": false,
@@ -1135,6 +1179,32 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "scrollEffect",
+        "name": "Scroll effect",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "parallax",
+              "zoom",
+              "fade"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges."
+          }
+        }
+      },
+      {
         "id": "theme",
         "name": "Theme",
         "type": "Symbol",
@@ -1198,6 +1268,122 @@ exports[`schema generator > is stable 1`] = `
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -1249,7 +1435,8 @@ exports[`schema generator > is stable 1`] = `
           {
             "in": [
               "row",
-              "grid"
+              "grid",
+              "marquee"
             ]
           }
         ],
@@ -1258,6 +1445,31 @@ exports[`schema generator > is stable 1`] = `
         },
         "editor": {
           "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "marqueeSpeed",
+        "name": "Marquee speed",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "slow",
+              "normal",
+              "fast"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Only used by the marquee layout."
+          }
         }
       },
       {
@@ -1334,6 +1546,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -1504,6 +1832,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -1712,6 +2156,122 @@ exports[`schema generator > is stable 1`] = `
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -1798,6 +2358,20 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "countUp",
+        "name": "Count up",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
+          }
+        }
+      },
+      {
         "id": "theme",
         "name": "Theme",
         "type": "Symbol",
@@ -1860,6 +2434,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -1934,7 +2624,9 @@ exports[`schema generator > is stable 1`] = `
           {
             "in": [
               "grid",
-              "featured"
+              "featured",
+              "carousel",
+              "marquee"
             ]
           }
         ],
@@ -1943,6 +2635,31 @@ exports[`schema generator > is stable 1`] = `
         },
         "editor": {
           "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "marqueeSpeed",
+        "name": "Marquee speed",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "slow",
+              "normal",
+              "fast"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Only used by the marquee layout."
+          }
         }
       },
       {
@@ -2008,6 +2725,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -2079,6 +2912,20 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "countUp",
+        "name": "Count up",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
+          }
+        }
+      },
+      {
         "id": "theme",
         "name": "Theme",
         "type": "Symbol",
@@ -2141,6 +2988,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -2291,6 +3254,122 @@ exports[`schema generator > is stable 1`] = `
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -2438,6 +3517,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -2592,6 +3787,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -2770,6 +4081,122 @@ exports[`schema generator > is stable 1`] = `
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -2917,6 +4344,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -3066,6 +4609,122 @@ exports[`schema generator > is stable 1`] = `
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -3192,6 +4851,122 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -3324,6 +5099,122 @@ exports[`schema generator > is stable 1`] = `
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -3374,6 +5265,32 @@ exports[`schema generator > is stable 1`] = `
         },
         "editor": {
           "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "scrollEffect",
+        "name": "Scroll effect",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "parallax",
+              "zoom",
+              "fade"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges."
+          }
         }
       },
       {
@@ -3439,6 +5356,443 @@ exports[`schema generator > is stable 1`] = `
           "settings": {
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      }
+    ]
+  },
+  {
+    "id": "gallery",
+    "name": "Gallery",
+    "description": "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "items",
+        "name": "Items",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "galleryItem"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor"
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "grid",
+              "masonry",
+              "featured",
+              "stage",
+              "strip"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "grid"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls."
+          }
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "2",
+              "3",
+              "4"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "3"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "lightbox",
+        "name": "Lightbox",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Open items full screen on tap, with previous and next."
+          }
+        }
+      },
+      {
+        "id": "autoplay",
+        "name": "Autoplay",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Stage layout only: advance every few seconds, with a pause control."
+          }
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
         }
       }
     ]
@@ -3639,6 +5993,780 @@ exports[`schema generator > is stable 1`] = `
             "helpText": "Optional id for in-page links, e.g. 'pricing'."
           }
         }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      }
+    ]
+  },
+  {
+    "id": "collection",
+    "name": "Collection",
+    "description": "Paginated, filterable listing of a document type, driven by the URL's search params.",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "source",
+        "name": "Source",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "article"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "article"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Which document type to list."
+          }
+        }
+      },
+      {
+        "id": "pageSize",
+        "name": "Page size",
+        "type": "Number",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "numberEditor",
+          "settings": {
+            "helpText": "Items per page. Defaults to 12."
+          }
+        }
+      },
+      {
+        "id": "filters",
+        "name": "Filters",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "category",
+              "tags"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "category"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Taxonomy shown as filter chips."
+          }
+        }
+      },
+      {
+        "id": "search",
+        "name": "Search",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Show a search box. Searches use the CMS's own search and are never cached."
+          }
+        }
+      },
+      {
+        "id": "sort",
+        "name": "Sort",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "newest",
+              "oldest",
+              "title"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "newest"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Default order; visitors can change it."
+          }
+        }
+      },
+      {
+        "id": "emptyMessage",
+        "name": "Empty message",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Shown when no items match."
+          }
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      }
+    ]
+  },
+  {
+    "id": "latestNews",
+    "name": "Latest news",
+    "description": "The newest few items of a document type, for a home page or landing page, with a link to the full listing.",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "source",
+        "name": "Source",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "article"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "article"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Which document type to show."
+          }
+        }
+      },
+      {
+        "id": "category",
+        "name": "Category",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "category"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "editor": {
+          "widgetId": "entryLinkEditor",
+          "settings": {
+            "helpText": "Only show items in this category. Empty shows every category."
+          }
+        }
+      },
+      {
+        "id": "count",
+        "name": "Count",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "3",
+              "4",
+              "6"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "3"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "How many items; the grid always fills."
+          }
+        }
+      },
+      {
+        "id": "actions",
+        "name": "Actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 1
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "The \\"see all\\" link. Left empty, it links to the page that lists this type."
+          }
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
       }
     ]
   },
@@ -3810,13 +6938,315 @@ exports[`schema generator > is stable 1`] = `
                 "tabs",
                 "richText",
                 "media",
-                "form"
+                "gallery",
+                "form",
+                "collection",
+                "latestNews"
               ]
             }
           ]
         },
         "editor": {
           "widgetId": "entryLinksEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "article",
+    "name": "Article",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "path",
+        "name": "Path",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "unique": true
+          },
+          {
+            "regexp": {
+              "pattern": "^/"
+            },
+            "message": "Paths start with /, e.g. /pricing. The home page is /."
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "URL path, usually under the listing page, e.g. /news/launch."
+          }
+        }
+      },
+      {
+        "id": "publishedAt",
+        "name": "Published at",
+        "type": "Date",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "datePicker",
+          "settings": {
+            "helpText": "Listings sort by this date, newest first."
+          }
+        }
+      },
+      {
+        "id": "excerpt",
+        "name": "Excerpt",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine",
+          "settings": {
+            "helpText": "Shown on cards and as the default meta description."
+          }
+        }
+      },
+      {
+        "id": "image",
+        "name": "Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "category",
+        "name": "Category",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "category"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "editor": {
+          "widgetId": "entryLinkEditor"
+        }
+      },
+      {
+        "id": "tags",
+        "name": "Tags",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "category"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Optional second axis for filtering."
+          }
+        }
+      },
+      {
+        "id": "body",
+        "name": "Body",
+        "type": "RichText",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "enabledNodeTypes": [
+              "heading-2",
+              "heading-3",
+              "heading-4",
+              "heading-5",
+              "heading-6",
+              "ordered-list",
+              "unordered-list",
+              "hr",
+              "blockquote",
+              "embedded-asset-block",
+              "hyperlink",
+              "entry-hyperlink",
+              "asset-hyperlink"
+            ]
+          },
+          {
+            "enabledMarks": [
+              "bold",
+              "italic",
+              "underline",
+              "code",
+              "strikethrough"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "richTextEditor"
+        }
+      },
+      {
+        "id": "blocks",
+        "name": "Blocks",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "hero",
+                "logoCloud",
+                "featureGrid",
+                "featureSplit",
+                "stats",
+                "testimonials",
+                "pricing",
+                "comparisonTable",
+                "faq",
+                "cta",
+                "cardGrid",
+                "teamGrid",
+                "steps",
+                "tabs",
+                "richText",
+                "media",
+                "gallery",
+                "form",
+                "collection",
+                "latestNews"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Optional sections rendered below the body."
+          }
+        }
+      },
+      {
+        "id": "seoTitle",
+        "name": "Seo title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 70
+            }
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "seoDescription",
+        "name": "Seo description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "noIndex",
+        "name": "No index",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "id": "category",
+    "name": "Category",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "slug",
+        "name": "Slug",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "unique": true
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "URL-safe key used in listing filters, e.g. product-news."
+          }
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
         }
       }
     ]

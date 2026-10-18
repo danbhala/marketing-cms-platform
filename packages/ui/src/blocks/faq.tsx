@@ -21,7 +21,11 @@ function Faq({ block, index, className, ...props }: FaqProps) {
     <BlockSection block={block} className={className} {...props}>
       <Container
         size={split ? "section" : "md"}
-        className={cn(split ? "grid gap-10 section-md:grid-cols-[1fr_2fr] section-lg:gap-16" : "flex flex-col gap-(--block-header-gap)")}
+        className={cn(
+          split
+            ? "grid gap-10 section-md:grid-cols-[1fr_2fr] section-lg:gap-16"
+            : "flex flex-col gap-(--block-header-gap)"
+        )}
       >
         <SectionHeader
           eyebrow={block.eyebrow}

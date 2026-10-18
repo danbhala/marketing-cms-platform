@@ -1,6 +1,23 @@
 import { normalizePath } from "@platform/cms-core/tags"
-import type { AnyDefinition, Editable, EditAttrs, Field, Page, SiteSettings } from "@platform/content-model"
-import { page as pageDefinition, schemaFor, siteSettings as siteSettingsDefinition } from "@platform/content-model"
+import type {
+  AnyDefinition,
+  Article,
+  ArticleSummary,
+  Category,
+  Editable,
+  EditAttrs,
+  Field,
+  Page,
+  SiteSettings,
+} from "@platform/content-model"
+import {
+  article as articleDefinition,
+  category as categoryDefinition,
+  dateSchema,
+  page as pageDefinition,
+  schemaFor,
+  siteSettings as siteSettingsDefinition,
+} from "@platform/content-model"
 
 import { assetAttrs, entryAttrs } from "./edit"
 import { isAsset, toMedia } from "./media"
@@ -51,12 +68,30 @@ export function transformSiteSettings(entry: RawEntry, ctx: TransformContext): S
   return transformEntry(entry, siteSettingsDefinition, ctx) as SiteSettings
 }
 
+export function transformArticle(entry: RawEntry, ctx: TransformContext): Article {
+  return transformEntry(entry, articleDefinition, ctx) as Article
+}
+
+export function transformCategory(entry: RawEntry, ctx: TransformContext): Category {
+  return transformEntry(entry, categoryDefinition, ctx) as Category
+}
+
+/** The card-sized view a listing returns: never the body or blocks. */
+export function toSummary(article: Article): ArticleSummary {
+  const { id, type, title, path, publishedAt, excerpt, image, category, tags, $edit } = article
+  return { id, type, title, path, publishedAt, excerpt, image, category, tags, ...($edit ? { $edit } : {}) }
+}
+
 /**
  * Raw entry → canonical `{ id, type, ...fields }`, recursively for linked
  * items and blocks, validated against the definition's zod schema. Every
  * level validates itself so a failure names the nearest entry, not the page.
  */
-export function transformEntry(entry: RawEntry, definition: AnyDefinition, ctx: TransformContext): Record<string, unknown> {
+export function transformEntry(
+  entry: RawEntry,
+  definition: AnyDefinition,
+  ctx: TransformContext
+): Record<string, unknown> {
   const warn = ctx.warn ?? (() => {})
   const raw = entry.fields ?? {}
   const node: Record<string, unknown> = { id: entry.sys.id, type: definition.type }
@@ -68,7 +103,7 @@ export function transformEntry(entry: RawEntry, definition: AnyDefinition, ctx: 
   }
 
   // Editors type paths loosely ("pricing", "/pricing/"); the site keys everything by the normalised form.
-  if (definition.type === "page" && typeof node.path === "string") node.path = normalizePath(node.path)
+  if (definition.routable && typeof node.path === "string") node.path = normalizePath(node.path)
 
   if (ctx.edit) node.$edit = editMetadata(entry, fields, ctx.locale)
 
@@ -76,7 +111,12 @@ export function transformEntry(entry: RawEntry, definition: AnyDefinition, ctx: 
   if (!result.success) {
     const issue = result.error.issues[0]
     const path = issue?.path.map(String).join(".")
-    throw new ContentfulTransformError(entry.sys.id, definition.type, path || undefined, issue?.message ?? "invalid content")
+    throw new ContentfulTransformError(
+      entry.sys.id,
+      definition.type,
+      path || undefined,
+      issue?.message ?? "invalid content"
+    )
   }
   return node
 }
@@ -98,29 +138,52 @@ function convertField(field: Field, raw: unknown, ctx: Required<TransformContext
       return isDocument(raw) ? richTextFromDocument(raw, { warn: ctx.warn }) : undefined
     case "media":
       return toMedia(raw) ?? undefined
+    case "date":
+      return toIsoDate(raw)
     case "select": {
       if (raw === undefined || raw === null) return undefined
       if (typeof raw === "string" && field.options.includes(raw)) return raw
       ctx.warn(`${label}: "${String(raw)}" is not one of ${field.options.join(", ")}; ignored`)
       return undefined
     }
-    case "items":
-    case "blocks": {
-      // Required lists default to [] so a block with no children still validates.
-      const out: unknown[] = []
-      for (const child of Array.isArray(raw) ? raw : []) {
-        if (!isEntry(child)) continue
-        const type = contentTypeOf(child)
-        const definition = field.of.find((candidate) => candidate.type === type)
-        if (!definition) {
-          ctx.warn(`${label}: entry "${child.sys.id}" has content type "${type}" which is not allowed here; skipped`)
-          continue
-        }
-        out.push(transformEntry(child, definition, ctx))
-      }
-      return out
+    case "reference": {
+      const linked = linkedEntries(field.of, Array.isArray(raw) ? raw : [raw], ctx, label)
+      return field.multiple ? linked : linked[0]
     }
+    case "items":
+    case "blocks":
+      // Required lists default to [] so a block with no children still validates.
+      return linkedEntries(field.of, Array.isArray(raw) ? raw : [], ctx, label)
   }
+}
+
+/** Resolved links → canonical nodes; links to unknown content types (or unresolvable ones) are skipped. */
+function linkedEntries(
+  allowed: readonly AnyDefinition[],
+  raw: unknown[],
+  ctx: Required<TransformContext>,
+  label: string
+): Record<string, unknown>[] {
+  const out: Record<string, unknown>[] = []
+  for (const child of raw) {
+    if (!isEntry(child)) continue
+    const type = contentTypeOf(child)
+    const definition = allowed.find((candidate) => candidate.type === type)
+    if (!definition) {
+      ctx.warn(`${label}: entry "${child.sys.id}" has content type "${type}" which is not allowed here; skipped`)
+      continue
+    }
+    out.push(transformEntry(child, definition, ctx))
+  }
+  return out
+}
+
+/** Contentful stores whatever the date picker produced ("2026-10-18", "2026-10-18T09:00+02:00"); keep ISO forms as is. */
+function toIsoDate(raw: unknown): string | undefined {
+  if (typeof raw !== "string" || raw === "") return undefined
+  if (dateSchema.safeParse(raw).success) return raw
+  const time = Date.parse(raw)
+  return Number.isNaN(time) ? undefined : new Date(time).toISOString()
 }
 
 /**
@@ -134,7 +197,8 @@ function editMetadata(entry: RawEntry, fields: Record<string, Field>, locale: st
   for (const name of names) {
     const field = fields[name]
     const raw = entry.fields?.[name]
-    edits[name] = field?.kind === "media" && isAsset(raw) ? assetAttrs(raw.sys.id, locale) : entryAttrs(entry.sys.id, name, locale)
+    edits[name] =
+      field?.kind === "media" && isAsset(raw) ? assetAttrs(raw.sys.id, locale) : entryAttrs(entry.sys.id, name, locale)
   }
   return { self: entryAttrs(entry.sys.id, names[0] ?? "title", locale), fields: edits }
 }

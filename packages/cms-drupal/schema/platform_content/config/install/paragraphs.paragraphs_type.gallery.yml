@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: gallery
+label: Gallery
+icon_uuid: null
+icon_default: null
+description: 'Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.'
+behavior_plugins: {  }

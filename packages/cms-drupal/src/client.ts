@@ -25,6 +25,8 @@ export interface JsonApiDocument {
   data: JsonApiResourceObject | JsonApiResourceObject[] | null
   included?: JsonApiResourceObject[]
   links?: Record<string, { href: string } | string>
+  /** Core sends `omitted`; a count module may add `count` (core never does). */
+  meta?: Record<string, unknown>
 }
 
 export interface DrupalQuery {
@@ -40,9 +42,16 @@ export interface DrupalApi {
   /** `GET /router/translate-path?path=…` (decoupled_router, installed with the `next` module). */
   translatePath(path: string, query: DrupalQuery): Promise<DrupalTranslatedPath | null>
   /** One resource by type and uuid with query params (`include`, `fields[…]`). Null on 404. */
-  getResource(type: string, uuid: string, params: Record<string, string>, query: DrupalQuery): Promise<JsonApiDocument | null>
+  getResource(
+    type: string,
+    uuid: string,
+    params: Record<string, string>,
+    query: DrupalQuery
+  ): Promise<JsonApiDocument | null>
   /** A collection, following `links.next` so callers see every page; `data` and `included` are merged across pages. */
   getCollection(type: string, params: Record<string, string>, query: DrupalQuery): Promise<JsonApiDocument>
+  /** One page of a collection as Drupal returns it, `links` and `meta` included; `page[offset]` / `page[limit]` go in `params`. */
+  getCollectionPage(type: string, params: Record<string, string>, query: DrupalQuery): Promise<JsonApiDocument>
   /** POSTs the preview query string to `/next/draft-url`; true when Drupal accepts the secret. */
   validateDraftUrl(searchParams: URLSearchParams): Promise<boolean>
 }
@@ -71,8 +80,18 @@ export function createDrupalApi(options: DrupalClientOptions): DrupalApi {
   })
 
   const localeOptions = (query: DrupalQuery) =>
-    query.locale && query.locale !== options.defaultLocale ? { locale: query.locale, defaultLocale: options.defaultLocale } : {}
+    query.locale && query.locale !== options.defaultLocale
+      ? { locale: query.locale, defaultLocale: options.defaultLocale }
+      : {}
   const withAuth = (query: DrupalQuery) => query.draft && hasAuth
+
+  const collectionPage = async (type: string, params: Record<string, string>, query: DrupalQuery) =>
+    (await drupal.getResourceCollection<JsonApiResponse>(type, {
+      deserialize: false,
+      params,
+      withAuth: withAuth(query),
+      ...localeOptions(query),
+    })) as unknown as JsonApiDocument
 
   return {
     async translatePath(path, query) {
@@ -81,7 +100,8 @@ export function createDrupalApi(options: DrupalClientOptions): DrupalApi {
     },
 
     async getResource(type, uuid, params, query) {
-      const versioned = query.draft && query.resourceVersion && hasAuth ? { ...params, resourceVersion: query.resourceVersion } : params
+      const versioned =
+        query.draft && query.resourceVersion && hasAuth ? { ...params, resourceVersion: query.resourceVersion } : params
       try {
         // `deserialize: false` hands back the raw document, which next-drupal's generic cannot express.
         const json = (await drupal.getResource(type, uuid, {
@@ -102,13 +122,10 @@ export function createDrupalApi(options: DrupalClientOptions): DrupalApi {
       }
     },
 
+    getCollectionPage: collectionPage,
+
     async getCollection(type, params, query) {
-      const first = (await drupal.getResourceCollection<JsonApiResponse>(type, {
-        deserialize: false,
-        params,
-        withAuth: withAuth(query),
-        ...localeOptions(query),
-      })) as unknown as JsonApiDocument
+      const first = await collectionPage(type, params, query)
       const data = [...(Array.isArray(first.data) ? first.data : [])]
       const included = [...(first.included ?? [])]
       let next = nextLink(first)

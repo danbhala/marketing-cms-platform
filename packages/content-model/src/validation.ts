@@ -52,7 +52,7 @@ const blockNode: z.ZodType<unknown> = z.lazy(() =>
     z.object({ type: z.literal("thematicBreak") }),
     z.object({ type: z.literal("image"), media: mediaSchema }),
     z.object({ type: z.literal("codeBlock"), code: z.string(), language: z.string().optional() }),
-  ]),
+  ])
 )
 
 export const richTextSchema = z.object({
@@ -68,6 +68,11 @@ export const editableSchema = z
   })
   .optional()
 
+/** ISO 8601 date ("2026-10-18") or date-time ("2026-10-18T09:00:00Z"). Adapters normalise CMS dates to this. */
+export const dateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?$/, "Expected an ISO 8601 date")
+
 const cache = new WeakMap<AnyDefinition, z.ZodType>()
 
 function fieldSchema(field: Field): z.ZodType {
@@ -79,6 +84,12 @@ function fieldSchema(field: Field): z.ZodType {
       return z.string()
     case "textList":
       return z.array(z.string())
+    case "date":
+      return dateSchema
+    case "reference": {
+      const one = z.union(field.of.map((d) => schemaFor(d)) as [z.ZodType, z.ZodType, ...z.ZodType[]] | [z.ZodType])
+      return field.multiple ? z.array(one) : one
+    }
     case "richText":
       return richTextSchema
     case "number":

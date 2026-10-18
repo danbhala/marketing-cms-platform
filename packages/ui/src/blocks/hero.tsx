@@ -1,17 +1,18 @@
 import { cva } from "class-variance-authority"
 
-import type { HeroBlock } from "@platform/content-model"
+import { headingAnimationSettings, scrollEffectSetting, type HeroBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
+import { ScrollEffect } from "@platform/animation"
 
 import { Container } from "../atoms/container"
 import { Eyebrow } from "../atoms/eyebrow"
 import { Heading } from "../atoms/heading"
-import { Image } from "../atoms/image"
+import { Image, imageFrameVariants } from "../atoms/image"
 import { Stack } from "../atoms/layout"
 import { Text } from "../atoms/text"
 import { ActionGroup } from "../molecules/action-group"
 import { cn } from "../lib/utils"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 const heroLayout = cva("grid items-center gap-10 section-lg:gap-16", {
   variants: {
@@ -37,6 +38,7 @@ function Hero({ block, className, ...props }: HeroProps) {
   const layout = block.layout ?? "centered"
   const centered = layout === "centered" || layout === "background"
   const background = layout === "background" && block.media
+  const effect = scrollEffectSetting(block)
 
   return (
     <BlockSection
@@ -47,31 +49,75 @@ function Hero({ block, className, ...props }: HeroProps) {
     >
       {background ? (
         <div aria-hidden className="absolute inset-0" {...fieldAttrs(block, "media")}>
-          <Image media={block.media!} fill sizes="100vw" priority />
+          <ScrollEffect effect={effect} className="absolute inset-0">
+            <Image media={block.media!} fill sizes="100vw" priority />
+          </ScrollEffect>
           <div className="absolute inset-0 bg-background/75" />
         </div>
       ) : null}
       <Container className={cn("relative", heroLayout({ layout }))}>
         <Stack gap="lg" align={centered ? "center" : "start"} className={cn(centered && "max-w-(--container-md)")}>
           {block.eyebrow ? (
-            <Eyebrow {...fieldAttrs(block, "eyebrow")}>
-              {block.eyebrow}
-            </Eyebrow>
+            <BlockItem block={block}>
+              <Eyebrow {...fieldAttrs(block, "eyebrow")}>{block.eyebrow}</Eyebrow>
+            </BlockItem>
           ) : null}
-          <Heading as="h1" size="display" tone="inherit" align={centered ? "center" : "start"} {...fieldAttrs(block, "title")}>
-            {block.title}
-          </Heading>
+          <BlockItem block={block}>
+            <Heading
+              as="h1"
+              size="display"
+              tone="inherit"
+              align={centered ? "center" : "start"}
+              animation={headingAnimationSettings(block)}
+              {...fieldAttrs(block, "title")}
+            >
+              {block.title}
+            </Heading>
+          </BlockItem>
           {block.description ? (
-            <Text size="lead" tone="muted" {...fieldAttrs(block, "description")}>
-              {block.description}
-            </Text>
+            <BlockItem block={block}>
+              <Text size="lead" tone="muted" {...fieldAttrs(block, "description")}>
+                {block.description}
+              </Text>
+            </BlockItem>
           ) : null}
-          <ActionGroup actions={block.actions} align={centered ? "center" : "start"} stackOnMobile {...fieldAttrs(block, "actions")} />
+          <BlockItem block={block}>
+            <ActionGroup
+              actions={block.actions}
+              align={centered ? "center" : "start"}
+              stackOnMobile
+              {...fieldAttrs(block, "actions")}
+            />
+          </BlockItem>
         </Stack>
         {block.media && !background ? (
-          <div className={cn("w-full", centered && "mt-4 max-w-(--container-lg)")} {...fieldAttrs(block, "media")}>
-            <Image media={block.media} ratio={centered ? "video" : "4/3"} radius="xl" priority sizes="(min-width: 1024px) 50vw, 100vw" className="shadow-lg ring-1 ring-foreground/10" />
-          </div>
+          <BlockItem
+            block={block}
+            as="div"
+            className={cn("w-full", centered && "mt-4 max-w-(--container-lg)")}
+            {...fieldAttrs(block, "media")}
+          >
+            {effect ? (
+              <ScrollEffect
+                effect={effect}
+                className={cn(
+                  imageFrameVariants({ ratio: centered ? "video" : "4/3", radius: "xl" }),
+                  "shadow-lg ring-1 ring-foreground/10"
+                )}
+              >
+                <Image media={block.media} fill priority sizes="(min-width: 1024px) 50vw, 100vw" />
+              </ScrollEffect>
+            ) : (
+              <Image
+                media={block.media}
+                ratio={centered ? "video" : "4/3"}
+                radius="xl"
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="shadow-lg ring-1 ring-foreground/10"
+              />
+            )}
+          </BlockItem>
         ) : null}
       </Container>
     </BlockSection>

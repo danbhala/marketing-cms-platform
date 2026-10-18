@@ -49,7 +49,11 @@ export const HOME_STORY_ID = 612345678
 export const richTextDoc = {
   type: "doc",
   content: [
-    { type: "heading", attrs: { level: 2, textAlign: null }, content: [{ text: "Why event-based analytics", type: "text" }] },
+    {
+      type: "heading",
+      attrs: { level: 2, textAlign: null },
+      content: [{ text: "Why event-based analytics", type: "text" }],
+    },
     {
       type: "paragraph",
       content: [
@@ -64,14 +68,53 @@ export const richTextDoc = {
     {
       type: "bullet_list",
       content: [
-        { type: "list_item", content: [{ type: "paragraph", content: [{ text: "Name events after what the user did, not where they were.", type: "text" }] }] },
-        { type: "list_item", content: [{ type: "paragraph", content: [{ text: "Attach properties generously; storage is cheap and re-instrumentation is not.", type: "text" }] }] },
-        { type: "list_item", content: [{ type: "paragraph", content: [{ text: "Version your definitions so last quarter's chart still means what it meant.", type: "text" }] }] },
+        {
+          type: "list_item",
+          content: [
+            {
+              type: "paragraph",
+              content: [{ text: "Name events after what the user did, not where they were.", type: "text" }],
+            },
+          ],
+        },
+        {
+          type: "list_item",
+          content: [
+            {
+              type: "paragraph",
+              content: [
+                { text: "Attach properties generously; storage is cheap and re-instrumentation is not.", type: "text" },
+              ],
+            },
+          ],
+        },
+        {
+          type: "list_item",
+          content: [
+            {
+              type: "paragraph",
+              content: [
+                { text: "Version your definitions so last quarter's chart still means what it meant.", type: "text" },
+              ],
+            },
+          ],
+        },
       ],
     },
     {
       type: "blockquote",
-      content: [{ type: "paragraph", content: [{ text: "The best tracking plan is the one your team actually follows.", type: "text", marks: [{ type: "italic" }] }] }],
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              text: "The best tracking plan is the one your team actually follows.",
+              type: "text",
+              marks: [{ type: "italic" }],
+            },
+          ],
+        },
+      ],
     },
     {
       type: "code_block",
@@ -85,7 +128,12 @@ export const richTextDoc = {
         {
           text: "tracking plan guide",
           type: "text",
-          marks: [{ type: "link", attrs: { href: "/docs/tracking-plan", uuid: null, anchor: null, target: null, linktype: "url" } }],
+          marks: [
+            {
+              type: "link",
+              attrs: { href: "/docs/tracking-plan", uuid: null, anchor: null, target: null, linktype: "url" },
+            },
+          ],
         },
         { text: " for the full checklist.", type: "text" },
       ],
@@ -120,7 +168,16 @@ export const homeStory = {
     title: "Metrica · Privacy-first product analytics",
     seoTitle: "Metrica · Product analytics",
     seoDescription: "Privacy-first product analytics with real-time dashboards and versioned funnels.",
-    ogImage: { id: null, alt: null, name: "", focus: null, title: null, filename: null, copyright: null, fieldtype: "asset" },
+    ogImage: {
+      id: null,
+      alt: null,
+      name: "",
+      focus: null,
+      title: null,
+      filename: null,
+      copyright: null,
+      fieldtype: "asset",
+    },
     noIndex: false,
     hideBreadcrumbs: false,
     theme: "",
@@ -131,10 +188,23 @@ export const homeStory = {
         description:
           "Privacy-first product analytics with real-time dashboards, versioned funnels and pricing that does not punish you for inviting your team.",
         actions: [
-          blok(HOME_STORY_ID, "action", "act-1", { label: "Start free trial", href: storyLink("signup"), variant: "default", icon: "" }),
-          blok(HOME_STORY_ID, "action", "act-2", { label: "Book a demo", href: storyLink("demo"), variant: "outline", icon: "" }),
+          blok(HOME_STORY_ID, "action", "act-1", {
+            label: "Start free trial",
+            href: storyLink("signup"),
+            variant: "default",
+            icon: "",
+          }),
+          blok(HOME_STORY_ID, "action", "act-2", {
+            label: "Book a demo",
+            href: storyLink("demo"),
+            variant: "outline",
+            icon: "",
+          }),
         ],
-        media: asset(`https://a.storyblok.com/f/${SPACE_ID}/1200x800/9f8e7d6c5b/product-screenshot.png`, "Product screenshot"),
+        media: asset(
+          `https://a.storyblok.com/f/${SPACE_ID}/1200x800/9f8e7d6c5b/product-screenshot.png`,
+          "Product screenshot"
+        ),
         layout: "split",
         theme: "",
         spacing: "",
@@ -162,7 +232,14 @@ export const homeStory = {
           blok(HOME_STORY_ID, "textItem", "bul-2", { text: "Annotate changes for your team" }),
           blok(HOME_STORY_ID, "textItem", "bul-3", { text: "Export to your warehouse" }),
         ],
-        actions: [blok(HOME_STORY_ID, "action", "act-3", { label: "View documentation", href: storyLink("docs"), variant: "link", icon: "arrow-right" })],
+        actions: [
+          blok(HOME_STORY_ID, "action", "act-3", {
+            label: "View documentation",
+            href: storyLink("docs"),
+            variant: "link",
+            icon: "arrow-right",
+          }),
+        ],
         media: asset(`https://a.storyblok.com/f/${SPACE_ID}/x/5a4b3c2d1e/funnel-walkthrough.mp4`, "Funnel walkthrough"),
         mediaPosition: "right",
         theme: "",
@@ -183,7 +260,14 @@ export const homeStory = {
               blok(HOME_STORY_ID, "textItem", "f-1", { text: "100k events / month" }),
               blok(HOME_STORY_ID, "textItem", "f-2", { text: "1 project" }),
             ],
-            action: [blok(HOME_STORY_ID, "action", "plan-1-act", { label: "Get started", href: storyLink("signup"), variant: "outline", icon: "" })],
+            action: [
+              blok(HOME_STORY_ID, "action", "plan-1-act", {
+                label: "Get started",
+                href: storyLink("signup"),
+                variant: "outline",
+                icon: "",
+              }),
+            ],
             highlighted: false,
             badge: "",
           }),
@@ -193,7 +277,14 @@ export const homeStory = {
             period: "/month",
             description: "For teams shipping every week.",
             features: [blok(HOME_STORY_ID, "textItem", "f-3", { text: "5M events / month" })],
-            action: [blok(HOME_STORY_ID, "action", "plan-2-act", { label: "Start free trial", href: urlLink("/signup?plan=growth"), variant: "default", icon: "" })],
+            action: [
+              blok(HOME_STORY_ID, "action", "plan-2-act", {
+                label: "Start free trial",
+                href: urlLink("/signup?plan=growth"),
+                variant: "default",
+                icon: "",
+              }),
+            ],
             highlighted: true,
             badge: "Most popular",
           }),
@@ -242,8 +333,18 @@ export const homeStory = {
         title: "Start measuring what matters",
         description: "Free for up to 100k events a month. No credit card, no cookie banner.",
         actions: [
-          blok(HOME_STORY_ID, "action", "act-1b", { label: "Start free trial", href: storyLink("signup"), variant: "default", icon: "" }),
-          blok(HOME_STORY_ID, "action", "act-4", { label: "Talk to sales", href: { linktype: "email", email: "sales@example.com", fieldtype: "multilink", url: "", cached_url: "" }, variant: "secondary", icon: "" }),
+          blok(HOME_STORY_ID, "action", "act-1b", {
+            label: "Start free trial",
+            href: storyLink("signup"),
+            variant: "default",
+            icon: "",
+          }),
+          blok(HOME_STORY_ID, "action", "act-4", {
+            label: "Talk to sales",
+            href: { linktype: "email", email: "sales@example.com", fieldtype: "multilink", url: "", cached_url: "" },
+            variant: "secondary",
+            icon: "",
+          }),
         ],
         layout: "centered",
         theme: "brand",
@@ -262,18 +363,43 @@ export const richTextExtras = {
       type: "paragraph",
       content: [
         { text: "See the ", type: "text" },
-        { text: "pricing", type: "text", marks: [{ type: "link", attrs: { href: "pricing", uuid: "u1", anchor: "plans", target: null, linktype: "story" } }] },
-        { text: " page", type: "text", marks: [{ type: "bold" }, { type: "link", attrs: { href: "pricing", uuid: "u1", anchor: "plans", target: null, linktype: "story" } }] },
+        {
+          text: "pricing",
+          type: "text",
+          marks: [
+            { type: "link", attrs: { href: "pricing", uuid: "u1", anchor: "plans", target: null, linktype: "story" } },
+          ],
+        },
+        {
+          text: " page",
+          type: "text",
+          marks: [
+            { type: "bold" },
+            { type: "link", attrs: { href: "pricing", uuid: "u1", anchor: "plans", target: null, linktype: "story" } },
+          ],
+        },
         { type: "hard_break" },
         { text: "or email ", type: "text" },
         { text: "us", type: "text", marks: [{ type: "link", attrs: { href: "hi@example.com", linktype: "email" } }] },
-        { text: "deleted", type: "text", marks: [{ type: "strike" }, { type: "underline" }, { type: "code" }, { type: "superscript" }] },
+        {
+          text: "deleted",
+          type: "text",
+          marks: [{ type: "strike" }, { type: "underline" }, { type: "code" }, { type: "superscript" }],
+        },
       ],
     },
     { type: "horizontal_rule" },
     {
       type: "image",
-      attrs: { id: 1, alt: "Chart", src: `https://a.storyblok.com/f/${SPACE_ID}/800x450/abc123/chart.jpg`, title: null, source: null, copyright: null, meta_data: {} },
+      attrs: {
+        id: 1,
+        alt: "Chart",
+        src: `https://a.storyblok.com/f/${SPACE_ID}/800x450/abc123/chart.jpg`,
+        title: null,
+        source: null,
+        copyright: null,
+        meta_data: {},
+      },
     },
     {
       type: "ordered_list",
@@ -314,22 +440,45 @@ export const siteSettingsStory = {
         label: "Product",
         href: { linktype: "story", cached_url: "", url: "", fieldtype: "multilink" },
         links: [
-          blok(SETTINGS_STORY_ID, "navLink", "nav-1", { label: "Dashboards", href: storyLink("product/dashboards"), description: "Real-time, shareable, boring in the best way." }),
-          blok(SETTINGS_STORY_ID, "navLink", "nav-2", { label: "Funnels", href: storyLink("product/funnels"), description: "" }),
+          blok(SETTINGS_STORY_ID, "navLink", "nav-1", {
+            label: "Dashboards",
+            href: storyLink("product/dashboards"),
+            description: "Real-time, shareable, boring in the best way.",
+          }),
+          blok(SETTINGS_STORY_ID, "navLink", "nav-2", {
+            label: "Funnels",
+            href: storyLink("product/funnels"),
+            description: "",
+          }),
         ],
       }),
       blok(SETTINGS_STORY_ID, "navGroup", "nav-pricing", { label: "Pricing", href: storyLink("pricing"), links: [] }),
       blok(SETTINGS_STORY_ID, "navGroup", "nav-home", { label: "Home", href: storyLink("home"), links: [] }),
     ],
-    headerActions: [blok(SETTINGS_STORY_ID, "action", "hdr-2", { label: "Start free", href: storyLink("signup"), variant: "default", icon: "" })],
+    headerActions: [
+      blok(SETTINGS_STORY_ID, "action", "hdr-2", {
+        label: "Start free",
+        href: storyLink("signup"),
+        variant: "default",
+        icon: "",
+      }),
+    ],
     footerColumns: [
       blok(SETTINGS_STORY_ID, "footerColumn", "fc-1", {
         title: "Product",
-        links: [blok(SETTINGS_STORY_ID, "navLink", "fl-9", { label: "Status", href: urlLink("https://status.example.com"), description: "" })],
+        links: [
+          blok(SETTINGS_STORY_ID, "navLink", "fl-9", {
+            label: "Status",
+            href: urlLink("https://status.example.com"),
+            description: "",
+          }),
+        ],
       }),
     ],
     footerNote: "© 2026 Metrica, Inc. All rights reserved.",
-    socialLinks: [blok(SETTINGS_STORY_ID, "socialLink", "soc-1", { platform: "x", href: urlLink("https://x.com/example") })],
+    socialLinks: [
+      blok(SETTINGS_STORY_ID, "socialLink", "soc-1", { platform: "x", href: urlLink("https://x.com/example") }),
+    ],
   }),
 } as unknown as ISbStoryData
 
@@ -354,6 +503,103 @@ export const pricingStory = {
 } as unknown as ISbStoryData
 
 /** Story webhook payloads, as Storyblok posts them. */
-export const webhookPublished = { text: "The user Jane published the Story Home", action: "published", space_id: Number(SPACE_ID), story_id: HOME_STORY_ID, full_slug: "home" }
-export const webhookSettings = { text: "The user Jane published the Story Site settings", action: "published", space_id: Number(SPACE_ID), story_id: SETTINGS_STORY_ID, full_slug: "site-settings" }
-export const webhookMoved = { text: "The user Jane moved the Story Pricing", action: "moved", space_id: Number(SPACE_ID), story_id: 612345680, full_slug: "plans/pricing" }
+export const webhookPublished = {
+  text: "The user Jane published the Story Home",
+  action: "published",
+  space_id: Number(SPACE_ID),
+  story_id: HOME_STORY_ID,
+  full_slug: "home",
+}
+export const webhookSettings = {
+  text: "The user Jane published the Story Site settings",
+  action: "published",
+  space_id: Number(SPACE_ID),
+  story_id: SETTINGS_STORY_ID,
+  full_slug: "site-settings",
+}
+export const webhookMoved = {
+  text: "The user Jane moved the Story Pricing",
+  action: "moved",
+  space_id: Number(SPACE_ID),
+  story_id: 612345680,
+  full_slug: "plans/pricing",
+}
+
+/** Taxonomy terms: the story slug is the term slug, the content holds title and description. */
+const categoryStory = (id: number, uuid: string, slug: string, title: string, description: string) =>
+  ({
+    ...homeStory,
+    id,
+    uuid,
+    name: title,
+    slug,
+    full_slug: `categories/${slug}`,
+    is_startpage: false,
+    content: blok(id, "category", `${slug}-root`, { title, description }),
+  }) as unknown as ISbStoryData
+
+export const categoryProduct = categoryStory(
+  700000001,
+  "a1000000-0000-4000-8000-000000000001",
+  "product-news",
+  "Product news",
+  "Releases, improvements and deprecations."
+)
+export const categoryEvents = categoryStory(
+  700000002,
+  "a1000000-0000-4000-8000-000000000002",
+  "events",
+  "Events",
+  "Talks, webinars and meetups."
+)
+
+export const ARTICLE_STORY_ID = 800000001
+
+/** An article with its relations already expanded by `resolve_relations`, as storyblok-js-client leaves them. */
+export const articleStory = {
+  ...homeStory,
+  id: ARTICLE_STORY_ID,
+  uuid: "b1000000-0000-4000-8000-000000000001",
+  name: "Cohorts and alerts are live",
+  slug: "cohorts-and-alerts-are-live",
+  full_slug: "news/cohorts-and-alerts-are-live",
+  is_startpage: false,
+  content: blok(ARTICLE_STORY_ID, "article", "article-root", {
+    title: "Cohorts and alerts are live",
+    publishedAt: "2026-10-14 09:30",
+    excerpt: "Build cohorts from any property and get a message the moment a metric moves.",
+    image: asset(`https://a.storyblok.com/f/${SPACE_ID}/1200x675/0a1b2c3d4e/cohorts.png`, "Cohorts"),
+    category: categoryProduct,
+    tags: [categoryEvents],
+    body: {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "Cohorts are live." }] }],
+    },
+    blocks: [],
+    seoTitle: "",
+    seoDescription: "",
+    noIndex: false,
+  }),
+} as unknown as ISbStoryData
+
+/** Unresolved relation (a bare UUID), date without time and no tags. */
+export const articleStoryUnresolved = {
+  ...articleStory,
+  id: 800000002,
+  uuid: "b1000000-0000-4000-8000-000000000002",
+  name: "Metrica raises a Series B",
+  slug: "metrica-raises-a-series-b",
+  full_slug: "news/metrica-raises-a-series-b",
+  content: blok(800000002, "article", "article-2-root", {
+    title: "Metrica raises a Series B",
+    publishedAt: "2026-10-09",
+    excerpt: "",
+    category: categoryProduct.uuid,
+    tags: [],
+    body: {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "We are hiring." }] }],
+    },
+    blocks: [],
+  }),
+} as unknown as ISbStoryData

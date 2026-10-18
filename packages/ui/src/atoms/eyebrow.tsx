@@ -13,11 +13,7 @@ export interface EyebrowProps extends React.ComponentProps<"p">, Pick<Typography
 /** Small uppercase label above a heading ("Pricing", "New"). */
 function Eyebrow({ tone = "primary", align, className, ...props }: EyebrowProps) {
   return (
-    <p
-      data-slot="eyebrow"
-      className={cn(typographyVariants({ size: "eyebrow", tone, align }), className)}
-      {...props}
-    />
+    <p data-slot="eyebrow" className={cn(typographyVariants({ size: "eyebrow", tone, align }), className)} {...props} />
   )
 }
 

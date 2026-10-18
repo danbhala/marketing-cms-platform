@@ -5,7 +5,7 @@ import { Container } from "../atoms/container"
 import { Grid } from "../atoms/layout"
 import { PriceCard } from "../molecules/price-card"
 import { SectionHeader } from "../molecules/section-header"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 /** Props for the Pricing block: the `PricingBlock` content plus section attributes. */
 export type PricingProps = BlockComponentProps<PricingBlock>
@@ -17,16 +17,23 @@ function Pricing({ block, index, className, ...props }: PricingProps) {
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container className="flex flex-col gap-(--block-header-gap)">
-        <SectionHeader
-          eyebrow={block.eyebrow}
-          title={block.title}
-          description={block.description}
-          as={index === 0 ? "h1" : "h2"}
-          source={block}
-        />
+        <BlockItem block={block}>
+          <SectionHeader
+            eyebrow={block.eyebrow}
+            title={block.title}
+            description={block.description}
+            as={index === 0 ? "h1" : "h2"}
+            source={block}
+          />
+        </BlockItem>
         <Grid columns={columns} align="stretch" {...fieldAttrs(block, "plans")}>
           {block.plans.map((plan) => (
-            <PriceCard key={plan.id} plan={plan} />
+            <BlockItem key={plan.id} block={block}>
+              <PriceCard
+                plan={plan}
+                countUp={block.countUp ? { duration: block.animationDuration, delay: block.animationDelay } : null}
+              />
+            </BlockItem>
           ))}
         </Grid>
       </Container>

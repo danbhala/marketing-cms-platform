@@ -2,7 +2,16 @@ import type { AnyDefinition, Field } from "@platform/content-model"
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
 import { APP_LABEL, WAGTAIL_VERSION, humanize, pythonClassName, snake, streamName } from "../naming"
-import { renderApiPy, renderAppsPy, renderBlocksPy, renderInitPy, renderModelsPy, renderSignalsPy } from "./python"
+import type { ReferenceField } from "@platform/content-model"
+import {
+  renderApiPy,
+  renderAppsPy,
+  renderBlocksPy,
+  renderInitPy,
+  renderModelsPy,
+  renderSignalsPy,
+  renderStructBlocks,
+} from "./python"
 
 /**
  * Derives a Wagtail app from the content model. The output is Python source
@@ -21,12 +30,15 @@ import { renderApiPy, renderAppsPy, renderBlocksPy, renderInitPy, renderModelsPy
  * - textList → `ListBlock(CharBlock)`; link → `LinkBlock` (page chooser or
  *   URL/path); media → `MediaBlock` (image chooser with alt text, plus a
  *   document chooser for video when `accept` allows it); select →
- *   `ChoiceBlock`; richText → `RichTextBlock`.
+ *   `ChoiceBlock`; richText → `RichTextBlock`; date → `DateBlock` / `DateField`;
+ *   reference → `SnippetChooserBlock` in a block, `ForeignKey` /
+ *   `ParentalManyToManyField` on a model, serialized inline.
  * - routable documents → a `Page` subclass with `HeadlessMixin` and a
  *   `StreamField`; the page's `title`, `path`, `seoTitle`, `seoDescription`
  *   are Wagtail's own `title`, URL, `seo_title` and `search_description`.
  *   Singleton documents → a `BaseGenericSetting` exposed through its own API
- *   endpoint.
+ *   endpoint. Taxonomy documents → a registered snippet model with its own
+ *   read-only endpoint (`/api/v2/category/`), which listings filter by.
  */
 export type WagtailFieldKind = "block" | "model"
 
@@ -48,8 +60,8 @@ export interface WagtailTypeSchema {
   kind: AnyDefinition["kind"]
   /** Python class name. */
   python: string
-  /** Base class in Wagtail. */
-  base: "StructBlock" | "Page" | "BaseGenericSetting"
+  /** Base class in Wagtail; `Model` is a `@register_snippet` Django model. */
+  base: "StructBlock" | "Page" | "BaseGenericSetting" | "Model"
   /** Stream child name for blocks and items. */
   stream?: string
   /** `app_label.ModelName` for models, as the API's `meta.type` reports it. */
@@ -65,8 +77,6 @@ export interface WagtailSchema {
   wagtail: string
   types: WagtailTypeSchema[]
 }
-
-
 
 /**
  * Canonical page fields Wagtail already provides. The generated model does not
@@ -86,7 +96,13 @@ export function generateSchema(): WagtailSchema {
 
 export function toTypeSchema(definition: AnyDefinition): WagtailTypeSchema {
   const isModel = definition.kind === "document"
-  const base = !isModel ? "StructBlock" : definition.routable ? "Page" : "BaseGenericSetting"
+  const base = !isModel
+    ? "StructBlock"
+    : definition.routable
+      ? "Page"
+      : definition.taxonomy
+        ? "Model"
+        : "BaseGenericSetting"
   const python = pythonClassName(definition)
   const fields: WagtailFieldSchema[] = []
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
@@ -115,6 +131,8 @@ const py = (value: string) => JSON.stringify(value)
 const label = (name: string, field: Field) => py(field.label ?? humanize(name))
 const helpText = (field: Field) => (field.description ? `, help_text=${py(field.description)}` : "")
 const choices = (options: readonly string[]) => `[${options.map((o) => `(${py(o)}, ${py(humanize(o))})`).join(", ")}]`
+/** `"platform_cms.Category"`: the model a reference points at (the first allowed type; Django has no unions). */
+const referenceTarget = (field: ReferenceField) => py(`${APP_LABEL}.${pythonClassName(field.of[0]!)}`)
 
 /** The StreamField block expression for one field inside a StructBlock. */
 export function blockField(name: string, field: Field): string {
@@ -138,13 +156,20 @@ export function blockField(name: string, field: Field): string {
       return `LinkBlock(${req}, ${common})`
     case "media":
       return `MediaBlock(${req}, accept=${py(field.accept ?? "image")}, ${common})`
+    case "date":
+      return `blocks.DateBlock(${req}, ${common})`
+    case "reference":
+      if (field.multiple)
+        return `blocks.ListBlock(APISnippetChooserBlock(${referenceTarget(field)}), default=[], ${common})`
+      return `APISnippetChooserBlock(${referenceTarget(field)}, ${req}, ${common})`
     case "select":
       return `blocks.ChoiceBlock(choices=${choices(field.options)}, ${req}${field.defaultValue ? `, default=${py(field.defaultValue)}` : ""}, ${common})`
     case "textList":
       return `blocks.ListBlock(blocks.CharBlock(label="Text"), default=[], ${common})`
     case "items": {
       const bounds = `${field.min !== undefined ? `, min_num=${field.min}` : ""}${field.max !== undefined ? `, max_num=${field.max}` : ""}`
-      if (field.of.length === 1) return `ItemListBlock(${pythonClassName(field.of[0]!)}()${bounds}, default=[], ${common})`
+      if (field.of.length === 1)
+        return `ItemListBlock(${pythonClassName(field.of[0]!)}()${bounds}, default=[], ${common})`
       return `blocks.StreamBlock(${streamChildren(field.of)}, required=False${bounds}, ${common})`
     }
     case "blocks":
@@ -173,6 +198,12 @@ export function modelField(name: string, field: Field): string {
       return `models.CharField(max_length=2048, ${blank}, verbose_name=${label(name, field)}, help_text=${py(field.description ?? "URL or site path, e.g. /pricing.")})`
     case "media":
       return `models.ForeignKey("wagtailimages.Image", null=True, ${blank}, on_delete=models.SET_NULL, related_name="+", ${common})`
+    case "date":
+      return `models.DateField(${field.required ? "" : "null=True, "}${blank}, ${common})`
+    case "reference":
+      if (field.multiple)
+        return `ParentalManyToManyField(${referenceTarget(field)}, blank=True, related_name="+", ${common})`
+      return `models.ForeignKey(${referenceTarget(field)}, null=True, ${blank}, on_delete=models.SET_NULL, related_name="+", ${common})`
     case "select": {
       const maxLength = Math.max(...field.options.map((o) => o.length), 1)
       return `models.CharField(max_length=${maxLength}, choices=${choices(field.options)}, ${blank}${field.defaultValue ? `, default=${py(field.defaultValue)}` : ""}, ${common})`
@@ -207,4 +238,4 @@ export function renderFiles(schema: WagtailSchema): Record<string, string> {
   }
 }
 
-export { renderApiPy, renderAppsPy, renderBlocksPy, renderInitPy, renderModelsPy, renderSignalsPy }
+export { renderApiPy, renderAppsPy, renderBlocksPy, renderInitPy, renderModelsPy, renderSignalsPy, renderStructBlocks }

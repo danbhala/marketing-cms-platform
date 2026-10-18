@@ -4,16 +4,22 @@ import { describe, expect, it } from "vitest"
 import { tags } from "@platform/cms-core/tags"
 import type { HeroBlock } from "@platform/content-model"
 
+import articleFixture from "./__fixtures__/article.json"
+import categoriesFixture from "./__fixtures__/categories.json"
 import pageFixture from "./__fixtures__/page.json"
 import settingsFixture from "./__fixtures__/site-settings.json"
 import { createSanityAdapter } from "./index"
-import { PAGE_QUERY, PATH_BY_ID_QUERY, PATHS_QUERY, SITE_SETTINGS_QUERY } from "./queries"
+import { DOCUMENT_QUERY, PAGE_QUERY, PATH_BY_ID_QUERY, PATHS_QUERY, SITE_SETTINGS_QUERY } from "./queries"
 import { SIGNATURE_HEADER, isValidSignature, signPayload } from "./webhook"
 
 /** In-memory GROQ "server": answers the adapter's queries from fixtures and records every call. */
 function stubAdapter() {
   const configs: ClientConfig[] = []
-  const calls: Array<{ query: string; params: Record<string, unknown> | undefined; perspective: ClientConfig["perspective"] }> = []
+  const calls: Array<{
+    query: string
+    params: Record<string, unknown> | undefined
+    perspective: ClientConfig["perspective"]
+  }> = []
   const adapter = createSanityAdapter({
     projectId: "testproj",
     dataset: "production",
@@ -28,11 +34,30 @@ function stubAdapter() {
           calls.push({ query, params, perspective: config.perspective })
           if (query === PAGE_QUERY) {
             const slugs = params?.slugs as string[]
-            return (slugs.includes("/") ? pageFixture : slugs.includes("pricing") ? { ...pageFixture, _id: "page-pricing", path: "pricing" } : null) as R
+            return (
+              slugs.includes("/")
+                ? pageFixture
+                : slugs.includes("pricing")
+                  ? { ...pageFixture, _id: "page-pricing", path: "pricing" }
+                  : null
+            ) as R
+          }
+          if (query === DOCUMENT_QUERY) {
+            const slugs = params?.slugs as string[]
+            return (
+              slugs.includes("/")
+                ? pageFixture
+                : slugs.includes("news/cohorts-and-alerts-are-live")
+                  ? articleFixture
+                  : null
+            ) as R
           }
           if (query === SITE_SETTINGS_QUERY) return settingsFixture as R
-          if (query === PATHS_QUERY) return ["/", "pricing", "/about", "about"] as R
-          if (query === PATH_BY_ID_QUERY) return ((params?.ids as string[]).includes("page-pricing") ? "pricing" : null) as R
+          if (query === PATHS_QUERY) return ["/", "pricing", "/about", "about", "news/launch"] as R
+          if (query === PATH_BY_ID_QUERY)
+            return ((params?.ids as string[]).includes("page-pricing") ? "pricing" : null) as R
+          if (query.startsWith('{ "items": *[_type == "article"')) return { items: [articleFixture], total: 30 } as R
+          if (query.startsWith('*[_type == "category"]')) return categoriesFixture as R
           throw new Error(`unexpected query: ${query}`)
         },
       }
@@ -59,7 +84,12 @@ describe("sanity adapter", () => {
     await adapter.getPage("/", draft)
 
     expect(configs).toHaveLength(2)
-    expect(configs[0]).toMatchObject({ projectId: "testproj", dataset: "production", perspective: "published", useCdn: true })
+    expect(configs[0]).toMatchObject({
+      projectId: "testproj",
+      dataset: "production",
+      perspective: "published",
+      useCdn: true,
+    })
     expect(configs[0]!.token).toBeUndefined()
     expect(configs[1]).toMatchObject({
       perspective: "drafts",
@@ -84,7 +114,103 @@ describe("sanity adapter", () => {
   it("serves site settings and normalised paths", async () => {
     const { adapter } = stubAdapter()
     expect((await adapter.getSiteSettings(published))?.siteName).toBe("Metrica")
-    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing", "/about"])
+    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing", "/about", "/news/launch"])
+    expect(PATHS_QUERY).toContain('_type in ["page","article"]')
+  })
+
+  describe("listings", () => {
+    const base = { source: "article", page: 1, pageSize: 9, sort: "newest", filters: {} } as const
+
+    it("resolves pages and articles through getDocument", async () => {
+      const { adapter, calls } = stubAdapter()
+      expect((await adapter.getDocument("/", published))?.type).toBe("page")
+      const article = await adapter.getDocument("/news/cohorts-and-alerts-are-live/", published)
+      expect(article?.type).toBe("article")
+      expect(article).toMatchObject({
+        id: "article-1",
+        path: "/news/cohorts-and-alerts-are-live",
+        publishedAt: "2026-10-14",
+        category: { id: "cat-product", type: "category", slug: "product-news" },
+        tags: [{ id: "cat-events", slug: "events" }],
+      })
+      expect(await adapter.getDocument("/news/nope", published)).toBeNull()
+      expect(calls[0]!.query).toBe(DOCUMENT_QUERY)
+      expect(DOCUMENT_QUERY).toContain('| order(_type desc)[0]{ _id, _type, _type == "page" => {')
+      expect(DOCUMENT_QUERY).toContain(
+        'category->{ _id, _type, _type == "category" => { title, "slug": slug.current, description } }'
+      )
+      expect(DOCUMENT_QUERY).toContain("tags[]->{ _id, _type,")
+    })
+
+    it("sends one GROQ query with the page of items and the total", async () => {
+      const { adapter, calls } = stubAdapter()
+      const result = await adapter.getCollection(
+        { ...base, page: 2, filters: { category: ["events", "company"] } },
+        published
+      )
+      expect(result).toMatchObject({ total: 30, page: 2, pageSize: 9 })
+      expect(result.items).toHaveLength(1)
+      expect(result.items[0]).toMatchObject({
+        id: "article-1",
+        title: "Cohorts and alerts are live",
+        publishedAt: "2026-10-14",
+      })
+      expect(result.items[0]).not.toHaveProperty("body")
+      expect(result.items[0]!.category?.slug).toBe("product-news")
+
+      const { query, params, perspective } = calls[0]!
+      expect(perspective).toBe("published")
+      expect(params).toEqual({ categorySlugs: ["events", "company"], start: 9, end: 18 })
+      expect(query).toContain(
+        '"items": *[_type == "article" && category->slug.current in $categorySlugs] | order(publishedAt desc) [$start...$end]{ _id, _type, title, "path": slug.current, publishedAt, excerpt, image{'
+      )
+      expect(query).toContain('"total": count(*[_type == "article" && category->slug.current in $categorySlugs])')
+      expect(query).not.toContain("body")
+    })
+
+    it("maps multi-reference filters, sorting and search", async () => {
+      const { adapter, calls } = stubAdapter()
+      await adapter.getCollection({ ...base, sort: "oldest", filters: { tags: ["company"] } }, published)
+      expect(calls[0]!.query).toContain(
+        '*[_type == "article" && count((tags[]->slug.current)[@ in $tagsSlugs]) > 0] | order(publishedAt asc)'
+      )
+      expect(calls[0]!.params).toMatchObject({ tagsSlugs: ["company"] })
+
+      await adapter.getCollection({ ...base, sort: "title", q: " flame  graph! " }, published)
+      expect(calls[1]!.query).toContain('*[_type == "article" && [title, excerpt] match $q] | order(title asc)')
+      expect(calls[1]!.params).toMatchObject({ q: "flame* graph*" })
+
+      await adapter.getCollection({ ...base, filters: { title: ["x"], category: [] } }, published)
+      expect(calls[2]!.query).toContain('*[_type == "article" && false]')
+      expect(calls[2]!.params).toEqual({ start: 0, end: 9 })
+    })
+
+    it("reads drafts and attaches $edit to listing items in draft mode", async () => {
+      const { adapter, calls } = stubAdapter()
+      const result = await adapter.getCollection(base, draft)
+      expect(calls[0]!.perspective).toBe("drafts")
+      expect(result.items[0]?.$edit?.fields?.title?.["data-sanity"]).toContain("id=article-1;type=article;path=title")
+      expect(result.items[0]?.category?.$edit?.fields?.title?.["data-sanity"]).toContain("id=cat-product;type=category")
+    })
+
+    it("returns taxonomy terms and nothing for unknown types", async () => {
+      const { adapter, calls } = stubAdapter()
+      const terms = await adapter.getTaxonomy("category", published)
+      expect(terms.map((t) => t.slug)).toEqual(["company", "events", "product-news"])
+      expect(terms[0]).toEqual({
+        id: "cat-company",
+        type: "category",
+        title: "Company",
+        slug: "company",
+        description: "Hiring, funding and the occasional office dog.",
+      })
+      expect(calls[0]!.query).toBe(
+        '*[_type == "category"] | order(title asc){ _id, _type, title, "slug": slug.current, description }'
+      )
+      expect((await adapter.getTaxonomy("category", draft))[0]?.$edit?.fields?.title).toBeDefined()
+      expect(await adapter.getTaxonomy("nope", published)).toEqual([])
+      expect(calls).toHaveLength(2)
+    })
   })
 
   it("attaches $edit only in draft mode, and not when the preview opts out of overlays", async () => {
@@ -95,7 +221,9 @@ describe("sanity adapter", () => {
 
     const editing = await adapter.getPage("/", draft)
     const hero = editing?.blocks[0] as HeroBlock
-    expect(hero.$edit?.self?.["data-sanity"]).toBe("id=page-home;type=page;path=blocks:blk-hero;base=https%3A%2F%2Fstudio.example.com")
+    expect(hero.$edit?.self?.["data-sanity"]).toBe(
+      "id=page-home;type=page;path=blocks:blk-hero;base=https%3A%2F%2Fstudio.example.com"
+    )
     expect(hero.actions[0]?.$edit?.fields?.label?.["data-sanity"]).toContain("path=blocks:blk-hero.actions:act-1.label")
 
     const previewOnly = await adapter.getPage("/", { locale: "en", draft: true, preview: { mode: "preview" } })
@@ -107,21 +235,30 @@ describe("sanity adapter", () => {
     const { adapter } = stubAdapter()
     expect(await adapter.resolvePreviewPath(new URLSearchParams("id=drafts.page-pricing"))).toBe("/pricing")
     expect(await adapter.resolvePreviewPath(new URLSearchParams("id=page-missing"))).toBeNull()
-    expect(await adapter.resolvePreviewPath(new URLSearchParams("sanity-preview-pathname=/about?tab=team"))).toBe("/about?tab=team")
+    expect(await adapter.resolvePreviewPath(new URLSearchParams("sanity-preview-pathname=/about?tab=team"))).toBe(
+      "/about?tab=team"
+    )
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=https://evil.test/x"))).toBeNull()
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=//evil.test/x"))).toBeNull()
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=/ok\\..evil"))).toBeNull()
   })
 
   describe("preview.enter", () => {
-    const enter = (query: string) => stubAdapter().adapter.preview.enter(new Request(`https://site.test/api/preview?${query}`))
+    const enter = (query: string) =>
+      stubAdapter().adapter.preview.enter(new Request(`https://site.test/api/preview?${query}`))
 
     it("rejects a missing or wrong secret", async () => {
       expect(await enter("sanity-preview-pathname=/pricing")).toMatchObject({ ok: false, status: 401 })
-      expect(await enter("sanity-preview-secret=nope&sanity-preview-pathname=/pricing")).toMatchObject({ ok: false, status: 401 })
+      expect(await enter("sanity-preview-secret=nope&sanity-preview-pathname=/pricing")).toMatchObject({
+        ok: false,
+        status: 401,
+      })
       expect(await enter("secret=wrong&path=/pricing")).toMatchObject({ ok: false, status: 401 })
       const unconfigured = createSanityAdapter({ projectId: "p", previewSecret: "" })
-      expect(await unconfigured.preview.enter(new Request("https://site.test/api/preview?secret="))).toMatchObject({ ok: false, status: 401 })
+      expect(await unconfigured.preview.enter(new Request("https://site.test/api/preview?secret="))).toMatchObject({
+        ok: false,
+        status: 401,
+      })
     })
 
     it("accepts the Presentation tool's parameter names and the generic ones", async () => {
@@ -130,7 +267,11 @@ describe("sanity adapter", () => {
         path: "/pricing",
         context: { mode: "edit" },
       })
-      expect(await enter("secret=s3cret&path=/about/&mode=preview")).toEqual({ ok: true, path: "/about", context: { mode: "preview" } })
+      expect(await enter("secret=s3cret&path=/about/&mode=preview")).toEqual({
+        ok: true,
+        path: "/about",
+        context: { mode: "preview" },
+      })
       expect(await enter("secret=s3cret&id=page-pricing")).toMatchObject({ ok: true, path: "/pricing" })
     })
 
@@ -142,7 +283,12 @@ describe("sanity adapter", () => {
 
   it("exposes the Studio origins as frame ancestors and a bridge module", async () => {
     const { adapter } = stubAdapter()
-    expect(adapter.preview.frameAncestors).toEqual(["'self'", "https://*.sanity.studio", "http://localhost:3333", "https://studio.example.com"])
+    expect(adapter.preview.frameAncestors).toEqual([
+      "'self'",
+      "https://*.sanity.studio",
+      "http://localhost:3333",
+      "https://studio.example.com",
+    ])
     expect(adapter.preview.context(new URLSearchParams(""), false)).toBeNull()
     expect(adapter.preview.context(new URLSearchParams(""), true)).toEqual({ mode: "edit" })
     expect(adapter.preview.context(new URLSearchParams("mode=preview"), true)).toEqual({ mode: "preview" })
@@ -187,15 +333,19 @@ describe("sanity adapter", () => {
         tags: [tags.entry("page-pricing"), tags.type("page"), tags.page("en", "/pricing"), tags.paths("en")],
         summary: "sanity: update page page-pricing",
       })
-      expect(adapter.webhook.toEvent({ _id: "siteSettings", _type: "siteSettings", slug: null, operation: "update" }).tags).toEqual([
-        tags.entry("siteSettings"),
-        tags.type("siteSettings"),
-        tags.global("en"),
-      ])
-      expect(adapter.webhook.toEvent({ _id: "page-new", _type: "page", slug: { current: "/launch" }, operation: "create" }).tags).toContain(
-        tags.page("en", "/launch"),
-      )
-      expect(adapter.webhook.toEvent([{ _id: "a", _type: "page" }, { _id: "image-x", _type: "sanity.imageAsset" }]).tags).toEqual([
+      expect(
+        adapter.webhook.toEvent({ _id: "siteSettings", _type: "siteSettings", slug: null, operation: "update" }).tags
+      ).toEqual([tags.entry("siteSettings"), tags.type("siteSettings"), tags.global("en")])
+      expect(
+        adapter.webhook.toEvent({ _id: "page-new", _type: "page", slug: { current: "/launch" }, operation: "create" })
+          .tags
+      ).toContain(tags.page("en", "/launch"))
+      expect(
+        adapter.webhook.toEvent([
+          { _id: "a", _type: "page" },
+          { _id: "image-x", _type: "sanity.imageAsset" },
+        ]).tags
+      ).toEqual([
         tags.entry("a"),
         tags.type("page"),
         tags.paths("en"),
@@ -203,6 +353,25 @@ describe("sanity adapter", () => {
         tags.type("sanity.imageAsset"),
       ])
       expect(adapter.webhook.toEvent(null).tags).toEqual([])
+    })
+
+    it("invalidates listings when an article or a term changes", () => {
+      const { adapter } = stubAdapter()
+      expect(
+        adapter.webhook.toEvent({ _id: "drafts.article-1", _type: "article", slug: "news/launch", operation: "update" })
+          .tags
+      ).toEqual([
+        tags.entry("article-1"),
+        tags.type("article"),
+        tags.page("en", "/news/launch"),
+        tags.paths("en"),
+        tags.collection("en", "article"),
+      ])
+      expect(adapter.webhook.toEvent({ _id: "cat-events", _type: "category", slug: "events" }).tags).toEqual([
+        tags.entry("cat-events"),
+        tags.type("category"),
+        tags.collection("en", "article"),
+      ])
     })
   })
 })

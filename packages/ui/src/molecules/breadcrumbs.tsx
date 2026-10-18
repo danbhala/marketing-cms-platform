@@ -41,7 +41,12 @@ function Breadcrumbs({ items, structuredData = true, siteUrl = "", className, ..
       }
     : null
   return (
-    <nav aria-label="Breadcrumb" data-slot="breadcrumbs" className={cn("text-sm text-muted-foreground", className)} {...props}>
+    <nav
+      aria-label="Breadcrumb"
+      data-slot="breadcrumbs"
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    >
       <ol className="flex flex-wrap items-center gap-1.5">
         {items.map((item, i) => {
           const last = i === items.length - 1
@@ -61,7 +66,9 @@ function Breadcrumbs({ items, structuredData = true, siteUrl = "", className, ..
           )
         })}
       </ol>
-      {jsonLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} /> : null}
+      {jsonLd ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      ) : null}
     </nav>
   )
 }

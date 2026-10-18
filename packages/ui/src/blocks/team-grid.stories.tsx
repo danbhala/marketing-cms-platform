@@ -14,9 +14,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const FourColumns: Story = {
-}
+export const FourColumns: Story = {}
 
 export const ThreeColumns: Story = {
-  args: { block: { ...fixtures.teamGridBlock, ...{ columns: '3', people: fixtures.people.slice(0, 3) } } },
+  args: { block: { ...fixtures.teamGridBlock, ...{ columns: "3", people: fixtures.people.slice(0, 3) } } },
 }

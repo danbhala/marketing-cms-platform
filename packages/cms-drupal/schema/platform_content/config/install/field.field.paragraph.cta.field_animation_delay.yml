@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_animation_delay
+    - paragraphs.paragraphs_type.cta
+  module:
+    - options
+id: paragraph.cta.field_animation_delay
+field_name: field_animation_delay
+entity_type: paragraph
+bundle: cta
+label: Animation delay
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: none
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -6,13 +6,14 @@
   "description": "Drupal adapter (JSON:API + Paragraphs + the next module) built on next-drupal: config generator, transform, preview bridge and revalidation.",
   "exports": {
     ".": "./src/index.ts",
-    "./bridge": "./src/bridge.tsx"
+    "./bridge": "./src/bridge.tsx",
+    "./schema": "./src/schema/index.ts"
   },
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc",
     "test": "vitest run",
-    "schema:generate": "node --experimental-strip-types scripts/generate-schema.ts"
+    "schema:generate": "node --experimental-strip-types --import @platform/content-model/strip-types scripts/generate-schema.ts"
   },
   "dependencies": {
     "@platform/cms-core": "workspace:*",

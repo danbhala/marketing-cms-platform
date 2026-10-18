@@ -18,6 +18,7 @@
 /* Scan consumers' source in the monorepo so block classes are generated. */
 @source "../../../../apps/**/*.{ts,tsx,mdx}";
 @source "../**/*.{ts,tsx,mdx}";
+@source "../../../animation/src/**/*.{ts,tsx}";
 
 /* Dark mode is a class, so themes can be nested anywhere in the tree. */
 @custom-variant dark (&:is(.dark *, .theme-dark *));

@@ -1,4 +1,4 @@
-import type { AnyDefinition, Field } from "@platform/content-model"
+import type { AnyDefinition, Field, ReferenceField } from "@platform/content-model"
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
 /**
@@ -6,7 +6,8 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  * generator and the transform so the two can never disagree.
  *
  * - A block or item is a paragraph type: `featureGrid` → `paragraph--feature_grid`.
- * - A document is a node type: `page` → `node--page`, `siteSettings` → `node--site_settings`.
+ * - A document is a node type: `page` → `node--page`, `siteSettings` → `node--site_settings`;
+ *   a taxonomy document is a vocabulary: `category` → `taxonomy_term--category`.
  * - A field is `field_<snake>` unless several types use the same name for
  *   incompatible storage (a `layout` select with different options, `features`
  *   as items on one type and a text list on another). Drupal shares one field
@@ -18,11 +19,13 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  */
 export const MAX_MACHINE_NAME = 32
 
-export type DrupalEntityType = "node" | "paragraph"
+export type DrupalEntityType = "node" | "paragraph" | "taxonomy_term"
 
 /** Model fields stored on Drupal base fields instead of configurable `field_*` fields. */
 export const baseFields: Record<string, Record<string, string>> = {
   page: { title: "title", path: "path" },
+  article: { title: "title", path: "path" },
+  category: { title: "name" },
   siteSettings: { siteName: "title" },
 }
 
@@ -43,7 +46,13 @@ export function snake(name: string): string {
 }
 
 export function entityTypeFor(definition: AnyDefinition): DrupalEntityType {
-  return definition.kind === "document" ? "node" : "paragraph"
+  if (definition.kind !== "document") return "paragraph"
+  return definition.taxonomy ? "taxonomy_term" : "node"
+}
+
+/** Entity type a `reference` field points at: terms when every target is a taxonomy, nodes otherwise. */
+export function referenceTargetFor(field: ReferenceField): "taxonomy_term" | "node" {
+  return field.of.every((d) => d.taxonomy) ? "taxonomy_term" : "node"
 }
 
 export function bundleFor(definition: AnyDefinition): string {
@@ -76,14 +85,23 @@ export function storageFor(field: Field): FieldStorage {
       return {
         type: "string",
         module: "core",
-        settings: { max_length: field.kind === "text" && field.maxLength ? field.maxLength : 255, case_sensitive: false, is_ascii: false },
+        settings: {
+          max_length: field.kind === "text" && field.maxLength ? field.maxLength : 255,
+          case_sensitive: false,
+          is_ascii: false,
+        },
         cardinality: 1,
       }
     case "textarea":
       return { type: "string_long", module: "core", settings: { case_sensitive: false }, cardinality: 1 }
     case "textList":
       // Drupal has no list-of-strings type; an unlimited-cardinality string field is the idiom.
-      return { type: "string", module: "core", settings: { max_length: 255, case_sensitive: false, is_ascii: false }, cardinality: -1 }
+      return {
+        type: "string",
+        module: "core",
+        settings: { max_length: 255, case_sensitive: false, is_ascii: false },
+        cardinality: -1,
+      }
     case "richText":
       return { type: "text_long", module: "text", settings: {}, cardinality: 1 }
     case "number":
@@ -94,11 +112,24 @@ export function storageFor(field: Field): FieldStorage {
       return { type: "link", module: "link", settings: {}, cardinality: 1 }
     case "media":
       return { type: "entity_reference", module: "core", settings: { target_type: "media" }, cardinality: 1 }
+    case "date":
+      // Date only: the model sorts and displays by day, and a stored time would shift across zones.
+      return { type: "datetime", module: "datetime", settings: { datetime_type: "date" }, cardinality: 1 }
+    case "reference":
+      return {
+        type: "entity_reference",
+        module: "core",
+        settings: { target_type: referenceTargetFor(field) },
+        cardinality: field.multiple ? -1 : 1,
+      }
     case "select":
       return {
         type: "list_string",
         module: "options",
-        settings: { allowed_values: field.options.map((value) => ({ value, label: humanize(value) })), allowed_values_function: "" },
+        settings: {
+          allowed_values: field.options.map((value) => ({ value, label: humanize(value) })),
+          allowed_values_function: "",
+        },
         cardinality: 1,
       }
     case "items":
@@ -109,7 +140,12 @@ export function storageFor(field: Field): FieldStorage {
         cardinality: field.max ?? -1,
       }
     case "blocks":
-      return { type: "entity_reference_revisions", module: "entity_reference_revisions", settings: { target_type: "paragraph" }, cardinality: -1 }
+      return {
+        type: "entity_reference_revisions",
+        module: "entity_reference_revisions",
+        settings: { target_type: "paragraph" },
+        cardinality: -1,
+      }
   }
 }
 
@@ -119,7 +155,8 @@ export function humanize(name: string): string {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1).toLowerCase()
 }
 
-interface Resolved {
+/** Field naming resolved over one set of definitions (see `namingFor`). */
+export interface DrupalNaming {
   /** `${definition.type}.${fieldName}` → Drupal field machine name. */
   names: Map<string, string>
   /** `${entityType}.${machineName}` → the storage every instance shares. */
@@ -128,7 +165,7 @@ interface Resolved {
 
 const plainText = new Set(["text", "textarea", "icon"])
 
-function resolve(): Resolved {
+function resolve(definitions: readonly AnyDefinition[]): DrupalNaming {
   const names = new Map<string, string>()
   const storages = new Map<string, FieldStorage>()
   const groups = new Map<string, { definition: AnyDefinition; field: Field; name: string }[]>()
@@ -186,30 +223,42 @@ function resolve(): Resolved {
 function assertLength(machine: string, uses: { definition: AnyDefinition; name: string }[]): string {
   if (machine.length > MAX_MACHINE_NAME) {
     const where = uses.map((use) => `${use.definition.type}.${use.name}`).join(", ")
-    throw new Error(`Drupal field name "${machine}" exceeds ${MAX_MACHINE_NAME} characters (used by ${where}); shorten the field name in the content model`)
+    throw new Error(
+      `Drupal field name "${machine}" exceeds ${MAX_MACHINE_NAME} characters (used by ${where}); shorten the field name in the content model`
+    )
   }
   return machine
 }
 
-const resolved = resolve()
+const resolved = resolve(definitions)
+
+/**
+ * Naming for the model plus extra definitions that are not (yet) part of it,
+ * e.g. a block someone is designing in the docs' schema studio. Names are
+ * resolved against the whole model, so a new `layout` select still becomes
+ * `field_<type>_layout` when the built-in blocks disagree on its options.
+ */
+export function namingFor(extra: readonly AnyDefinition[]): DrupalNaming {
+  return extra.length ? resolve([...definitions, ...extra]) : resolved
+}
 
 /** Drupal machine name for one model field, e.g. (`hero`, `layout`) → `field_hero_layout`. */
-export function fieldNameFor(definition: AnyDefinition, name: string): string {
+export function fieldNameFor(definition: AnyDefinition, name: string, naming: DrupalNaming = resolved): string {
   const base = baseFields[definition.type]?.[name]
   if (base) return base
-  const machine = resolved.names.get(`${definition.type}.${name}`)
+  const machine = naming.names.get(`${definition.type}.${name}`)
   if (!machine) throw new Error(`No Drupal field for ${definition.type}.${name}`)
   return machine
 }
 
 /** Every shared field storage, keyed `${entityType}.${machineName}`. */
-export function fieldStorages(): Map<string, FieldStorage> {
-  return resolved.storages
+export function fieldStorages(naming: DrupalNaming = resolved): Map<string, FieldStorage> {
+  return naming.storages
 }
 
 /**
  * JSON:API `include` paths needed to fetch a document in one request: every
- * nested paragraph field and, under each media reference, the file entity.
+ * nested paragraph and term reference and, under each media reference, the file entity.
  */
 export function includesFor(definition: AnyDefinition): string[] {
   const out: string[] = []
@@ -220,7 +269,7 @@ export function includesFor(definition: AnyDefinition): string[] {
         out.push(`${path}.field_media_image`)
         if (field.accept === "video" || field.accept === "any") out.push(`${path}.field_media_video_file`)
       }
-      if (field.kind === "items" || field.kind === "blocks") {
+      if (field.kind === "items" || field.kind === "blocks" || field.kind === "reference") {
         const path = `${prefix}${fieldNameFor(def, name)}`
         out.push(path)
         for (const child of field.of as AnyDefinition[]) walk(child, `${path}.`)

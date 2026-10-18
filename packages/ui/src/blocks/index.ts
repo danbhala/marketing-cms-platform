@@ -4,12 +4,15 @@ import type { Block, BlockType } from "@platform/content-model"
 
 import type { BlockComponentProps } from "./block-section"
 import { CardGrid } from "./card-grid"
+import { Collection } from "./collection"
+import { LatestNews } from "./latest-news"
 import { ComparisonTable } from "./comparison-table"
 import { Cta } from "./cta"
 import { Faq } from "./faq"
 import { FeatureGrid } from "./feature-grid"
 import { FeatureSplit } from "./feature-split"
 import { FormBlock } from "./form-block"
+import { Gallery } from "./gallery"
 import { Hero } from "./hero"
 import { LogoCloud } from "./logo-cloud"
 import { MediaBlock } from "./media-block"
@@ -51,7 +54,10 @@ export const blockComponents: BlockComponentMap = {
   tabs: Tabs,
   richText: RichTextBlock,
   media: MediaBlock,
+  gallery: Gallery,
   form: FormBlock,
+  collection: Collection,
+  latestNews: LatestNews,
 }
 
 export { BlockSection, type BlockSectionProps, type BlockComponentProps } from "./block-section"
@@ -71,4 +77,7 @@ export { Steps, type StepsProps } from "./steps"
 export { Tabs, type TabsProps } from "./tabs"
 export { RichTextBlock, type RichTextBlockProps } from "./rich-text-block"
 export { MediaBlock, type MediaBlockProps } from "./media-block"
+export { Gallery, type GalleryProps } from "./gallery"
 export { FormBlock, type FormBlockProps } from "./form-block"
+export { Collection, type CollectionProps } from "./collection"
+export { LatestNews, type LatestNewsProps } from "./latest-news"

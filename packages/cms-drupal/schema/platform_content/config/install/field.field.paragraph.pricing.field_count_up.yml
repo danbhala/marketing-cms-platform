@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_count_up
+    - paragraphs.paragraphs_type.pricing
+id: paragraph.pricing.field_count_up
+field_name: field_count_up
+entity_type: paragraph
+bundle: pricing
+label: Count up
+description: Animate numbers from zero when the block scrolls into view. Text around the number stays as written.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

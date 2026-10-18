@@ -3,7 +3,9 @@ title: Storyblok
 description: "Configure the Storyblok adapter: environment, schema push, Visual Editor and webhook."
 ---
 
-<Callout type="info">The adapter lives in `packages/cms-storyblok`. Its README has the step-by-step setup; this page is the summary.</Callout>
+<Callout type="info">
+  The adapter lives in `packages/cms-storyblok`. Its README has the step-by-step setup; this page is the summary.
+</Callout>
 
 ## Environment
 
@@ -31,12 +33,19 @@ See [Preview & visual editing](/docs/preview) for the shared flow.
 
 Settings → Webhooks → story events → `https://your-site/api/revalidate` with a secret. Storyblok signs the raw body with HMAC-SHA1 in `webhook-signature`. Tags: `cms:entry:<story_id>` always; pages add `cms:page:<locale>:/<full_slug>` and, on publish/unpublish/delete/move, `cms:paths:<locale>`; the `site-settings` story maps to `cms:global:<locale>`.
 
+## Listings
+
+`getCollection` is one `cdn/stories` request with `content_type=article`, `sort_by` (`content.publishedAt:desc`, `content.publishedAt:asc` or `content.title:asc`), `page`/`per_page`, `search_term` for free-text search and `resolve_relations=article.category,article.tags` so terms come back inline. The total is read from Storyblok's `total` response header. Filters are term slugs, so the adapter fetches the `category` stories, maps slugs to UUIDs and sends `filter_query[category][in]` (single reference) or `filter_query[tags][any_in_array]` (multiple); an unknown slug returns an empty page without a stories request. Draft Mode reads `version=draft` and attaches editor attributes to every item. `getTaxonomy("category")` returns every category story, `getDocument` dispatches on the story's component (`page` or `article`), and `getPaths` lists both.
+
+Articles and categories are root stories of the generated `article` and `category` components; the story slug is the URL path of an article and the filter slug of a category, so neither has a `path` or `slug` field. `publishedAt` is a `datetime` field; `category` and `tags` are `option`/`options` fields fed by `internal_stories` and stored as UUIDs. Story webhooks carry no content type, so every story event also refreshes `cms:collection:<locale>:article`, `cms:type:article` and `cms:type:category`.
+
 ## Mapping notes
 
 - Pages are stories of type `page`; `full_slug` is the URL (`home` → `/`), so the page `path` field is not in the Storyblok schema.
 - Site settings is one story at `site-settings`.
 - Document ids are the numeric story id (what webhooks and the editor carry), nested bloks use `_uid`.
 - `textList` fields become a `bloks` field restricted to a generated `textItem` component.
+- `date` values (`YYYY-MM-DD HH:MM`) become ISO strings; date-only values stay as they are.
 
 ## What the generator emits for a block
 

@@ -18,6 +18,9 @@
     "tabs",
     "richText",
     "media",
-    "form"
+    "gallery",
+    "form",
+    "collection",
+    "latestNews"
   ]
 }

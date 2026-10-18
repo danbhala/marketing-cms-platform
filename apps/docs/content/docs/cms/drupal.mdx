@@ -3,7 +3,11 @@ title: Drupal
 description: "Configure the Drupal adapter: environment, the generated platform_content module, the next module's preview and on-demand revalidation."
 ---
 
-<Callout type="info">The adapter lives in `packages/cms-drupal` and is built on [`next-drupal`](https://github.com/chapter-three/next-drupal) (the npm package and the Drupal `next` module). Its README has the step-by-step setup; this page is the summary.</Callout>
+<Callout type="info">
+  The adapter lives in `packages/cms-drupal` and is built on
+  [`next-drupal`](https://github.com/chapter-three/next-drupal) (the npm package and the Drupal `next` module). Its
+  README has the step-by-step setup; this page is the summary.
+</Callout>
 
 ## Environment
 
@@ -18,11 +22,11 @@ cp -r packages/cms-drupal/schema/platform_content web/modules/custom/
 drush en platform_content                             # also enables paragraphs, media, jsonapi, next
 ```
 
-`platform_content` is a small Drupal module whose `config/install` holds a paragraph type per block and item (`paragraph--hero`, `paragraph--pricing_plan`, …), the `page` and `site_settings` node types, every field storage and instance, and form displays that use the Paragraphs and Media Library widgets. It is committed under `packages/cms-drupal/schema/` so diffs show exactly what changes in Drupal when the content model changes.
+`platform_content` is a small Drupal module whose `config/install` holds a paragraph type per block and item (`paragraph--hero`, `paragraph--pricing_plan`, …), the `page`, `article` and `site_settings` node types, the `category` vocabulary, every field storage and instance, and form displays that use the Paragraphs and Media Library widgets. It is committed under `packages/cms-drupal/schema/` so diffs show exactly what changes in Drupal when the content model changes.
 
 ## Preview
 
-Create a Next.js site in Drupal at `/admin/config/services/next` with Draft URL `https://your-site/api/preview`, then enable it for `page` and `site_settings` under Entity types (Site selector). Drupal's Preview tab opens the site in an iframe at `/api/preview?path=/pricing&timestamp=…&secret=…&plugin=simple_oauth&resourceVersion=rel:working-copy`; the adapter posts the query back to Drupal's `/next/draft-url` to validate the secret (it is an HMAC over Drupal's private key, so it cannot be checked locally), the app enters Draft Mode and redirects. Hand-made previews: `/api/preview?secret=<PREVIEW_SECRET>&path=/pricing`.
+Create a Next.js site in Drupal at `/admin/config/services/next` with Draft URL `https://your-site/api/preview`, then enable it for `page`, `article` and `site_settings` under Entity types (Site selector). Drupal's Preview tab opens the site in an iframe at `/api/preview?path=/pricing&timestamp=…&secret=…&plugin=simple_oauth&resourceVersion=rel:working-copy`; the adapter posts the query back to Drupal's `/next/draft-url` to validate the secret (it is an HMAC over Drupal's private key, so it cannot be checked locally), the app enters Draft Mode and redirects. Hand-made previews: `/api/preview?secret=<PREVIEW_SECRET>&path=/pricing`.
 
 In draft mode the adapter authenticates with the OAuth client and reads `resourceVersion=rel:working-copy` (or the version in the URL). There is no in-page editor in Drupal: `$edit` identifies the node (`data-drupal-edit="/node/12/edit"`) and each paragraph (`data-drupal-id`), and the bridge offers "Edit in Drupal", refreshes when the tab regains focus and posts route changes to the iframe parent for the module's route sync.
 
@@ -32,8 +36,15 @@ See [Preview & visual editing](/docs/preview) for the shared flow.
 
 On the Next.js site in Drupal set Revalidate URL `https://your-site/api/revalidate` and a secret; under Entity types choose the **Path** revalidator with "Revalidate page" (and optionally the **Cache Tag** revalidator). Drupal then calls `GET /api/revalidate?secret=…&path=/pricing` or `…&tags=node:12,node_list:page`. Tags: a path maps to `cms:page:<locale>:<path>` plus `cms:paths:<locale>`; `node:<nid>` to `cms:entry:<nid>`; `node_list:page` to `cms:paths:<locale>`; `node_list:site_settings` to `cms:global:<locale>`.
 
+## Listings
+
+Articles are `node--article` nodes; categories are terms of the `category` vocabulary with a `field_slug`. `getCollection` makes one JSON:API request: `filter[field_category.field_slug]=<slug>` (an `IN` condition for several slugs, `field_tags` for the tags filter), `sort=-field_published_at` / `field_published_at` / `title`, `page[offset]` and `page[limit]`, a sparse `fields[node--article]` set and `include=field_image.field_media_image,field_category,field_tags`. `getTaxonomy("category")` reads `taxonomy_term--category` sorted by weight and name.
+
+Core JSON:API returns no total: `total` is `meta.count` when a count module provides it, otherwise the items seen so far plus one more page while Drupal sends `links.next`, so the pager always offers a next page when one exists but cannot show the last page number. `q` becomes `filter[title][operator]=CONTAINS` on the title only; install Search API and swap the filter for its index when you need real search. Listings are invalidated by the **Cache Tag** revalidator (`node_list:article`, `taxonomy_term:*`), so enable it alongside the Path revalidator.
+
 ## Mapping notes
 
+- Articles are `node--article` with `field_published_at` (date-only `datetime`), `field_category` and `field_tags` (`entity_reference` to `taxonomy_term`, cardinality 1 and -1); the term's `title` is its `name`, `slug` and `description` are fields.
 - Pages are `node--page`; the path alias is the URL (`/home` → `/`), so `path` is not a field. Document ids are node ids (what Drupal cache tags carry); paragraphs use their uuid.
 - Site settings is one `node--site_settings`; `siteName` is its title.
 - Fields are `field_<snake_case>`; when two types use one name for incompatible storage (a `layout` select with different options) the name is prefixed with the type: `field_hero_layout`.

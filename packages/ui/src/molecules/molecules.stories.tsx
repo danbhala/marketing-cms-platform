@@ -32,8 +32,17 @@ export const SectionHeaders: StoryObj = {
   render: () => (
     <Container>
       <Stack gap="2xl">
-        <SectionHeader eyebrow="Centered" title="Built for teams who ship every week" description="Instrument once, then answer every question with a filter instead of a ticket." />
-        <SectionHeader align="start" eyebrow="Start aligned" title="From the blog" actions={<ActionGroup actions={fixtures.cardGridBlock.actions} size="sm" />} />
+        <SectionHeader
+          eyebrow="Centered"
+          title="Built for teams who ship every week"
+          description="Instrument once, then answer every question with a filter instead of a ticket."
+        />
+        <SectionHeader
+          align="start"
+          eyebrow="Start aligned"
+          title="From the blog"
+          actions={<ActionGroup actions={fixtures.cardGridBlock.actions} size="sm" />}
+        />
       </Stack>
     </Container>
   ),
@@ -52,8 +61,12 @@ export const Features: StoryObj = {
   render: () => (
     <Container>
       <Grid columns="3">
-        {fixtures.features.slice(0, 3).map((item) => <FeatureItem key={item.id} item={item} />)}
-        {fixtures.features.slice(3).map((item) => <FeatureItem key={item.id} item={item} appearance="card" />)}
+        {fixtures.features.slice(0, 3).map((item) => (
+          <FeatureItem key={item.id} item={item} />
+        ))}
+        {fixtures.features.slice(3).map((item) => (
+          <FeatureItem key={item.id} item={item} appearance="card" />
+        ))}
       </Grid>
     </Container>
   ),
@@ -63,7 +76,9 @@ export const InlineFeatures: StoryObj = {
   render: () => (
     <Container size="md">
       <Stack gap="lg">
-        {fixtures.features.slice(0, 3).map((item) => <FeatureItem key={item.id} item={item} layout="inline" />)}
+        {fixtures.features.slice(0, 3).map((item) => (
+          <FeatureItem key={item.id} item={item} layout="inline" />
+        ))}
       </Stack>
     </Container>
   ),
@@ -72,7 +87,11 @@ export const InlineFeatures: StoryObj = {
 export const Stats: StoryObj = {
   render: () => (
     <Container>
-      <Grid columns="4">{fixtures.stats.map((item) => <StatItem key={item.id} item={item} />)}</Grid>
+      <Grid columns="4">
+        {fixtures.stats.map((item) => (
+          <StatItem key={item.id} item={item} />
+        ))}
+      </Grid>
     </Container>
   ),
 }
@@ -81,7 +100,11 @@ export const Quotes: StoryObj = {
   render: () => (
     <Container>
       <Stack gap="2xl">
-        <Grid columns="3">{fixtures.testimonials.map((item) => <Quote key={item.id} item={item} />)}</Grid>
+        <Grid columns="3">
+          {fixtures.testimonials.map((item) => (
+            <Quote key={item.id} item={item} />
+          ))}
+        </Grid>
         <Container size="md">
           <Quote item={fixtures.testimonials[0]!} variant="featured" />
         </Container>
@@ -93,7 +116,11 @@ export const Quotes: StoryObj = {
 export const PriceCards: StoryObj = {
   render: () => (
     <Container>
-      <Grid columns="3">{fixtures.plans.map((plan) => <PriceCard key={plan.id} plan={plan} />)}</Grid>
+      <Grid columns="3">
+        {fixtures.plans.map((plan) => (
+          <PriceCard key={plan.id} plan={plan} />
+        ))}
+      </Grid>
     </Container>
   ),
 }
@@ -101,7 +128,11 @@ export const PriceCards: StoryObj = {
 export const ContentCards: StoryObj = {
   render: () => (
     <Container>
-      <Grid columns="3">{fixtures.cards.map((item) => <ContentCard key={item.id} item={item} />)}</Grid>
+      <Grid columns="3">
+        {fixtures.cards.map((item) => (
+          <ContentCard key={item.id} item={item} />
+        ))}
+      </Grid>
     </Container>
   ),
 }
@@ -109,7 +140,11 @@ export const ContentCards: StoryObj = {
 export const PersonCards: StoryObj = {
   render: () => (
     <Container>
-      <Grid columns="4">{fixtures.people.map((item) => <PersonCard key={item.id} item={item} />)}</Grid>
+      <Grid columns="4">
+        {fixtures.people.map((item) => (
+          <PersonCard key={item.id} item={item} />
+        ))}
+      </Grid>
     </Container>
   ),
 }
@@ -117,7 +152,9 @@ export const PersonCards: StoryObj = {
 export const Logos: StoryObj = {
   render: () => (
     <Stack direction="row" gap="xl" align="center">
-      {fixtures.logos.map((item) => <LogoItem key={item.id} item={item} grayscale />)}
+      {fixtures.logos.map((item) => (
+        <LogoItem key={item.id} item={item} grayscale />
+      ))}
     </Stack>
   ),
 }
@@ -134,8 +171,14 @@ export const FormFields: StoryObj = {
   render: () => (
     <Container size="sm">
       <Stack gap="lg">
-        {fixtures.contactFormBlock.fields.map((field) => <FormField key={field.id} field={field} />)}
-        <FormField field={fixtures.contactFormBlock.fields[1]!} error="Enter a valid work email." defaultValue="not-an-email" />
+        {fixtures.contactFormBlock.fields.map((field) => (
+          <FormField key={field.id} field={field} />
+        ))}
+        <FormField
+          field={fixtures.contactFormBlock.fields[1]!}
+          error="Enter a valid work email."
+          defaultValue="not-an-email"
+        />
       </Stack>
     </Container>
   ),
@@ -144,7 +187,9 @@ export const FormFields: StoryObj = {
 export const BreadcrumbTrail: StoryObj = {
   render: () => (
     <Container>
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: "Why event-based analytics" }]} />
+      <Breadcrumbs
+        items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: "Why event-based analytics" }]}
+      />
     </Container>
   ),
 }

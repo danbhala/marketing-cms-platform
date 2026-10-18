@@ -43,10 +43,14 @@ describe("local adapter", () => {
     const bad = await adapter.preview.enter(new Request("https://site.test/api/preview?secret=wrong&path=/pricing"))
     expect(bad).toMatchObject({ ok: false, status: 401 })
 
-    const good = await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=/pricing&mode=edit"))
+    const good = await adapter.preview.enter(
+      new Request("https://site.test/api/preview?secret=s3cret&path=/pricing&mode=edit")
+    )
     expect(good).toEqual({ ok: true, path: "/pricing", context: { mode: "edit" } })
 
-    const offsite = await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test"))
+    const offsite = await adapter.preview.enter(
+      new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test")
+    )
     expect(offsite).toMatchObject({ ok: true, path: "/" })
   })
 
@@ -62,5 +66,53 @@ describe("local adapter", () => {
 
     const unsigned = new Request("https://site.test/api/revalidate", { method: "POST", body: "{}" })
     expect(await adapter.webhook.verify(unsigned)).toBeNull()
+  })
+})
+
+describe("local adapter listings", () => {
+  const base = { source: "article", page: 1, pageSize: 9, sort: "newest", filters: {} } as const
+
+  it("resolves articles and pages through getDocument and lists both in getPaths", async () => {
+    expect((await adapter.getDocument("/news", published))?.type).toBe("page")
+    const article = await adapter.getDocument("/news/cohorts-and-alerts-are-live", published)
+    expect(article?.type).toBe("article")
+    expect(await adapter.getDocument("/news/nope", published)).toBeNull()
+    expect(await adapter.getPaths("en")).toContain("/news/cohorts-and-alerts-are-live")
+  })
+
+  it("pages newest first with a total count", async () => {
+    const first = await adapter.getCollection(base, published)
+    expect(first.total).toBe(30)
+    expect(first.items).toHaveLength(9)
+    expect(first.items[0]!.publishedAt > first.items[1]!.publishedAt).toBe(true)
+    expect(first.items[0]).not.toHaveProperty("body")
+    const last = await adapter.getCollection({ ...base, page: 4 }, published)
+    expect(last.items).toHaveLength(3)
+    expect((await adapter.getCollection({ ...base, page: 9 }, published)).items).toEqual([])
+  })
+
+  it("filters by term slug, sorts and searches", async () => {
+    const events = await adapter.getCollection({ ...base, filters: { category: ["events"] } }, published)
+    expect(events.total).toBe(7)
+    expect(events.items.every((item) => item.category?.slug === "events")).toBe(true)
+    const tagged = await adapter.getCollection({ ...base, filters: { tags: ["company"] } }, published)
+    expect(tagged.total).toBe(1)
+    const oldest = await adapter.getCollection({ ...base, sort: "oldest" }, published)
+    expect(oldest.items[0]?.publishedAt).toBe("2026-03-27")
+    const byTitle = await adapter.getCollection({ ...base, sort: "title" }, published)
+    expect(byTitle.items[0]?.title.startsWith("A ")).toBe(true)
+    const search = await adapter.getCollection({ ...base, q: "flame graph" }, published)
+    expect(search.items.map((i) => i.title)).toEqual([
+      "How we cut query latency in half",
+      "Reading a flame graph in five minutes",
+    ])
+  })
+
+  it("returns taxonomy terms, with $edit only in draft", async () => {
+    const terms = await adapter.getTaxonomy("category", published)
+    expect(terms.map((t) => t.slug)).toEqual(["product-news", "company", "engineering", "events"])
+    expect(terms[0]?.$edit).toBeUndefined()
+    expect((await adapter.getTaxonomy("category", draft))[0]?.$edit?.self?.["data-edit-id"]).toBe("cat-product")
+    expect(await adapter.getTaxonomy("nope", published)).toEqual([])
   })
 })
