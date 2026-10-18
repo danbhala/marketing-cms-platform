@@ -7,7 +7,7 @@ import type { ArticleSummary, CollectionBlock } from "./types"
  */
 export interface ListingQuery {
   /** Document type to list; one of the collection block's `source` options. */
-  source: CollectionBlock["source"]
+  source: NonNullable<CollectionBlock["source"]>
   /** 1-based page number. */
   page: number
   pageSize: number

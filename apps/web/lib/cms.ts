@@ -1,7 +1,15 @@
 import { cacheLife, cacheTag } from "next/cache"
 
 import { tags, uniqueTags } from "@platform/cms-core/tags"
-import type { Page, SiteSettings } from "@platform/content-model"
+import type {
+  Category,
+  CollectionItem,
+  CollectionResult,
+  ListingQuery,
+  Page,
+  RoutableDocument,
+  SiteSettings,
+} from "@platform/content-model"
 
 import { getAdapter } from "@/cms.config"
 
@@ -19,6 +27,50 @@ export async function getPublishedPage(locale: string, path: string): Promise<Pa
   const page = await adapter.getPage(path, { locale, draft: false })
   if (page) cacheTag(...uniqueTags(collectIds(page).map(tags.entry)))
   return page
+}
+
+/** Any routable document (page or article) at a path. Tagged like a page plus its own type. */
+export async function getPublishedDocument(locale: string, path: string): Promise<RoutableDocument | null> {
+  "use cache"
+  cacheLife("max")
+  cacheTag(tags.page(locale, path))
+  const adapter = await getAdapter()
+  const doc = await adapter.getDocument(path, { locale, draft: false })
+  if (doc) cacheTag(tags.type(doc.type), ...uniqueTags(collectIds(doc).map(tags.entry)))
+  return doc
+}
+
+/**
+ * One page of a listing. The whole normalised query is the cache key, so
+ * `?category=x&page=2` and `?page=2&category=x` share an entry (the parser
+ * sorts and strips defaults). Callers skip this function when `query.q` is
+ * set: search terms are near-unique and would fill the cache with entries
+ * nobody reads twice. Tagged by collection, by type and by every item shown,
+ * so a story edit refreshes exactly the pages that showed it and a new story
+ * refreshes every page.
+ */
+export async function getPublishedCollection(
+  locale: string,
+  query: ListingQuery
+): Promise<CollectionResult<CollectionItem>> {
+  "use cache"
+  cacheLife("max")
+  cacheTag(tags.collection(locale, query.source), tags.type(query.source))
+  const adapter = await getAdapter()
+  const result = await adapter.getCollection(query, { locale, draft: false })
+  cacheTag(...uniqueTags(result.items.map((item) => tags.entry(item.id))))
+  return result
+}
+
+/** Taxonomy terms for filter chips. Invalidated when any term of the type changes. */
+export async function getPublishedTaxonomy(locale: string, type: string): Promise<Category[]> {
+  "use cache"
+  cacheLife("max")
+  cacheTag(tags.type(type))
+  const adapter = await getAdapter()
+  const terms = await adapter.getTaxonomy(type, { locale, draft: false })
+  cacheTag(...uniqueTags(terms.map((term) => tags.entry(term.id))))
+  return terms
 }
 
 /**

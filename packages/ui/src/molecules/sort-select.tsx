@@ -6,6 +6,7 @@ import type { CollectionBlock, ListingQuery } from "@platform/content-model"
 import { listingHref, listingParams, withChange } from "@platform/cms-core/listing"
 
 import { useUi } from "../lib/ui-provider"
+import { cn } from "../lib/utils"
 import { NativeSelect, NativeSelectOption } from "../primitives/native-select"
 
 export interface SortSelectProps {
@@ -24,7 +25,7 @@ function SortSelect({ basePath, query, block, label, options, className }: SortS
   const [, startTransition] = React.useTransition()
   const id = React.useId()
   return (
-    <div data-slot="sort-select" className={className}>
+    <div data-slot="sort-select" className={cn("shrink-0", className)}>
       <label htmlFor={id} className="sr-only">
         {label}
       </label>

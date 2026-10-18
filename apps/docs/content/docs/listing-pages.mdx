@@ -1,0 +1,57 @@
+---
+title: Listing pages
+description: "News and other collections: one block, URL as the only state, filters, search, pagination and the cache tags that keep listings and stories in step."
+---
+
+A listing is the `collection` block placed on an ordinary page. The page stays a CMS document (hero, intro, anything else an editor wants); the block renders the filter bar, the result grid and pagination for one listable document type. The worked example is news: `article` documents, filtered by `category`, at `/news`.
+
+<StorybookEmbed story="blocks-collection--default" height={900} />
+
+## The URL is the only state
+
+Every view is a plain URL, so it can be linked, crawled, prefetched and cached:
+
+| Parameter               | Example                 | Default (omitted from the URL) |
+| ----------------------- | ----------------------- | ------------------------------ |
+| the block's filter name | `?category=engineering` | all terms                      |
+| `page`                  | `?page=2`               | `1`                            |
+| `sort`                  | `?sort=title`           | the block's `sort`             |
+| `q`                     | `?q=alerts`             | none; only when `search` is on |
+
+`parseListingQuery` in `@platform/cms-core/listing` turns raw `searchParams` into a `ListingQuery`: unknown keys are dropped, slugs must match `^[a-z0-9][a-z0-9-]*$`, `page` is clamped, `sort` must be one of the three options, and `q` is capped at 120 characters. `listingHref`, `withChange` and `toSearchParams` build URLs back from a query with the defaults removed, so `/news?page=1` and `/news` never exist side by side. Changing a filter, the sort or the search term resets `page` to 1.
+
+Filter chips and page numbers are `<Link prefetch>` elements, so they are crawlable and prefetched before the click. The search box and sort select are the only form controls; they sit in a GET `<form action="/news">` whose inputs are named after the parameters above, so the form submits to the same URL without JavaScript. Hydrated, they call `router.replace` (debounced for typing) so the history is not flooded.
+
+## Rendering
+
+`apps/web/components/collection-block.tsx` binds the UI package's `Collection` block to the request and the page passes it into the registry for `collection`. Three layers:
+
+1. The block's heading and layout are static and part of the page's shell.
+2. The filter bar awaits `searchParams` inside its own `<Suspense>`; the fallback is the same bar without an active state, so the controls paint immediately.
+3. The results await `searchParams`, parse the query and read the cached collection inside a second `<Suspense>` with a skeleton grid of the block's `pageSize`.
+
+Nothing above the block reads `searchParams`, which is what keeps the shell prerendered. `generateMetadata` does read it, to give each filtered page its own `<title>` and a canonical URL without `q`, and to mark search results `noindex, follow`.
+
+## Caching
+
+| Read                                                 | Cache                                                                                                                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `getPublishedCollection(locale, query)`              | `'use cache'`, keyed by the normalised query, tagged `cms:collection:{locale}:{source}`, `cms:type:{source}` and `cms:entry:{id}` for each item on the page. |
+| `getPublishedTaxonomy(locale, "category")`           | `'use cache'`, tagged `cms:type:category` and each term's entry tag.                                                                                         |
+| `getPublishedDocument(locale, path)` (page, article) | `'use cache'`, tagged `cms:page:{locale}:{path}`, `cms:type:{type}`, `cms:entry:{id}`.                                                                       |
+| Any query with `q`                                   | Not cached: read from the adapter per request.                                                                                                               |
+
+So when a story is published, edited or unpublished the adapter's webhook mapping emits its page tag plus `cms:collection:{locale}:article`, and both the story page and every cached listing page are revalidated with `revalidateTag(tag, "max")`. Editing a category emits `cms:type:category` and the collection tag, which refreshes the chips and every listing that shows the category name. Draft Mode skips the cache and reads the adapter with the preview context.
+
+On Vercel, change the three functions to `'use cache: remote'` so every serverless instance shares one cache entry per query; the tags are the same. The default `'use cache'` is right for self-hosting and local development.
+
+## Adding another listable type
+
+News is the only listable type in the repo. To list something else, say `caseStudy`:
+
+1. In `@platform/content-model`, define the document with `routable: true` and the fields a card needs (`title`, `path`, `publishedAt`, `excerpt`, `image`, a `reference` for the taxonomy). Add it to `allDocuments` and `listableDocuments`, and export its `Summary` type from `listing.ts`.
+2. Add `"caseStudy"` to the `collection` block's `source` options.
+3. In each adapter, handle the new type in `getDocument`, `getCollection`, `getTaxonomy`, `getPaths` and the webhook mapping. The local adapter's `queryArticles` is the reference.
+4. If the card needs different fields, extend `CollectionItem` and `toCard` in `packages/ui/src/molecules/collection-results.tsx`.
+
+Editors then place a `collection` block with `source: "caseStudy"` on any page.

@@ -1,5 +1,5 @@
 import { richTextFromParagraphs } from "../primitives"
-import type { CollectionResult } from "../listing"
+import type { CollectionResult, ListingQuery } from "../listing"
 import type { Article, ArticleSummary, Category, CollectionBlock, Page } from "../types"
 import { placeholderMedia } from "./placeholder"
 
@@ -246,6 +246,48 @@ export const collectionBlock: CollectionBlock = {
   search: true,
   sort: "newest",
   emptyMessage: "Nothing matches those filters yet.",
+}
+
+/**
+ * In-memory listing over articles: filter by term slug, search title and
+ * excerpt, sort, then page. The local adapter serves this, Storybook renders
+ * it, and the CMS adapters are tested against the same semantics.
+ */
+export function queryArticles(source: Article[], query: ListingQuery): CollectionResult<ArticleSummary> {
+  let matches = source
+  for (const [field, terms] of Object.entries(query.filters)) {
+    if (!terms.length) continue
+    matches = matches.filter((article) => termSlugs(article, field).some((slug) => terms.includes(slug)))
+  }
+  if (query.q) {
+    const needle = query.q.toLowerCase()
+    matches = matches.filter((a) => `${a.title} ${a.excerpt ?? ""}`.toLowerCase().includes(needle))
+  }
+  matches = [...matches].sort(comparator(query.sort))
+  const start = (query.page - 1) * query.pageSize
+  return {
+    items: matches.slice(start, start + query.pageSize).map(toSummary),
+    total: matches.length,
+    page: query.page,
+    pageSize: query.pageSize,
+  }
+}
+
+function termSlugs(article: Article, field: string): string[] {
+  const value = (article as unknown as Record<string, unknown>)[field]
+  const list = Array.isArray(value) ? value : value ? [value] : []
+  return list.map((term) => (term as Category).slug)
+}
+
+function comparator(sort: ListingQuery["sort"]): (a: Article, b: Article) => number {
+  switch (sort) {
+    case "oldest":
+      return (a, b) => a.publishedAt.localeCompare(b.publishedAt)
+    case "title":
+      return (a, b) => a.title.localeCompare(b.title)
+    default:
+      return (a, b) => b.publishedAt.localeCompare(a.publishedAt)
+  }
 }
 
 /** First page of the default listing, for stories and tests. */
