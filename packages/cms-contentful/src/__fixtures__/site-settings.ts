@@ -37,7 +37,19 @@ export const siteSettingsEntry = entry("site", "siteSettings", {
     }),
     // No `links` field at all: the transform must default it to [].
     entry("nav-pricing", "navGroup", { label: "Pricing", href: "/pricing" }),
+    // A mega menu group: titled columns of links and a featured card, three levels deep.
+    entry("nav-solutions", "navGroup", {
+      label: "Solutions",
+      columns: [
+        entry("col-1", "navColumn", {
+          title: "By team",
+          links: [entry("mn-1", "navLink", { label: "Product", href: "/solutions/product" })],
+        }),
+      ],
+      feature: [entry("feat-1", "card", { title: "Cohorts are live", href: "/blog/october" })],
+    }),
   ],
+  legalLinks: [entry("lg-1", "navLink", { label: "Privacy", href: "/legal/privacy" })],
   headerActions: [
     entry("hdr-1", "action", { label: "Sign in", href: "/login", variant: "ghost" }),
     entry("hdr-2", "action", { label: "Start free", href: "/signup", variant: "default" }),

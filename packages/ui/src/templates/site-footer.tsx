@@ -1,71 +1,270 @@
 import type * as React from "react"
 
-import type { SiteSettings } from "@platform/content-model"
+import type { NavLink, SiteSettings } from "@platform/content-model"
 import { editAttrs, fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"
+import { Heading } from "../atoms/heading"
 import { Link } from "../atoms/link"
 import { Text } from "../atoms/text"
+import { ActionGroup } from "../molecules/action-group"
+import { RichText } from "../molecules/rich-text"
 import { Separator } from "../primitives/separator"
 import { cn } from "../lib/utils"
+import { currentAttr, defaultChromeLabels, type ChromeLabels, type FooterOptions } from "./chrome"
+import { FooterSignup } from "./footer-signup"
 import { SocialIcon, socialLabel } from "./social-icons"
 
-export interface SiteFooterProps extends React.ComponentProps<"footer"> {
+type FooterSettings = Pick<
+  SiteSettings,
+  | "siteName"
+  | "footerHeading"
+  | "footerText"
+  | "footerActions"
+  | "footerSignupEndpoint"
+  | "footerSignupLabel"
+  | "footerTagline"
+  | "contactDetails"
+  | "footerColumns"
+  | "legalLinks"
+  | "footerNote"
+  | "socialLinks"
+  | "$edit"
+>
+
+export interface SiteFooterProps extends React.ComponentProps<"footer">, FooterOptions {
   /** Site settings; only the footer, social and site name fields are read. */
-  settings: Pick<SiteSettings, "siteName" | "footerColumns" | "footerNote" | "socialLinks" | "$edit">
+  settings: FooterSettings
+  /** Path of the page being shown (without locale), so its links get `aria-current="page"`. */
+  currentPath?: string
+  /** Visible and screen reader strings. */
+  labels?: Partial<ChromeLabels>
 }
 
-/** Link columns, social icons and the legal line, all from site settings. */
-function SiteFooter({ settings, className, ...props }: SiteFooterProps) {
+function FooterLink({ link, currentPath, className }: { link: NavLink; currentPath?: string; className?: string }) {
   return (
-    <footer data-slot="site-footer" className={cn("@container/section border-t bg-muted/40", className)} {...props}>
-      <Container className="flex flex-col gap-10 py-12 section-lg:py-16">
-        <div className="grid gap-8 section-sm:grid-cols-2 section-lg:grid-cols-[1.5fr_repeat(4,1fr)]">
-          <div className="flex flex-col gap-3">
-            <Link href="/" variant="unstyled" className="text-lg font-semibold">
-              {settings.siteName}
+    <Link
+      href={link.href}
+      variant="muted"
+      aria-current={currentAttr(link.href, currentPath)}
+      className={cn("inline-flex min-h-6 items-center aria-[current=page]:text-foreground", className)}
+    >
+      {link.label}
+    </Link>
+  )
+}
+
+function Social({ settings, label }: { settings: FooterSettings; label: string }) {
+  if (!settings.socialLinks.length) return null
+  return (
+    <ul aria-label={label} className="flex gap-1" {...fieldAttrs(settings, "socialLinks")}>
+      {settings.socialLinks.map((social) => {
+        const name = socialLabel(social.platform)
+        return (
+          <li key={social.id} {...editAttrs(social)}>
+            <Link
+              href={social.href}
+              variant="unstyled"
+              aria-label={name}
+              className="flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground"
+            >
+              <SocialIcon platform={social.platform} className="size-4" />
             </Link>
-            {settings.socialLinks.length ? (
-              <ul className="flex gap-1" {...fieldAttrs(settings, "socialLinks")}>
-                {settings.socialLinks.map((social) => {
-                  const label = socialLabel(social.platform)
-                  return (
-                    <li key={social.id} {...editAttrs(social)}>
-                      <Link
-                        href={social.href}
-                        variant="unstyled"
-                        aria-label={label}
-                        className="flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground"
-                      >
-                        <SocialIcon platform={social.platform} className="size-4" />
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            ) : null}
-          </div>
-          {settings.footerColumns.map((column) => (
-            <nav key={column.id} aria-label={column.title} className="flex flex-col gap-3" {...editAttrs(column)}>
-              <Text as="span" size="sm" weight="semibold" {...fieldAttrs(column, "title")}>
-                {column.title}
-              </Text>
-              <ul className="flex flex-col gap-2" {...fieldAttrs(column, "links")}>
-                {column.links.map((link) => (
-                  <li key={link.id} {...editAttrs(link)}>
-                    <Link href={link.href} variant="muted">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+function Brand({ settings }: { settings: FooterSettings }) {
+  return (
+    <Link href="/" variant="unstyled" className="self-start text-lg font-semibold">
+      {settings.siteName}
+    </Link>
+  )
+}
+
+/** The band at the top of the footer: heading, a line of text, and an email sign-up or buttons. */
+function FooterBand({ settings, labels }: { settings: FooterSettings; labels: ChromeLabels }) {
+  if (!settings.footerHeading) return null
+  return (
+    <div
+      data-slot="footer-band"
+      className="theme-brand flex flex-col gap-6 rounded-2xl bg-background p-6 text-foreground section-md:flex-row section-md:items-center section-md:justify-between section-md:p-10"
+    >
+      <div className="flex max-w-xl flex-col gap-2">
+        <Heading as="h2" size="h3" {...fieldAttrs(settings, "footerHeading")}>
+          {settings.footerHeading}
+        </Heading>
+        {settings.footerText ? (
+          <Text tone="muted" {...fieldAttrs(settings, "footerText")}>
+            {settings.footerText}
+          </Text>
+        ) : null}
+      </div>
+      {settings.footerSignupEndpoint ? (
+        <FooterSignup
+          endpoint={settings.footerSignupEndpoint}
+          submitLabel={settings.footerSignupLabel ?? labels.subscribe}
+          labels={labels}
+        />
+      ) : (
+        <ActionGroup actions={settings.footerActions} size="lg" {...fieldAttrs(settings, "footerActions")} />
+      )}
+    </div>
+  )
+}
+
+/** The link columns inside one "Footer" navigation landmark. */
+function Columns({
+  settings,
+  labels,
+  currentPath,
+  className,
+}: {
+  settings: FooterSettings
+  labels: ChromeLabels
+  currentPath?: string
+  className?: string
+}) {
+  if (!settings.footerColumns.length) return null
+  return (
+    <nav
+      aria-label={labels.footerNavigation}
+      className={cn("grid grid-cols-2 gap-8 section-md:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]", className)}
+      {...fieldAttrs(settings, "footerColumns")}
+    >
+      {settings.footerColumns.map((column) => (
+        <div key={column.id} className="flex flex-col gap-3" {...editAttrs(column)}>
+          <Text as="span" id={`footer-${column.id}`} size="sm" weight="semibold" {...fieldAttrs(column, "title")}>
+            {column.title}
+          </Text>
+          <ul aria-labelledby={`footer-${column.id}`} className="flex flex-col gap-2" {...fieldAttrs(column, "links")}>
+            {column.links.map((link) => (
+              <li key={link.id} {...editAttrs(link)}>
+                <FooterLink link={link} currentPath={currentPath} />
+              </li>
+            ))}
+          </ul>
         </div>
+      ))}
+    </nav>
+  )
+}
+
+/** The note (copyright) and the legal links. */
+function BottomRow({
+  settings,
+  labels,
+  currentPath,
+}: {
+  settings: FooterSettings
+  labels: ChromeLabels
+  currentPath?: string
+}) {
+  return (
+    <div className="flex flex-col gap-3 section-md:flex-row section-md:items-center section-md:justify-between">
+      <Text size="sm" tone="muted" {...fieldAttrs(settings, "footerNote")}>
+        {settings.footerNote ?? `© ${new Date().getFullYear()} ${settings.siteName}`}
+      </Text>
+      {settings.legalLinks.length ? (
+        <nav aria-label={labels.legalNavigation}>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1" {...fieldAttrs(settings, "legalLinks")}>
+            {settings.legalLinks.map((link) => (
+              <li key={link.id} {...editAttrs(link)}>
+                <FooterLink link={link} currentPath={currentPath} />
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
+    </div>
+  )
+}
+
+/**
+ * Site footer. Three layouts (`columns`, `split`, `minimal`); the sign-up band
+ * shows in all of them when `footerHeading` is set, and legal links sit on the
+ * bottom row. Everything comes from the `siteSettings` document; the layout
+ * comes from the host's chrome config.
+ */
+function SiteFooter({
+  settings,
+  layout = "columns",
+  currentPath,
+  labels: labelOverrides,
+  className,
+  ...props
+}: SiteFooterProps) {
+  const labels = { ...defaultChromeLabels, ...labelOverrides }
+  const tagline = settings.footerTagline ? (
+    <Text size="sm" tone="muted" className="max-w-xs" {...fieldAttrs(settings, "footerTagline")}>
+      {settings.footerTagline}
+    </Text>
+  ) : null
+
+  let body: React.ReactNode
+  if (layout === "minimal") {
+    const links = settings.footerColumns[0]?.links ?? []
+    body = (
+      <div className="flex flex-col items-start gap-6 section-md:flex-row section-md:items-center section-md:justify-between">
+        <Brand settings={settings} />
+        {links.length ? (
+          <nav aria-label={labels.footerNavigation}>
+            <ul className="flex flex-wrap gap-x-6 gap-y-2">
+              {links.map((link) => (
+                <li key={link.id}>
+                  <FooterLink link={link} currentPath={currentPath} />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
+        <Social settings={settings} label={labels.social} />
+      </div>
+    )
+  } else if (layout === "split") {
+    body = (
+      <div className="grid gap-10 section-lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] section-lg:gap-16">
+        <div className="flex flex-col gap-4">
+          <Brand settings={settings} />
+          {tagline}
+          {settings.contactDetails ? (
+            <address className="text-sm text-muted-foreground not-italic" {...fieldAttrs(settings, "contactDetails")}>
+              <RichText content={settings.contactDetails} size="sm" className="text-muted-foreground [&_p]:my-0" />
+            </address>
+          ) : null}
+          <Social settings={settings} label={labels.social} />
+        </div>
+        <Columns settings={settings} labels={labels} currentPath={currentPath} />
+      </div>
+    )
+  } else {
+    body = (
+      <div className="grid gap-10 section-lg:grid-cols-[minmax(0,1.5fr)_minmax(0,4fr)]">
+        <div className="flex flex-col gap-3">
+          <Brand settings={settings} />
+          {tagline}
+          <Social settings={settings} label={labels.social} />
+        </div>
+        <Columns settings={settings} labels={labels} currentPath={currentPath} />
+      </div>
+    )
+  }
+
+  return (
+    <footer
+      data-slot="site-footer"
+      data-layout={layout}
+      className={cn("@container/section border-t bg-muted/40", className)}
+      {...props}
+    >
+      <Container className={cn("flex flex-col gap-10", layout === "minimal" ? "py-10" : "py-12 section-lg:py-16")}>
+        <FooterBand settings={settings} labels={labels} />
+        {body}
         <Separator />
-        <Text size="sm" tone="muted" {...fieldAttrs(settings, "footerNote")}>
-          {settings.footerNote ?? `© ${new Date().getFullYear()} ${settings.siteName}`}
-        </Text>
+        <BottomRow settings={settings} labels={labels} currentPath={currentPath} />
       </Container>
     </footer>
   )

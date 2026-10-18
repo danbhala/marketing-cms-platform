@@ -649,6 +649,33 @@
     }
   },
   {
+    "key": "NavColumnItem",
+    "displayName": "Navigation column",
+    "baseType": "_component",
+    "properties": {
+      "title": {
+        "displayName": "Title",
+        "group": "Content",
+        "sortOrder": 10,
+        "isRequired": true,
+        "type": "string",
+        "format": "shortString"
+      },
+      "links": {
+        "displayName": "Links",
+        "group": "Content",
+        "sortOrder": 20,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "NavLinkItem"
+          ]
+        }
+      }
+    }
+  },
+  {
     "key": "NavGroupItem",
     "displayName": "Navigation group",
     "baseType": "_component",
@@ -679,6 +706,34 @@
             "NavLinkItem"
           ]
         }
+      },
+      "columns": {
+        "displayName": "Columns",
+        "description": "Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown.",
+        "group": "Content",
+        "sortOrder": 40,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "NavColumnItem"
+          ]
+        },
+        "maxItems": 4
+      },
+      "feature": {
+        "displayName": "Feature",
+        "description": "Optional featured card at the end of the mega menu panel.",
+        "group": "Content",
+        "sortOrder": 50,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "CardItem"
+          ]
+        },
+        "maxItems": 1
       }
     }
   },
@@ -7297,10 +7352,82 @@
         },
         "maxItems": 2
       },
+      "utilityLinks": {
+        "displayName": "Utility Links",
+        "description": "Small links in a bar above the header, e.g. contact, locations, sign in.",
+        "group": "Content",
+        "sortOrder": 80,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "NavLinkItem"
+          ]
+        }
+      },
+      "footerHeading": {
+        "displayName": "Footer Heading",
+        "description": "Heading of the band at the top of the footer. The band shows when set.",
+        "group": "Content",
+        "sortOrder": 90,
+        "type": "string",
+        "format": "shortString"
+      },
+      "footerText": {
+        "displayName": "Footer Text",
+        "description": "Supporting line under the footer band heading.",
+        "group": "Content",
+        "sortOrder": 100,
+        "type": "string"
+      },
+      "footerActions": {
+        "displayName": "Footer Actions",
+        "description": "Buttons in the footer band.",
+        "group": "Content",
+        "sortOrder": 110,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "ActionItem"
+          ]
+        },
+        "maxItems": 2
+      },
+      "footerSignupEndpoint": {
+        "displayName": "Footer Signup Endpoint",
+        "description": "Email sign-up in the footer band posts here as JSON ({ email }). Leave empty for no sign-up.",
+        "group": "Content",
+        "sortOrder": 120,
+        "type": "string",
+        "format": "shortString"
+      },
+      "footerSignupLabel": {
+        "displayName": "Footer Signup Label",
+        "description": "Sign-up button label. Defaults to Subscribe.",
+        "group": "Content",
+        "sortOrder": 130,
+        "type": "string",
+        "format": "shortString"
+      },
+      "footerTagline": {
+        "displayName": "Footer Tagline",
+        "description": "Short description under the logo in the footer.",
+        "group": "Content",
+        "sortOrder": 140,
+        "type": "string"
+      },
+      "contactDetails": {
+        "displayName": "Contact Details",
+        "description": "Address, phone and email, shown in the footer's split layout.",
+        "group": "Content",
+        "sortOrder": 150,
+        "type": "richText"
+      },
       "footerColumns": {
         "displayName": "Footer Columns",
         "group": "Content",
-        "sortOrder": 80,
+        "sortOrder": 160,
         "type": "array",
         "items": {
           "type": "content",
@@ -7309,17 +7436,30 @@
           ]
         }
       },
+      "legalLinks": {
+        "displayName": "Legal Links",
+        "description": "Privacy, terms, cookies. Shown on the footer's bottom row.",
+        "group": "Content",
+        "sortOrder": 170,
+        "type": "array",
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "NavLinkItem"
+          ]
+        }
+      },
       "footerNote": {
         "displayName": "Footer Note",
         "group": "Content",
-        "sortOrder": 90,
+        "sortOrder": 180,
         "type": "string",
         "format": "shortString"
       },
       "socialLinks": {
         "displayName": "Social Links",
         "group": "Content",
-        "sortOrder": 100,
+        "sortOrder": 190,
         "type": "array",
         "items": {
           "type": "content",

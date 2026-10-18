@@ -8,6 +8,7 @@ import type { CollectionBlock, RoutableDocument } from "@platform/content-model"
 import { registry } from "@platform/component-registry"
 import { ArticleTemplate, PageTemplate } from "@platform/ui/templates"
 
+import { chrome } from "@/chrome.config"
 import { getAdapter, siteConfig } from "@/cms.config"
 import { createCollectionBlock } from "@/components/collection-block"
 import { createLatestNewsBlock } from "@/components/latest-news-block"
@@ -126,6 +127,8 @@ export default async function CmsPage({ params, searchParams }: Props) {
           breadcrumbs={breadcrumbs}
           siteUrl={siteConfig.siteUrl}
           locale={locale}
+          chrome={chrome}
+          currentPath={path}
         />
         {bridge}
       </>
@@ -139,6 +142,8 @@ export default async function CmsPage({ params, searchParams }: Props) {
         components={components}
         breadcrumbs={breadcrumbs}
         siteUrl={siteConfig.siteUrl}
+        chrome={chrome}
+        currentPath={path}
       />
       {bridge}
     </>

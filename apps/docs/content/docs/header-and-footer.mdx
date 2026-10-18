@@ -1,0 +1,82 @@
+---
+title: Header and footer
+description: "Three header layouts with dropdowns and mega menus, three footer layouts with a sign-up band, chosen in code; editors fill in the links in site settings."
+---
+
+The header and footer read everything they show from the `siteSettings` document. Which layout they use is the developer's choice, in the app's `chrome.config.ts`, the same way motion lives in `animation.config.ts`. Editors never see it.
+
+```ts
+// apps/web/chrome.config.ts
+import type { ChromeConfig } from "@platform/ui/templates"
+
+export const chrome = {
+  header: {
+    layout: "dropdowns", // dropdowns | centered | overlay
+    sticky: true,
+    hideOnScroll: false, // slide away on scroll down, back on scroll up
+    transparent: false, // over a background-image hero until the page scrolls
+  },
+  footer: { layout: "columns" }, // columns | split | minimal
+} satisfies ChromeConfig
+```
+
+The app passes it to `PageTemplate` and `ArticleTemplate` as `chrome`, along with `currentPath` so the link to the page being shown gets `aria-current="page"`.
+
+## Header layouts
+
+| Layout      | What it does                                                                       | Good for                                  |
+| ----------- | ---------------------------------------------------------------------------------- | ----------------------------------------- |
+| `dropdowns` | Brand left, navigation in the middle, buttons right. The default.                  | Most marketing sites                      |
+| `centered`  | Navigation split either side of the brand. `splitAt` sets how many groups go left. | Hospitality, retail, fashion              |
+| `overlay`   | A menu button at every width opens a full-screen menu of large links.              | Small brand, campaign and portfolio sites |
+
+What each navigation group opens depends on its content, not the layout:
+
+- **No children**: a plain link.
+- **`links`**: a dropdown of links with optional descriptions.
+- **`columns`**: a mega menu panel of up to four titled columns, plus an optional `feature` card at the end.
+
+A group with its own `href` and children gets an "overview" link at the foot of its panel, so the group's page is still reachable.
+
+On phones every layout except `overlay` uses one menu sheet with an expandable section per group. Mega menu columns become small headings inside their group, and utility links sit at the bottom.
+
+### Behaviours
+
+- `sticky` keeps the header at the top. The page gets `scroll-padding-top` so a focused element is never hidden under it.
+- `hideOnScroll` slides the header away while reading down and brings it back on the first scroll up. It stays while a menu is open or anything in it has focus, and it moves without a transition under reduced motion.
+- `transparent` sits the header over the hero in the dark theme until the page scrolls. It only applies on pages that open with a `background` layout hero and show no breadcrumbs; the hero's overlay keeps the text above 4.5:1.
+
+### Utility bar
+
+When `utilityLinks` has links, a thin bar above the header shows them (contact, locations, sign in). It is separate from the announcement bar, which carries one message.
+
+## Footer layouts
+
+| Layout    | What it does                                                                              |
+| --------- | ----------------------------------------------------------------------------------------- |
+| `columns` | Brand, tagline and social icons beside the link columns. The default.                     |
+| `split`   | Brand, tagline, `contactDetails` and social icons on the left, link columns on the right. |
+| `minimal` | One row: brand, the first column's links and social icons.                                |
+
+Every layout ends with the `footerNote` and `legalLinks` row.
+
+### Sign-up band
+
+Fill in `footerHeading` and a band appears at the top of the footer, in the brand theme. With `footerSignupEndpoint` set it is an email form that posts `{ email }` as JSON (or as a plain form post without JavaScript); without it, the band shows `footerActions` as buttons.
+
+## Site settings fields
+
+| Field                                                                                       | Used by                                           |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `navigation` (`navGroup`: `links`, `columns`, `feature`)                                    | Header and phone menu                             |
+| `headerActions`                                                                             | Header buttons                                    |
+| `utilityLinks`                                                                              | Utility bar and the bottom of the phone menu      |
+| `footerHeading`, `footerText`, `footerActions`, `footerSignupEndpoint`, `footerSignupLabel` | Sign-up band                                      |
+| `footerTagline`, `contactDetails`                                                           | Footer brand column (`contactDetails` in `split`) |
+| `footerColumns`, `legalLinks`, `footerNote`, `socialLinks`                                  | Footer                                            |
+
+`navColumn` (a title and links) is the one item type the mega menu adds. Every adapter's generated schema includes it, so the mega menu works the same in all six CMSs.
+
+## Accessibility
+
+Dropdowns and mega panels follow the WAI-ARIA disclosure navigation pattern rather than the `menu` role: the triggers are buttons with `aria-expanded`, Escape closes the panel and returns focus to its button, and the panel stays open while the pointer is over it. The first focusable element on every page is a "Skip to content" link. Every string is in `ChromeLabels`, which `PageTemplate` takes as `labels` for localisation.

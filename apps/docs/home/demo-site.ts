@@ -18,7 +18,12 @@ export const demoSettings: SiteSettings = {
     label,
     href: `/${label.toLowerCase()}`,
     links: [],
+    columns: [],
+    feature: [],
   })),
+  utilityLinks: [],
+  footerActions: [],
+  legalLinks: [],
   headerActions: [
     { id: "atlas-h1", type: "action", label: "Sign in", href: "/login", variant: "ghost" },
     { id: "atlas-h2", type: "action", label: "Plan a trip", href: "/plan" },

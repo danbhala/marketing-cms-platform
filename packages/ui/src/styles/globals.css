@@ -117,6 +117,11 @@
     @apply font-sans antialiased;
     -webkit-text-size-adjust: 100%;
   }
+  /* A sticky header must never cover the element that has focus (WCAG 2.4.11),
+     so in-page jumps and focus scrolling stop below it. */
+  html:has([data-slot="site-header"][data-sticky]) {
+    scroll-padding-top: 5rem;
+  }
   body {
     @apply bg-background text-foreground;
   }

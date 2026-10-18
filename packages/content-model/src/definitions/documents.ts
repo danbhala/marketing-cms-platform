@@ -1,7 +1,7 @@
 import { defineDocument, field } from "../fields"
 import { themeNames } from "../themes"
 import { allBlocks } from "./blocks"
-import { action, footerColumn, navGroup, socialLink } from "./items"
+import { action, footerColumn, navGroup, navLink, socialLink } from "./items"
 import { category } from "./taxonomy"
 
 export { category }
@@ -59,7 +59,22 @@ export const siteSettings = defineDocument("siteSettings", {
     announcementLinkLabel: field.text(),
     navigation: field.items([navGroup]),
     headerActions: field.items([action], { max: 2 }),
+    utilityLinks: field.items([navLink], {
+      description: "Small links in a bar above the header, e.g. contact, locations, sign in.",
+    }),
+    footerHeading: field.text({
+      description: "Heading of the band at the top of the footer. The band shows when set.",
+    }),
+    footerText: field.textarea({ description: "Supporting line under the footer band heading." }),
+    footerActions: field.items([action], { max: 2, description: "Buttons in the footer band." }),
+    footerSignupEndpoint: field.link({
+      description: "Email sign-up in the footer band posts here as JSON ({ email }). Leave empty for no sign-up.",
+    }),
+    footerSignupLabel: field.text({ description: "Sign-up button label. Defaults to Subscribe." }),
+    footerTagline: field.textarea({ description: "Short description under the logo in the footer." }),
+    contactDetails: field.richText({ description: "Address, phone and email, shown in the footer's split layout." }),
     footerColumns: field.items([footerColumn]),
+    legalLinks: field.items([navLink], { description: "Privacy, terms, cookies. Shown on the footer's bottom row." }),
     footerNote: field.text(),
     socialLinks: field.items([socialLink]),
   },

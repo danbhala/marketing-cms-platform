@@ -20,6 +20,7 @@ export type Step = InferContent<typeof defs.step>
 export type Tab = InferContent<typeof defs.tab>
 export type FormField = InferContent<typeof defs.formField>
 export type NavLink = InferContent<typeof defs.navLink>
+export type NavColumn = InferContent<typeof defs.navColumn>
 export type NavGroup = InferContent<typeof defs.navGroup>
 export type FooterColumn = InferContent<typeof defs.footerColumn>
 export type SocialLink = InferContent<typeof defs.socialLink>

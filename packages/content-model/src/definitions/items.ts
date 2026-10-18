@@ -168,13 +168,27 @@ export const navLink = defineItem("navLink", {
   },
 })
 
+export const navColumn = defineItem("navColumn", {
+  label: "Navigation column",
+  description: "A titled column of links inside a mega menu panel.",
+  fields: {
+    title: field.text({ required: true }),
+    links: field.items([navLink]),
+  },
+})
+
 export const navGroup = defineItem("navGroup", {
   label: "Navigation group",
-  description: "A top-level navigation entry. With links it renders as a dropdown.",
+  description: "A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel.",
   fields: {
     label: field.text({ required: true }),
     href: field.link(),
     links: field.items([navLink]),
+    columns: field.items([navColumn], {
+      max: 4,
+      description: "Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown.",
+    }),
+    feature: field.items([card], { max: 1, description: "Optional featured card at the end of the mega menu panel." }),
   },
 })
 
@@ -213,6 +227,7 @@ export const allItems = [
   tab,
   formField,
   navLink,
+  navColumn,
   navGroup,
   footerColumn,
   socialLink,
