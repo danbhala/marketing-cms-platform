@@ -14,6 +14,11 @@ export const tags = {
   global: (locale: string) => `cms:global:${locale}`,
   /** The list of routable paths used by generateStaticParams. */
   paths: (locale: string) => `cms:paths:${locale}`,
+  /**
+   * Every cached page of one listing (all filters and pages). Emitted when a
+   * listed document is created, published or unpublished.
+   */
+  collection: (locale: string, source: string) => `cms:collection:${locale}:${source}`,
 } as const
 
 export function normalizePath(path: string): string {

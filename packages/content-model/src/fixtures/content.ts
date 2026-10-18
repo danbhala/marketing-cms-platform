@@ -31,6 +31,7 @@ import type {
   Testimonial,
   TestimonialsBlock,
 } from "../types"
+import { collectionBlock, newsPage } from "./news"
 import { placeholderAvatar, placeholderLogo, placeholderMedia, placeholderPhoto } from "./placeholder"
 
 /**
@@ -698,6 +699,7 @@ export const allBlockFixtures = {
   media: mediaBlock,
   gallery: galleryBlock,
   form: formBlock,
+  collection: collectionBlock,
 } as const
 
 // ---------------------------------------------------------------------------
@@ -939,4 +941,4 @@ export const featurePage: Page = {
   ],
 }
 
-export const allPages: Page[] = [landingPage, pricingPage, aboutPage, articlePage, contactPage, featurePage]
+export const allPages: Page[] = [landingPage, pricingPage, aboutPage, articlePage, contactPage, featurePage, newsPage]

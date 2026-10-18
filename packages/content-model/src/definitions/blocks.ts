@@ -295,6 +295,38 @@ export const form = defineBlock("form", {
   },
 })
 
+/**
+ * A paginated, filterable list of documents (news is the worked example).
+ * The block holds the editor's configuration; the app reads the URL's search
+ * params, queries the adapter and renders the results. See the "Listing
+ * pages" docs page for the URL contract.
+ */
+export const collection = defineBlock("collection", {
+  label: "Collection",
+  description: "Paginated, filterable listing of a document type, driven by the URL's search params.",
+  fields: {
+    ...heading,
+    source: field.select(["article"] as const, {
+      defaultValue: "article",
+      description: "Which document type to list.",
+    }),
+    pageSize: field.number({ description: "Items per page. Defaults to 12." }),
+    filters: field.select(["category", "tags"] as const, {
+      defaultValue: "category",
+      description: "Taxonomy shown as filter chips.",
+    }),
+    search: field.boolean({
+      description: "Show a search box. Searches use the CMS's own search and are never cached.",
+    }),
+    sort: field.select(["newest", "oldest", "title"] as const, {
+      defaultValue: "newest",
+      description: "Default order; visitors can change it.",
+    }),
+    emptyMessage: field.text({ description: "Shown when no items match." }),
+    ...presentation,
+  },
+})
+
 /** Every block a page can contain. Add new blocks here. */
 export const allBlocks = [
   hero,
@@ -315,4 +347,5 @@ export const allBlocks = [
   mediaBlock,
   gallery,
   form,
+  collection,
 ] as const

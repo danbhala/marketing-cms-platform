@@ -44,6 +44,8 @@ export interface PageTemplateProps extends React.ComponentProps<"div"> {
   siteUrl?: string
   /** Slot rendered before the blocks, e.g. a preview banner in draft mode. */
   before?: React.ReactNode
+  /** Content rendered inside `<main>` above the blocks (an article's header and body). */
+  children?: React.ReactNode
 }
 
 /**
@@ -58,6 +60,7 @@ function PageTemplate({
   breadcrumbs,
   siteUrl,
   before,
+  children,
   className,
   ...props
 }: PageTemplateProps) {
@@ -80,6 +83,7 @@ function PageTemplate({
             <Breadcrumbs items={breadcrumbs} siteUrl={siteUrl} />
           </Container>
         ) : null}
+        {children}
         <BlockList blocks={page.blocks} components={components} />
       </main>
       <SiteFooter settings={settings} />

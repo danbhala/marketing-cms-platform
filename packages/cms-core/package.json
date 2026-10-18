@@ -7,6 +7,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./edit": "./src/edit.ts",
+    "./listing": "./src/listing.ts",
     "./tags": "./src/tags.ts"
   },
   "scripts": {

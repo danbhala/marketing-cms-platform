@@ -21,6 +21,44 @@ export const page = defineDocument("page", {
   },
 })
 
+/**
+ * A taxonomy term. Articles reference categories; the collection block
+ * filters by them. Terms are not pages: they have a slug for URLs, not a path.
+ */
+export const category = defineDocument("category", {
+  label: "Category",
+  taxonomy: true,
+  fields: {
+    title: field.text({ required: true }),
+    slug: field.text({ required: true, description: "URL-safe key used in listing filters, e.g. product-news." }),
+    description: field.textarea(),
+  },
+})
+
+/**
+ * The worked example of a listed document: a news story. Copy this
+ * definition (and the collection block's `source` option) to add
+ * publications, case studies or products.
+ */
+export const article = defineDocument("article", {
+  label: "Article",
+  routable: true,
+  fields: {
+    title: field.text({ required: true }),
+    path: field.text({ required: true, description: "URL path, usually under the listing page, e.g. /news/launch." }),
+    publishedAt: field.date({ required: true, description: "Listings sort by this date, newest first." }),
+    excerpt: field.textarea({ description: "Shown on cards and as the default meta description." }),
+    image: field.media({ accept: "image" }),
+    category: field.reference([category]),
+    tags: field.reference([category], { multiple: true, description: "Optional second axis for filtering." }),
+    body: field.richText({ required: true }),
+    blocks: field.blocks(allBlocks, { description: "Optional sections rendered below the body." }),
+    seoTitle: field.text({ maxLength: 70 }),
+    seoDescription: field.textarea(),
+    noIndex: field.boolean(),
+  },
+})
+
 export const siteSettings = defineDocument("siteSettings", {
   label: "Site settings",
   singleton: true,
@@ -38,4 +76,8 @@ export const siteSettings = defineDocument("siteSettings", {
   },
 })
 
-export const allDocuments = [page, siteSettings] as const
+export const allDocuments = [page, article, category, siteSettings] as const
+
+/** Documents a `collection` block can list, by `source` key. */
+export const listableDocuments = { article } as const
+export type ListableType = keyof typeof listableDocuments
