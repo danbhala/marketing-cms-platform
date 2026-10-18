@@ -42,7 +42,7 @@ await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve))
 const registry = `http://127.0.0.1:${server.address().port}`
 
 /** What the example commits: the scaffold minus installs, builds, secrets and npm's lockfile (pnpm locks it here). */
-const skip = new Set(["node_modules", ".next", ".git", ".env.local", "package-lock.json", "next-env.d.ts"])
+const skip = new Set(["node_modules", ".next", ".turbo", ".git", ".env.local", "package-lock.json", "next-env.d.ts"])
 const ignored = (name) => skip.has(name) || name.endsWith(".tsbuildinfo")
 function files(dir) {
   if (!existsSync(dir)) return []

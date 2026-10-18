@@ -12,14 +12,14 @@ Run `npm run cms:push` again whenever you add or change a block.
 
 ## Where things live
 
-| Path                     | What                                                                 |
-| ------------------------ | -------------------------------------------------------------------- |
-| `lib/content-model/`     | Block and field definitions. `cms:push` and the types both read them. |
-| `components/blocks/`     | One React component per block.                                       |
-| `lib/cms-storyblok/`     | Fetching, the Storyblok → content transform, preview and webhooks.   |
-| `app/brand.css`          | Colours, fonts and radius. Paste a theme studio export here.         |
-| `animation.config.ts`    | Site-wide motion defaults.                                           |
-| `chrome.config.ts`       | Header and footer layouts.                                           |
+| Path                  | What                                                                  |
+| --------------------- | --------------------------------------------------------------------- |
+| `lib/content-model/`  | Block and field definitions. `cms:push` and the types both read them. |
+| `components/blocks/`  | One React component per block.                                        |
+| `lib/cms-storyblok/`  | Fetching, the Storyblok → content transform, preview and webhooks.    |
+| `app/brand.css`       | Colours, fonts and radius. Paste a theme studio export here.          |
+| `animation.config.ts` | Site-wide motion defaults.                                            |
+| `chrome.config.ts`    | Header and footer layouts.                                            |
 
 ## Deploy
 

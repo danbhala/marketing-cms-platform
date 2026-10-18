@@ -28,10 +28,10 @@ const packageTargets = {
   "@platform/cms-storyblok": "lib/cms-storyblok",
 }
 
-// Tests, stories, docs and local build output (next dev writes AGENTS.md).
+// Tests, stories, docs and local build output (next dev writes AGENTS.md, turbo writes .turbo/).
 const skipFile = (name) =>
   /\.(test|stories)\.tsx?$/.test(name) || /\.(mdx|tsbuildinfo)$/.test(name) || name === "AGENTS.md"
-const skipDir = new Set(["node_modules", "__fixtures__", "__snapshots__", "fixtures", "docs", ".next"])
+const skipDir = new Set(["node_modules", "__fixtures__", "__snapshots__", "fixtures", "docs", ".next", ".turbo"])
 
 /** apps/web files that are demo-only or replaced by the template's own. */
 const appSkip = new Set([
