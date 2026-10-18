@@ -17,6 +17,8 @@ export interface ArticleTemplateProps extends Omit<PageTemplateProps, "page" | "
   settings: SiteSettings
   /** BCP 47 locale for the date and the article's URL in the structured data. */
   locale?: string
+  /** The article's public URL for the structured data; defaults to siteUrl/locale/path. */
+  url?: string
   /** Emit schema.org `NewsArticle` JSON-LD. On by default. */
   structuredData?: boolean
 }
@@ -26,7 +28,14 @@ export interface ArticleTemplateProps extends Omit<PageTemplateProps, "page" | "
  * followed by any blocks the editor added. Reuses the page template so site
  * chrome, breadcrumbs and block rendering stay in one place.
  */
-function ArticleTemplate({ article, settings, locale = "en", structuredData = true, ...props }: ArticleTemplateProps) {
+function ArticleTemplate({
+  article,
+  settings,
+  locale = "en",
+  url,
+  structuredData = true,
+  ...props
+}: ArticleTemplateProps) {
   const siteUrl = props.siteUrl ?? ""
   const jsonLd = structuredData
     ? {
@@ -34,7 +43,7 @@ function ArticleTemplate({ article, settings, locale = "en", structuredData = tr
         "@type": "NewsArticle",
         headline: article.title,
         datePublished: article.publishedAt,
-        mainEntityOfPage: `${siteUrl}/${locale}${article.path}`,
+        mainEntityOfPage: url ?? `${siteUrl}/${locale}${article.path}`,
         ...(article.excerpt ? { description: article.excerpt } : {}),
         ...(article.image ? { image: [article.image.url] } : {}),
         ...(article.category ? { articleSection: article.category.title } : {}),

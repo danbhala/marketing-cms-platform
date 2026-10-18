@@ -3,6 +3,7 @@ import { draftMode } from "next/headers"
 import { redirect } from "next/navigation"
 
 import { getAdapter, siteConfig } from "@/cms.config"
+import { localePath } from "@/lib/paths"
 
 /**
  * GET /api/preview?… Enters Draft Mode. The adapter validates the request
@@ -22,5 +23,5 @@ export async function GET(request: Request) {
   // Editors name the locale differently (Optimizely sends `loc`); the app only needs the segment.
   const locale = url.searchParams.get("locale") ?? url.searchParams.get("loc") ?? siteConfig.defaultLocale
   const query = url.searchParams.toString()
-  redirect(`/${locale}${entry.path === "/" ? "" : entry.path}${query ? `?${query}` : ""}` as Route)
+  redirect(`${localePath(locale, entry.path)}${query ? `?${query}` : ""}` as Route)
 }

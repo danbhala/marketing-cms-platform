@@ -13,9 +13,10 @@ import { getAdapter, siteConfig } from "@/cms.config"
 import { createCollectionBlock } from "@/components/collection-block"
 import { createLatestNewsBlock } from "@/components/latest-news-block"
 import { PreviewBridge } from "@/components/preview-bridge"
+import { getAlternates, hreflangMap } from "@/lib/alternates"
 import { getBreadcrumbs } from "@/lib/breadcrumb-trail"
 import { getPublishedDocument, getPublishedPaths, getPublishedSettings } from "@/lib/cms"
-import { pathToSlug, slugToPath } from "@/lib/paths"
+import { localePath, pathToSlug, slugToPath } from "@/lib/paths"
 
 type Props = PageProps<"/[locale]/[[...slug]]">
 
@@ -42,12 +43,14 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const path = slugToPath(slug)
   const doc = await getPublishedDocument(locale, path)
   if (!doc) return {}
-  const canonicalPath = `/${locale}${path === "/" ? "" : path}`
+  const canonicalPath = localePath(locale, path)
+  // hreflang: the same page in every other language that publishes it, plus x-default.
+  const languages = hreflangMap(await getAlternates(path))
   const metadata: Metadata = {
     title: doc.seoTitle ?? doc.title,
     description: doc.seoDescription ?? (doc.type === "article" ? doc.excerpt : undefined),
     robots: doc.noIndex || siteConfig.noIndex ? { index: false, follow: false } : undefined,
-    alternates: { canonical: canonicalPath },
+    alternates: { canonical: canonicalPath, ...(Object.keys(languages).length ? { languages } : {}) },
   }
   if (doc.type === "page" && doc.ogImage)
     metadata.openGraph = { images: [{ url: doc.ogImage.url, alt: doc.ogImage.alt }] }
@@ -103,6 +106,7 @@ export default async function CmsPage({ params, searchParams }: Props) {
 
   if (!doc || !settings) notFound()
   const breadcrumbs = await getBreadcrumbs(locale, path, doc.title)
+  const languages = (await getAlternates(path)).map((a) => ({ ...a, current: a.locale === locale }))
   const bridge = draft ? <PreviewBridge provider={siteConfig.provider} ctx={preview} locale={locale} /> : null
 
   // The listing blocks need this request's locale and URL; everything else
@@ -111,7 +115,7 @@ export default async function CmsPage({ params, searchParams }: Props) {
     ...registry.components,
     collection: createCollectionBlock({
       locale,
-      basePath: `/${locale}${path === "/" ? "" : path}`,
+      basePath: localePath(locale, path),
       searchParams,
       draft: draftCtx,
     }),
@@ -127,9 +131,11 @@ export default async function CmsPage({ params, searchParams }: Props) {
           components={components}
           breadcrumbs={breadcrumbs}
           siteUrl={siteConfig.siteUrl}
+          url={`${siteConfig.siteUrl}${localePath(locale, path)}`}
           locale={locale}
           chrome={chrome}
           currentPath={path}
+          languages={languages}
         />
         {bridge}
       </>
@@ -145,6 +151,7 @@ export default async function CmsPage({ params, searchParams }: Props) {
         siteUrl={siteConfig.siteUrl}
         chrome={chrome}
         currentPath={path}
+        languages={languages}
       />
       {bridge}
     </>

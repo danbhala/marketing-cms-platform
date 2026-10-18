@@ -34,7 +34,14 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[lo
   return (
     <html lang={locale} className={`${themeClassName(siteConfig.defaultTheme)} ${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
-        <UiProvider>
+        <UiProvider
+          locale={locale}
+          localeConfig={{
+            locales: siteConfig.locales,
+            defaultLocale: siteConfig.defaultLocale,
+            localePrefix: siteConfig.localePrefix,
+          }}
+        >
           <Suspense fallback={null}>{children}</Suspense>
         </UiProvider>
       </body>

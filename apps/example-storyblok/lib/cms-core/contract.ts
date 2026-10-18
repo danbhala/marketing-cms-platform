@@ -99,6 +99,12 @@ export interface SiteConfig {
   provider: string
   locales: readonly string[]
   defaultLocale: string
+  /**
+   * "always" puts every locale in the URL (/en/about). "as-needed" leaves the
+   * default locale out (/about, /fr/about), so a one-language site has no
+   * prefix at all. Default "always".
+   */
+  localePrefix?: "always" | "as-needed"
   siteUrl: string
   /** Theme class applied to <html> when the page has none. */
   defaultTheme?: ThemeName

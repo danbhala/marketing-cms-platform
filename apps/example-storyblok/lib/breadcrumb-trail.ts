@@ -1,6 +1,7 @@
 import type { Crumb } from "@/components/molecules"
 
 import { getPublishedPage } from "@/lib/cms"
+import { localePath } from "@/lib/paths"
 
 /**
  * Builds the trail from the URL: every ancestor path that is a published page
@@ -10,13 +11,15 @@ import { getPublishedPage } from "@/lib/cms"
 export async function getBreadcrumbs(locale: string, path: string, currentTitle: string): Promise<Crumb[]> {
   const segments = path.split("/").filter(Boolean)
   const home = await getPublishedPage(locale, "/")
-  const crumbs: Crumb[] = [{ label: home?.title && home.title.length < 24 ? home.title : "Home", href: `/${locale}` }]
+  const crumbs: Crumb[] = [
+    { label: home?.title && home.title.length < 24 ? home.title : "Home", href: localePath(locale, "/") },
+  ]
 
   let acc = ""
   for (const segment of segments.slice(0, -1)) {
     acc += `/${segment}`
     const page = await getPublishedPage(locale, acc)
-    crumbs.push(page ? { label: page.title, href: `/${locale}${acc}` } : { label: humanise(segment) })
+    crumbs.push(page ? { label: page.title, href: localePath(locale, acc) } : { label: humanise(segment) })
   }
   if (segments.length) crumbs.push({ label: currentTitle })
   return crumbs

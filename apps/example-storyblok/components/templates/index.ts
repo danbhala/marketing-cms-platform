@@ -5,6 +5,7 @@ export { BlockList, PageTemplate, type BlockListProps, type PageTemplateProps } 
 export { ArticleTemplate, type ArticleTemplateProps } from "./article-template"
 export { SkipLink, type SkipLinkProps } from "./skip-link"
 export { UtilityBar, type UtilityBarProps } from "./utility-bar"
+export { LanguageLinks, type LanguageLinksProps } from "./language-links"
 export {
   currentAttr,
   defaultChromeLabels,
@@ -16,4 +17,5 @@ export {
   type FooterOptions,
   type HeaderLayout,
   type HeaderOptions,
+  type LanguageOption,
 } from "./chrome"

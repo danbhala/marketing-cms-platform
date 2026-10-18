@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowRightIcon, MenuIcon } from "lucide-react"
+import { ArrowRightIcon, GlobeIcon, MenuIcon } from "lucide-react"
 
 import type { Card, NavGroup, NavLink, SiteSettings } from "@/lib/content-model"
 import { editAttrs, fieldAttrs } from "@/lib/cms-core/edit"
@@ -23,13 +23,15 @@ import {
 } from "../primitives/navigation-menu"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../primitives/sheet"
 import { cn } from "../lib/utils"
-import { currentAttr, defaultChromeLabels, type ChromeLabels, type HeaderOptions } from "./chrome"
+import { currentAttr, defaultChromeLabels, type ChromeLabels, type HeaderOptions, type LanguageOption } from "./chrome"
 
 export interface SiteHeaderProps extends Omit<React.ComponentProps<"header">, "children">, HeaderOptions {
   /** Site settings; only the brand, navigation and header action fields are read. */
   settings: Pick<SiteSettings, "siteName" | "logo" | "navigation" | "headerActions" | "utilityLinks" | "$edit">
   /** Path of the page being shown (without locale), so its links get `aria-current="page"`. */
   currentPath?: string
+  /** The page in each language; with `languageSwitcher: "menu"`, two or more show a language dropdown. */
+  languages?: LanguageOption[]
   /** Visible and screen reader strings. */
   labels?: Partial<ChromeLabels>
 }
@@ -221,6 +223,70 @@ function DesktopNav({
         {groups.map((group) => (
           <DesktopNavItem key={group.id} group={group} labels={labels} currentPath={currentPath} />
         ))}
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
+
+/**
+ * The header's language dropdown: a disclosure like the navigation dropdowns,
+ * listing the current page in each language. Shows the language code on
+ * phones and the language's name from tablet width.
+ */
+function LanguageMenu({
+  languages,
+  labels,
+  onOpenChange,
+}: {
+  languages: LanguageOption[]
+  labels: Labels
+  onOpenChange: (open: boolean) => void
+}) {
+  const current = languages.find((language) => language.current) ?? languages[0]
+  if (!current) return null
+  return (
+    <NavigationMenu
+      aria-label={labels.languages}
+      align="end"
+      collisionPadding={16}
+      onValueChange={(value) => onOpenChange(value != null)}
+      className="flex-none"
+    >
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="gap-1.5 px-2">
+            <GlobeIcon className="size-4" aria-hidden />
+            <span className="sr-only">{labels.languages}: </span>
+            <span lang={current.locale} className="uppercase section-md:hidden">
+              {current.locale.split("-")[0]}
+            </span>
+            <span lang={current.locale} className="hidden section-md:inline">
+              {current.label}
+            </span>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="flex w-48 flex-col p-1">
+              {languages.map((language) => (
+                <li key={language.locale}>
+                  <NavigationMenuLink
+                    render={
+                      <Link
+                        href={language.href}
+                        hrefLang={language.locale}
+                        lang={language.locale}
+                        variant="unstyled"
+                        aria-current={language.current ? "true" : undefined}
+                      />
+                    }
+                    className="rounded-md p-2.5 font-medium hover:bg-accent aria-[current=true]:bg-accent"
+                  >
+                    {language.label}
+                  </NavigationMenuLink>
+                </li>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   )
@@ -457,7 +523,9 @@ function SiteHeader({
   hideOnScroll = false,
   transparent = false,
   splitAt,
+  languageSwitcher = "utility",
   currentPath,
+  languages,
   labels: labelOverrides,
   className,
   ...props
@@ -489,6 +557,11 @@ function SiteHeader({
       <MenuIcon className="size-5" aria-hidden />
     </SheetTrigger>
   )
+
+  const languageMenu =
+    languageSwitcher === "menu" && languages && languages.length > 1 ? (
+      <LanguageMenu languages={languages} labels={labels} onOpenChange={setMenuOpen} />
+    ) : null
 
   const actions = (
     <ActionGroup
@@ -545,7 +618,10 @@ function SiteHeader({
                   onOpenChange={setMenuOpen}
                 />
               </nav>
-              {actions}
+              <div className="flex items-center gap-2">
+                {languageMenu}
+                {actions}
+              </div>
             </>
           ) : (
             <>
@@ -565,6 +641,7 @@ function SiteHeader({
                 </nav>
               )}
               <div className="flex items-center gap-2">
+                {languageMenu}
                 {actions}
                 {menuButton}
               </div>

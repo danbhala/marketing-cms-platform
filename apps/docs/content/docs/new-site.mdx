@@ -7,7 +7,9 @@ description: "One command copies the platform into a plain Next.js project that 
 npx create-marketing-cms-app my-site --storyblok
 ```
 
-The command runs the [shadcn CLI](https://ui.shadcn.com/docs/cli) to create a Next.js app, then installs the `site-storyblok` item from this site's registry (`/r/site-storyblok.json`). Nothing is installed as a platform package: blocks, templates, the content model, the Storyblok adapter and the routes are all copied in as source.
+The command runs the official [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) (its own prompts still apply; TypeScript, App Router, Tailwind, ESLint, React Compiler and Cache Components are fixed because the site depends on them), adds shadcn with `shadcn init`, then installs the `site-storyblok` item from this site's registry (`/r/site-storyblok.json`). Nothing is installed as a platform package: blocks, templates, the content model, the Storyblok adapter and the routes are all copied in as source.
+
+It asks whether the site is in more than one language, which languages, and which is the default; the answers go into `locales` and `defaultLocale` in `cms.config.ts`. A one-language site gets `localePrefix: "as-needed"`, so its URLs have no locale (`/about`, and `/en-GB/about` redirects there); a multilingual one keeps the locale in every URL (`/fr/about`). `<html lang>` is the page's locale either way. Pass `--languages en,fr --default-language en` to skip the questions, and anything after `--` straight to create-next-app.
 
 Storyblok is the only CMS in this version.
 
@@ -34,7 +36,7 @@ Run `cms:push` again after changing a definition.
 | `lib/animation/`                                          | `@platform/animation`          |
 | `lib/component-registry/`                                 | `@platform/component-registry` |
 
-`components.json` points the `ui` alias at `components/primitives`, so `npx shadcn add <component>` lands next to the site's own primitives. The demo content, the theme editor and the other CMS adapters stay in the monorepo.
+`next.config.ts` stays create-next-app's own, with `typedRoutes` and the CMS's image host added. `components.json` points the `ui` alias at `components/primitives`, so `npx shadcn add <component>` lands next to the site's own primitives. The demo content, the theme editor and the other CMS adapters stay in the monorepo.
 
 ## Maintaining the registry
 
