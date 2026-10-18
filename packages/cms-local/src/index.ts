@@ -27,6 +27,13 @@ export interface LocalCmsOptions {
   secret?: string
   /** Simulated network latency in ms, to make caching visible in dev. */
   delay?: number
+  /** The locale `pages` and `articles` paths are written in (default "en"). */
+  defaultLocale?: string
+  /**
+   * Translated slugs per locale, from the default path to that locale's:
+   * `{ fr: { "/about": "/a-propos" } }`. Paths left out are the same in every locale.
+   */
+  translatedPaths?: Record<string, Record<string, string>>
 }
 
 const sleep = (ms: number) => (ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : undefined)
@@ -43,6 +50,18 @@ export function createLocalAdapter(options: LocalCmsOptions = {}): CmsAdapter {
   const settings = options.settings ?? defaultSettings
   const secret = options.secret ?? process.env.PREVIEW_SECRET ?? ""
   const delay = options.delay ?? 0
+  const defaultLocale = options.defaultLocale ?? "en"
+  const translatedPaths = options.translatedPaths ?? {}
+
+  /** A locale's path to the default path the content is stored under, or null if that locale calls it something else. */
+  const toDefaultPath = (path: string, locale: string): string | null => {
+    const slugs = translatedPaths[locale] ?? {}
+    const normal = normalizePath(path)
+    const source = Object.keys(slugs).find((key) => normalizePath(slugs[key]!) === normal)
+    if (source) return normalizePath(source)
+    return slugs[normal] && slugs[normal] !== normal ? null : normal
+  }
+  const toLocalePath = (path: string, locale: string) => normalizePath(translatedPaths[locale]?.[path] ?? path)
 
   const findPage = (path: string) => pages.find((page) => normalizePath(page.path) === normalizePath(path)) ?? null
   const findArticle = (path: string) =>
@@ -53,14 +72,16 @@ export function createLocalAdapter(options: LocalCmsOptions = {}): CmsAdapter {
 
     async getPage(path, ctx: FetchContext) {
       await sleep(delay)
-      const page = findPage(path)
+      const source = toDefaultPath(path, ctx.locale)
+      const page = source === null ? null : findPage(source)
       if (!page) return null
       return ctx.draft ? withEditAttrs(page) : page
     },
 
     async getDocument(path, ctx: FetchContext) {
       await sleep(delay)
-      const doc = findPage(path) ?? findArticle(path)
+      const source = toDefaultPath(path, ctx.locale)
+      const doc = source === null ? null : (findPage(source) ?? findArticle(source))
       if (!doc) return null
       return ctx.draft ? withEditAttrs(doc) : doc
     },
@@ -82,8 +103,16 @@ export function createLocalAdapter(options: LocalCmsOptions = {}): CmsAdapter {
       return ctx.draft ? withEditAttrs(settings) : settings
     },
 
-    async getPaths() {
-      return [...pages, ...articles].map((doc) => normalizePath(doc.path))
+    async getPaths(locale) {
+      return [...pages, ...articles].map((doc) => toLocalePath(normalizePath(doc.path), locale))
+    },
+
+    async getTranslatedPaths(path, ctx) {
+      const source = toDefaultPath(path, ctx.locale)
+      if (source === null || !Object.values(translatedPaths).some((slugs) => slugs[source])) return {}
+      const paths: Record<string, string> = { [defaultLocale]: source }
+      for (const locale of Object.keys(translatedPaths)) paths[locale] = toLocalePath(source, locale)
+      return paths
     },
 
     async resolvePreviewPath(searchParams) {

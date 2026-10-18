@@ -43,7 +43,9 @@ CMS-authored hrefs are not statically known, so the UI provider casts them to `R
 
 `siteConfig.locales`, `defaultLocale` and `localePrefix` drive every URL. With `"always"` each URL starts with its locale (`/fr/about`); with `"as-needed"` the default locale has none (`/about`). `localePath()` builds those paths, and the UI provider's `Link` runs CMS hrefs through `localizeHref()`, so a link to `/about` on a French page goes to `/fr/about`.
 
-A page lists the same path in each other locale that publishes it: as `<link rel="alternate" hreflang>` tags with `x-default` pointing at the default locale, as `xhtml:link` alternates in the sitemap, and as language links in the utility bar and footer. Those links only show when there are two or more. Translated slugs (`/fr/a-propos` for `/about`) are not matched yet.
+A page lists itself in each other locale that publishes it: as `<link rel="alternate" hreflang>` tags with `x-default` pointing at the default locale, as `xhtml:link` alternates in the sitemap, and as language links in the utility bar and footer. Those links only show when there are two or more.
+
+When a CMS gives each language its own slug (`/fr/a-propos` for `/about`), its adapter implements `getTranslatedPaths`, which returns the page's path in each locale; without it, a translation is the same path. Links in CMS content carry the default slug, so `/fr/about` redirects to `/fr/a-propos`. Storyblok supports this through the Translatable Slugs app, and the local adapter through its `translatedPaths` option; the other adapters match by path for now.
 
 ## Environment
 
