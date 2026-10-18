@@ -23,6 +23,7 @@ const items = (schema: WagtailSchema) => schema.types.filter((t) => t.kind === "
 const blocks = (schema: WagtailSchema) => schema.types.filter((t) => t.kind === "block")
 const pages = (schema: WagtailSchema) => schema.types.filter((t) => t.base === "Page")
 const settings = (schema: WagtailSchema) => schema.types.filter((t) => t.base === "BaseGenericSetting")
+const taxonomies = (schema: WagtailSchema) => schema.types.filter((t) => t.base === "Model")
 
 /**
  * Items that nest other items (a pricing plan holds actions) must be defined
@@ -56,6 +57,9 @@ function structBlock(type: WagtailTypeSchema): string {
 
 export function renderBlocksPy(schema: WagtailSchema): string {
   const streamChildren = blocks(schema)
+  const usesSnippets = schema.types.some(
+    (t) => t.base === "StructBlock" && t.fields.some((f) => f.definition.includes("SnippetChooserBlock("))
+  )
   const parts: string[] = [
     header(
       "StreamField blocks: one StructBlock per item and per block of the content model,\nand the ContentStreamBlock pages are built from."
@@ -67,7 +71,7 @@ from wagtail.blocks.list_block import ListValue
 from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
-
+${usesSnippets ? "from wagtail.snippets.blocks import SnippetChooserBlock\n" : ""}
 
 def absolute_url(url, context=None):
     """File URLs are relative on local storage; the frontend wants an origin it can fetch."""
@@ -246,16 +250,57 @@ function modelClass(type: WagtailTypeSchema, bases: string, decorator?: string):
     lines.push("")
     lines.push(`    api_fields = [`)
   }
-  for (const field of own) {
-    const serializer = field.definition.startsWith('models.ForeignKey("wagtailimages.Image"')
-      ? ", serializer=ImageSerializer()"
-      : ""
-    lines.push(`        APIField(${py(field.python)}${serializer}),`)
+  for (const field of own) lines.push(`        APIField(${py(field.python)}${serializerFor(field.definition)}),`)
+  lines.push("    ]", "")
+  if (type.base === "Model") {
+    const label =
+      type.fields.find((f) => f.python === "title") ?? type.fields.find((f) => f.definition.includes("CharField"))
+    lines.push("    def __str__(self):", `        return ${label ? `self.${label.python}` : "str(self.pk)"}`, "")
   }
-  lines.push("    ]", "", "    class Meta:", `        verbose_name = ${py(type.label)}`)
+  lines.push("    class Meta:", `        verbose_name = ${py(type.label)}`)
   if (type.base === "BaseGenericSetting") lines.push(`        verbose_name_plural = ${py(type.label)}`)
+  if (type.base === "Model") lines.push(`        ordering = [${py(type.fields[0]?.python ?? "pk")}]`)
   return `${lines.join("\n")}\n`
 }
+
+/** Image and term foreign keys are inlined in the API instead of returned as primary keys. */
+function serializerFor(definition: string): string {
+  if (definition.startsWith('models.ForeignKey("wagtailimages.Image"')) return ", serializer=ImageSerializer()"
+  const term = /^(?:models\.ForeignKey|ParentalManyToManyField)\("[a-z_]+\.(\w+)"/.exec(definition)
+  if (!term) return ""
+  return definition.startsWith("ParentalManyToManyField")
+    ? `, serializer=${term[1]}ListSerializer()`
+    : `, serializer=${term[1]}Serializer()`
+}
+
+/** The snippet model of a taxonomy document, plus the serializers that inline it on referencing models. */
+function taxonomyModel(type: WagtailTypeSchema): string {
+  const fields = type.fields.map((f) => `        ${py(f.python)}: term.${f.python},`).join("\n")
+  return `${modelClass(type, "models.Model", "@register_snippet")}
+
+def ${snakeName(type.python)}_data(term):
+    """The term as the API returns it inline: {"id", "meta": {"type"}, ...fields}, or None."""
+    if term is None:
+        return None
+    return {
+        "id": term.pk,
+        "meta": {"type": ${py(type.apiType ?? "")}},
+${fields}
+    }
+
+
+class ${type.python}Serializer(Field):
+    def to_representation(self, term):
+        return ${snakeName(type.python)}_data(term)
+
+
+class ${type.python}ListSerializer(Field):
+    def to_representation(self, terms):
+        return [${snakeName(type.python)}_data(term) for term in terms.all()]
+`
+}
+
+const snakeName = (python: string) => python.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase()
 
 export function renderModelsPy(schema: WagtailSchema): string {
   const blockImports = [
@@ -270,22 +315,25 @@ export function renderModelsPy(schema: WagtailSchema): string {
     ),
   ]
   const imports = ["ImageSerializer", ...blockImports].sort()
+  const terms = taxonomies(schema)
+  const usesM2M = schema.types.some((t) => t.fields.some((f) => f.definition.startsWith("ParentalManyToManyField(")))
   const parts = [
-    header("Page and settings models for the content model's documents."),
+    header("Page, settings and taxonomy models for the content model's documents."),
     `from django.db import models
-from wagtail.admin.panels import FieldPanel
+${usesM2M ? "from modelcluster.fields import ParentalManyToManyField\n" : ""}${terms.length ? "from rest_framework.fields import Field\n" : ""}from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 from wagtail.blocks import CharBlock
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
-from wagtail_headless_preview.models import HeadlessMixin
+${terms.length ? "from wagtail.snippets.models import register_snippet\n" : ""}from wagtail_headless_preview.models import HeadlessMixin
 
 from .blocks import (
 ${imports.map((name) => `    ${name},`).join("\n")}
 )
 `,
   ]
+  for (const type of terms) parts.push(`\n\n${taxonomyModel(type)}`)
   for (const type of pages(schema)) parts.push(`\n\n${modelClass(type, "HeadlessMixin, Page")}`)
   for (const type of settings(schema))
     parts.push(`\n\n${modelClass(type, "BaseGenericSetting", '@register_setting(icon="cog")')}`)
@@ -294,36 +342,59 @@ ${imports.map((name) => `    ${name},`).join("\n")}
 
 export function renderApiPy(schema: WagtailSchema): string {
   const settingsTypes = settings(schema)
+  const termTypes = taxonomies(schema)
+  const listingFields = (type: WagtailTypeSchema) =>
+    type.fields
+      .filter((f) => !f.core)
+      .map((f) => `        ${py(f.python)},`)
+      .join("\n")
   const viewsets = settingsTypes
     .map(
       (type) => `
 
 class ${type.python}APIViewSet(BaseAPIViewSet):
-    """GET /api/v2/${settingsEndpoint(type)}/ lists the single ${type.label.toLowerCase()} record with every field."""
+    """GET /api/v2/${endpointName(type)}/ lists the single ${type.label.toLowerCase()} record with every field."""
 
     model = ${type.python}
     filter_backends = [FieldsFilter]
     listing_default_fields = BaseAPIViewSet.listing_default_fields + [
-${type.fields
-  .filter((f) => !f.core)
-  .map((f) => `        ${py(f.python)},`)
-  .join("\n")}
+${listingFields(type)}
     ]
-    name = ${py(settingsEndpoint(type))}
+    name = ${py(endpointName(type))}
 `
     )
     .join("")
-  return `${header("API v2 router: pages, images, documents, headless previews and site settings.")}
+  const termViewsets = termTypes
+    .map(
+      (type) => `
+
+class ${type.python}APIViewSet(BaseAPIViewSet):
+    """
+    GET /api/v2/${endpointName(type)}/ lists every ${type.label.toLowerCase()} with its fields; ?slug=<slug>
+    finds one. The frontend resolves listing filters (term slugs) to ids here, then filters
+    pages with ?${snakeName(type.python)}=<id> on the pages endpoint.
+    """
+
+    model = ${type.python}
+    filter_backends = [FieldsFilter, OrderingFilter]
+    listing_default_fields = BaseAPIViewSet.listing_default_fields + [
+${listingFields(type)}
+    ]
+    name = ${py(endpointName(type))}
+`
+    )
+    .join("")
+  return `${header("API v2 router: pages, images, documents, headless previews, site settings and taxonomies.")}
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.response import Response
-from wagtail.api.v2.filters import FieldsFilter
+from wagtail.api.v2.filters import FieldsFilter${termTypes.length ? ", OrderingFilter" : ""}
 from wagtail.api.v2.router import WagtailAPIRouter
 from wagtail.api.v2.views import BaseAPIViewSet, PagesAPIViewSet
 from wagtail.documents.api.v2.views import DocumentsAPIViewSet
 from wagtail.images.api.v2.views import ImagesAPIViewSet
 from wagtail_headless_preview.models import PagePreview
 
-from .models import ${settingsTypes.map((t) => t.python).join(", ")}
+from .models import ${[...termTypes, ...settingsTypes].map((t) => t.python).join(", ")}
 
 # "wagtailapi" is the URL namespace. Mount with path("api/v2/", api_router.urls)
 # above the Wagtail page serving route in urls.py.
@@ -358,25 +429,26 @@ class PagePreviewAPIViewSet(PagesAPIViewSet):
             # A page that has never been saved has no pk; the API URL routing needs one.
             page.pk = 0
         return page
-${viewsets}
+${viewsets}${termViewsets}
 
 api_router.register_endpoint("pages", PagesAPIViewSet)
 api_router.register_endpoint("images", ImagesAPIViewSet)
 api_router.register_endpoint("documents", DocumentsAPIViewSet)
 api_router.register_endpoint("page_preview", PagePreviewAPIViewSet)
-${settingsTypes.map((t) => `api_router.register_endpoint(${py(settingsEndpoint(t))}, ${t.python}APIViewSet)`).join("\n")}
+${[...settingsTypes, ...termTypes].map((t) => `api_router.register_endpoint(${py(endpointName(t))}, ${t.python}APIViewSet)`).join("\n")}
 `
 }
 
-/** Endpoint name of a settings model: `site_settings` → `/api/v2/site_settings/`. */
-export function settingsEndpoint(type: WagtailTypeSchema): string {
-  return type.name.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase()
+/** Endpoint name of a settings or taxonomy model: `siteSettings` → `/api/v2/site_settings/`, `category` → `/api/v2/category/`. */
+export function endpointName(type: WagtailTypeSchema): string {
+  return snakeName(type.name)
 }
 
 export function renderSignalsPy(schema: WagtailSchema): string {
   const pageTypes = pages(schema)
   const settingsTypes = settings(schema)
-  return `${header("Posts signed revalidation events to the Next.js app. Wagtail has no outbound webhooks,\nso page_published / page_unpublished / post_page_move and settings saves are forwarded here.")}
+  const termTypes = taxonomies(schema)
+  return `${header("Posts signed revalidation events to the Next.js app. Wagtail has no outbound webhooks,\nso page_published / page_unpublished / post_page_move, settings and taxonomy saves are forwarded here.")}
 import hashlib
 import hmac
 import json
@@ -384,11 +456,11 @@ import logging
 from urllib import request as urlrequest
 
 from django.conf import settings
-from django.db.models.signals import post_save
+from django.db.models.signals import ${termTypes.length ? "post_delete, " : ""}post_save
 from django.dispatch import receiver
 from wagtail.signals import page_published, page_unpublished, post_page_move
 
-from .models import ${[...pageTypes, ...settingsTypes].map((t) => t.python).join(", ")}
+from .models import ${[...pageTypes, ...settingsTypes, ...termTypes].map((t) => t.python).join(", ")}
 
 logger = logging.getLogger(__name__)
 
@@ -463,7 +535,17 @@ def on_settings_saved(sender, instance, **kwargs):
     post_event({"event": "settings_updated", "id": instance.pk, "type": ${py(type.apiType ?? "")}})
 `
   )
-  .join("")}`
+  .join("")}${termTypes
+    .map(
+      (type) => `
+
+@receiver(post_save, sender=${type.python})
+@receiver(post_delete, sender=${type.python})
+def on_${snakeName(type.python)}_changed(sender, instance, **kwargs):
+    post_event({"event": "term_updated", "id": instance.pk, "type": ${py(type.apiType ?? "")}})
+`
+    )
+    .join("")}`
 }
 
 export function renderAppsPy(schema: WagtailSchema): string {

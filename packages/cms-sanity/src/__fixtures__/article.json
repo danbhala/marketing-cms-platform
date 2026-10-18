@@ -1,0 +1,52 @@
+{
+  "_id": "article-1",
+  "_type": "article",
+  "title": "Cohorts and alerts are live",
+  "path": "news/cohorts-and-alerts-are-live",
+  "publishedAt": "2026-10-14",
+  "excerpt": "Build cohorts from any property and get a message the moment a metric moves.",
+  "image": {
+    "_type": "imageWithAlt",
+    "alt": "Product news",
+    "asset": {
+      "_id": "image-img010-1200x675-png",
+      "url": "https://cdn.sanity.io/images/testproj/production/img010-1200x675.png",
+      "mimeType": "image/png",
+      "extension": "png",
+      "metadata": { "dimensions": { "width": 1200, "height": 675 } }
+    },
+    "crop": null,
+    "hotspot": null,
+    "image": null,
+    "video": null
+  },
+  "category": {
+    "_id": "cat-product",
+    "_type": "category",
+    "title": "Product news",
+    "slug": "product-news",
+    "description": "Releases, improvements and deprecations."
+  },
+  "tags": [
+    {
+      "_id": "cat-events",
+      "_type": "category",
+      "title": "Events",
+      "slug": "events",
+      "description": "Talks, webinars and meetups."
+    }
+  ],
+  "body": [
+    {
+      "_type": "block",
+      "_key": "b1",
+      "style": "normal",
+      "markDefs": [],
+      "children": [{ "_type": "span", "_key": "s1", "text": "Build cohorts from any property.", "marks": [] }]
+    }
+  ],
+  "blocks": [],
+  "seoTitle": null,
+  "seoDescription": "Build cohorts from any property and get a message the moment a metric moves.",
+  "noIndex": null
+}

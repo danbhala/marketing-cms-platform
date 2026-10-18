@@ -18,6 +18,8 @@ export const SETTINGS_UUID = "9a8b7c6d-3333-4eee-9fff-0123456789ab"
 export const HOME_NID = 1
 export const PRICING_NID = 2
 export const SETTINGS_NID = 3
+export const LAUNCH_UUID = "4c5d6e7f-7777-4ccc-8ddd-0123456789ab"
+export const LAUNCH_NID = 10
 
 const rel = (type: string, id: string, meta?: Record<string, unknown>): JsonApiRelationship => ({
   type,
@@ -486,6 +488,109 @@ export const pageCollection: JsonApiDocument = {
   included: [],
 }
 
+/** `taxonomy_term--category` terms as JSON:API returns them; ids are tids in the canonical shape. */
+const term = (uuid: string, tid: number, name: string, slug: string, description: string | null) =>
+  ({
+    type: "taxonomy_term--category",
+    id: uuid,
+    attributes: {
+      drupal_internal__tid: tid,
+      drupal_internal__revision_id: tid,
+      langcode: "en",
+      status: true,
+      name,
+      description: null,
+      weight: 0,
+      path: { alias: null, pid: null, langcode: "en" },
+      field_slug: slug,
+      field_description: description,
+    },
+    relationships: { vid: { data: rel("taxonomy_term_type--taxonomy_term_type", "v-category") } },
+  }) satisfies JsonApiResourceObject
+
+export const productTerm = term(
+  "t-product",
+  21,
+  "Product news",
+  "product-news",
+  "Releases, improvements and deprecations."
+)
+export const eventsTerm = term("t-events", 22, "Events", "events", null)
+export const terms: JsonApiResourceObject[] = [productTerm, eventsTerm]
+
+const articleNode = (
+  uuid: string,
+  nid: number,
+  alias: string,
+  attributes: Record<string, unknown>,
+  relationships: Record<string, JsonApiRelationship | JsonApiRelationship[] | null>
+): JsonApiResourceObject => ({
+  type: "node--article",
+  id: uuid,
+  attributes: {
+    drupal_internal__nid: nid,
+    drupal_internal__vid: nid * 100,
+    langcode: "en",
+    status: true,
+    created: "2026-10-01T09:00:00+00:00",
+    changed: "2026-10-05T12:00:00+00:00",
+    path: { alias, pid: nid, langcode: "en" },
+    field_excerpt: null,
+    field_seo_title: null,
+    field_seo_description: null,
+    field_no_index: false,
+    ...attributes,
+  },
+  relationships: Object.fromEntries(
+    Object.entries({ field_image: null, field_category: null, field_tags: [], field_blocks: [], ...relationships }).map(
+      ([key, data]) => [key, { data }]
+    )
+  ),
+})
+
+export const launchNode = articleNode(
+  LAUNCH_UUID,
+  LAUNCH_NID,
+  "/news/launch",
+  {
+    title: "Cohorts and alerts are live",
+    field_published_at: "2026-10-14",
+    field_excerpt: "Build cohorts from any property and get a message the moment a metric moves.",
+    field_body: text("<p>Cohorts group people by what they did.</p>"),
+  },
+  {
+    field_image: screenshotMedia,
+    field_category: rel("taxonomy_term--category", "t-product"),
+    field_tags: [rel("taxonomy_term--category", "t-events"), rel("taxonomy_term--category", "t-missing")],
+  }
+)
+export const summitNode = articleNode(
+  "a-summit",
+  11,
+  "/news/summit",
+  {
+    title: "Join us at Measure Summit",
+    // A datetime storage would send a full timestamp; the adapter normalises it to UTC.
+    field_published_at: "2026-09-25T09:30:00+02:00",
+    field_body: text("<p>Three talks and a booth.</p>"),
+  },
+  { field_category: rel("taxonomy_term--category", "t-events") }
+)
+export const draftNode = articleNode(
+  "a-draft",
+  12,
+  "/news/draft",
+  { status: false, title: "Unpublished story", field_published_at: "2026-11-01", field_body: text("<p>Soon.</p>") },
+  {}
+)
+export const articleNodes = [launchNode, summitNode, draftNode]
+
+/** `GET /jsonapi/node/article/<uuid>?include=field_image.field_media_image,field_category,field_tags,field_blocks…` */
+export const launchDocument: JsonApiDocument = {
+  data: launchNode,
+  included: [...terms, ...screenshotIncluded],
+}
+
 /** `GET /router/translate-path?path=…` responses from decoupled_router. */
 const translated = (path: string, uuid: string, nid: number, bundle: string): DrupalTranslatedPath => ({
   resolved: `${BASE_URL}${path}`,
@@ -507,10 +612,12 @@ export const translatedPaths: Record<string, DrupalTranslatedPath> = {
   "/pricing": translated("/pricing", PRICING_UUID, PRICING_NID, "page"),
   "/node/3": translated("/node/3", SETTINGS_UUID, SETTINGS_NID, "site_settings"),
   "/de/pricing": translated("/pricing", PRICING_UUID, PRICING_NID, "page"),
+  "/news/launch": translated("/news/launch", LAUNCH_UUID, LAUNCH_NID, "article"),
 }
 
 export const documentsByUuid: Record<string, JsonApiDocument> = {
   [HOME_UUID]: homeDocument,
   [PRICING_UUID]: pricingDocument,
   [SETTINGS_UUID]: settingsDocument,
+  [LAUNCH_UUID]: launchDocument,
 }

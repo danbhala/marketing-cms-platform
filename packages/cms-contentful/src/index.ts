@@ -1,9 +1,19 @@
 import type { CmsAdapter, FetchContext } from "@platform/cms-core"
 import { normalizePath } from "@platform/cms-core/tags"
+import type { ArticleSummary, Category, ListingQuery } from "@platform/content-model"
 
 import { createFetcher, type ContentfulFetcher } from "./client"
 import { createPreviewHandlers, safePath } from "./preview"
-import { contentTypeOf, isEntry, transformPage, transformSiteSettings, type TransformContext } from "./transform"
+import {
+  contentTypeOf,
+  isEntry,
+  transformArticle,
+  transformCategory,
+  transformPage,
+  transformSiteSettings,
+  toSummary,
+  type TransformContext,
+} from "./transform"
 import { createWebhookHandlers } from "./webhook"
 
 /**
@@ -58,6 +68,16 @@ function pathVariants(path: string): string[] {
   return [normalized, `${normalized}/`, normalized.slice(1)]
 }
 
+/** Routable document types in lookup order: a page wins over an article at the same path. */
+const routableTypes = ["page", "article"] as const
+
+/** `order` values for each listing sort. Contentful orders Date and Symbol fields natively. */
+const listingOrder: Record<ListingQuery["sort"], string[]> = {
+  newest: ["-fields.publishedAt", "-sys.createdAt"],
+  oldest: ["fields.publishedAt", "sys.createdAt"],
+  title: ["fields.title", "sys.createdAt"],
+}
+
 export function createContentfulAdapter(options: ContentfulAdapterOptions = {}): CmsAdapter {
   const space = options.space ?? env("CONTENTFUL_SPACE_ID")
   const environment = options.environment ?? env("CONTENTFUL_ENVIRONMENT") ?? "master"
@@ -94,6 +114,39 @@ export function createContentfulAdapter(options: ContentfulAdapterOptions = {}):
     warn,
   })
 
+  async function documentAt(type: (typeof routableTypes)[number], path: string, ctx: FetchContext) {
+    const result = await clientFor(ctx.draft).getEntries({
+      content_type: type,
+      "fields.path[in]": pathVariants(path),
+      include,
+      locale: contentfulLocale(ctx.locale),
+      limit: 1,
+    })
+    return result.items.find(isEntry) ?? null
+  }
+
+  /** Walks every entry of a query, 1000 at a time (the API's maximum page size). */
+  async function* allEntries(client: ContentfulFetcher, query: Record<string, unknown>, locale: string) {
+    const limit = 1000
+    for (let skip = 0; ;) {
+      const result = await client.getEntries({ ...query, locale: contentfulLocale(locale), limit, skip })
+      for (const item of result.items) if (isEntry(item)) yield item
+      skip += result.items.length
+      if (result.items.length === 0 || skip >= (result.total ?? 0)) break
+    }
+  }
+
+  async function categoryIds(client: ContentfulFetcher, slugs: string[], locale: string): Promise<string[]> {
+    const result = await client.getEntries({
+      content_type: "category",
+      "fields.slug[in]": slugs,
+      select: ["sys.id"],
+      locale,
+      limit: 1000,
+    })
+    return result.items.filter(isEntry).map((entry) => entry.sys.id)
+  }
+
   /**
    * Contentful's preview URL template usually carries `{entry.sys.id}`, which
    * may be a page, a block or an item. Climb `links_to_entry` until a page is
@@ -125,15 +178,60 @@ export function createContentfulAdapter(options: ContentfulAdapterOptions = {}):
     name: "contentful",
 
     async getPage(path, ctx) {
-      const result = await clientFor(ctx.draft).getEntries({
-        content_type: "page",
-        "fields.path[in]": pathVariants(path),
-        include,
-        locale: contentfulLocale(ctx.locale),
-        limit: 1,
-      })
-      const entry = result.items.find(isEntry)
+      const entry = await documentAt("page", path, ctx)
       return entry ? transformPage(entry, transformContext(ctx)) : null
+    },
+
+    async getDocument(path, ctx) {
+      for (const type of routableTypes) {
+        const entry = await documentAt(type, path, ctx)
+        if (!entry) continue
+        return type === "page"
+          ? transformPage(entry, transformContext(ctx))
+          : transformArticle(entry, transformContext(ctx))
+      }
+      return null
+    },
+
+    async getCollection(query, ctx) {
+      const empty = { items: [] as ArticleSummary[], total: 0, page: query.page, pageSize: query.pageSize }
+      const client = clientFor(ctx.draft)
+      const locale = contentfulLocale(ctx.locale)
+      const filters: Record<string, string[]> = {}
+      for (const [field, slugs] of Object.entries(query.filters)) {
+        if (!slugs.length) continue
+        // Links are filtered by entry id, so term slugs are resolved first; an unknown slug matches nothing.
+        const ids = await categoryIds(client, slugs, locale)
+        if (!ids.length) return empty
+        filters[`fields.${field}.sys.id[in]`] = ids
+      }
+      const result = await client.getEntries({
+        content_type: query.source,
+        ...filters,
+        ...(query.q ? { query: query.q } : {}),
+        order: listingOrder[query.sort],
+        include,
+        locale,
+        limit: query.pageSize,
+        skip: (query.page - 1) * query.pageSize,
+      })
+      const items = result.items
+        .filter(isEntry)
+        .map((entry) => toSummary(transformArticle(entry, transformContext(ctx))))
+      return { items, total: result.total ?? items.length, page: query.page, pageSize: query.pageSize }
+    },
+
+    async getTaxonomy(type, ctx) {
+      if (type !== "category") return []
+      const terms: Category[] = []
+      for await (const entry of allEntries(
+        clientFor(ctx.draft),
+        { content_type: type, order: ["fields.title"] },
+        ctx.locale
+      )) {
+        terms.push(transformCategory(entry, transformContext(ctx)))
+      }
+      return terms
     },
 
     async getSiteSettings(ctx) {
@@ -150,21 +248,11 @@ export function createContentfulAdapter(options: ContentfulAdapterOptions = {}):
 
     async getPaths(locale) {
       const paths = new Set<string>()
-      const limit = 1000
-      for (let skip = 0; ;) {
-        const result = await delivery.getEntries({
-          content_type: "page",
-          select: ["fields.path"],
-          order: ["sys.createdAt"],
-          locale: contentfulLocale(locale),
-          limit,
-          skip,
-        })
-        for (const item of result.items) {
-          if (isEntry(item) && typeof item.fields?.path === "string") paths.add(normalizePath(item.fields.path))
+      for (const type of routableTypes) {
+        const query = { content_type: type, select: ["fields.path"], order: ["sys.createdAt"] }
+        for await (const entry of allEntries(delivery, query, locale)) {
+          if (typeof entry.fields?.path === "string") paths.add(normalizePath(entry.fields.path))
         }
-        skip += result.items.length
-        if (result.items.length === 0 || skip >= (result.total ?? 0)) break
       }
       return [...paths]
     },
@@ -188,6 +276,13 @@ export type { ContentfulFetcher, EntriesResult } from "./client"
 export { inspectorAttrs } from "./edit"
 export { toMedia } from "./media"
 export { isDocument, richTextFromDocument } from "./rich-text"
-export { ContentfulTransformError, transformEntry, transformPage, transformSiteSettings } from "./transform"
+export {
+  ContentfulTransformError,
+  transformArticle,
+  transformCategory,
+  transformEntry,
+  transformPage,
+  transformSiteSettings,
+} from "./transform"
 export type { RawEntry, TransformContext } from "./transform"
 export type { ContentfulWebhookPayload } from "./webhook"

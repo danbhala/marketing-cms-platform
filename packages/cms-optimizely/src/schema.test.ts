@@ -83,12 +83,34 @@ describe("schema generator", () => {
     })
   })
 
+  it("models articles and taxonomy terms as pages with dateTime and contentReference properties", () => {
+    const article = byKey.get("ArticlePage")!
+    expect(article.baseType).toBe("_page")
+    expect(article.properties).not.toHaveProperty("path")
+    expect(article.properties.publishedAt).toMatchObject({ type: "dateTime", isRequired: true, group: "Content" })
+    expect(article.properties.category).toMatchObject({ type: "contentReference", allowedTypes: ["CategoryPage"] })
+    expect(article.properties.category).not.toHaveProperty("isRequired")
+    expect(article.properties.tags).toMatchObject({
+      type: "array",
+      items: { type: "contentReference", allowedTypes: ["CategoryPage"] },
+    })
+    expect(article.properties.image).toMatchObject({ type: "contentReference", allowedTypes: ["_image"] })
+    expect(article.properties.blocks).toMatchObject({
+      items: { type: "content", allowedTypes: allBlocks.map(contentTypeKey) },
+    })
+    const category = byKey.get("CategoryPage")!
+    expect(category.baseType).toBe("_page")
+    expect(category.properties.slug).toMatchObject({ type: "string", format: "shortString", isRequired: true })
+    expect(byKey.get("CollectionBlock")!.properties.source).toMatchObject({ format: "selectOne" })
+  })
+
   it("orders referenced types before the types that reference them", () => {
     const index = (key: string) => descriptions.findIndex((d) => d.key === key)
     expect(index("ActionItem")).toBeLessThan(index("PricingPlanItem"))
     expect(index("NavLinkItem")).toBeLessThan(index("NavGroupItem"))
     expect(index("PricingPlanItem")).toBeLessThan(index("PricingBlock"))
     expect(Math.max(...allBlocks.map((b) => index(contentTypeKey(b))))).toBeLessThan(index("WebPage"))
+    expect(index("CategoryPage")).toBeLessThan(index("ArticlePage"))
   })
 
   it("builds SDK content types with resolved references for the runtime registry", () => {
@@ -98,6 +120,13 @@ describe("schema generator", () => {
     const blocks = (page.properties as Record<string, { items: { allowedTypes: { key: string }[] } }>).blocks!
     expect(blocks.items.allowedTypes.map((t) => t.key)).toEqual(allBlocks.map(contentTypeKey))
     expect(page.__type).toBe("contentType")
+    const article = types.find((t) => t.key === "ArticlePage")!.properties as Record<
+      string,
+      { allowedTypes?: { key: string }[]; items?: { allowedTypes: { key: string }[] } }
+    >
+    expect(article.category!.allowedTypes!.map((t) => t.key)).toEqual(["CategoryPage"])
+    expect(article.tags!.items!.allowedTypes.map((t) => t.key)).toEqual(["CategoryPage"])
+    expect(article.image!.allowedTypes).toEqual(["_image"])
   })
 
   it("renders the SDK DSL module and JSON", () => {
@@ -105,6 +134,8 @@ describe("schema generator", () => {
     expect(ts).toContain('import { contentType } from "@optimizely/cms-sdk"')
     expect(ts).toContain("export const HeroBlockContentType = contentType({")
     expect(ts).toContain("allowedTypes: [ActionItemContentType]")
+    expect(ts).toContain("allowedTypes: [CategoryPageContentType]")
+    expect(ts).toContain('type: "dateTime"')
     expect(ts).toContain('allowedTypes: ["_image", "_video", "_media"]')
     expect(ts).toContain("isRequired: true")
     expect(ts).toContain("export const allContentTypes = [")

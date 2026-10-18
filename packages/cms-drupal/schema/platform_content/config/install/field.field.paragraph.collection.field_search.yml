@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_search
+    - paragraphs.paragraphs_type.collection
+id: paragraph.collection.field_search
+field_name: field_search
+entity_type: paragraph
+bundle: collection
+label: Search
+description: 'Show a search box. Searches use the CMS''s own search and are never cached.'
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

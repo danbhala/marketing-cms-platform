@@ -6113,6 +6113,342 @@ exports[`schema generator > is stable 1`] = `
     ]
   },
   {
+    "id": "collection",
+    "name": "Collection",
+    "description": "Paginated, filterable listing of a document type, driven by the URL's search params.",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "source",
+        "name": "Source",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "article"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "article"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Which document type to list."
+          }
+        }
+      },
+      {
+        "id": "pageSize",
+        "name": "Page size",
+        "type": "Number",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "numberEditor",
+          "settings": {
+            "helpText": "Items per page. Defaults to 12."
+          }
+        }
+      },
+      {
+        "id": "filters",
+        "name": "Filters",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "category",
+              "tags"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "category"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Taxonomy shown as filter chips."
+          }
+        }
+      },
+      {
+        "id": "search",
+        "name": "Search",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Show a search box. Searches use the CMS's own search and are never cached."
+          }
+        }
+      },
+      {
+        "id": "sort",
+        "name": "Sort",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "newest",
+              "oldest",
+              "title"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "newest"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Default order; visitors can change it."
+          }
+        }
+      },
+      {
+        "id": "emptyMessage",
+        "name": "Empty message",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Shown when no items match."
+          }
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      }
+    ]
+  },
+  {
     "id": "page",
     "name": "Page",
     "displayField": "title",
@@ -6281,13 +6617,312 @@ exports[`schema generator > is stable 1`] = `
                 "richText",
                 "media",
                 "gallery",
-                "form"
+                "form",
+                "collection"
               ]
             }
           ]
         },
         "editor": {
           "widgetId": "entryLinksEditor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "article",
+    "name": "Article",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "path",
+        "name": "Path",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "unique": true
+          },
+          {
+            "regexp": {
+              "pattern": "^/"
+            },
+            "message": "Paths start with /, e.g. /pricing. The home page is /."
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "URL path, usually under the listing page, e.g. /news/launch."
+          }
+        }
+      },
+      {
+        "id": "publishedAt",
+        "name": "Published at",
+        "type": "Date",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "datePicker",
+          "settings": {
+            "helpText": "Listings sort by this date, newest first."
+          }
+        }
+      },
+      {
+        "id": "excerpt",
+        "name": "Excerpt",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine",
+          "settings": {
+            "helpText": "Shown on cards and as the default meta description."
+          }
+        }
+      },
+      {
+        "id": "image",
+        "name": "Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset",
+        "editor": {
+          "widgetId": "assetLinkEditor"
+        }
+      },
+      {
+        "id": "category",
+        "name": "Category",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "category"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "editor": {
+          "widgetId": "entryLinkEditor"
+        }
+      },
+      {
+        "id": "tags",
+        "name": "Tags",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "category"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Optional second axis for filtering."
+          }
+        }
+      },
+      {
+        "id": "body",
+        "name": "Body",
+        "type": "RichText",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "enabledNodeTypes": [
+              "heading-2",
+              "heading-3",
+              "heading-4",
+              "heading-5",
+              "heading-6",
+              "ordered-list",
+              "unordered-list",
+              "hr",
+              "blockquote",
+              "embedded-asset-block",
+              "hyperlink",
+              "entry-hyperlink",
+              "asset-hyperlink"
+            ]
+          },
+          {
+            "enabledMarks": [
+              "bold",
+              "italic",
+              "underline",
+              "code",
+              "strikethrough"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "richTextEditor"
+        }
+      },
+      {
+        "id": "blocks",
+        "name": "Blocks",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "hero",
+                "logoCloud",
+                "featureGrid",
+                "featureSplit",
+                "stats",
+                "testimonials",
+                "pricing",
+                "comparisonTable",
+                "faq",
+                "cta",
+                "cardGrid",
+                "teamGrid",
+                "steps",
+                "tabs",
+                "richText",
+                "media",
+                "gallery",
+                "form",
+                "collection"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "Optional sections rendered below the body."
+          }
+        }
+      },
+      {
+        "id": "seoTitle",
+        "name": "Seo title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 70
+            }
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "seoDescription",
+        "name": "Seo description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "noIndex",
+        "name": "No index",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "id": "category",
+    "name": "Category",
+    "displayField": "title",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "slug",
+        "name": "Slug",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "unique": true
+          }
+        ],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "URL-safe key used in listing filters, e.g. product-news."
+          }
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
         }
       }
     ]

@@ -13,7 +13,7 @@ Copy `packages/cms-local` as `packages/cms-<name>`. Keep the `exports` (`.` and 
 <Step>
 ### Implement `CmsAdapter`
 
-`getPage`, `getSiteSettings`, `getPaths`, `resolvePreviewPath`, `webhook.verify/toEvent`, `preview.enter/context/frameAncestors/bridge`. Read drafts when `ctx.draft` is true and attach `$edit` then only. Validate every transformed entry with `schemaFor(definition)`.
+`getPage`, `getDocument`, `getCollection`, `getTaxonomy`, `getSiteSettings`, `getPaths`, `resolvePreviewPath`, `webhook.verify/toEvent`, `preview.enter/context/frameAncestors/bridge`. Read drafts when `ctx.draft` is true and attach `$edit` then only. Validate every transformed entry with `schemaFor(definition)`. `getCollection` takes a parsed `ListingQuery` (page, page size, sort, filter slugs, optional `q`) and must return the total count; `getPaths` includes articles.
 
 </Step>
 <Step>

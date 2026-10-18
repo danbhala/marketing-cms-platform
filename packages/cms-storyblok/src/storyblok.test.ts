@@ -15,8 +15,13 @@ import {
 import type { FeatureSplitBlock, HeroBlock, PricingBlock, RichTextBlock } from "@platform/content-model"
 
 import {
+  ARTICLE_STORY_ID,
   HOME_STORY_ID,
   SPACE_ID,
+  articleStory,
+  articleStoryUnresolved,
+  categoryEvents,
+  categoryProduct,
   homeStory,
   pricingStory,
   richTextExtras,
@@ -25,20 +30,34 @@ import {
   webhookPublished,
   webhookSettings,
 } from "./__fixtures__/stories"
-import type { StoryblokApi } from "./client"
-import { createStoryblokAdapter, richTextToAst, signWebhookBody, storyToPage } from "./index"
+import type { StoryblokApi, StoryListQuery, StoryQuery } from "./client"
+import { createStoryblokAdapter, richTextToAst, signWebhookBody, storyToArticle, storyToPage } from "./index"
 import { generateComponents } from "./schema"
 
 /** In-memory stand-in for the Content Delivery API: no network in tests. */
-const stories = [homeStory, pricingStory, siteSettingsStory]
-const calls: { slug: string; version: string; language?: string }[] = []
+const stories = [
+  homeStory,
+  pricingStory,
+  siteSettingsStory,
+  articleStory,
+  articleStoryUnresolved,
+  categoryProduct,
+  categoryEvents,
+]
+const calls: { slug: string; version: string; language?: string; resolveRelations?: readonly string[] }[] = []
+const listings: { list: StoryListQuery; query: StoryQuery }[] = []
 const fakeApi: StoryblokApi = {
   async getStory(slugOrId, query) {
-    calls.push({ slug: slugOrId, version: query.version, language: query.language })
+    calls.push({ slug: slugOrId, ...query })
     return stories.find((s) => s.full_slug === slugOrId || String(s.id) === slugOrId) ?? null
   },
   async getStories(contentType) {
     return stories.filter((s) => s.content.component === contentType)
+  },
+  async queryStories(list, query) {
+    listings.push({ list, query })
+    const matches = stories.filter((s) => s.content.component === list.content_type)
+    return { stories: matches, total: 42 }
   },
 }
 
@@ -148,9 +167,14 @@ describe("transform: page", () => {
     expect(await adapter.getPage("/site-settings", published)).toBeNull()
   })
 
-  it("derives the path from full_slug and lists every routable page", async () => {
+  it("derives the path from full_slug and lists every routable page and article", async () => {
     expect((await adapter.getPage("/pricing/", published))?.path).toBe("/pricing")
-    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing"])
+    expect(await adapter.getPaths("en")).toEqual([
+      "/",
+      "/pricing",
+      "/news/cohorts-and-alerts-are-live",
+      "/news/metrica-raises-a-series-b",
+    ])
   })
 
   it("reads drafts only in draft mode and passes non-default locales as language", async () => {
@@ -183,6 +207,107 @@ describe("transform: page", () => {
     expect(() => storyToPage(wrongBlok, { edit: false, homeSlug: "home" })).toThrow(
       /"actions" of blk-hero holds a "hero" blok/
     )
+  })
+})
+
+describe("listings", () => {
+  const base = { source: "article", page: 1, pageSize: 9, sort: "newest", filters: {} } as const
+
+  it("resolves pages and articles through getDocument, asking for the article relations", async () => {
+    calls.length = 0
+    expect((await adapter.getDocument("/", published))?.type).toBe("page")
+    const article = await adapter.getDocument("/news/cohorts-and-alerts-are-live/", published)
+    expect(article).toMatchObject({
+      id: String(ARTICLE_STORY_ID),
+      type: "article",
+      path: "/news/cohorts-and-alerts-are-live",
+      publishedAt: "2026-10-14T09:30",
+      category: { id: String(categoryProduct.id), type: "category", slug: "product-news", title: "Product news" },
+      tags: [{ slug: "events" }],
+    })
+    expect(calls[1]).toMatchObject({
+      slug: "news/cohorts-and-alerts-are-live",
+      version: "published",
+      resolveRelations: ["article.category", "article.tags"],
+    })
+    expect(await adapter.getDocument("/site-settings", published)).toBeNull()
+    expect(await adapter.getDocument("/nope", published)).toBeNull()
+  })
+
+  it("leaves unresolved relations out and keeps date-only values", () => {
+    const article = storyToArticle(articleStoryUnresolved, { edit: false, homeSlug: "home" })
+    expect(article.publishedAt).toBe("2026-10-09")
+    expect(article).not.toHaveProperty("category")
+    expect(article).not.toHaveProperty("excerpt")
+    expect(article.tags).toEqual([])
+    const wrong = structuredClone(articleStory) as ISbStoryData
+    wrong.content.category = pricingStory
+    expect(() => storyToArticle(wrong, { edit: false, homeSlug: "home" })).toThrow(/links a "page" story/)
+  })
+
+  it("translates sort, paging and search to one stories query and returns summaries with the total", async () => {
+    listings.length = 0
+    const result = await adapter.getCollection({ ...base, page: 3, pageSize: 5, sort: "title", q: "alerts" }, published)
+    expect(listings).toEqual([
+      {
+        list: { content_type: "article", search_term: "alerts", sort_by: "content.title:asc", page: 3, per_page: 5 },
+        query: { version: "published", resolveRelations: ["article.category", "article.tags"] },
+      },
+    ])
+    expect(result).toMatchObject({ total: 42, page: 3, pageSize: 5 })
+    expect(result.items.map((i) => i.id)).toEqual([String(ARTICLE_STORY_ID), "800000002"])
+    expect(result.items[0]).not.toHaveProperty("body")
+    expect(result.items[0]).not.toHaveProperty("blocks")
+    expect(result.items[0]?.category?.slug).toBe("product-news")
+  })
+
+  it("resolves filter slugs to story UUIDs and picks the operator from the field", async () => {
+    listings.length = 0
+    await adapter.getCollection(
+      { ...base, sort: "oldest", filters: { category: ["product-news", "nope"], tags: ["events"] } },
+      published
+    )
+    expect(listings[0]?.list).toEqual({
+      content_type: "article",
+      filter_query: { category: { in: categoryProduct.uuid }, tags: { any_in_array: categoryEvents.uuid } },
+      sort_by: "content.publishedAt:asc",
+      page: 1,
+      per_page: 9,
+    })
+    listings.length = 0
+    const none = await adapter.getCollection({ ...base, filters: { category: ["nope"] } }, published)
+    expect(none).toEqual({ items: [], total: 0, page: 1, pageSize: 9 })
+    expect(listings).toEqual([])
+  })
+
+  it("lists drafts with $edit inside the editor", async () => {
+    listings.length = 0
+    const result = await adapter.getCollection(base, draft)
+    expect(listings[0]?.query.version).toBe("draft")
+    expect(result.items[0]?.$edit?.self?.["data-blok-uid"]).toBe(`${ARTICLE_STORY_ID}-article-root`)
+    expect(result.items[0]?.category?.$edit?.self?.["data-blok-uid"]).toBe(`${categoryProduct.id}-product-news-root`)
+  })
+
+  it("returns taxonomy terms from category stories and nothing for unknown types", async () => {
+    const terms = await adapter.getTaxonomy("category", published)
+    expect(terms).toEqual([
+      {
+        id: String(categoryProduct.id),
+        type: "category",
+        title: "Product news",
+        slug: "product-news",
+        description: "Releases, improvements and deprecations.",
+      },
+      {
+        id: String(categoryEvents.id),
+        type: "category",
+        title: "Events",
+        slug: "events",
+        description: "Talks, webinars and meetups.",
+      },
+    ])
+    expect((await adapter.getTaxonomy("category", draft))[0]?.$edit).toBeDefined()
+    expect(await adapter.getTaxonomy("nope", published)).toEqual([])
   })
 })
 
@@ -440,10 +565,13 @@ describe("webhook", () => {
   })
 
   it("maps story events to cache tags", () => {
+    // The payload carries no content type, so every story event also refreshes the listings.
+    const listingTags = [tags.type("article"), tags.type("category"), tags.collection("en", "article")]
     expect(adapter.webhook.toEvent(webhookPublished).tags).toEqual([
       tags.entry(String(HOME_STORY_ID)),
       tags.page("en", "/"),
       tags.paths("en"),
+      ...listingTags,
     ])
     expect(adapter.webhook.toEvent(webhookSettings).tags).toEqual([tags.entry("612345679"), tags.global("en")])
     expect(adapter.webhook.toEvent(webhookMoved).tags).toEqual([
@@ -451,6 +579,14 @@ describe("webhook", () => {
       tags.page("en", "/plans/pricing"),
       tags.paths("en"),
       tags.type("page"),
+      ...listingTags,
+    ])
+    const article = { ...webhookPublished, story_id: ARTICLE_STORY_ID, full_slug: "news/cohorts-and-alerts-are-live" }
+    expect(adapter.webhook.toEvent(article).tags).toEqual([
+      tags.entry(String(ARTICLE_STORY_ID)),
+      tags.page("en", "/news/cohorts-and-alerts-are-live"),
+      tags.paths("en"),
+      ...listingTags,
     ])
     expect(adapter.webhook.toEvent({}).tags).toEqual([])
     expect(adapter.webhook.toEvent(webhookPublished).summary).toContain("published home")
@@ -463,6 +599,9 @@ describe("webhook", () => {
       tags.global("en"),
       tags.global("de"),
     ])
+    expect(multi.webhook.toEvent(webhookPublished).tags).toEqual(
+      expect.arrayContaining([tags.collection("en", "article"), tags.collection("de", "article")])
+    )
   })
 })
 
@@ -478,6 +617,29 @@ describe("schema generator", () => {
     expect(byName.get("siteSettings")).toMatchObject({ is_root: true, is_nestable: false })
     expect(byName.get("textItem")?.schema.text).toMatchObject({ type: "text", required: true })
     expect(byName.get("page")?.schema).not.toHaveProperty("path")
+    expect(byName.get("article")).toMatchObject({ is_root: true, preview_field: "title" })
+    expect(byName.get("article")?.schema).not.toHaveProperty("path")
+    expect(byName.get("category")?.schema).not.toHaveProperty("slug")
+    expect(byName.get("collection")?.schema.source).toMatchObject({ type: "option", options: [{ value: "article" }] })
+  })
+
+  it("maps dates and references", () => {
+    const article = byName.get("article")!.schema
+    expect(article.publishedAt).toMatchObject({ type: "datetime", required: true })
+    expect(article.category).toEqual({
+      type: "option",
+      pos: 4,
+      display_name: "Category",
+      source: "internal_stories",
+      filter_content_type: ["category"],
+      use_uuid: true,
+    })
+    expect(article.tags).toMatchObject({
+      type: "options",
+      source: "internal_stories",
+      filter_content_type: ["category"],
+      use_uuid: true,
+    })
   })
 
   it("maps field kinds and marks required fields and whitelists", () => {

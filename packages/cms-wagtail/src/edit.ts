@@ -27,6 +27,14 @@ export function pageEditUrl(adminUrl: string | undefined, pageId: string): strin
   return `${adminUrl.replace(/\/+$/, "")}/pages/${pageId}/edit/`
 }
 
+/** Snippet edit URL: `/admin/snippets/<app_label>/<modelname>/edit/<pk>/`. */
+export function snippetEditUrl(adminUrl: string | undefined, apiType: string, id: string): string | undefined {
+  if (!adminUrl || !/^\d+$/.test(id)) return undefined
+  const [app, model] = apiType.split(".")
+  if (!app || !model) return undefined
+  return `${adminUrl.replace(/\/+$/, "")}/snippets/${app}/${model.toLowerCase()}/edit/${id}/`
+}
+
 /** Settings edit URL: `/admin/settings/<app_label>/<modelname>/`. */
 export function settingsEditUrl(adminUrl: string | undefined, apiType: string): string | undefined {
   if (!adminUrl) return undefined

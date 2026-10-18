@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_animation_duration
+    - paragraphs.paragraphs_type.collection
+  module:
+    - options
+id: paragraph.collection.field_animation_duration
+field_name: field_animation_duration
+entity_type: paragraph
+bundle: collection
+label: Animation duration
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: normal
+default_value_callback: ''
+settings: {  }
+field_type: list_string

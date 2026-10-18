@@ -1,4 +1,4 @@
-import type { AnyDefinition, Field } from "@platform/content-model"
+import type { AnyDefinition, Field, ReferenceField } from "@platform/content-model"
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
 /**
@@ -6,7 +6,8 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  * generator and the transform so the two can never disagree.
  *
  * - A block or item is a paragraph type: `featureGrid` → `paragraph--feature_grid`.
- * - A document is a node type: `page` → `node--page`, `siteSettings` → `node--site_settings`.
+ * - A document is a node type: `page` → `node--page`, `siteSettings` → `node--site_settings`;
+ *   a taxonomy document is a vocabulary: `category` → `taxonomy_term--category`.
  * - A field is `field_<snake>` unless several types use the same name for
  *   incompatible storage (a `layout` select with different options, `features`
  *   as items on one type and a text list on another). Drupal shares one field
@@ -18,11 +19,13 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  */
 export const MAX_MACHINE_NAME = 32
 
-export type DrupalEntityType = "node" | "paragraph"
+export type DrupalEntityType = "node" | "paragraph" | "taxonomy_term"
 
 /** Model fields stored on Drupal base fields instead of configurable `field_*` fields. */
 export const baseFields: Record<string, Record<string, string>> = {
   page: { title: "title", path: "path" },
+  article: { title: "title", path: "path" },
+  category: { title: "name" },
   siteSettings: { siteName: "title" },
 }
 
@@ -43,7 +46,13 @@ export function snake(name: string): string {
 }
 
 export function entityTypeFor(definition: AnyDefinition): DrupalEntityType {
-  return definition.kind === "document" ? "node" : "paragraph"
+  if (definition.kind !== "document") return "paragraph"
+  return definition.taxonomy ? "taxonomy_term" : "node"
+}
+
+/** Entity type a `reference` field points at: terms when every target is a taxonomy, nodes otherwise. */
+export function referenceTargetFor(field: ReferenceField): "taxonomy_term" | "node" {
+  return field.of.every((d) => d.taxonomy) ? "taxonomy_term" : "node"
 }
 
 export function bundleFor(definition: AnyDefinition): string {
@@ -103,6 +112,16 @@ export function storageFor(field: Field): FieldStorage {
       return { type: "link", module: "link", settings: {}, cardinality: 1 }
     case "media":
       return { type: "entity_reference", module: "core", settings: { target_type: "media" }, cardinality: 1 }
+    case "date":
+      // Date only: the model sorts and displays by day, and a stored time would shift across zones.
+      return { type: "datetime", module: "datetime", settings: { datetime_type: "date" }, cardinality: 1 }
+    case "reference":
+      return {
+        type: "entity_reference",
+        module: "core",
+        settings: { target_type: referenceTargetFor(field) },
+        cardinality: field.multiple ? -1 : 1,
+      }
     case "select":
       return {
         type: "list_string",
@@ -228,7 +247,7 @@ export function fieldStorages(): Map<string, FieldStorage> {
 
 /**
  * JSON:API `include` paths needed to fetch a document in one request: every
- * nested paragraph field and, under each media reference, the file entity.
+ * nested paragraph and term reference and, under each media reference, the file entity.
  */
 export function includesFor(definition: AnyDefinition): string[] {
   const out: string[] = []
@@ -239,7 +258,7 @@ export function includesFor(definition: AnyDefinition): string[] {
         out.push(`${path}.field_media_image`)
         if (field.accept === "video" || field.accept === "any") out.push(`${path}.field_media_video_file`)
       }
-      if (field.kind === "items" || field.kind === "blocks") {
+      if (field.kind === "items" || field.kind === "blocks" || field.kind === "reference") {
         const path = `${prefix}${fieldNameFor(def, name)}`
         out.push(path)
         for (const child of field.of as AnyDefinition[]) walk(child, `${path}.`)

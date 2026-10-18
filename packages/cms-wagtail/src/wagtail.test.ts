@@ -6,6 +6,8 @@ import { tags } from "@platform/cms-core/tags"
 import {
   allBlocks,
   allItems,
+  article as articleDefinition,
+  category as categoryDefinition,
   page as pageDefinition,
   schemaFor,
   siteSettings as siteSettingsDefinition,
@@ -14,10 +16,16 @@ import type { FeatureSplitBlock, HeroBlock, PricingBlock, RichTextBlock } from "
 
 import {
   API_URL,
+  ARTICLE_TYPE,
+  CATEGORY_TYPE,
   HOME_PAGE_ID,
+  LAUNCH_PAGE_ID,
   PAGE_TYPE,
   PREVIEW_TOKEN,
   PRICING_PAGE_ID,
+  articleListingItem,
+  articles,
+  categoryListing,
   homePage,
   pagesListing,
   previewPage,
@@ -25,29 +33,51 @@ import {
   richTextExtras,
   settingsListing,
   unsavedPreviewPage,
+  webhookArticle,
   webhookMoved,
   webhookPublished,
   webhookSettings,
+  webhookTerm,
 } from "./__fixtures__/pages"
 import type { WagtailApi, WagtailPage } from "./client"
-import { createWagtailAdapter, pageToCanonical, richTextToAst, signWebhookBody } from "./index"
+import { collectionParams, createWagtailAdapter, pageToCanonical, richTextToAst, signWebhookBody } from "./index"
 import { generateSchema, renderFiles } from "./schema/index"
 
 /** In-memory stand-in for the Pages API v2: no network in tests. */
-const pages = [homePage, pricingPage]
-const calls: { endpoint: string; locale?: string }[] = []
+const pages = [homePage, pricingPage, ...articles]
+const calls: { endpoint: string; locale?: string; params?: Record<string, string> }[] = []
 let unsavedPreview = false
 const fakeApi: WagtailApi = {
-  async findPage(path, query) {
+  async findPage(path, query, type = PAGE_TYPE) {
     calls.push({ endpoint: `find ${path}`, locale: query.locale })
-    return pages.find((p) => new URL(p.meta.html_url!).pathname.replace(/\/$/, "") === path.replace(/\/$/, "")) ?? null
+    const hit = pages.find((p) => new URL(p.meta.html_url!).pathname.replace(/\/$/, "") === path.replace(/\/$/, ""))
+    return hit && (type === null || hit.meta.type === type) ? hit : null
   },
   async getPage(id) {
     return pages.find((p) => String(p.id) === id) ?? null
   },
-  async listPages(query) {
+  async listPages(query, type = PAGE_TYPE) {
     calls.push({ endpoint: "list", locale: query.locale })
-    return pagesListing.items
+    return type === ARTICLE_TYPE ? articles.map(articleListingItem) : pagesListing.items
+  },
+  // Filters by category/tags id, orders by published_at or title and pages like Wagtail's FieldsFilter / OrderingFilter.
+  async queryPages(params, query) {
+    calls.push({ endpoint: "pages", locale: query.locale, params })
+    let items = articles.filter((a) => a.meta.type === params.type)
+    if (params.category) items = items.filter((a) => String((a.category as { id: number }).id) === params.category)
+    if (params.tags) items = items.filter((a) => (a.tags as { id: number }[]).some((t) => String(t.id) === params.tags))
+    if (params.search) items = items.filter((a) => String(a.title).toLowerCase().includes(params.search!.toLowerCase()))
+    const key = params.order!.replace(/^-/, "") as "title" | "published_at"
+    items.sort((a, b) => String(a[key]).localeCompare(String(b[key])) * (params.order!.startsWith("-") ? -1 : 1))
+    const offset = Number(params.offset)
+    return {
+      meta: { total_count: items.length },
+      items: items.slice(offset, offset + Number(params.limit)).map(articleListingItem),
+    }
+  },
+  async listRecords(endpoint, query) {
+    calls.push({ endpoint: `records ${endpoint}`, locale: query.locale })
+    return endpoint === "category" ? categoryListing.items : []
   },
   async getPreviewPage(contentType, token) {
     calls.push({ endpoint: `preview ${contentType}` })
@@ -181,7 +211,7 @@ describe("transform: page", () => {
       theme: "muted",
       ogImage: { kind: "image", url: "https://cms.example.com/media/images/og-pricing.png", width: 1200, height: 630 },
     })
-    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing"])
+    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing", "/news/launch", "/news/summit"])
   })
 
   it("passes the locale to every page read", async () => {
@@ -192,6 +222,7 @@ describe("transform: page", () => {
     expect(calls).toEqual([
       { endpoint: "find /", locale: "en" },
       { endpoint: "find /", locale: "de" },
+      { endpoint: "list", locale: "de" },
       { endpoint: "list", locale: "de" },
     ])
   })
@@ -208,6 +239,126 @@ describe("transform: page", () => {
     const wrongType = structuredClone(homePage) as WagtailPage & { blocks: { type: string }[] }
     wrongType.blocks[0]!.type = "carousel"
     expect(() => pageToCanonical(wrongType, transform)).toThrow(/"blocks" of 3 holds a "carousel" block/)
+  })
+})
+
+describe("listings", () => {
+  const base = { source: "article", page: 1, pageSize: 1, sort: "newest", filters: {} } as const
+
+  it("resolves articles and pages through getDocument and lists both in getPaths", async () => {
+    expect((await adapter.getDocument("/pricing", published))?.type).toBe("page")
+    const article = await adapter.getDocument("/news/launch", published)
+    expect(article?.type).toBe("article")
+    expect(() => schemaFor(articleDefinition).parse(article)).not.toThrow()
+    expect(article).toMatchObject({
+      id: String(LAUNCH_PAGE_ID),
+      path: "/news/launch",
+      publishedAt: "2026-10-14",
+      category: { id: "1", type: "category", title: "Product news", slug: "product-news" },
+      tags: [{ id: "2", slug: "events" }],
+      image: { kind: "image", url: "https://cms.example.com/media/images/product-screenshot.png" },
+    })
+    expect(article && "body" in article && article.body.children[0]).toMatchObject({ type: "paragraph" })
+    expect(article).not.toHaveProperty("seoTitle")
+    // getPage never returns an article.
+    expect(await adapter.getPage("/news/launch", published)).toBeNull()
+    expect(await adapter.getDocument("/nope", published)).toBeNull()
+    expect(await adapter.getPaths("en")).toEqual(["/", "/pricing", "/news/launch", "/news/summit"])
+  })
+
+  it("asks the pages endpoint for one page of article summaries, sorted, with the total count", async () => {
+    calls.length = 0
+    const result = await adapter.getCollection(base, published)
+    expect(calls).toEqual([
+      {
+        endpoint: "pages",
+        locale: "en",
+        params: {
+          type: ARTICLE_TYPE,
+          fields: "published_at,excerpt,image,category,tags",
+          order: "-published_at",
+          limit: "1",
+          offset: "0",
+        },
+      },
+    ])
+    expect(result).toMatchObject({ total: 2, page: 1, pageSize: 1 })
+    expect(result.items).toHaveLength(1)
+    expect(result.items[0]).toMatchObject({
+      id: String(LAUNCH_PAGE_ID),
+      type: "article",
+      path: "/news/launch",
+      publishedAt: "2026-10-14",
+      category: { slug: "product-news" },
+      tags: [{ slug: "events" }],
+    })
+    expect(result.items[0]).not.toHaveProperty("body")
+    const second = await adapter.getCollection({ ...base, page: 2 }, published)
+    expect(second.items.map((i) => i.id)).toEqual(["21"])
+    expect(second.items[0]?.publishedAt).toBe("2026-09-25T07:30:00.000Z")
+    expect(second.items[0]).not.toHaveProperty("tags")
+    expect((await adapter.getCollection({ ...base, page: 3 }, published)).items).toEqual([])
+  })
+
+  it("resolves filter slugs to snippet ids, maps sorting and search to query parameters", async () => {
+    calls.length = 0
+    const events = await adapter.getCollection({ ...base, filters: { category: ["events"] } }, published)
+    expect(calls.map((c) => c.endpoint)).toEqual(["records category", "pages"])
+    expect(calls[1]?.params).toMatchObject({ category: "2" })
+    expect(events.items.map((i) => i.title)).toEqual(["Join us at Measure Summit"])
+    const tagged = await adapter.getCollection({ ...base, filters: { tags: ["events"] } }, published)
+    expect(tagged.total).toBe(1)
+    expect(tagged.items[0]?.id).toBe(String(LAUNCH_PAGE_ID))
+    // An unknown slug matches nothing, and is never sent to Wagtail as a filter.
+    calls.length = 0
+    expect(await adapter.getCollection({ ...base, filters: { category: ["nope"] } }, published)).toEqual({
+      items: [],
+      total: 0,
+      page: 1,
+      pageSize: 1,
+    })
+    expect(calls.map((c) => c.endpoint)).toEqual(["records category"])
+
+    expect(collectionParams({ ...base, sort: "oldest", page: 3, pageSize: 9 }, ARTICLE_TYPE)).toMatchObject({
+      order: "published_at",
+      limit: "9",
+      offset: "18",
+    })
+    expect(collectionParams({ ...base, sort: "title" }, ARTICLE_TYPE).order).toBe("title")
+    expect(collectionParams({ ...base, q: "summit" }, ARTICLE_TYPE)).toMatchObject({
+      search: "summit",
+      search_operator: "and",
+    })
+    expect(collectionParams(base, ARTICLE_TYPE)).not.toHaveProperty("search")
+    const search = await adapter.getCollection({ ...base, q: "summit" }, published)
+    expect(search.items.map((i) => i.id)).toEqual(["21"])
+  })
+
+  it("returns the categories, with $edit only while an editor previews", async () => {
+    const terms = await adapter.getTaxonomy("category", published)
+    expect(terms).toEqual([
+      {
+        id: "1",
+        type: "category",
+        title: "Product news",
+        slug: "product-news",
+        description: "Releases, improvements and deprecations.",
+      },
+      { id: "2", type: "category", title: "Events", slug: "events" },
+    ])
+    expect(() => schemaFor(categoryDefinition).parse(terms[0])).not.toThrow()
+    expect((await adapter.getTaxonomy("category", draft))[0]?.$edit?.self).toEqual({
+      "data-wagtail-id": "1",
+      "data-wagtail-type": "category",
+      "data-wagtail-page": "1",
+      "data-wagtail-edit-url": "https://cms.example.com/admin/snippets/platform_cms/category/edit/1/",
+    })
+    expect(await adapter.getTaxonomy("nope", published)).toEqual([])
+    const items = (await adapter.getCollection(base, draft)).items
+    expect(items[0]?.$edit?.self?.["data-wagtail-edit-url"]).toBe(
+      `https://cms.example.com/admin/pages/${LAUNCH_PAGE_ID}/edit/`
+    )
+    expect(items[0]?.category?.$edit?.self?.["data-wagtail-id"]).toBe("1")
   })
 })
 
@@ -520,6 +671,20 @@ describe("webhook", () => {
     ])
     expect(adapter.webhook.toEvent({}).tags).toEqual([])
     expect(adapter.webhook.toEvent(webhookPublished).summary).toContain("page_published")
+    // An article publish also invalidates every cached listing page; a term change, the chips and cards too.
+    expect(adapter.webhook.toEvent(webhookArticle).tags).toEqual([
+      tags.entry(String(LAUNCH_PAGE_ID)),
+      tags.page("en", "/news/launch"),
+      tags.paths("en"),
+      tags.type("article"),
+      tags.collection("en", "article"),
+    ])
+    expect(adapter.webhook.toEvent(webhookTerm).tags).toEqual([
+      tags.entry("2"),
+      tags.type("category"),
+      tags.type("article"),
+      tags.collection("en", "article"),
+    ])
   })
 
   it("fans out to every configured locale when the payload names none", () => {
@@ -555,6 +720,34 @@ describe("schema generator", () => {
     })
     expect(byName.get("richText")?.python).toBe("RichTextSection")
     expect(byName.get("faqItem")?.python).toBe("FaqItem")
+    expect(byName.get("article")).toMatchObject({ base: "Page", python: "ArticlePage", apiType: ARTICLE_TYPE })
+    expect(byName.get("category")).toMatchObject({ base: "Model", python: "Category", apiType: CATEGORY_TYPE })
+    expect(byName.get("collection")).toMatchObject({ base: "StructBlock", stream: "collection" })
+  })
+
+  it("maps dates and references to model fields and inlines the referenced snippet", () => {
+    const article = Object.fromEntries(byName.get("article")!.fields.map((f) => [f.name, f]))
+    expect(article.path).toMatchObject({ core: "html_url" })
+    expect(article.publishedAt?.definition).toBe(
+      'models.DateField(blank=False, verbose_name="Published at", help_text="Listings sort by this date, newest first.")'
+    )
+    expect(article.category?.definition).toBe(
+      'models.ForeignKey("platform_cms.Category", null=True, blank=True, on_delete=models.SET_NULL, related_name="+", verbose_name="Category")'
+    )
+    expect(article.tags?.definition).toContain('ParentalManyToManyField("platform_cms.Category", blank=True')
+    const category = Object.fromEntries(byName.get("category")!.fields.map((f) => [f.name, f.definition]))
+    expect(category.slug).toContain("models.CharField(max_length=255, blank=False")
+    expect(files["platform_cms/models.py"]).toContain("@register_snippet\nclass Category(models.Model):")
+    expect(files["platform_cms/models.py"]).toContain('APIField("category", serializer=CategorySerializer())')
+    expect(files["platform_cms/models.py"]).toContain('APIField("tags", serializer=CategoryListSerializer())')
+    expect(files["platform_cms/models.py"]).toContain("class ArticlePage(HeadlessMixin, Page):")
+    expect(files["platform_cms/models.py"]).toContain("from modelcluster.fields import ParentalManyToManyField")
+    expect(files["platform_cms/api.py"]).toContain('api_router.register_endpoint("category", CategoryAPIViewSet)')
+    expect(files["platform_cms/api.py"]).toContain("filter_backends = [FieldsFilter, OrderingFilter]")
+    expect(files["platform_cms/signals.py"]).toContain("@receiver(page_published, sender=ArticlePage)")
+    expect(files["platform_cms/signals.py"]).toContain("@receiver(post_delete, sender=Category)")
+    expect(files["platform_cms/blocks.py"]).toContain("    collection = CollectionSection()")
+    expect(files["platform_cms/blocks.py"]).not.toContain("SnippetChooserBlock")
   })
 
   it("maps field kinds to Wagtail blocks and model fields", () => {

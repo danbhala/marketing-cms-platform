@@ -13,8 +13,12 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  * - textList → `bloks` whitelisted to a generated `textItem` component (one
  *   `text` field), because Storyblok has no "list of strings" field. The
  *   transform flattens it back to `string[]`.
- * - The page `path` field is omitted: Storyblok's story slug is the URL and
- *   the transform fills `path` from `full_slug`.
+ * - The `path` of routable documents and the `slug` of taxonomy terms are
+ *   omitted: Storyblok's story slug is the URL and the transform fills them
+ *   from `full_slug` / `slug`.
+ * - date → `datetime`; reference → `option` / `options` fed by
+ *   `internal_stories` of the allowed content types, stored as UUIDs so
+ *   `resolve_relations` can expand them.
  */
 export interface StoryblokFieldSchema {
   type: string
@@ -32,6 +36,9 @@ export interface StoryblokFieldSchema {
   component_whitelist?: string[]
   minimum?: number
   maximum?: number
+  source?: "internal_stories"
+  filter_content_type?: string[]
+  use_uuid?: boolean
 }
 
 export interface StoryblokComponent {
@@ -51,7 +58,9 @@ export interface StoryblokComponentsFile {
 export const TEXT_ITEM_COMPONENT = "textItem"
 
 /** Fields that exist in the content model but are supplied by Storyblok itself. */
-const omittedFields: Record<string, string[]> = { page: ["path"] }
+function omittedFields(definition: AnyDefinition): string[] {
+  return [...(definition.routable ? ["path"] : []), ...(definition.taxonomy ? ["slug"] : [])]
+}
 
 const textItem: StoryblokComponent = {
   name: TEXT_ITEM_COMPONENT,
@@ -69,7 +78,7 @@ export function generateComponents(): StoryblokComponentsFile {
 }
 
 export function toComponent(definition: AnyDefinition): StoryblokComponent {
-  const skip = omittedFields[definition.type] ?? []
+  const skip = omittedFields(definition)
   const schema: Record<string, StoryblokFieldSchema> = {}
   let pos = 0
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
@@ -111,6 +120,16 @@ export function toFieldSchema(name: string, field: Field, pos: number): Storyblo
       return { ...base, type: "number" }
     case "boolean":
       return { ...base, type: "boolean" }
+    case "date":
+      return { ...base, type: "datetime" }
+    case "reference":
+      return {
+        ...base,
+        type: field.multiple ? "options" : "option",
+        source: "internal_stories",
+        filter_content_type: field.of.map((d: AnyDefinition) => d.type),
+        use_uuid: true,
+      }
     case "link":
       return { ...base, type: "multilink", allow_target_blank: true }
     case "media":

@@ -2249,6 +2249,119 @@
       ]
     },
     {
+      "name": "collection",
+      "kind": "block",
+      "python": "CollectionSection",
+      "base": "StructBlock",
+      "stream": "collection",
+      "label": "Collection",
+      "description": "Paginated, filterable listing of a document type, driven by the URL's search params.",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "source",
+          "python": "source",
+          "definition": "blocks.ChoiceBlock(choices=[(\"article\", \"Article\")], required=False, default=\"article\", label=\"Source\", help_text=\"Which document type to list.\")",
+          "required": false
+        },
+        {
+          "name": "pageSize",
+          "python": "page_size",
+          "definition": "blocks.FloatBlock(required=False, label=\"Page size\", help_text=\"Items per page. Defaults to 12.\")",
+          "required": false
+        },
+        {
+          "name": "filters",
+          "python": "filters",
+          "definition": "blocks.ChoiceBlock(choices=[(\"category\", \"Category\"), (\"tags\", \"Tags\")], required=False, default=\"category\", label=\"Filters\", help_text=\"Taxonomy shown as filter chips.\")",
+          "required": false
+        },
+        {
+          "name": "search",
+          "python": "search",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Search\", help_text=\"Show a search box. Searches use the CMS's own search and are never cached.\")",
+          "required": false
+        },
+        {
+          "name": "sort",
+          "python": "sort",
+          "definition": "blocks.ChoiceBlock(choices=[(\"newest\", \"Newest\"), (\"oldest\", \"Oldest\"), (\"title\", \"Title\")], required=False, default=\"newest\", label=\"Sort\", help_text=\"Default order; visitors can change it.\")",
+          "required": false
+        },
+        {
+          "name": "emptyMessage",
+          "python": "empty_message",
+          "definition": "blocks.CharBlock(required=False, label=\"Empty message\", help_text=\"Shown when no items match.\")",
+          "required": false
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
+        }
+      ]
+    },
+    {
       "name": "page",
       "kind": "document",
       "python": "ContentPage",
@@ -2313,6 +2426,120 @@
           "python": "blocks",
           "definition": "StreamField(ContentStreamBlock(), blank=True, verbose_name=\"Blocks\")",
           "required": true
+        }
+      ]
+    },
+    {
+      "name": "article",
+      "kind": "document",
+      "python": "ArticlePage",
+      "base": "Page",
+      "apiType": "platform_cms.ArticlePage",
+      "label": "Article",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "Page.title",
+          "required": true,
+          "core": "title"
+        },
+        {
+          "name": "path",
+          "python": "html_url",
+          "definition": "Page.html_url",
+          "required": true,
+          "core": "html_url"
+        },
+        {
+          "name": "publishedAt",
+          "python": "published_at",
+          "definition": "models.DateField(blank=False, verbose_name=\"Published at\", help_text=\"Listings sort by this date, newest first.\")",
+          "required": true
+        },
+        {
+          "name": "excerpt",
+          "python": "excerpt",
+          "definition": "models.TextField(blank=True, verbose_name=\"Excerpt\", help_text=\"Shown on cards and as the default meta description.\")",
+          "required": false
+        },
+        {
+          "name": "image",
+          "python": "image",
+          "definition": "models.ForeignKey(\"wagtailimages.Image\", null=True, blank=True, on_delete=models.SET_NULL, related_name=\"+\", verbose_name=\"Image\")",
+          "required": false
+        },
+        {
+          "name": "category",
+          "python": "category",
+          "definition": "models.ForeignKey(\"platform_cms.Category\", null=True, blank=True, on_delete=models.SET_NULL, related_name=\"+\", verbose_name=\"Category\")",
+          "required": false
+        },
+        {
+          "name": "tags",
+          "python": "tags",
+          "definition": "ParentalManyToManyField(\"platform_cms.Category\", blank=True, related_name=\"+\", verbose_name=\"Tags\", help_text=\"Optional second axis for filtering.\")",
+          "required": false
+        },
+        {
+          "name": "body",
+          "python": "body",
+          "definition": "RichTextField(blank=False, verbose_name=\"Body\")",
+          "required": true
+        },
+        {
+          "name": "blocks",
+          "python": "blocks",
+          "definition": "StreamField(ContentStreamBlock(), blank=True, verbose_name=\"Blocks\", help_text=\"Optional sections rendered below the body.\")",
+          "required": true
+        },
+        {
+          "name": "seoTitle",
+          "python": "seo_title",
+          "definition": "Page.seo_title",
+          "required": false,
+          "core": "seo_title"
+        },
+        {
+          "name": "seoDescription",
+          "python": "search_description",
+          "definition": "Page.search_description",
+          "required": false,
+          "core": "search_description"
+        },
+        {
+          "name": "noIndex",
+          "python": "no_index",
+          "definition": "models.BooleanField(default=False, verbose_name=\"No index\")",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "category",
+      "kind": "document",
+      "python": "Category",
+      "base": "Model",
+      "apiType": "platform_cms.Category",
+      "label": "Category",
+      "fields": [
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "models.CharField(max_length=255, blank=False, verbose_name=\"Title\")",
+          "required": true
+        },
+        {
+          "name": "slug",
+          "python": "slug",
+          "definition": "models.CharField(max_length=255, blank=False, verbose_name=\"Slug\", help_text=\"URL-safe key used in listing filters, e.g. product-news.\")",
+          "required": true
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "models.TextField(blank=True, verbose_name=\"Description\")",
+          "required": false
         }
       ]
     },

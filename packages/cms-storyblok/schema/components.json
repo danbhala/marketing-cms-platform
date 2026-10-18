@@ -112,8 +112,138 @@
             "richText",
             "media",
             "gallery",
-            "form"
+            "form",
+            "collection"
           ]
+        }
+      }
+    },
+    {
+      "name": "article",
+      "display_name": "Article",
+      "is_root": true,
+      "is_nestable": false,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title",
+          "required": true
+        },
+        "publishedAt": {
+          "type": "datetime",
+          "pos": 1,
+          "display_name": "Published at",
+          "description": "Listings sort by this date, newest first.",
+          "required": true
+        },
+        "excerpt": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Excerpt",
+          "description": "Shown on cards and as the default meta description."
+        },
+        "image": {
+          "type": "asset",
+          "pos": 3,
+          "display_name": "Image",
+          "filetypes": [
+            "images"
+          ]
+        },
+        "category": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Category",
+          "source": "internal_stories",
+          "filter_content_type": [
+            "category"
+          ],
+          "use_uuid": true
+        },
+        "tags": {
+          "type": "options",
+          "pos": 5,
+          "display_name": "Tags",
+          "description": "Optional second axis for filtering.",
+          "source": "internal_stories",
+          "filter_content_type": [
+            "category"
+          ],
+          "use_uuid": true
+        },
+        "body": {
+          "type": "richtext",
+          "pos": 6,
+          "display_name": "Body",
+          "required": true
+        },
+        "blocks": {
+          "type": "bloks",
+          "pos": 7,
+          "display_name": "Blocks",
+          "description": "Optional sections rendered below the body.",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "hero",
+            "logoCloud",
+            "featureGrid",
+            "featureSplit",
+            "stats",
+            "testimonials",
+            "pricing",
+            "comparisonTable",
+            "faq",
+            "cta",
+            "cardGrid",
+            "teamGrid",
+            "steps",
+            "tabs",
+            "richText",
+            "media",
+            "gallery",
+            "form",
+            "collection"
+          ]
+        },
+        "seoTitle": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Seo title",
+          "max_length": 70
+        },
+        "seoDescription": {
+          "type": "textarea",
+          "pos": 9,
+          "display_name": "Seo description"
+        },
+        "noIndex": {
+          "type": "boolean",
+          "pos": 10,
+          "display_name": "No index"
+        }
+      }
+    },
+    {
+      "name": "category",
+      "display_name": "Category",
+      "is_root": true,
+      "is_nestable": false,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title",
+          "required": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 1,
+          "display_name": "Description"
         }
       }
     },
@@ -4614,6 +4744,294 @@
             }
           ],
           "default_value": "stacked"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 9,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 10,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 11,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        },
+        "animation": {
+          "type": "option",
+          "pos": 12,
+          "display_name": "Animation",
+          "description": "Entrance animation played once when the block scrolls into view.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Fade up",
+              "value": "fadeUp"
+            },
+            {
+              "name": "Fade in",
+              "value": "fadeIn"
+            },
+            {
+              "name": "Scale in",
+              "value": "scaleIn"
+            },
+            {
+              "name": "Slide from left",
+              "value": "slideFromLeft"
+            },
+            {
+              "name": "Slide from right",
+              "value": "slideFromRight"
+            },
+            {
+              "name": "Blur in",
+              "value": "blurIn"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationStagger": {
+          "type": "boolean",
+          "pos": 13,
+          "display_name": "Stagger items",
+          "description": "Reveal the block's items one after another instead of all at once."
+        },
+        "headingAnimation": {
+          "type": "option",
+          "pos": 14,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 15,
+          "display_name": "Animation duration",
+          "options": [
+            {
+              "name": "Fast",
+              "value": "fast"
+            },
+            {
+              "name": "Normal",
+              "value": "normal"
+            },
+            {
+              "name": "Slow",
+              "value": "slow"
+            }
+          ],
+          "default_value": "normal"
+        },
+        "animationDelay": {
+          "type": "option",
+          "pos": 16,
+          "display_name": "Animation delay",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Short",
+              "value": "short"
+            },
+            {
+              "name": "Medium",
+              "value": "medium"
+            },
+            {
+              "name": "Long",
+              "value": "long"
+            }
+          ],
+          "default_value": "none"
+        }
+      }
+    },
+    {
+      "name": "collection",
+      "display_name": "Collection",
+      "description": "Paginated, filterable listing of a document type, driven by the URL's search params.",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "source": {
+          "type": "option",
+          "pos": 3,
+          "display_name": "Source",
+          "description": "Which document type to list.",
+          "options": [
+            {
+              "name": "Article",
+              "value": "article"
+            }
+          ],
+          "default_value": "article"
+        },
+        "pageSize": {
+          "type": "number",
+          "pos": 4,
+          "display_name": "Page size",
+          "description": "Items per page. Defaults to 12."
+        },
+        "filters": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Filters",
+          "description": "Taxonomy shown as filter chips.",
+          "options": [
+            {
+              "name": "Category",
+              "value": "category"
+            },
+            {
+              "name": "Tags",
+              "value": "tags"
+            }
+          ],
+          "default_value": "category"
+        },
+        "search": {
+          "type": "boolean",
+          "pos": 6,
+          "display_name": "Search",
+          "description": "Show a search box. Searches use the CMS's own search and are never cached."
+        },
+        "sort": {
+          "type": "option",
+          "pos": 7,
+          "display_name": "Sort",
+          "description": "Default order; visitors can change it.",
+          "options": [
+            {
+              "name": "Newest",
+              "value": "newest"
+            },
+            {
+              "name": "Oldest",
+              "value": "oldest"
+            },
+            {
+              "name": "Title",
+              "value": "title"
+            }
+          ],
+          "default_value": "newest"
+        },
+        "emptyMessage": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Empty message",
+          "description": "Shown when no items match."
         },
         "theme": {
           "type": "option",

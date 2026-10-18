@@ -12,6 +12,24 @@ export interface StoryQuery {
   version: StoryVersion
   /** Storyblok field-level translation language; omitted for the default locale. */
   language?: string
+  /** `component.field` pairs whose story UUIDs are expanded inline (`resolve_relations`). */
+  resolveRelations?: readonly string[]
+}
+
+/** One page of `cdn/stories`, as a listing asks for it. Keys are the CDN query parameters. */
+export interface StoryListQuery {
+  content_type: string
+  filter_query?: Record<string, Record<string, string>>
+  sort_by?: string
+  search_term?: string
+  page?: number
+  per_page?: number
+}
+
+export interface StoryListResult {
+  stories: ISbStoryData[]
+  /** Every match, from the `total` response header. */
+  total: number
 }
 
 export interface StoryblokApi {
@@ -19,6 +37,8 @@ export interface StoryblokApi {
   getStory(slugOrId: string, query: StoryQuery): Promise<ISbStoryData | null>
   /** Every story of one content type, paginated by the client. */
   getStories(contentType: string, query: StoryQuery): Promise<ISbStoryData[]>
+  /** One page of stories matching a listing query, with the total match count. */
+  queryStories(list: StoryListQuery, query: StoryQuery): Promise<StoryListResult>
 }
 
 export interface StoryblokClientOptions {
@@ -56,6 +76,7 @@ export function createStoryblokApi(options: StoryblokClientOptions): StoryblokAp
     version: query.version,
     resolve_links: options.resolveLinks ?? "url",
     ...(query.language ? { language: query.language } : {}),
+    ...(query.resolveRelations?.length ? { resolve_relations: query.resolveRelations.join(",") } : {}),
   })
 
   return {
@@ -76,6 +97,14 @@ export function createStoryblokApi(options: StoryblokClientOptions): StoryblokAp
         per_page: 100,
       } as ISbStoriesParams)
       return list as ISbStoryData[]
+    },
+    async queryStories(list, query) {
+      const result = await clientFor(query.version).get("cdn/stories", {
+        ...params(query),
+        ...list,
+      } as ISbStoriesParams)
+      const stories = ((result.data as { stories?: ISbStoryData[] }).stories ?? []) as ISbStoryData[]
+      return { stories, total: typeof result.total === "number" ? result.total : stories.length }
     },
   }
 }

@@ -1,13 +1,19 @@
 import { describe, expect, it } from "vitest"
 
-import { schemaFor, page as pageDefinition, siteSettings as siteSettingsDefinition } from "@platform/content-model"
-import type { HeroBlock, Page, SiteSettings } from "@platform/content-model"
-import { landingPage, siteSettings as canonicalSettings } from "@platform/content-model/fixtures"
+import {
+  schemaFor,
+  article as articleDefinition,
+  page as pageDefinition,
+  siteSettings as siteSettingsDefinition,
+} from "@platform/content-model"
+import type { Article, HeroBlock, Page, SiteSettings } from "@platform/content-model"
+import { articles, landingPage, siteSettings as canonicalSettings } from "@platform/content-model/fixtures"
 
+import articleFixture from "./__fixtures__/article.json"
 import pageFixture from "./__fixtures__/page.json"
 import settingsFixture from "./__fixtures__/site-settings.json"
 import { resolveConfig } from "./config"
-import { SanityTransformError, toMedia, transformDocument } from "./transform"
+import { SanityTransformError, toIsoDate, toMedia, transformDocument } from "./transform"
 
 const config = resolveConfig({ projectId: "testproj", dataset: "production", studioUrl: "https://studio.example.com" })
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T
@@ -53,6 +59,37 @@ describe("transformDocument", () => {
       height: 800,
       mimeType: "image/png",
     })
+  })
+
+  it("maps an article with its date and dereferenced terms", () => {
+    const article = transformDocument<Article>(articleFixture, articleDefinition, { config, edit: false })!
+    const expected = articles[0]!
+    expect(withoutMediaUrls({ ...article, body: undefined })).toEqual(
+      withoutMediaUrls({ ...expected, body: undefined, seoDescription: expected.excerpt })
+    )
+    expect(article.category).toEqual(expected.category)
+    expect(article.tags).toEqual(expected.tags)
+    expect(() => schemaFor(articleDefinition).parse(article)).not.toThrow()
+
+    const edited = transformDocument<Article>(articleFixture, articleDefinition, { config, edit: true })!
+    expect(edited.$edit?.self?.["data-sanity"]).toContain("id=article-1;type=article;path=blocks")
+    expect(edited.category?.$edit?.fields?.title?.["data-sanity"]).toContain("id=cat-product;type=category;path=title")
+
+    const bare = transformDocument<Article>(
+      { ...articleFixture, category: null, tags: null, publishedAt: "2026-10-14T09:30:00Z" },
+      articleDefinition,
+      { config, edit: false }
+    )!
+    expect(bare.category).toBeUndefined()
+    expect(bare.tags).toBeUndefined()
+    expect(bare.publishedAt).toBe("2026-10-14T09:30:00Z")
+  })
+
+  it("normalises dates to ISO strings, keeping date-only values", () => {
+    expect(toIsoDate("2026-10-18")).toBe("2026-10-18")
+    expect(toIsoDate("2026-10-18T09:00:00+02:00")).toBe("2026-10-18T09:00:00+02:00")
+    expect(toIsoDate("18 Oct 2026 09:00:00 GMT")).toBe("2026-10-18T09:00:00.000Z")
+    expect(toIsoDate("not a date")).toBe("not a date")
   })
 
   it("maps site settings", () => {

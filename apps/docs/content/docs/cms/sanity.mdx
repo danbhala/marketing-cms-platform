@@ -33,6 +33,12 @@ See [Preview & visual editing](/docs/preview) for the shared flow.
 
 Manage → API → Webhooks → GROQ-powered → `https://your-site/api/revalidate`, projection `{ _id, _type, "slug": slug.current, "operation": delta::operation() }`, signed with the webhook secret (`sanity-webhook-signature`, HMAC-SHA256). Tags: `cms:entry:<published id>`, `cms:type:<_type>`; pages add `cms:page` and `cms:paths`; `siteSettings` maps to `cms:global`.
 
+## Listings
+
+`getCollection` sends one GROQ request per page: `{ "items": *[…] | order(…) [$start...$end]{ … }, "total": count(*[…]) }`. Filters compare term slugs through the reference (`category->slug.current in $categorySlugs`; for `tags`, `count((tags[]->slug.current)[@ in $tagsSlugs]) > 0`), sorting is `order(publishedAt desc|asc)` or `order(title asc)`, and `q` becomes a `[title, excerpt] match $q` prefix pattern (`flame* graph*`). Items are projected without `body` and `blocks`; `category` and `tags` are dereferenced inline. `getTaxonomy("category")` reads every `category` document ordered by title, and `getDocument` resolves a `page` or `article` by slug in one query.
+
+The generated schema stores `article.path` and `category.slug` as Sanity `slug` fields and `publishedAt` as a `date`; `category`/`tags` are `reference` fields to `category`. In draft mode listings use the `drafts` perspective and carry `data-sanity` attributes. The webhook adds `cms:collection:<locale>:article` when an `article` or `category` document changes; the projection needs no change.
+
 ## Mapping notes
 
 - GROQ is generated from the content model: one conditional projection per `_type` inside every nested array, assets dereferenced with dimensions.

@@ -771,6 +771,31 @@ class FormSection(blocks.StructBlock):
         label = "Form"
 
 
+class CollectionSection(blocks.StructBlock):
+    """Paginated, filterable listing of a document type, driven by the URL's search params."""
+
+    eyebrow = blocks.CharBlock(required=False, label="Eyebrow")
+    title = blocks.CharBlock(required=False, label="Title")
+    description = blocks.TextBlock(required=False, label="Description")
+    source = blocks.ChoiceBlock(choices=[("article", "Article")], required=False, default="article", label="Source", help_text="Which document type to list.")
+    page_size = blocks.FloatBlock(required=False, label="Page size", help_text="Items per page. Defaults to 12.")
+    filters = blocks.ChoiceBlock(choices=[("category", "Category"), ("tags", "Tags")], required=False, default="category", label="Filters", help_text="Taxonomy shown as filter chips.")
+    search = blocks.BooleanBlock(required=False, label="Search", help_text="Show a search box. Searches use the CMS's own search and are never cached.")
+    sort = blocks.ChoiceBlock(choices=[("newest", "Newest"), ("oldest", "Oldest"), ("title", "Title")], required=False, default="newest", label="Sort", help_text="Default order; visitors can change it.")
+    empty_message = blocks.CharBlock(required=False, label="Empty message", help_text="Shown when no items match.")
+    theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
+    spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
+    anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
+
+    class Meta:
+        label = "Collection"
+
+
 class ContentStreamBlock(blocks.StreamBlock):
     """Every block a page can contain. The stream child names are the canonical block types in snake_case."""
 
@@ -792,3 +817,4 @@ class ContentStreamBlock(blocks.StreamBlock):
     media = MediaSection()
     gallery = GallerySection()
     form = FormSection()
+    collection = CollectionSection()

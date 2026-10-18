@@ -9,6 +9,7 @@ import {
   fieldStorages,
   humanize,
   mediaBundlesFor,
+  referenceTargetFor,
   type DrupalEntityType,
   type FieldStorage,
 } from "./naming"
@@ -18,7 +19,8 @@ import { toYaml, type YamlValue } from "./yaml"
  * Derives a Drupal module, `platform_content`, from the content model. Its
  * `config/install` folder holds the configuration Drupal imports when the
  * module is enabled: a paragraph type per block and item, a node type for
- * each document, the field storages and instances behind them, and form
+ * each document (a vocabulary for a taxonomy document), the field storages
+ * and instances behind them, and form
  * displays that use the Paragraphs and Media Library widgets so editors get a
  * usable form without further clicking. Site-specific configuration (the
  * `next_site` entity with its URLs and secrets, language settings) is left to
@@ -29,8 +31,10 @@ import { toYaml, type YamlValue } from "./yaml"
  *   restricted to the allowed paragraph types, cardinality from `max`.
  * - text → string, textarea → string_long, richText → text_long, link → link,
  *   select → list_string with the model's options, media → entity_reference to media,
- *   textList → unlimited string, boolean → boolean, number → float.
- * - the page `title` and `path` and the settings `siteName` are base fields (node title, path alias).
+ *   textList → unlimited string, boolean → boolean, number → float, date → date-only datetime,
+ *   reference → entity_reference to the target vocabulary (cardinality -1 when `multiple`).
+ * - the page and article `title` and `path`, the settings `siteName` and the term `title` (name)
+ *   are base fields (node title, path alias, term name).
  */
 export const MODULE_NAME = "platform_content"
 
@@ -48,7 +52,11 @@ export function generateModule(): ModuleFiles {
 
   for (const definition of [...allBlocks, ...allItems])
     emit(`paragraphs.paragraphs_type.${bundleFor(definition)}`, paragraphType(definition))
-  for (const definition of allDocuments) emit(`node.type.${bundleFor(definition)}`, nodeType(definition))
+  for (const definition of allDocuments) {
+    if (entityTypeFor(definition) === "taxonomy_term")
+      emit(`taxonomy.vocabulary.${bundleFor(definition)}`, vocabulary(definition))
+    else emit(`node.type.${bundleFor(definition)}`, nodeType(definition))
+  }
 
   for (const [key, storage] of fieldStorages()) {
     const [entityType, name] = key.split(".") as [DrupalEntityType, string]
@@ -86,6 +94,8 @@ function infoFile(): Record<string, YamlValue> {
       "drupal:path",
       "drupal:media",
       "drupal:media_library",
+      "drupal:datetime",
+      "drupal:taxonomy",
       "drupal:jsonapi",
       "paragraphs:paragraphs",
       "entity_reference_revisions:entity_reference_revisions",
@@ -126,12 +136,37 @@ function nodeType(definition: AnyDefinition): Record<string, YamlValue> {
   }
 }
 
+function vocabulary(definition: AnyDefinition): Record<string, YamlValue> {
+  return {
+    langcode: "en",
+    status: true,
+    dependencies: {},
+    name: definition.label,
+    vid: bundleFor(definition),
+    description: definition.description ?? "",
+    weight: 0,
+    new_revision: false,
+  }
+}
+
+/** Config entity a bundle depends on: `node.type.page`, `paragraphs.paragraphs_type.hero`, `taxonomy.vocabulary.category`. */
+function bundleConfig(entityType: DrupalEntityType, bundle: string): string {
+  if (entityType === "node") return `node.type.${bundle}`
+  if (entityType === "taxonomy_term") return `taxonomy.vocabulary.${bundle}`
+  return `paragraphs.paragraphs_type.${bundle}`
+}
+
+const entityModules: Record<DrupalEntityType, string> = {
+  node: "node",
+  paragraph: "paragraphs",
+  taxonomy_term: "taxonomy",
+}
+const targetModules: Record<string, string> = { media: "media", taxonomy_term: "taxonomy", node: "node" }
+
 function fieldStorage(entityType: DrupalEntityType, name: string, storage: FieldStorage): Record<string, YamlValue> {
-  const modules = new Set<string>()
-  if (entityType === "paragraph") modules.add("paragraphs")
-  if (entityType === "node") modules.add("node")
+  const modules = new Set<string>([entityModules[entityType]])
   if (storage.module !== "core") modules.add(storage.module)
-  if (storage.type === "entity_reference") modules.add("media")
+  if (storage.type === "entity_reference") modules.add(targetModules[String(storage.settings.target_type)] ?? "core")
   if (storage.type === "entity_reference_revisions") modules.add("paragraphs")
   return {
     langcode: "en",
@@ -161,10 +196,7 @@ function fieldInstance(
   const entityType = entityTypeFor(definition)
   const bundle = bundleFor(definition)
   const storage = fieldStorages().get(`${entityType}.${machine}`)!
-  const config = [
-    `field.storage.${entityType}.${machine}`,
-    entityType === "node" ? `node.type.${bundle}` : `paragraphs.paragraphs_type.${bundle}`,
-  ]
+  const config = [`field.storage.${entityType}.${machine}`, bundleConfig(entityType, bundle)]
   const modules = new Set<string>()
   let settings: YamlValue = {}
   let defaultValue: YamlValue = []
@@ -173,6 +205,24 @@ function fieldInstance(
     case "richText":
       modules.add("text")
       break
+    case "date":
+      modules.add("datetime")
+      break
+    case "reference": {
+      const target = referenceTargetFor(field)
+      const targets = (field.of as AnyDefinition[]).map(bundleFor)
+      for (const t of targets) config.push(bundleConfig(target, t))
+      settings = {
+        handler: `default:${target}`,
+        handler_settings: {
+          target_bundles: Object.fromEntries(targets.map((t) => [t, t])),
+          sort: { field: target === "taxonomy_term" ? "name" : "title", direction: "asc" },
+          auto_create: false,
+          auto_create_bundle: "",
+        },
+      }
+      break
+    }
     case "link":
       modules.add("link")
       // Our links are a bare href; the editor never types a link title.
@@ -262,6 +312,13 @@ function widgetFor(field: Field): Widget {
       return { type: "link_default", module: "link", settings: { placeholder_url: "", placeholder_title: "" } }
     case "media":
       return { type: "media_library_widget", module: "media_library", settings: { media_types: [] } }
+    case "date":
+      return { type: "datetime_default", module: "datetime", settings: {} }
+    case "reference":
+      return {
+        type: "entity_reference_autocomplete",
+        settings: { match_operator: "CONTAINS", match_limit: 10, size: 60, placeholder: "" },
+      }
     case "select":
       return { type: "options_select", module: "options", settings: {} }
     case "items":
@@ -289,13 +346,13 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
   const entityType = entityTypeFor(definition)
   const bundle = bundleFor(definition)
   const base = baseFields[definition.type] ?? {}
-  const config = [entityType === "node" ? `node.type.${bundle}` : `paragraphs.paragraphs_type.${bundle}`]
+  const config = [bundleConfig(entityType, bundle)]
   const modules = new Set<string>()
   const content: Record<string, YamlValue> = {}
   let weight = 0
 
-  if (entityType === "node") {
-    content.title = {
+  if (entityType === "node" || entityType === "taxonomy_term") {
+    content[entityType === "node" ? "title" : "name"] = {
       type: "string_textfield",
       weight: weight++,
       region: "content",
@@ -321,6 +378,8 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
     modules.add("path")
     if (base.path)
       content.path = { type: "path", weight: weight++, region: "content", settings: {}, third_party_settings: {} }
+  }
+  if (entityType === "node" || entityType === "taxonomy_term") {
     content.status = {
       type: "boolean_checkbox",
       weight,
@@ -342,7 +401,10 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
     hidden:
       entityType === "node"
         ? { created: true, promote: true, sticky: true, uid: true }
-        : { created: true, status: true, uid: true },
+        : entityType === "taxonomy_term"
+          ? // The term's own rich-text description and alias are not part of the model.
+            { description: true, path: true }
+          : { created: true, status: true, uid: true },
   }
 }
 
