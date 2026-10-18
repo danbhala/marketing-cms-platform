@@ -1,6 +1,6 @@
-import type { Metadata } from "next"
+import type { Metadata, Route } from "next"
 import { draftMode } from "next/headers"
-import { notFound } from "next/navigation"
+import { notFound, permanentRedirect } from "next/navigation"
 
 import type { FetchContext } from "@platform/cms-core"
 import { isDefaultQuery, listingHref, parseListingQuery } from "@platform/cms-core/listing"
@@ -13,9 +13,9 @@ import { getAdapter, siteConfig } from "@/cms.config"
 import { createCollectionBlock } from "@/components/collection-block"
 import { createLatestNewsBlock } from "@/components/latest-news-block"
 import { PreviewBridge } from "@/components/preview-bridge"
-import { getAlternates, hreflangMap } from "@/lib/alternates"
+import { getAlternates, hreflangMap, translatedPath } from "@/lib/alternates"
 import { getBreadcrumbs } from "@/lib/breadcrumb-trail"
-import { getPublishedDocument, getPublishedPaths, getPublishedSettings } from "@/lib/cms"
+import { getPublishedDocument, getPublishedPaths, getPublishedSettings, getPublishedTranslatedPaths } from "@/lib/cms"
 import { localePath, pathToSlug, slugToPath } from "@/lib/paths"
 
 type Props = PageProps<"/[locale]/[[...slug]]">
@@ -44,7 +44,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (!doc) return {}
   const canonicalPath = localePath(locale, path)
   // hreflang: the same page in every other language that publishes it, plus x-default.
-  const languages = hreflangMap(await getAlternates(path))
+  const languages = hreflangMap(await getAlternates(locale, path))
   const metadata: Metadata = {
     title: doc.seoTitle ?? doc.title,
     description: doc.seoDescription ?? (doc.type === "article" ? doc.excerpt : undefined),
@@ -103,9 +103,10 @@ export default async function CmsPage({ params, searchParams }: Props) {
     ;[doc, settings] = await Promise.all([getPublishedDocument(locale, path), getPublishedSettings(locale)])
   }
 
+  if (!doc && !draft) await redirectToTranslatedSlug(locale, path)
   if (!doc || !settings) notFound()
   const breadcrumbs = await getBreadcrumbs(locale, path, doc.title)
-  const languages = (await getAlternates(path)).map((a) => ({ ...a, current: a.locale === locale }))
+  const languages = (await getAlternates(locale, path)).map((a) => ({ ...a, current: a.locale === locale }))
   const bridge = draft ? <PreviewBridge provider={siteConfig.provider} ctx={preview} locale={locale} /> : null
 
   // The listing blocks need this request's locale and URL; everything else
@@ -155,6 +156,17 @@ export default async function CmsPage({ params, searchParams }: Props) {
       {bridge}
     </>
   )
+}
+
+/**
+ * Links in CMS content carry the default locale's slug, so `/fr/about` can be
+ * asked for when French calls the page `/a-propos`. Redirect there when the
+ * CMS translates that slug; otherwise fall through to the 404.
+ */
+async function redirectToTranslatedSlug(locale: string, path: string) {
+  if (locale === siteConfig.defaultLocale) return
+  const target = translatedPath(await getPublishedTranslatedPaths(siteConfig.defaultLocale, path), locale, path)
+  if (target !== path) permanentRedirect(localePath(locale, target) as Route)
 }
 
 function toSearchParams(params: Record<string, string | string[] | undefined>): URLSearchParams {

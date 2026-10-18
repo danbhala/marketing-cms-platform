@@ -116,3 +116,23 @@ describe("local adapter listings", () => {
     expect(await adapter.getTaxonomy("nope", published)).toEqual([])
   })
 })
+
+describe("local adapter translated slugs", () => {
+  const translated = createLocalAdapter({ translatedPaths: { fr: { "/pricing": "/tarifs" } } })
+  const fr = { locale: "fr", draft: false }
+
+  it("serves a page at its translated path only", async () => {
+    expect((await translated.getPage("/tarifs", fr))?.id).toBe("page-pricing")
+    expect(await translated.getPage("/pricing", fr)).toBeNull()
+    expect((await translated.getPage("/pricing", published))?.id).toBe("page-pricing")
+    expect((await translated.getPage("/contact", fr))?.id).toBe("page-contact")
+  })
+
+  it("lists each locale's paths and reports a page's path in every locale", async () => {
+    expect(await translated.getPaths("fr")).toContain("/tarifs")
+    expect(await translated.getPaths("fr")).not.toContain("/pricing")
+    expect(await translated.getTranslatedPaths?.("/tarifs", fr)).toEqual({ en: "/pricing", fr: "/tarifs" })
+    expect(await translated.getTranslatedPaths?.("/pricing", published)).toEqual({ en: "/pricing", fr: "/tarifs" })
+    expect(await translated.getTranslatedPaths?.("/contact", fr)).toEqual({})
+  })
+})

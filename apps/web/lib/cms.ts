@@ -113,6 +113,15 @@ export async function getPublishedSettings(locale: string): Promise<SiteSettings
   return adapter.getSiteSettings({ locale, draft: false })
 }
 
+/** The document at `path` as its path in each locale whose slug the CMS translates (empty when it doesn't). */
+export async function getPublishedTranslatedPaths(locale: string, path: string): Promise<Record<string, string>> {
+  "use cache"
+  cacheLife("max")
+  cacheTag(tags.page(locale, path), tags.paths(locale))
+  const adapter = await getAdapter()
+  return (await adapter.getTranslatedPaths?.(path, { locale, draft: false })) ?? {}
+}
+
 export async function getPublishedPaths(locale: string): Promise<string[]> {
   "use cache"
   cacheLife("max")

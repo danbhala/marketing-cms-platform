@@ -9,7 +9,7 @@ description: "Configure the Storyblok adapter: environment, schema push, Visual 
 
 ## Environment
 
-`STORYBLOK_PREVIEW_TOKEN` (required, preview scope), `STORYBLOK_REGION` (`eu` default), `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `STORYBLOK_PUBLIC_TOKEN`, `STORYBLOK_SPACE_ID`, `STORYBLOK_WEBHOOK_SECRET`. See `apps/web/.env.example`.
+`STORYBLOK_PREVIEW_TOKEN` (required, preview scope), `STORYBLOK_REGION` (`eu` default), `PREVIEW_SECRET`, `REVALIDATE_SECRET`; optional `STORYBLOK_PUBLIC_TOKEN`, `STORYBLOK_SPACE_ID`, `STORYBLOK_WEBHOOK_SECRET`, `STORYBLOK_TRANSLATED_SLUGS`. See `apps/web/.env.example`.
 
 ## Push the content model
 
@@ -36,6 +36,8 @@ Settings → Webhooks → story events → `https://your-site/api/revalidate` wi
 ## Listings
 
 `getCollection` is one `cdn/stories` request with `content_type=article`, `sort_by` (`content.publishedAt:desc`, `content.publishedAt:asc` or `content.title:asc`), `page`/`per_page`, `search_term` for free-text search and `resolve_relations=article.category,article.tags` so terms come back inline. The total is read from Storyblok's `total` response header. Filters are term slugs, so the adapter fetches the `category` stories, maps slugs to UUIDs and sends `filter_query[category][in]` (single reference) or `filter_query[tags][any_in_array]` (multiple); an unknown slug returns an empty page without a stories request. Draft Mode reads `version=draft` and attaches editor attributes to every item. `getTaxonomy("category")` returns every category story, `getDocument` dispatches on the story's component (`page` or `article`), and `getPaths` lists both.
+
+Languages use field-level translation: the site's default locale is the space's default language and every other locale is passed as `language`. With the Translatable Slugs app, set `STORYBLOK_TRANSLATED_SLUGS=true`: each language's pages are then read by their own slug behind a language prefix (`fr/a-propos`), `getPaths` lists them, and `getTranslatedPaths` reports them from the story's `translated_slugs` and `default_full_slug`. The home story is `/` in every language.
 
 Articles and categories are root stories of the generated `article` and `category` components; the story slug is the URL path of an article and the filter slug of a category, so neither has a `path` or `slug` field. `publishedAt` is a `datetime` field; `category` and `tags` are `option`/`options` fields fed by `internal_stories` and stored as UUIDs. Story webhooks carry no content type, so every story event also refreshes `cms:collection:<locale>:article`, `cms:type:article` and `cms:type:category`.
 

@@ -83,6 +83,14 @@ export interface CmsAdapter {
   getSiteSettings(ctx: FetchContext): Promise<SiteSettings | null>
   /** Routable paths for one locale (pages and articles), used by generateStaticParams and sitemaps. */
   getPaths(locale: string): Promise<string[]>
+  /**
+   * The document at `path` in `ctx.locale`, as its path in each locale, when the
+   * CMS gives each language its own slug: `{ en: "/about", fr: "/a-propos" }`.
+   * Optional. Without it, or for a locale it leaves out, the app takes the
+   * default locale's path, then the same path. Used for hreflang, the sitemap,
+   * the language switcher, and to redirect `/fr/about` to `/fr/a-propos`.
+   */
+  getTranslatedPaths?(path: string, ctx: FetchContext): Promise<Record<string, string>>
   /** Resolve a CMS-side preview request (entry id / story id) to a site path. */
   resolvePreviewPath(searchParams: URLSearchParams): Promise<string | null>
   webhook: {

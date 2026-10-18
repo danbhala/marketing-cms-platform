@@ -24,9 +24,15 @@ export const themeEditor =
 
 const providers: Record<string, () => Promise<CmsAdapter>> = {
   // The demo site's own content (./content); the shared fixtures are the default.
-  local: () => import("@platform/cms-local").then((m) => m.createLocalAdapter(demoContent)),
+  local: () =>
+    import("@platform/cms-local").then((m) =>
+      m.createLocalAdapter({ ...demoContent, defaultLocale: siteConfig.defaultLocale })
+    ),
   contentful: () => import("@platform/cms-contentful").then((m) => m.contentfulAdapter),
-  storyblok: () => import("@platform/cms-storyblok").then((m) => m.storyblokAdapter),
+  storyblok: () =>
+    import("@platform/cms-storyblok").then((m) =>
+      m.createStoryblokAdapter({ defaultLocale: siteConfig.defaultLocale, locales: siteConfig.locales })
+    ),
   optimizely: () => import("@platform/cms-optimizely").then((m) => m.optimizelyAdapter),
   sanity: () => import("@platform/cms-sanity").then((m) => m.sanityAdapter),
   drupal: () => import("@platform/cms-drupal").then((m) => m.drupalAdapter),

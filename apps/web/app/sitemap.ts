@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = []
   for (const locale of siteConfig.locales) {
     for (const path of await getPublishedPaths(locale)) {
-      const languages = hreflangMap(await getAlternates(path))
+      const languages = hreflangMap(await getAlternates(locale, path))
       entries.push({
         url: `${siteConfig.siteUrl}${localePath(locale, path)}`,
         ...(Object.keys(languages).length ? { alternates: { languages } } : {}),
