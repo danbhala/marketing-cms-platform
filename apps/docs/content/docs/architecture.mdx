@@ -71,6 +71,9 @@ Each `@platform/cms-*` package implements one interface, `CmsAdapter`:
 interface CmsAdapter {
   name: string
   getPage(path, ctx): Promise<Page | null>
+  getDocument(path, ctx): Promise<RoutableDocument | null>
+  getCollection(query, ctx): Promise<CollectionResult>
+  getTaxonomy(type, ctx): Promise<Category[]>
   getSiteSettings(ctx): Promise<SiteSettings | null>
   getPaths(locale): Promise<string[]>
   resolvePreviewPath(searchParams): Promise<string | null>

@@ -27,7 +27,7 @@ Layout is responsive to the **section**, not the viewport: every block root is a
 
 ## Where a theme applies
 
-- **Site**: `siteConfig.defaultTheme` in `apps/web/cms.config.ts` puts a class on `<html>`.
+- **Site**: the optional `siteConfig.defaultTheme` in `apps/web/cms.config.ts` puts a class on `<html>` (the demo site leaves it unset).
 - **Page**: the `theme` field on a page wraps everything (`PageTemplate`).
 - **Block**: every block has a `theme` field; `BlockSection` turns it into a class on that `<section>`.
 
@@ -69,7 +69,7 @@ Start with variables, not components; when a brand needs more than variables, se
 }
 ```
 
-Add a new theme name to `themeNames` in `content-model/src/themes.ts` and it appears as an option in every CMS after `pnpm schema:generate`.
+Add a new theme name to `themeNames` in `packages/content-model/src/themes.ts` and it appears as an option in every CMS after `pnpm schema:generate`.
 
 ## Accessibility
 
