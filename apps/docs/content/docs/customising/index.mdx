@@ -1,0 +1,65 @@
+---
+title: Customising
+description: "What to change when tokens and theme classes are not enough: blocks, fields, variants, bespoke components and the registry."
+---
+
+[Theming](/docs/theming) covers the first layer: CSS variables and `theme-*` classes change how everything looks without touching a component. Most projects need more than that. The content model, the blocks and the registry are plain TypeScript you own, and every layer is designed to be edited.
+
+<Callout title="You own the code">
+  Client teams get the platform shadcn-style: the content model, the blocks, the
+  adapter and the app shell are copied into the project, not installed as
+  packages. Nothing here is a plugin API or an escape hatch. The files named on
+  these pages are the ones you edit. Paths are given as they are in this
+  repository; the scaffolding that copies them into a project keeps the same
+  layout under the project's own source tree.
+</Callout>
+
+## Pick the smallest change
+
+Work down this list and stop at the first row that solves it.
+
+| You want to                                   | Do this                                                                   | Page                                                             |
+| --------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Change colours, fonts, radius, spacing        | Override variables, or add a `theme-*` class                              | [Theming](/docs/theming)                                         |
+| Change how an existing block looks or behaves | Edit the block component                                                  | [Editing a block](/docs/customising/editing-a-block)             |
+| Let editors control something new             | Add a field to the definition; the type, validator and CMS schemas follow | [Adding a field](/docs/customising/adding-a-field)               |
+| Offer another layout or style option          | Add a `select` option and a CVA variant                                   | [Variants and props](/docs/customising/variants-and-props)       |
+| Pass something the CMS should not know about  | Wrap the block in the registry                                            | [Registry and wrapping](/docs/customising/registry-and-wrapping) |
+| Build a section that does not exist yet       | Compose a new block from atoms and molecules, register it                 | [A new block](/docs/customising/new-block)                       |
+| Replace a block's implementation for one site | Override it in the registry                                               | [Registry and wrapping](/docs/customising/registry-and-wrapping) |
+| Diverge from the platform for good            | Fork the file; know what you give up                                      | [Fork or extend](/docs/customising/fork-or-extend)               |
+
+## The chain every change runs through
+
+One definition drives everything, so a change at the top propagates by itself and TypeScript flags each place that still needs a hand:
+
+<FlowDiagram
+  columns={[
+    { title: "You write", nodes: ["defineBlock() in blocks.ts"] },
+    {
+      title: "Derived",
+      nodes: ["InferContent<> type", "schemaFor() zod validator"],
+    },
+    {
+      title: "You write",
+      nodes: [
+        "ui/src/blocks/<block>.tsx",
+        "blocks/index.ts entry",
+        "fixture + story",
+      ],
+    },
+    { title: "Generated", nodes: ["cms-*/schema/"] },
+  ]}
+/>
+
+Types and validators are derived; you never write them. Components and schemas are generated or hand-edited once per change. The `/platform:add-block` skill in `.claude/skills/platform` walks an agent through the same chain.
+
+## Conventions to keep
+
+These are what make a customised block still work in every CMS, in preview, in Storybook and in the tests. Everything else is yours to change.
+
+- The root of a block is `BlockSection`; it applies `theme`, `spacing`, `anchor` and the block-level edit attributes.
+- Every element that renders an editable field spreads `fieldAttrs(block, "<field>")`; every repeated item spreads `editAttrs(item)` and uses `key={item.id}`. That is what click-to-edit in the CMS hooks onto.
+- No CMS SDK and no Next.js import inside `packages/ui`. Links and images go through the `Link` and `Image` atoms, which the app routes to `next/link` and `next/image` via `UiProvider`. ESLint enforces the first part (`noCmsImports`).
+- Responsive classes use the `section-sm|md|lg:` container-query variants, not `sm:`/`lg:`, so a block still collapses correctly inside a narrow CMS preview pane.
+- Headings: the first block on a page renders `h1`, the rest `h2`. Blocks get `index` for that.

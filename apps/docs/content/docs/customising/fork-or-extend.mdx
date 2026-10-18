@@ -1,0 +1,37 @@
+---
+title: Fork or extend
+description: "When to edit the shared code, when to add beside it, and when to walk away from a platform file."
+---
+
+Everything in the platform is yours to edit, so the question is not whether you may but what each kind of change costs later. The costs are the chain described on the [Customising](/docs/customising) page (one definition drives the type, the validator, the component and six CMS schemas) and the tests that keep it honest.
+
+## Extend first
+
+| Change                                    | Cost                                                                       | Reach for it when                                             |
+| ----------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Variables and `theme-*` classes           | None. Nothing to regenerate or test                                        | Brand, rhythm, type, surfaces                                 |
+| Edit a block or molecule in `packages/ui` | A story to update; axe in `pnpm test`                                      | The change is right for every site built from this code       |
+| Add a field or a `select` option          | `pnpm schema:generate`, a schema snapshot, a CMS deploy. Additive, so safe | Editors need the control                                      |
+| Add a prop and set it in the registry     | None beyond the component                                                  | Developers need the control; one site differs                 |
+| Override a block in the registry          | A second component to maintain; the content model stays shared             | One site needs a different implementation of the same content |
+| New block                                 | The full chain once; from then on it is like any other block               | The section does not exist                                    |
+
+Each row keeps the platform contract intact: the same content model, so the same CMS schema, the same preview attributes, the same tests. A team working this way can still take upstream changes to the files it has not touched, and a new developer finds every block in the same shape.
+
+## When to fork
+
+Forking means copying a platform file and letting the copy drift, or editing a shared file in a way the rest of the code no longer agrees with. Do it deliberately, in these cases:
+
+- **A block whose content shape has nothing in common with the original.** Do not stretch `featureGrid` into a timeline with optional everything. Define a new block; delete the old one if nobody uses it.
+- **A CMS-specific feature the canonical model cannot express** (Storyblok's nested components as layout, Optimizely's visual builder sections). Keep it in the adapter and the app for that CMS, and accept that the site is no longer CMS-agnostic for that feature.
+- **A molecule the design team has redrawn from scratch.** Replace it; do not keep both.
+
+What you give up: shared fixtures and stories stop describing the fork, `pnpm schema:generate` no longer knows about content the fork expects, and the [block pages](/docs/blocks) in these docs stop matching. Write the fork's own story and fixture, and note the divergence in its file header so the next person knows it was intentional.
+
+## Primitives
+
+`packages/ui/src/primitives` holds the shadcn/ui components (`Button`, `Card`, `Tabs`, `Accordion`, …) in the base-nova style on Base UI. They are vendored, and `pnpm vendor:shadcn` rewrites them from upstream, so hand edits there are the one place a refresh can silently undo. Put brand changes in variables (`--primary`, `--radius`) and in the atoms that wrap the primitives (`atoms/button.tsx` adds `href`; `atoms/image.tsx` adds ratio and radius). Add new shadcn components with the shadcn CLI against `packages/ui/components.json`, in the same style, rather than writing a look-alike.
+
+## Removing what you do not need
+
+Owning the code also means deleting. A site with no pricing page does not need the Pricing or Comparison table blocks, and fewer blocks means fewer content types for editors to choose between. [Editing a block](/docs/customising/editing-a-block#removing-a-block) lists the four places to remove one. Adapter packages for CMSs you do not use can go the same way: the only reference is one line in `apps/web/cms.config.ts`.

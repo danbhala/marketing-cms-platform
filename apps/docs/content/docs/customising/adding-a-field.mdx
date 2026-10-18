@@ -1,0 +1,106 @@
+---
+title: Adding a field
+description: "Add a field to a block or item end to end: definition, type, validator, component, fixture, story and the generated schema for every CMS."
+---
+
+Fields are declared once with the field DSL in `@platform/content-model`. The TypeScript type and the zod validator are derived from that declaration, and the CMS schema generators read it, so adding a field is three edits and one command. The example adds a `source` line under the Stats block ("Figures from our 2025 customer survey").
+
+<Steps>
+<Step>
+### Declare the field
+
+```ts title="packages/content-model/src/definitions/blocks.ts"
+export const stats = defineBlock("stats", {
+  label: "Stats",
+  fields: {
+    ...heading,
+    stats: field.items([stat]),
+    columns,
+    source: field.text({ description: "Small print under the numbers." }), // [!code ++]
+    ...presentation,
+  },
+})
+```
+
+The builders are `field.text`, `textarea`, `textList`, `richText`, `number`, `boolean`, `link`, `icon`, `media`, `select` and `items`. Options are `required`, `label`, `description`, plus `maxLength` on text, `accept` on media, `defaultValue` on select and `min`/`max` on items. `description` becomes the help text editors see in each CMS. Keep `...presentation` last so every block keeps `theme`, `spacing` and `anchor`.
+
+A field on an **item** (a `stat`, an `action`, a `pricingPlan`) is the same edit in `definitions/items.ts`.
+
+</Step>
+
+<Step>
+### The type and validator update themselves
+
+`StatsBlock` is `InferContent<typeof defs.stats>`, so `block.source` is now `string | undefined` everywhere (`string` if you passed `required: true`). `schemaFor(stats)` now accepts the field, and every adapter validates against it. There is nothing to write.
+
+Media and rich text are the only fields with a shape of their own: `Media` is `{ kind, url, alt, width?, height? }` and `RichText` is the portable AST described in [Content model](/docs/content-model). Both are already handled by every adapter's transform.
+
+</Step>
+
+<Step>
+### Render it
+
+After the grid, add the small print:
+
+```tsx title="packages/ui/src/blocks/stats.tsx"
+<Grid columns={columns} className={cn("divide-border", divide)} {...fieldAttrs(block, "stats")}>
+  {block.stats.map((stat) => (
+    <StatItem key={stat.id} item={stat} className="px-4" />
+  ))}
+</Grid>
+{block.source ? (
+  <Text size="xs" tone="muted" align="center" {...fieldAttrs(block, "source")}>
+    {block.source}
+  </Text>
+) : null}
+```
+
+Guard optional fields and spread `fieldAttrs(block, "source")` on the element that shows the value, so clicking it in the CMS preview opens that field. For a `media` field use the `Image` atom; for `richText` the `RichText` molecule; for `items` map over them with `key={item.id}`; for `select`, see [Variants and props](/docs/customising/variants-and-props).
+
+</Step>
+
+<Step>
+### Fixture and story
+
+The shared fixture feeds Storybook, the local adapter, the tests and these docs, so give the new field a value there:
+
+```ts title="packages/content-model/src/fixtures/content.ts"
+export const statsBlock: StatsBlock = {
+  id: "blk-stats",
+  type: "stats",
+  title: "Built to scale with you",
+  stats,
+  columns: "4",
+  source: "Figures from the 2025 customer survey, n = 1,240.", // [!code ++]
+  theme: "muted",
+}
+```
+
+Add a story if the field changes the layout enough to be worth a screenshot; otherwise the existing stories already exercise it. `pnpm test` in `packages/ui` renders every story with axe.
+
+</Step>
+
+<Step>
+### Regenerate the CMS schemas
+
+```sh
+pnpm schema:generate
+```
+
+Every `packages/cms-*/schema/` directory is rewritten from the definitions: the Contentful migration and content-types JSON, Storyblok components, Optimizely content-type definitions, Sanity schema types, the Drupal `platform_content` config module and the Wagtail Django app. Commit the output; the adapter tests assert it matches the source.
+
+Two tests pin the generated shape and need refreshing when definitions change: `packages/cms-contentful/src/schema.test.ts` counts the content types (`toHaveLength(37)` today, so a new block or item changes it) and the Contentful, Optimizely and Sanity suites hold snapshots. Run `pnpm --filter "@platform/cms-*" test -- -u` and review the diff.
+
+</Step>
+
+<Step>
+### Ship the schema to the CMS
+
+Generating writes files; it does not touch a space. Each adapter's page under [CMS adapters](/docs/cms) says how to apply its output (`contentful space migration`, the Storyblok CLI, the Optimizely config, the Sanity Studio, enabling the Drupal module, a Django migration for Wagtail). An **optional** field is additive and safe to roll out in any order. A **required** field, a rename or a removal is a breaking content change: existing entries fail validation at the adapter until editors fill them in, so say so in the PR and migrate content first.
+
+</Step>
+</Steps>
+
+## Items and the page document
+
+The same steps apply to `definitions/items.ts` (fields inside a repeatable) and `definitions/documents.ts` (`page` and `siteSettings`). A new page-level field such as `page.publishedAt` lands on `Page` and is read in `apps/web/app/[locale]/[[...slug]]/page.tsx` or in `PageTemplate`. Nothing in the adapters changes: their transforms walk the definition's fields generically.
