@@ -6,6 +6,8 @@ import {
   animationDelays,
   animationDurations,
   animationPresets,
+  baseAnimationDefaults,
+  defineAnimation,
   easeCurves,
   headingAnimations,
   marqueeSpeeds,
@@ -63,6 +65,15 @@ export function ThemeStudio() {
   // A phone has no room for a desktop preview, so it always shows the mobile layout.
   const narrow = useNarrow()
   const previewWidth = viewportWidth[narrow ? "mobile" : viewport]
+  const [run, setRun] = useState(0)
+
+  // The preview's blocks read the site defaults the same way the app does, so
+  // the studio sets them before the preview renders (parents render before
+  // children) and remounts it when they change so the entrances replay. The
+  // platform defaults come back when the studio unmounts.
+  defineAnimation(theme.motion)
+  useEffect(() => () => void defineAnimation(baseAnimationDefaults), [])
+  const previewKey = `${JSON.stringify(theme.motion)}:${run}`
 
   const showcase = showcases.find((s) => s.slug === content) ?? (showcases[0] as (typeof showcases)[number])
 
@@ -174,13 +185,13 @@ export function ThemeStudio() {
             {tab === "colours" ? <ColoursPanel theme={theme} patch={patch} /> : null}
             {tab === "type" ? <TypePanel theme={theme} patch={patch} /> : null}
             {tab === "layout" ? <LayoutPanel theme={theme} patch={patch} /> : null}
-            {tab === "motion" ? <MotionPanel theme={theme} patch={patch} /> : null}
+            {tab === "motion" ? <MotionPanel theme={theme} patch={patch} replay={() => setRun((n) => n + 1)} /> : null}
             {tab === "export" ? <ExportPanel theme={theme} /> : null}
           </div>
         </aside>
 
         <Preview width={previewWidth} theme={theme}>
-          <PageTemplate page={showcase.page} settings={showcase.settings} />
+          <PageTemplate key={previewKey} page={showcase.page} settings={showcase.settings} />
         </Preview>
       </div>
     </div>
@@ -221,6 +232,11 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
     scheme: theme.scheme,
     brandShift: 0,
   })
+  // The generator applies as the sliders move; the token fields below fine-tune the result.
+  const generate = (next: PaletteOptions) => {
+    setGen(next)
+    patch({ scheme: next.scheme, colors: generatePalette(next) })
+  }
   return (
     <div className="flex flex-col gap-4">
       <section className="bg-fd-card flex flex-col gap-2 rounded-lg border p-3">
@@ -231,15 +247,21 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
             min={0}
             max={360}
             step={1}
-            onChange={(hue) => setGen({ ...gen, hue })}
+            onChange={(hue) => generate({ ...gen, hue })}
             className="hue-range w-full"
           />
         </Field>
         <Field label="Chroma" hint={gen.chroma.toFixed(2)}>
-          <Range value={gen.chroma} min={0} max={0.3} step={0.005} onChange={(chroma) => setGen({ ...gen, chroma })} />
+          <Range
+            value={gen.chroma}
+            min={0}
+            max={0.3}
+            step={0.005}
+            onChange={(chroma) => generate({ ...gen, chroma })}
+          />
         </Field>
         <Field label="Tinted neutrals" hint={gen.tint.toFixed(3)}>
-          <Range value={gen.tint} min={0} max={0.04} step={0.001} onChange={(tint) => setGen({ ...gen, tint })} />
+          <Range value={gen.tint} min={0} max={0.04} step={0.001} onChange={(tint) => generate({ ...gen, tint })} />
         </Field>
         <Field label="Brand hue shift" hint={`${gen.brandShift}°`}>
           <Range
@@ -247,26 +269,19 @@ function ColoursPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme
             min={-180}
             max={180}
             step={5}
-            onChange={(brandShift) => setGen({ ...gen, brandShift })}
+            onChange={(brandShift) => generate({ ...gen, brandShift })}
           />
         </Field>
-        <div className="flex items-center justify-between gap-2">
+        <Field label="Scheme">
           <Segmented
             value={gen.scheme}
-            onChange={(scheme) => setGen({ ...gen, scheme })}
+            onChange={(scheme) => generate({ ...gen, scheme })}
             options={[
               { value: "light", label: "Light" },
               { value: "dark", label: "Dark" },
             ]}
           />
-          <button
-            type="button"
-            onClick={() => patch({ scheme: gen.scheme, colors: generatePalette(gen) })}
-            className="bg-fd-primary text-fd-primary-foreground h-8 rounded-md px-3 text-sm"
-          >
-            Apply
-          </button>
-        </div>
+        </Field>
       </section>
 
       <Group title="Page">
@@ -456,11 +471,18 @@ const label = (s: string) => s.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c
 
 /**
  * The site-wide animation treatment, exported as the project's
- * animation.config.ts. It is a production-team decision made in code, so the
- * preview on the right does not replay it; the Animation docs page shows each
- * option live.
+ * animation.config.ts. The preview plays it: every change remounts the page so
+ * the entrances run again from the top.
  */
-function MotionPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>) => void }) {
+function MotionPanel({
+  theme,
+  patch,
+  replay,
+}: {
+  theme: Theme
+  patch: (p: Partial<Theme>) => void
+  replay: () => void
+}) {
   const m = theme.motion
   const set = (partial: Partial<AnimationDefaults>) => patch({ motion: { ...m, ...partial } })
   const custom = typeof m.ease !== "string"
@@ -480,8 +502,15 @@ function MotionPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>
     <div className="flex flex-col gap-4">
       <p className="text-fd-muted-foreground text-xs">
         Site defaults every block inherits. Developers set them in <code>animation.config.ts</code> (see Export);
-        editors can only override a block in the CMS. The preview does not replay them.
+        editors can only override a block in the CMS. The preview replays from the top on every change.
       </p>
+      <button
+        type="button"
+        onClick={replay}
+        className="bg-fd-primary text-fd-primary-foreground h-8 self-start rounded-md px-3 text-sm font-medium hover:opacity-90"
+      >
+        Replay
+      </button>
       <Group title="Entrance">
         <Field label="Preset">
           <Select
