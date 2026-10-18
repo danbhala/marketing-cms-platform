@@ -31,6 +31,8 @@ A `collection` block on any page lists articles. `components/collection-block.ts
 
 The demo site is a Vercel project with **Root Directory** `apps/web` and `CMS_PROVIDER=local`, so it needs no CMS account: https://marketing-cms-platform-demo.vercel.app. `vercel.json` skips builds when neither the app nor a workspace dependency changed (`turbo-ignore`). It sets `SITE_NOINDEX=true`, which makes `robots.txt` disallow everything and adds a `noindex` meta to every page; leave it unset on a real site.
 
+To try the same site on Storyblok, push the components to an empty space, then load the demo into it with `pnpm demo:storyblok` (needs `STORYBLOK_SPACE_ID` and `STORYBLOK_MANAGEMENT_TOKEN`). It uploads the photos, creates the Destinations and News folders and publishes every page, story and the site settings. Run it again to reset the content.
+
 ## Adding a CMS
 
 Add a `@platform/cms-<name>` package implementing `CmsAdapter`, then one line in `cms.config.ts`, one in `cms.bridges.ts` if it has a visual editor, and its editor origin in `lib/frame-ancestors.ts`.
