@@ -1,0 +1,12 @@
+{
+  "title": "Customising",
+  "pages": [
+    "index",
+    "editing-a-block",
+    "adding-a-field",
+    "variants-and-props",
+    "new-block",
+    "registry-and-wrapping",
+    "fork-or-extend"
+  ]
+}
