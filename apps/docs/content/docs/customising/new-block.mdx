@@ -34,7 +34,7 @@ export const locations = defineBlock("locations", {
   },
 })
 
-export const allBlocks = [hero, logoCloud, /* … */ form, locations] as const // [!code highlight]
+export const allBlocks = [hero, logoCloud, /* … */ collection, latestNews, locations] as const // [!code highlight]
 ```
 
 Adding the block to `allBlocks` puts it in `page.blocks` (the page document is `field.blocks(allBlocks)`), in the `Block` union, and in every generated schema. Items need adding to `allItems` in the same file family. Export the types:
@@ -46,7 +46,7 @@ export type LocationsBlock = InferContent<typeof defs.locations>
 export type Block =
   | HeroBlock
   // …
-  | FormBlock
+  | LatestNewsBlock
   | LocationsBlock // [!code ++]
 ```
 
@@ -91,7 +91,7 @@ Add it to `allBlockFixtures` and, if it belongs on a sample page, to a compositi
 <Step>
 ### Compose the component
 
-Build from the atoms (`Container`, `Grid`, `Stack`, `Heading`, `Text`, `Eyebrow`, `Image`, `Link`, `Button`, `Icon`) and molecules (`SectionHeader`, `ActionGroup`, `ContentCard`, …). The root is `BlockSection`; each editable field carries `fieldAttrs`; each item carries `editAttrs` and `key={item.id}`.
+Build from the atoms (`Container`, `Grid`, `Stack`, `Heading`, `Text`, `Eyebrow`, `Image`, `Link`, `Button`, `Icon`) and molecules (`SectionHeader`, `ActionGroup`, `ContentCard`, …). The root is `BlockSection`; the header and each item sit in a `BlockItem` so the shared animation fields work; each editable field carries `fieldAttrs`; each item carries `editAttrs` and `key={item.id}`.
 
 ```tsx title="packages/ui/src/blocks/locations.tsx"
 import type { Location, LocationsBlock } from "@platform/content-model"
@@ -104,7 +104,7 @@ import { Grid } from "../atoms/layout"
 import { Link } from "../atoms/link"
 import { Text } from "../atoms/text"
 import { SectionHeader } from "../molecules/section-header"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 export type LocationsProps = BlockComponentProps<LocationsBlock>
 
@@ -113,19 +113,20 @@ function Locations({ block, index, className, ...props }: LocationsProps) {
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container className="flex flex-col gap-(--block-header-gap)">
-        <SectionHeader
-          eyebrow={block.eyebrow}
-          title={block.title}
-          description={block.description}
-          as={index === 0 ? "h1" : "h2"}
-          source={block}
-        />
-        <Grid
-          columns={block.columns ?? "3"}
-          {...fieldAttrs(block, "locations")}
-        >
+        <BlockItem block={block}>
+          <SectionHeader
+            eyebrow={block.eyebrow}
+            title={block.title}
+            description={block.description}
+            as={index === 0 ? "h1" : "h2"}
+            source={block}
+          />
+        </BlockItem>
+        <Grid columns={block.columns ?? "3"} {...fieldAttrs(block, "locations")}>
           {block.locations.map((office) => (
-            <LocationCard key={office.id} item={office} />
+            <BlockItem key={office.id} block={block}>
+              <LocationCard item={office} />
+            </BlockItem>
           ))}
         </Grid>
       </Container>
@@ -140,32 +141,15 @@ function LocationCard({ item }: { item: Location }) {
       className="flex flex-col gap-3 rounded-xl border bg-card p-4 text-card-foreground"
       {...editAttrs(item)}
     >
-      {item.photo ? (
-        <Image
-          media={item.photo}
-          ratio="3/2"
-          radius="lg"
-          {...fieldAttrs(item, "photo")}
-        />
-      ) : null}
+      {item.photo ? <Image media={item.photo} ratio="3/2" radius="lg" {...fieldAttrs(item, "photo")} /> : null}
       <Heading as="h3" size="h5" {...fieldAttrs(item, "city")}>
         {item.city}
       </Heading>
-      <Text
-        size="sm"
-        tone="muted"
-        className="whitespace-pre-line"
-        {...fieldAttrs(item, "address")}
-      >
+      <Text size="sm" tone="muted" className="whitespace-pre-line" {...fieldAttrs(item, "address")}>
         {item.address}
       </Text>
       {item.mapHref ? (
-        <Link
-          href={item.mapHref}
-          variant="muted"
-          className="mt-auto"
-          {...fieldAttrs(item, "mapHref")}
-        >
+        <Link href={item.mapHref} variant="muted" className="mt-auto" {...fieldAttrs(item, "mapHref")}>
           Get directions
         </Link>
       ) : null}
@@ -235,6 +219,7 @@ Include one themed story: the tests run axe on each, so contrast problems on a `
 ```sh
 pnpm schema:generate
 pnpm --filter "@platform/cms-*" test -- -u   # refresh the schema count and snapshots, review the diff
+pnpm format
 pnpm lint && pnpm typecheck && pnpm test
 ```
 
@@ -243,9 +228,13 @@ The new content types appear in every `packages/cms-*/schema/` output. Applying 
 </Step>
 </Steps>
 
+## A block that lists documents
+
+A block whose content comes from a query rather than from its own fields (news, case studies, events) is the `collection` pattern: a routable document type, a `source` option on the `collection` and `latestNews` blocks, and `getCollection` in each adapter. The route binds those two blocks per request with the locale and URL, which is why they are rebound in the registry map rather than rendered straight from `blockComponents`. [Listing pages](/docs/listing-pages#adding-another-listable-type) has the steps.
+
 ## Blocks that need client-side code
 
-Blocks render as Server Components by default. If the new block needs state or effects (a carousel, a tabbed panel, a map), keep the block itself a Server Component and put the interactive part in a `"use client"` file, as `tabs.tsx` does: the block maps the content, and the `Tabs` primitive it renders from `packages/ui/src/primitives` carries the client boundary. Third-party embeds (maps, video players) are fine inside `packages/ui` as long as they are not a CMS SDK and do not import from `next/*`; put the API key in the app and pass it down through a wrapper in the registry.
+Blocks render as Server Components by default. If the new block needs state or effects (a carousel, a tabbed panel, a map), keep the block itself a Server Component and put the interactive part in a `"use client"` file, as `tabs.tsx` does: the block maps the content, and the `Tabs` primitive it renders from `packages/ui/src/primitives` carries the client boundary. Entrance animation comes free from `BlockSection` and `BlockItem`; for anything else that moves, use the `@platform/animation` primitives (`Reveal`, `CountUp`, `Marquee`, `ScrollEffect`) rather than importing Motion into the block, so Motion stays in one package. Third-party embeds (maps, video players) are fine inside `packages/ui` as long as they are not a CMS SDK and do not import from `next/*`; put the API key in the app and pass it down through a wrapper in the registry.
 
 ## A block without a CMS field set
 

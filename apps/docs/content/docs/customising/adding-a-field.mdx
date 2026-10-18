@@ -22,7 +22,7 @@ export const stats = defineBlock("stats", {
 })
 ```
 
-The builders are `field.text`, `textarea`, `textList`, `richText`, `number`, `boolean`, `link`, `icon`, `media`, `select` and `items`. Options are `required`, `label`, `description`, plus `maxLength` on text, `accept` on media, `defaultValue` on select and `min`/`max` on items. `description` becomes the help text editors see in each CMS. Keep `...presentation` last so every block keeps `theme`, `spacing` and `anchor`.
+The builders are `field.text`, `textarea`, `textList`, `richText`, `number`, `boolean`, `link`, `icon`, `media`, `date`, `select`, `items` and `reference` (a link to a document such as `category`, single or `multiple`, resolved inline by the adapters). Options are `required`, `label`, `description`, plus `maxLength` on text, `accept` on media, `defaultValue` on select and `min`/`max` on items. `description` becomes the help text editors see in each CMS. Keep `...presentation` last so every block keeps `theme`, `spacing`, `anchor` and the animation fields.
 
 A field on an **item** (a `stat`, an `action`, a `pricingPlan`) is the same edit in `definitions/items.ts`.
 
@@ -43,19 +43,25 @@ Media and rich text are the only fields with a shape of their own: `Media` is `{
 After the grid, add the small print:
 
 ```tsx title="packages/ui/src/blocks/stats.tsx"
-<Grid columns={columns} className={cn("divide-border", divide)} {...fieldAttrs(block, "stats")}>
+;<Grid columns={columns} className={cn("divide-border", divide)} {...fieldAttrs(block, "stats")}>
   {block.stats.map((stat) => (
-    <StatItem key={stat.id} item={stat} className="px-4" />
+    <BlockItem key={stat.id} block={block}>
+      <StatItem item={stat} className="px-4" />
+    </BlockItem>
   ))}
 </Grid>
-{block.source ? (
-  <Text size="xs" tone="muted" align="center" {...fieldAttrs(block, "source")}>
-    {block.source}
-  </Text>
-) : null}
+{
+  block.source ? (
+    <BlockItem block={block}>
+      <Text size="xs" tone="muted" align="center" {...fieldAttrs(block, "source")}>
+        {block.source}
+      </Text>
+    </BlockItem>
+  ) : null
+}
 ```
 
-Guard optional fields and spread `fieldAttrs(block, "source")` on the element that shows the value, so clicking it in the CMS preview opens that field. For a `media` field use the `Image` atom; for `richText` the `RichText` molecule; for `items` map over them with `key={item.id}`; for `select`, see [Variants and props](/docs/customising/variants-and-props).
+Guard optional fields, spread `fieldAttrs(block, "source")` on the element that shows the value so clicking it in the CMS preview opens that field, and wrap it in `BlockItem` so a staggered entrance animation includes it. For a `media` field use the `Image` atom; for `richText` the `RichText` molecule; for `items` map over them with `key={item.id}`; for `select`, see [Variants and props](/docs/customising/variants-and-props).
 
 </Step>
 
@@ -89,7 +95,7 @@ pnpm schema:generate
 
 Every `packages/cms-*/schema/` directory is rewritten from the definitions: the Contentful migration and content-types JSON, Storyblok components, Optimizely content-type definitions, Sanity schema types, the Drupal `platform_content` config module and the Wagtail Django app. Commit the output; the adapter tests assert it matches the source.
 
-Two tests pin the generated shape and need refreshing when definitions change: `packages/cms-contentful/src/schema.test.ts` counts the content types (`toHaveLength(37)` today, so a new block or item changes it) and the Contentful, Optimizely and Sanity suites hold snapshots. Run `pnpm --filter "@platform/cms-*" test -- -u` and review the diff.
+Some tests pin the generated shape and need refreshing when definitions change: `packages/cms-contentful/src/schema.test.ts` counts the content types (`toHaveLength(43)` today, so a new block, item or document changes it) and the Contentful, Optimizely and Sanity suites hold snapshots. Run `pnpm --filter "@platform/cms-*" test -- -u`, review the diff, then `pnpm format` (CI runs `format:check`).
 
 </Step>
 

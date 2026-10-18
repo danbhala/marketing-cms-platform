@@ -6,9 +6,7 @@ description: "Swap a block's implementation for one site, wrap a block to add pr
 The app does not import blocks. It renders pages through the component registry, which maps every block type to a component:
 
 ```ts title="packages/component-registry/src/index.ts"
-export function createRegistry(
-  overrides: Partial<BlockComponentMap> = {}
-): Registry {
+export function createRegistry(overrides: Partial<BlockComponentMap> = {}): Registry {
   const components: BlockComponentMap = { ...blockComponents, ...overrides }
   return {
     components,
@@ -21,17 +19,19 @@ export function createRegistry(
 export const registry: Registry = createRegistry()
 ```
 
+The route spreads that map and rebinds the two listing blocks, which need the request's locale and URL, before handing it to the template:
+
 ```tsx title="apps/web/app/[locale]/[[...slug]]/page.tsx"
-<PageTemplate
-  page={page}
-  settings={settings}
-  components={registry.components}
-  breadcrumbs={breadcrumbs}
-  siteUrl={siteConfig.siteUrl}
-/>
+const components = {
+  ...registry.components,
+  collection: createCollectionBlock({ locale, basePath, searchParams, draft: draftCtx }),
+  latestNews: createLatestNewsBlock({ locale, draft: draftCtx }),
+}
+
+<PageTemplate page={doc} settings={settings} components={components} breadcrumbs={breadcrumbs} siteUrl={siteConfig.siteUrl} />
 ```
 
-Because the seam is a plain object keyed by block type, three customisations need no change to `packages/ui`.
+That is already the pattern: the app customises the map and `packages/ui` stays generic. Because the seam is a plain object keyed by block type, three further customisations need no change to `packages/ui`.
 
 ## Override a block
 
@@ -50,10 +50,7 @@ export function BrandHero({ block, className, ...props }: HeroProps) {
         <Heading as="h1" size="display" {...fieldAttrs(block, "title")}>
           {block.title}
         </Heading>
-        <ActionGroup
-          actions={block.actions}
-          {...fieldAttrs(block, "actions")}
-        />
+        <ActionGroup actions={block.actions} {...fieldAttrs(block, "actions")} />
       </Container>
     </BlockSection>
   )
@@ -67,7 +64,7 @@ import { BrandHero } from "@/components/brand-hero"
 export const registry = createRegistry({ hero: BrandHero })
 ```
 
-Then import `registry` from `@/lib/registry` in the page route instead of from the package. `HeroProps` is `BlockComponentProps<HeroBlock>`, so the override is type-checked against the same content as the original.
+Then import `registry` from `@/lib/registry` in the page route instead of from the package; the per-request listing bindings spread on top as before. `HeroProps` is `BlockComponentProps<HeroBlock>`, so the override is type-checked against the same content as the original.
 
 Prefer editing the block in `packages/ui` when the change should apply everywhere (Storybook, the docs, the tests, every site built from this code). Use an override when one site diverges and the rest should not.
 
@@ -77,20 +74,13 @@ A wrapper keeps the stock component and adds something around it or to it. This 
 
 ```tsx title="apps/web/lib/registry.tsx"
 import { createRegistry } from "@platform/component-registry"
-import {
-  Stats,
-  type StatsProps,
-  Pricing,
-  type PricingProps,
-} from "@platform/ui/blocks"
+import { Stats, type StatsProps, Pricing, type PricingProps } from "@platform/ui/blocks"
 
 export const registry = createRegistry({
   // A prop the component exposes.
   stats: (props: StatsProps) => <Stats {...props} align="start" />,
   // Anything a <section> accepts falls through BlockSection: analytics hooks, ids, classes.
-  pricing: (props: PricingProps) => (
-    <Pricing {...props} data-track="pricing-table" className="scroll-mt-24" />
-  ),
+  pricing: (props: PricingProps) => <Pricing {...props} data-track="pricing-table" className="scroll-mt-24" />,
 })
 ```
 
@@ -109,10 +99,12 @@ export interface PageTemplateProps extends React.ComponentProps<"div"> {
   siteUrl?: string
   /** Slot rendered before the blocks, e.g. a preview banner in draft mode. */
   before?: React.ReactNode
+  /** Content rendered inside `<main>` above the blocks (an article's header and body). */
+  children?: React.ReactNode
 }
 ```
 
-- `before` renders between the header and the first block: a preview banner, a cookie notice, a hard-coded section the CMS should not control.
+- `before` renders between the header and the first block: a preview banner, a cookie notice, a hard-coded section the CMS should not control. `children` renders inside `<main>` above the blocks; `ArticleTemplate` uses it for the article header and body, and a bespoke document type can do the same.
 - `components` is the registry map, so a route can pass a different one (a campaign route with its own hero).
 - For a page layout the template does not cover, compose `AnnouncementBar`, `SiteHeader`, `BlockList` and `SiteFooter` yourself; they are exported from `@platform/ui/templates` and `BlockList` takes the same `components` map.
 - Hand-built pages (a 404, an app page outside the CMS) can use any block directly with a literal `block` object, or the block's parts: `SectionHeader`, `ActionGroup`, `PriceCard`, `Quote` and the other molecules are exported for that reason.

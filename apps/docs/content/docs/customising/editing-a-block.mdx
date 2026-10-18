@@ -14,35 +14,35 @@ import { Grid } from "../atoms/layout"
 import { SectionHeader } from "../molecules/section-header"
 import { StatItem } from "../molecules/stat-item"
 import { cn } from "../lib/utils"
-import { BlockSection, type BlockComponentProps } from "./block-section"
+import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 export type StatsProps = BlockComponentProps<StatsBlock>
 
 function Stats({ block, index, className, ...props }: StatsProps) {
   const columns = block.columns ?? "4"
   const divide =
-    columns === "2"
-      ? "section-sm:divide-x"
-      : columns === "3"
-        ? "section-md:divide-x"
-        : "section-lg:divide-x"
+    columns === "2" ? "section-sm:divide-x" : columns === "3" ? "section-md:divide-x" : "section-lg:divide-x"
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container className="flex flex-col gap-(--block-header-gap)">
-        <SectionHeader
-          eyebrow={block.eyebrow}
-          title={block.title}
-          description={block.description}
-          as={index === 0 ? "h1" : "h2"}
-          source={block}
-        />
-        <Grid
-          columns={columns}
-          className={cn("divide-border", divide)}
-          {...fieldAttrs(block, "stats")}
-        >
+        <BlockItem block={block}>
+          <SectionHeader
+            eyebrow={block.eyebrow}
+            title={block.title}
+            description={block.description}
+            as={index === 0 ? "h1" : "h2"}
+            source={block}
+          />
+        </BlockItem>
+        <Grid columns={columns} className={cn("divide-border", divide)} {...fieldAttrs(block, "stats")}>
           {block.stats.map((stat) => (
-            <StatItem key={stat.id} item={stat} className="px-4" />
+            <BlockItem key={stat.id} block={block}>
+              <StatItem
+                item={stat}
+                countUp={block.countUp ? { duration: block.animationDuration, delay: block.animationDelay } : null}
+                className="px-4"
+              />
+            </BlockItem>
           ))}
         </Grid>
       </Container>
@@ -67,6 +67,7 @@ export { Stats }
 | `BlockSection` as the root, with `block={block}` and `{...props}` spread onto it                  | It applies `theme`, `spacing` and `anchor`, stamps `data-block`, and spreads the block's edit attributes so editors can select the whole section. Spreading `props` is what lets a wrapper pass `className` or `data-*` through. |
 | `fieldAttrs(block, "<field>")` on the element that renders each field                             | Click-to-edit in Contentful, Storyblok, Optimizely, Sanity, Drupal and Wagtail all key off these attributes. They are `{}` outside draft mode, so they cost nothing in production.                                               |
 | `key={item.id}` and `editAttrs(item)` on repeated items                                           | Same reason, one level down. The molecules already do this.                                                                                                                                                                      |
+| `BlockItem` around the header and each item                                                       | It is what the `animationStagger` field reveals one by one. With stagger off it renders no extra markup, so it costs nothing to keep.                                                                                            |
 | `as={index === 0 ? "h1" : "h2"}` on the title                                                     | Every page gets exactly one `h1`.                                                                                                                                                                                                |
 | Imports limited to `@platform/content-model`, `@platform/cms-core/edit` and the UI package itself | `pnpm lint` fails on CMS SDK imports in `packages/ui`; Next imports would break Storybook and the tests. Use the `Link` and `Image` atoms.                                                                                       |
 
@@ -76,4 +77,4 @@ The block's story in `stats.stories.tsx` renders it with the shared fixture, and
 
 ## Removing a block
 
-Teams rarely need all seventeen. Delete the block from `allBlocks` in `content-model/src/definitions/blocks.ts`, from `blockComponents` in `ui/src/blocks/index.ts`, from `allBlockFixtures` and from `types.ts`, then run `pnpm schema:generate`. TypeScript points at each remaining reference. `BlockList` skips block types it has no component for, but adapters differ on entries of a type that is no longer in the model: Contentful warns and skips, Optimizely throws. Remove or migrate the content in the CMS as part of the same change.
+Teams rarely need all twenty. Delete the block from `allBlocks` in `content-model/src/definitions/blocks.ts`, from `blockComponents` in `ui/src/blocks/index.ts`, from `allBlockFixtures` and from `types.ts`, then run `pnpm schema:generate`. TypeScript points at each remaining reference. `BlockList` skips block types it has no component for, but adapters differ on entries of a type that is no longer in the model: Contentful warns and skips, Optimizely throws. Remove or migrate the content in the CMS as part of the same change.

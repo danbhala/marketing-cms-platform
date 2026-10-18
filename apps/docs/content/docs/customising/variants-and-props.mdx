@@ -15,8 +15,7 @@ const heroLayout = cva("grid items-center gap-10 section-lg:gap-16", {
     layout: {
       centered: "grid-cols-1 justify-items-center text-center",
       split: "grid-cols-1 section-lg:grid-cols-2",
-      splitReverse:
-        "grid-cols-1 section-lg:grid-cols-2 section-lg:[&>*:first-child]:order-2",
+      splitReverse: "grid-cols-1 section-lg:grid-cols-2 section-lg:[&>*:first-child]:order-2",
       background: "grid-cols-1 justify-items-center text-center",
     },
   },
@@ -69,17 +68,14 @@ The story is the test (`pnpm test` renders it with axe) and the screenshot for t
 </Step>
 </Steps>
 
-The same applies to style options: `featureGrid.itemStyle` (`plain` / `card`), `logoCloud.grayscale` (a `boolean`) and `stats.columns` are all CMS fields read by the component. The `Grid` atom already has column variants `1` to `6`, so letting editors pick five columns on the Stats block is the select option plus one branch of the `divide` expression.
+The same applies to style options: `featureGrid.itemStyle` (`plain` / `card`), `logoCloud.grayscale` (a `boolean`), `stats.columns` and `stats.countUp` are all CMS fields read by the component, and the shared `animation`, `headingAnimation` and `animationStagger` fields in `presentation` work the same way for every block (see [Animation](/docs/animation)). The `Grid` atom already has column variants `1` to `6`, so letting editors pick five columns on the Stats block is the select option plus one branch of the `divide` expression.
 
 ## Adding a prop
 
 Blocks accept every `<section>` attribute as well as `block` and `index`:
 
 ```ts title="packages/ui/src/blocks/block-section.tsx"
-export interface BlockComponentProps<B> extends Omit<
-  React.ComponentProps<"section">,
-  "children"
-> {
+export interface BlockComponentProps<B> extends Omit<React.ComponentProps<"section">, "children"> {
   block: B
   index?: number
 }
@@ -98,7 +94,7 @@ function Stats({ block, index, align = "center", className, ...props }: StatsPro
   <StatItem key={stat.id} item={stat} align={align} className="px-4" />
 ```
 
-The page renderer only passes `block` and `index`, so a prop needs somewhere to be set. That is the registry: wrap the block with the prop applied and register the wrapper, as [Registry and wrapping](/docs/customising/registry-and-wrapping) shows. Molecules take props the same way; `StatItem` already has `align`, and `ActionGroup` has `size`, `align` and `stackOnMobile`.
+The page renderer only passes `block` and `index`, so a prop needs somewhere to be set. That is the registry: wrap the block with the prop applied and register the wrapper, as [Registry and wrapping](/docs/customising/registry-and-wrapping) shows. Molecules take props the same way; `StatItem` already has `align` and `countUp`, and `ActionGroup` has `size`, `align` and `stackOnMobile`.
 
 ## Which one?
 
