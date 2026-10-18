@@ -1,5 +1,3 @@
-import type { AnyContentType, ContentType } from "@optimizely/cms-sdk"
-import { contentType } from "@optimizely/cms-sdk"
 import type { AnyDefinition, Field } from "@platform/content-model"
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
@@ -15,8 +13,9 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
  * nested items their own key for click-to-edit.
  *
  * The same description feeds three consumers: the runtime registry the SDK
- * needs to build Graph queries, the `schema/content-types.ts` module the
- * Optimizely CLI pushes, and `schema/content-types.json`.
+ * needs to build Graph queries (`registry.ts`), the `schema/content-types.ts`
+ * module the Optimizely CLI pushes, and `schema/content-types.json`. This
+ * module has no SDK import so the docs can run it in the browser.
  */
 
 /** A serialisable content type: like the SDK's but with type keys as strings. */
@@ -183,43 +182,6 @@ export function describeAllContentTypes(): ContentTypeDescription[] {
   }
   for (const key of descriptions.keys()) visit(key, [])
   return ordered
-}
-
-/**
- * The content types as SDK objects, with `allowedTypes` resolved to object
- * references the way the SDK's query builder expects. Pass the result to
- * `initContentTypeRegistry`.
- */
-export function buildContentTypes(): ContentType<AnyContentType>[] {
-  const built = new Map<string, ContentType<AnyContentType>>()
-  for (const description of describeAllContentTypes()) {
-    const properties: Record<string, unknown> = {}
-    for (const [name, property] of Object.entries(description.properties)) {
-      const items = property.items as { type: string; allowedTypes?: string[] } | undefined
-      properties[name] =
-        items?.allowedTypes && items.type === "content"
-          ? {
-              ...property,
-              items: {
-                ...items,
-                allowedTypes: items.allowedTypes.map((key) => {
-                  const ref = built.get(key)
-                  if (!ref) throw new Error(`Content type "${key}" referenced before it was built`)
-                  return ref
-                }),
-              },
-            }
-          : property
-    }
-    const type = contentType({
-      key: description.key,
-      displayName: description.displayName,
-      baseType: description.baseType,
-      properties,
-    } as AnyContentType)
-    built.set(description.key, type)
-  }
-  return [...built.values()]
 }
 
 export { renderContentTypesModule, renderContentTypesJson, renderBuildConfig } from "./render"

@@ -119,7 +119,8 @@ export function humanize(name: string): string {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1).toLowerCase()
 }
 
-interface Resolved {
+/** Field naming resolved over one set of definitions (see `namingFor`). */
+export interface DrupalNaming {
   /** `${definition.type}.${fieldName}` → Drupal field machine name. */
   names: Map<string, string>
   /** `${entityType}.${machineName}` → the storage every instance shares. */
@@ -128,7 +129,7 @@ interface Resolved {
 
 const plainText = new Set(["text", "textarea", "icon"])
 
-function resolve(): Resolved {
+function resolve(definitions: readonly AnyDefinition[]): DrupalNaming {
   const names = new Map<string, string>()
   const storages = new Map<string, FieldStorage>()
   const groups = new Map<string, { definition: AnyDefinition; field: Field; name: string }[]>()
@@ -191,20 +192,30 @@ function assertLength(machine: string, uses: { definition: AnyDefinition; name: 
   return machine
 }
 
-const resolved = resolve()
+const resolved = resolve(definitions)
+
+/**
+ * Naming for the model plus extra definitions that are not (yet) part of it,
+ * e.g. a block someone is designing in the docs' schema studio. Names are
+ * resolved against the whole model, so a new `layout` select still becomes
+ * `field_<type>_layout` when the built-in blocks disagree on its options.
+ */
+export function namingFor(extra: readonly AnyDefinition[]): DrupalNaming {
+  return extra.length ? resolve([...definitions, ...extra]) : resolved
+}
 
 /** Drupal machine name for one model field, e.g. (`hero`, `layout`) → `field_hero_layout`. */
-export function fieldNameFor(definition: AnyDefinition, name: string): string {
+export function fieldNameFor(definition: AnyDefinition, name: string, naming: DrupalNaming = resolved): string {
   const base = baseFields[definition.type]?.[name]
   if (base) return base
-  const machine = resolved.names.get(`${definition.type}.${name}`)
+  const machine = naming.names.get(`${definition.type}.${name}`)
   if (!machine) throw new Error(`No Drupal field for ${definition.type}.${name}`)
   return machine
 }
 
 /** Every shared field storage, keyed `${entityType}.${machineName}`. */
-export function fieldStorages(): Map<string, FieldStorage> {
-  return resolved.storages
+export function fieldStorages(naming: DrupalNaming = resolved): Map<string, FieldStorage> {
+  return naming.storages
 }
 
 /**

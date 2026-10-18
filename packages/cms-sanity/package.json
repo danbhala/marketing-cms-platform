@@ -6,7 +6,8 @@
   "description": "Sanity schema generator, adapter and visual-editing bridge.",
   "exports": {
     ".": "./src/index.ts",
-    "./bridge": "./src/bridge.tsx"
+    "./bridge": "./src/bridge.tsx",
+    "./schema": "./src/schema/index.ts"
   },
   "scripts": {
     "lint": "eslint .",

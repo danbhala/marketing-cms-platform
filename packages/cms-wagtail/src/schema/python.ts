@@ -53,6 +53,11 @@ function structBlock(type: WagtailTypeSchema): string {
   return `${lines.join("\n")}\n`
 }
 
+/** Only the StructBlock classes for the given types, in the order given; what the docs' schema studio shows for a block someone is designing. */
+export function renderStructBlocks(types: readonly WagtailTypeSchema[]): string {
+  return types.map(structBlock).join("\n\n")
+}
+
 export function renderBlocksPy(schema: WagtailSchema): string {
   const streamChildren = blocks(schema)
   const parts: string[] = [

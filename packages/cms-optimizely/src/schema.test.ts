@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest"
 
 import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
-import { buildContentTypes, contentTypeKey, definitionForTypename, describeAllContentTypes, describeContentType } from "./schema"
+import { contentTypeKey, definitionForTypename, describeAllContentTypes, describeContentType } from "./schema"
+import { buildContentTypes } from "./schema/registry"
 import { renderContentTypesJson, renderContentTypesModule } from "./schema/render"
 
 describe("schema generator", () => {

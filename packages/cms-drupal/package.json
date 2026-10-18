@@ -6,7 +6,8 @@
   "description": "Drupal adapter (JSON:API + Paragraphs + the next module) built on next-drupal: config generator, transform, preview bridge and revalidation.",
   "exports": {
     ".": "./src/index.ts",
-    "./bridge": "./src/bridge.tsx"
+    "./bridge": "./src/bridge.tsx",
+    "./schema": "./src/schema/index.ts"
   },
   "scripts": {
     "lint": "eslint .",
