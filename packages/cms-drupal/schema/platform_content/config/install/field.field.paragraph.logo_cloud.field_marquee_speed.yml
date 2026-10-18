@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_marquee_speed
+    - paragraphs.paragraphs_type.logo_cloud
+  module:
+    - options
+id: paragraph.logo_cloud.field_marquee_speed
+field_name: field_marquee_speed
+entity_type: paragraph
+bundle: logo_cloud
+label: Marquee speed
+description: Only used by the marquee layout.
+required: false
+translatable: true
+default_value:
+  - value: normal
+default_value_callback: ''
+settings: {  }
+field_type: list_string

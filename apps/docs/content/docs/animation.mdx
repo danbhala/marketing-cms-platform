@@ -37,6 +37,23 @@ The heading element keeps the full title in `aria-label` and the pieces are `ari
 
 Like `theme`, the fields come from the shared `presentation` set in the content model, so they appear on every block in every CMS after `pnpm schema:generate`, and `BlockReference` lists them on each [block page](/docs/blocks).
 
+## Motion+ effects, done thin
+
+[Motion+](https://motion.dev/plus) is a paid, token-gated package, which does not fit a library whose code is copied into each client's project. The effects it sells that marketing sites actually use are small layers over primitives in the open-source `motion` package, so they live in `@platform/animation` next to the heading effects and switch on from block fields:
+
+| Field | On | Motion+ equivalent | How it is built |
+| --- | --- | --- | --- |
+| `countUp` | Stats, Pricing | `AnimateNumber` | `animate(0, n)` with `Intl.NumberFormat`, keeping the text around the number ("$", "%", "+"). Starts when the block is in view; the server renders the final value. |
+| `layout: marquee` + `marqueeSpeed` | Logo cloud, Testimonials | `Ticker` | Two copies of the items on a motion value that wraps after one copy's width. Pauses on hover and focus, has a pause button, and renders a static row for reduced motion. |
+| `scrollEffect` | Hero, Media | Motion UI's parallax and zoom heroes | `useScroll` progress through the viewport mapped to `y`, `scale` or `opacity` with `useTransform`. |
+| `layout: carousel` | Testimonials | `Carousel` | CSS scroll snap does the sliding and swiping; script adds buttons, dots and the active slide. No infinite loop. |
+| `magnetic` on an action | Any CTA | `Cursor` (magnetic snap) | Pointer offset into a spring. Mouse only; touch, keyboard and reduced motion get a still button. |
+| [Gallery block](/docs/blocks/gallery) | | `Gallery`, Motion UI gallery sections | Tile layouts, a stage with crossfade (`AnimatePresence`), a scroll-driven strip, and a lightbox that morphs from the tile (`layoutId`). |
+
+Every one of these keeps the page readable without JavaScript, respects `prefers-reduced-motion`, and has a keyboard path: the marquee and stage can be paused, scroll regions are focusable, and the strip scrolls the page to any tile that takes focus.
+
+<StorybookEmbed story="blocks-stats--count-up" height={420} />
+
 ## How it works
 
 - **One package.** `@platform/animation` (`packages/animation`) holds the presets, `Reveal`, `RevealItem` and `SplitText`, and is the only package that imports [Motion](https://motion.dev) (`motion/react`, the library formerly known as Framer Motion), in its small build: `m` components plus the `domAnimation` feature bundle, no gestures, drag or layout animation. Copy or replace that package and the rest of the system is untouched.

@@ -10,6 +10,7 @@ export const action = defineItem("action", {
     href: field.link({ required: true }),
     variant: field.select(buttonVariants, { defaultValue: "default" }),
     icon: field.icon(),
+    magnetic: field.boolean({ description: "Pull the button towards the pointer on hover (mouse only)." }),
   },
 });
 
@@ -101,6 +102,14 @@ export const card = defineItem("card", {
     meta: field.text({ description: "e.g. date or reading time" }),
     image: field.media(),
     href: field.link(),
+  },
+});
+
+export const galleryItem = defineItem("galleryItem", {
+  label: "Gallery item",
+  fields: {
+    media: field.media({ required: true, accept: "any" }),
+    caption: field.text(),
   },
 });
 
@@ -201,6 +210,7 @@ export const allItems = [
   comparisonRow,
   faqItem,
   card,
+  galleryItem,
   person,
   step,
   tab,

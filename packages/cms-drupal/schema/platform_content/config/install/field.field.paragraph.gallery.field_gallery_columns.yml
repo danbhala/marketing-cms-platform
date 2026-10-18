@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_gallery_columns
+    - paragraphs.paragraphs_type.gallery
+  module:
+    - options
+id: paragraph.gallery.field_gallery_columns
+field_name: field_gallery_columns
+entity_type: paragraph
+bundle: gallery
+label: Columns
+description: ''
+required: false
+translatable: true
+default_value:
+  - value: '3'
+default_value_callback: ''
+settings: {  }
+field_type: list_string

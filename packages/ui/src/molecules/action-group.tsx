@@ -39,6 +39,7 @@ function ActionGroup({ actions, size = "lg", align = "start", stackOnMobile, cla
           href={action.href}
           size={size}
           variant={action.variant ?? (index === 0 ? "default" : "outline")}
+          magnetic={action.magnetic ?? false}
           {...editAttrs(action)}
         >
           {action.icon ? <Icon name={action.icon} data-icon="inline-start" /> : null}

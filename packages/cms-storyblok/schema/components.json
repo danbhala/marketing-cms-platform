@@ -111,6 +111,7 @@
             "tabs",
             "richText",
             "media",
+            "gallery",
             "form"
           ]
         }
@@ -273,9 +274,34 @@
           ],
           "default_value": "centered"
         },
-        "theme": {
+        "scrollEffect": {
           "type": "option",
           "pos": 6,
+          "display_name": "Scroll effect",
+          "description": "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Parallax",
+              "value": "parallax"
+            },
+            {
+              "name": "Zoom",
+              "value": "zoom"
+            },
+            {
+              "name": "Fade",
+              "value": "fade"
+            }
+          ],
+          "default_value": "none"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 7,
           "display_name": "Theme",
           "description": "Applies a theme class to this block only.",
           "options": [
@@ -319,7 +345,7 @@
         },
         "spacing": {
           "type": "option",
-          "pos": 7,
+          "pos": 8,
           "display_name": "Spacing",
           "options": [
             {
@@ -343,13 +369,13 @@
         },
         "anchor": {
           "type": "text",
-          "pos": 8,
+          "pos": 9,
           "display_name": "Anchor",
           "description": "Optional id for in-page links, e.g. 'pricing'."
         },
         "animation": {
           "type": "option",
-          "pos": 9,
+          "pos": 10,
           "display_name": "Animation",
           "description": "Entrance animation played once when the block scrolls into view.",
           "options": [
@@ -386,13 +412,13 @@
         },
         "animationStagger": {
           "type": "boolean",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
         "headingAnimation": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
@@ -425,7 +451,7 @@
         },
         "animationDuration": {
           "type": "option",
-          "pos": 12,
+          "pos": 13,
           "display_name": "Animation duration",
           "options": [
             {
@@ -445,7 +471,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 13,
+          "pos": 14,
           "display_name": "Animation delay",
           "options": [
             {
@@ -504,18 +530,43 @@
             {
               "name": "Grid",
               "value": "grid"
+            },
+            {
+              "name": "Marquee",
+              "value": "marquee"
             }
           ],
           "default_value": "row"
         },
+        "marqueeSpeed": {
+          "type": "option",
+          "pos": 3,
+          "display_name": "Marquee speed",
+          "description": "Only used by the marquee layout.",
+          "options": [
+            {
+              "name": "Slow",
+              "value": "slow"
+            },
+            {
+              "name": "Normal",
+              "value": "normal"
+            },
+            {
+              "name": "Fast",
+              "value": "fast"
+            }
+          ],
+          "default_value": "normal"
+        },
         "grayscale": {
           "type": "boolean",
-          "pos": 3,
+          "pos": 4,
           "display_name": "Grayscale"
         },
         "theme": {
           "type": "option",
-          "pos": 4,
+          "pos": 5,
           "display_name": "Theme",
           "description": "Applies a theme class to this block only.",
           "options": [
@@ -559,7 +610,7 @@
         },
         "spacing": {
           "type": "option",
-          "pos": 5,
+          "pos": 6,
           "display_name": "Spacing",
           "options": [
             {
@@ -583,13 +634,13 @@
         },
         "anchor": {
           "type": "text",
-          "pos": 6,
+          "pos": 7,
           "display_name": "Anchor",
           "description": "Optional id for in-page links, e.g. 'pricing'."
         },
         "animation": {
           "type": "option",
-          "pos": 7,
+          "pos": 8,
           "display_name": "Animation",
           "description": "Entrance animation played once when the block scrolls into view.",
           "options": [
@@ -626,13 +677,13 @@
         },
         "animationStagger": {
           "type": "boolean",
-          "pos": 8,
+          "pos": 9,
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
         "headingAnimation": {
           "type": "option",
-          "pos": 9,
+          "pos": 10,
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
@@ -665,7 +716,7 @@
         },
         "animationDuration": {
           "type": "option",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -685,7 +736,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -1293,9 +1344,15 @@
           ],
           "default_value": "3"
         },
+        "countUp": {
+          "type": "boolean",
+          "pos": 5,
+          "display_name": "Count up",
+          "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
+        },
         "theme": {
           "type": "option",
-          "pos": 5,
+          "pos": 6,
           "display_name": "Theme",
           "description": "Applies a theme class to this block only.",
           "options": [
@@ -1339,7 +1396,7 @@
         },
         "spacing": {
           "type": "option",
-          "pos": 6,
+          "pos": 7,
           "display_name": "Spacing",
           "options": [
             {
@@ -1363,13 +1420,13 @@
         },
         "anchor": {
           "type": "text",
-          "pos": 7,
+          "pos": 8,
           "display_name": "Anchor",
           "description": "Optional id for in-page links, e.g. 'pricing'."
         },
         "animation": {
           "type": "option",
-          "pos": 8,
+          "pos": 9,
           "display_name": "Animation",
           "description": "Entrance animation played once when the block scrolls into view.",
           "options": [
@@ -1406,13 +1463,13 @@
         },
         "animationStagger": {
           "type": "boolean",
-          "pos": 9,
+          "pos": 10,
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
         "headingAnimation": {
           "type": "option",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
@@ -1445,7 +1502,7 @@
         },
         "animationDuration": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation duration",
           "options": [
             {
@@ -1465,7 +1522,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 12,
+          "pos": 13,
           "display_name": "Animation delay",
           "options": [
             {
@@ -1534,9 +1591,274 @@
             {
               "name": "Featured",
               "value": "featured"
+            },
+            {
+              "name": "Carousel",
+              "value": "carousel"
+            },
+            {
+              "name": "Marquee",
+              "value": "marquee"
             }
           ],
           "default_value": "grid"
+        },
+        "marqueeSpeed": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Marquee speed",
+          "description": "Only used by the marquee layout.",
+          "options": [
+            {
+              "name": "Slow",
+              "value": "slow"
+            },
+            {
+              "name": "Normal",
+              "value": "normal"
+            },
+            {
+              "name": "Fast",
+              "value": "fast"
+            }
+          ],
+          "default_value": "normal"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 7,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        },
+        "animation": {
+          "type": "option",
+          "pos": 9,
+          "display_name": "Animation",
+          "description": "Entrance animation played once when the block scrolls into view.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Fade up",
+              "value": "fadeUp"
+            },
+            {
+              "name": "Fade in",
+              "value": "fadeIn"
+            },
+            {
+              "name": "Scale in",
+              "value": "scaleIn"
+            },
+            {
+              "name": "Slide from left",
+              "value": "slideFromLeft"
+            },
+            {
+              "name": "Slide from right",
+              "value": "slideFromRight"
+            },
+            {
+              "name": "Blur in",
+              "value": "blurIn"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationStagger": {
+          "type": "boolean",
+          "pos": 10,
+          "display_name": "Stagger items",
+          "description": "Reveal the block's items one after another instead of all at once."
+        },
+        "headingAnimation": {
+          "type": "option",
+          "pos": 11,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 12,
+          "display_name": "Animation duration",
+          "options": [
+            {
+              "name": "Fast",
+              "value": "fast"
+            },
+            {
+              "name": "Normal",
+              "value": "normal"
+            },
+            {
+              "name": "Slow",
+              "value": "slow"
+            }
+          ],
+          "default_value": "normal"
+        },
+        "animationDelay": {
+          "type": "option",
+          "pos": 13,
+          "display_name": "Animation delay",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Short",
+              "value": "short"
+            },
+            {
+              "name": "Medium",
+              "value": "medium"
+            },
+            {
+              "name": "Long",
+              "value": "long"
+            }
+          ],
+          "default_value": "none"
+        }
+      }
+    },
+    {
+      "name": "pricing",
+      "display_name": "Pricing table",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "plans": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Plans",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "pricingPlan"
+          ],
+          "maximum": 4
+        },
+        "countUp": {
+          "type": "boolean",
+          "pos": 4,
+          "display_name": "Count up",
+          "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
         },
         "theme": {
           "type": "option",
@@ -1711,236 +2033,6 @@
         "animationDelay": {
           "type": "option",
           "pos": 12,
-          "display_name": "Animation delay",
-          "options": [
-            {
-              "name": "None",
-              "value": "none"
-            },
-            {
-              "name": "Short",
-              "value": "short"
-            },
-            {
-              "name": "Medium",
-              "value": "medium"
-            },
-            {
-              "name": "Long",
-              "value": "long"
-            }
-          ],
-          "default_value": "none"
-        }
-      }
-    },
-    {
-      "name": "pricing",
-      "display_name": "Pricing table",
-      "is_root": false,
-      "is_nestable": true,
-      "preview_field": "title",
-      "schema": {
-        "eyebrow": {
-          "type": "text",
-          "pos": 0,
-          "display_name": "Eyebrow"
-        },
-        "title": {
-          "type": "text",
-          "pos": 1,
-          "display_name": "Title"
-        },
-        "description": {
-          "type": "textarea",
-          "pos": 2,
-          "display_name": "Description"
-        },
-        "plans": {
-          "type": "bloks",
-          "pos": 3,
-          "display_name": "Plans",
-          "required": true,
-          "restrict_type": "",
-          "restrict_components": true,
-          "component_whitelist": [
-            "pricingPlan"
-          ],
-          "maximum": 4
-        },
-        "theme": {
-          "type": "option",
-          "pos": 4,
-          "display_name": "Theme",
-          "description": "Applies a theme class to this block only.",
-          "options": [
-            {
-              "name": "Light",
-              "value": "light"
-            },
-            {
-              "name": "Dark",
-              "value": "dark"
-            },
-            {
-              "name": "Brand",
-              "value": "brand"
-            },
-            {
-              "name": "Muted",
-              "value": "muted"
-            },
-            {
-              "name": "Blue",
-              "value": "blue"
-            },
-            {
-              "name": "Green",
-              "value": "green"
-            },
-            {
-              "name": "Orange",
-              "value": "orange"
-            },
-            {
-              "name": "Rose",
-              "value": "rose"
-            },
-            {
-              "name": "Violet",
-              "value": "violet"
-            }
-          ]
-        },
-        "spacing": {
-          "type": "option",
-          "pos": 5,
-          "display_name": "Spacing",
-          "options": [
-            {
-              "name": "None",
-              "value": "none"
-            },
-            {
-              "name": "Sm",
-              "value": "sm"
-            },
-            {
-              "name": "Md",
-              "value": "md"
-            },
-            {
-              "name": "Lg",
-              "value": "lg"
-            }
-          ],
-          "default_value": "md"
-        },
-        "anchor": {
-          "type": "text",
-          "pos": 6,
-          "display_name": "Anchor",
-          "description": "Optional id for in-page links, e.g. 'pricing'."
-        },
-        "animation": {
-          "type": "option",
-          "pos": 7,
-          "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
-          "options": [
-            {
-              "name": "None",
-              "value": "none"
-            },
-            {
-              "name": "Fade up",
-              "value": "fadeUp"
-            },
-            {
-              "name": "Fade in",
-              "value": "fadeIn"
-            },
-            {
-              "name": "Scale in",
-              "value": "scaleIn"
-            },
-            {
-              "name": "Slide from left",
-              "value": "slideFromLeft"
-            },
-            {
-              "name": "Slide from right",
-              "value": "slideFromRight"
-            },
-            {
-              "name": "Blur in",
-              "value": "blurIn"
-            }
-          ],
-          "default_value": "none"
-        },
-        "animationStagger": {
-          "type": "boolean",
-          "pos": 8,
-          "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
-        },
-        "headingAnimation": {
-          "type": "option",
-          "pos": 9,
-          "display_name": "Heading animation",
-          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
-          "options": [
-            {
-              "name": "None",
-              "value": "none"
-            },
-            {
-              "name": "Words",
-              "value": "words"
-            },
-            {
-              "name": "Characters",
-              "value": "characters"
-            },
-            {
-              "name": "Lines",
-              "value": "lines"
-            },
-            {
-              "name": "Typewriter",
-              "value": "typewriter"
-            },
-            {
-              "name": "Scramble",
-              "value": "scramble"
-            }
-          ],
-          "default_value": "none"
-        },
-        "animationDuration": {
-          "type": "option",
-          "pos": 10,
-          "display_name": "Animation duration",
-          "options": [
-            {
-              "name": "Fast",
-              "value": "fast"
-            },
-            {
-              "name": "Normal",
-              "value": "normal"
-            },
-            {
-              "name": "Slow",
-              "value": "slow"
-            }
-          ],
-          "default_value": "normal"
-        },
-        "animationDelay": {
-          "type": "option",
-          "pos": 11,
           "display_name": "Animation delay",
           "options": [
             {
@@ -3937,9 +4029,34 @@
           ],
           "default_value": "contained"
         },
-        "theme": {
+        "scrollEffect": {
           "type": "option",
           "pos": 3,
+          "display_name": "Scroll effect",
+          "description": "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Parallax",
+              "value": "parallax"
+            },
+            {
+              "name": "Zoom",
+              "value": "zoom"
+            },
+            {
+              "name": "Fade",
+              "value": "fade"
+            }
+          ],
+          "default_value": "none"
+        },
+        "theme": {
+          "type": "option",
+          "pos": 4,
           "display_name": "Theme",
           "description": "Applies a theme class to this block only.",
           "options": [
@@ -3983,7 +4100,7 @@
         },
         "spacing": {
           "type": "option",
-          "pos": 4,
+          "pos": 5,
           "display_name": "Spacing",
           "options": [
             {
@@ -4007,13 +4124,13 @@
         },
         "anchor": {
           "type": "text",
-          "pos": 5,
+          "pos": 6,
           "display_name": "Anchor",
           "description": "Optional id for in-page links, e.g. 'pricing'."
         },
         "animation": {
           "type": "option",
-          "pos": 6,
+          "pos": 7,
           "display_name": "Animation",
           "description": "Entrance animation played once when the block scrolls into view.",
           "options": [
@@ -4050,13 +4167,13 @@
         },
         "animationStagger": {
           "type": "boolean",
-          "pos": 7,
+          "pos": 8,
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
         "headingAnimation": {
           "type": "option",
-          "pos": 8,
+          "pos": 9,
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
@@ -4089,7 +4206,7 @@
         },
         "animationDuration": {
           "type": "option",
-          "pos": 9,
+          "pos": 10,
           "display_name": "Animation duration",
           "options": [
             {
@@ -4109,7 +4226,298 @@
         },
         "animationDelay": {
           "type": "option",
+          "pos": 11,
+          "display_name": "Animation delay",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Short",
+              "value": "short"
+            },
+            {
+              "name": "Medium",
+              "value": "medium"
+            },
+            {
+              "name": "Long",
+              "value": "long"
+            }
+          ],
+          "default_value": "none"
+        }
+      }
+    },
+    {
+      "name": "gallery",
+      "display_name": "Gallery",
+      "description": "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Eyebrow"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "display_name": "Description"
+        },
+        "items": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Items",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "galleryItem"
+          ]
+        },
+        "layout": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Layout",
+          "description": "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.",
+          "options": [
+            {
+              "name": "Grid",
+              "value": "grid"
+            },
+            {
+              "name": "Masonry",
+              "value": "masonry"
+            },
+            {
+              "name": "Featured",
+              "value": "featured"
+            },
+            {
+              "name": "Stage",
+              "value": "stage"
+            },
+            {
+              "name": "Strip",
+              "value": "strip"
+            }
+          ],
+          "default_value": "grid"
+        },
+        "columns": {
+          "type": "option",
+          "pos": 5,
+          "display_name": "Columns",
+          "options": [
+            {
+              "name": "2",
+              "value": "2"
+            },
+            {
+              "name": "3",
+              "value": "3"
+            },
+            {
+              "name": "4",
+              "value": "4"
+            }
+          ],
+          "default_value": "3"
+        },
+        "lightbox": {
+          "type": "boolean",
+          "pos": 6,
+          "display_name": "Lightbox",
+          "description": "Open items full screen on tap, with previous and next."
+        },
+        "autoplay": {
+          "type": "boolean",
+          "pos": 7,
+          "display_name": "Autoplay",
+          "description": "Stage layout only: advance every few seconds, with a pause control."
+        },
+        "theme": {
+          "type": "option",
+          "pos": 8,
+          "display_name": "Theme",
+          "description": "Applies a theme class to this block only.",
+          "options": [
+            {
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Brand",
+              "value": "brand"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Rose",
+              "value": "rose"
+            },
+            {
+              "name": "Violet",
+              "value": "violet"
+            }
+          ]
+        },
+        "spacing": {
+          "type": "option",
+          "pos": 9,
+          "display_name": "Spacing",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Sm",
+              "value": "sm"
+            },
+            {
+              "name": "Md",
+              "value": "md"
+            },
+            {
+              "name": "Lg",
+              "value": "lg"
+            }
+          ],
+          "default_value": "md"
+        },
+        "anchor": {
+          "type": "text",
           "pos": 10,
+          "display_name": "Anchor",
+          "description": "Optional id for in-page links, e.g. 'pricing'."
+        },
+        "animation": {
+          "type": "option",
+          "pos": 11,
+          "display_name": "Animation",
+          "description": "Entrance animation played once when the block scrolls into view.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Fade up",
+              "value": "fadeUp"
+            },
+            {
+              "name": "Fade in",
+              "value": "fadeIn"
+            },
+            {
+              "name": "Scale in",
+              "value": "scaleIn"
+            },
+            {
+              "name": "Slide from left",
+              "value": "slideFromLeft"
+            },
+            {
+              "name": "Slide from right",
+              "value": "slideFromRight"
+            },
+            {
+              "name": "Blur in",
+              "value": "blurIn"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationStagger": {
+          "type": "boolean",
+          "pos": 12,
+          "display_name": "Stagger items",
+          "description": "Reveal the block's items one after another instead of all at once."
+        },
+        "headingAnimation": {
+          "type": "option",
+          "pos": 13,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 14,
+          "display_name": "Animation duration",
+          "options": [
+            {
+              "name": "Fast",
+              "value": "fast"
+            },
+            {
+              "name": "Normal",
+              "value": "normal"
+            },
+            {
+              "name": "Slow",
+              "value": "slow"
+            }
+          ],
+          "default_value": "normal"
+        },
+        "animationDelay": {
+          "type": "option",
+          "pos": 15,
           "display_name": "Animation delay",
           "options": [
             {
@@ -4457,6 +4865,12 @@
           "pos": 3,
           "display_name": "Icon",
           "description": "Lucide icon name, e.g. arrow-right."
+        },
+        "magnetic": {
+          "type": "boolean",
+          "pos": 4,
+          "display_name": "Magnetic",
+          "description": "Pull the button towards the pointer on hover (mouse only)."
         }
       }
     },
@@ -4763,6 +5177,29 @@
           "pos": 5,
           "display_name": "Href",
           "allow_target_blank": true
+        }
+      }
+    },
+    {
+      "name": "galleryItem",
+      "display_name": "Gallery item",
+      "is_root": false,
+      "is_nestable": true,
+      "schema": {
+        "media": {
+          "type": "asset",
+          "pos": 0,
+          "display_name": "Media",
+          "required": true,
+          "filetypes": [
+            "images",
+            "videos"
+          ]
+        },
+        "caption": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Caption"
         }
       }
     },

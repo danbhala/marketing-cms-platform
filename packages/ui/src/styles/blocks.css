@@ -40,3 +40,9 @@
   --section-scale: 0.6;
   --gap-scale: 0.7;
 }
+
+/* Gallery stage autoplay: the bar under the image fills over one interval. */
+@keyframes stage-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}

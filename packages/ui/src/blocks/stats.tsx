@@ -31,7 +31,7 @@ function Stats({ block, index, className, ...props }: StatsProps) {
         <Grid columns={columns} className={cn("divide-border", divide)} {...fieldAttrs(block, "stats")}>
           {block.stats.map((stat) => (
             <BlockItem key={stat.id} block={block}>
-              <StatItem item={stat} className="px-4" />
+              <StatItem item={stat} countUp={block.countUp ? { duration: block.animationDuration, delay: block.animationDelay } : null} className="px-4" />
             </BlockItem>
           ))}
         </Grid>

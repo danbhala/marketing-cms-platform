@@ -1,6 +1,6 @@
 # @platform/animation
 
-Entrance and heading animation for blocks, in one package so it can be copied, tuned or swapped on its own. It is the only package that imports [Motion](https://motion.dev) (`motion/react`, the small `m` + `domAnimation` build).
+Entrance, heading, scroll and gallery animation for blocks, in one package so it can be copied, tuned or swapped on its own. It is the only package that imports [Motion](https://motion.dev) (`motion/react`, the small `m` + `domAnimation` build; the gallery lightbox loads `domMax` for layout and drag).
 
 | File | Contents |
 | --- | --- |
@@ -8,26 +8,33 @@ Entrance and heading animation for blocks, in one package so it can be copied, t
 | `src/text-presets.ts` | Heading effects (`words`, `characters`, `lines`, `typewriter`, `scramble`): split unit, timing and variants via `textVariants()`; `scrambleTiming()`. |
 | `src/reveal.tsx` | `Reveal` (a block root that plays its preset once in view, with optional stagger), `RevealItem` (one staggered item), `MotionRoot`, `useReveal()`. |
 | `src/split-text.tsx` | `SplitText`: renders a title as animated words, characters or lines, or types/scrambles it. |
+| `src/count-up.tsx`, `src/number.ts` | `CountUp`: counts an authored number ("2,400+", "$49") up from zero when in view, formatted per locale. |
+| `src/marquee.tsx` | `Marquee`: an endless strip with pause on hover and focus, a pause button, and a static row for reduced motion. |
+| `src/scroll-effect.tsx` | `ScrollEffect`: `parallax`, `zoom` or `fade` on media as it passes through the viewport. |
+| `src/scroll-strip.tsx` | `ScrollStrip`: a row that moves sideways as the page scrolls; a swipeable row on phones and under reduced motion. |
+| `src/magnetic.tsx` | `Magnetic`: pulls a button towards the mouse pointer and springs it back. Mouse only. |
+| `src/crossfade.tsx` | `Crossfade`: fades between contents when a key changes (the gallery stage). |
+| `src/shared.tsx` | `SharedLayout` (a `layoutId` wrapper for the lightbox morph) and `Swipeable` (drag to go to the previous or next item). |
 
-Field names and options (`animation`, `animationStagger`, `headingAnimation`, `animationDuration`, `animationDelay`) are defined once in `@platform/content-model`; this package maps them to motion. `@platform/ui` renders `Reveal` from `BlockSection` only when a block has a preset, and `SplitText` from `Heading` only when it has a heading effect, so a page without animation ships none of this code.
+Field names and options (`animation`, `animationStagger`, `headingAnimation`, `animationDuration`, `animationDelay`, `countUp`, `marqueeSpeed`, `scrollEffect`, the gallery `layout`) are defined once in `@platform/content-model`; this package maps them to motion. `@platform/ui` renders these components only when a block asks for them, so a page without animation ships none of this code.
 
-## Heading effects
+## Motion+ and why these are our own
 
-The Motion+ text effects (`splitText`, `Typewriter`, `ScrambleText`) are paid, so these are our own:
+Motion+ (`motion-plus`) is a paid package installed from a private registry with a licence token, so it cannot ship in code that is copied into client projects. Everything here is built on the MIT `motion` package:
 
-- **words / characters**: the title is split in the component into `inline-block` spans (transforms need a box); words of a character split stay unbreakable. The pieces are staggered with `delayChildren: stagger()`.
-- **lines**: words are measured after layout (`offsetTop`) and grouped by line, then each word slides up out of a `clip-path` box with a delay per line. A `ResizeObserver` on the heading re-measures, so the effect follows real line breaks even with `text-wrap: balance`.
-- **typewriter**: characters snap in behind a caret (`animate-caret-blink` from tw-animate-css) that fades out when the title is complete.
-- **scramble**: a `requestAnimationFrame` loop swaps glyphs and settles characters left to right; each character's width is locked while it scrambles so the title does not jitter. Skipped under reduced motion.
+- **Heading effects** (`SplitText`) stand in for `splitText`, `Typewriter` and `ScrambleText`: the title is split in the component, lines are measured from the layout, and the pieces animate with Motion variants. The heading keeps `aria-label={text}` and the pieces are `aria-hidden`.
+- **CountUp** stands in for `AnimateNumber`: `animate(from, to, { onUpdate })` plus `Intl.NumberFormat`. The final value sits in a visually hidden span and the moving digits are `aria-hidden`.
+- **Marquee** stands in for `Ticker`: `useAnimationFrame` moves a motion value and wraps it after one copy's width. The second copy is `aria-hidden` and `inert`.
+- **ScrollEffect** and **ScrollStrip** stand in for the scroll-driven Motion UI sections: `useScroll` + `useTransform`, transforms and opacity only.
+- **Magnetic** is the magnetic snap from `Cursor` without replacing the cursor.
+- **SharedLayout**, **Swipeable** and **Crossfade** are the gallery's `layoutId` morph, `drag="x"` swipe and `AnimatePresence` fade.
 
-Accessibility: `SplitText` is `aria-hidden`; the heading element gets `aria-label={text}` (`Heading` in `@platform/ui` does this), so assistive technology reads one string. `MotionConfig reducedMotion="user"` keeps the opacity fade and drops movement for people who ask for reduced motion.
-
-Inside an animated block, `SplitText` inherits the block's `hidden`/`visible` state through `useReveal()`, so it plays in step with the block's stagger and delay. On its own it triggers when scrolled into view.
+All of them respect `prefers-reduced-motion` (`MotionConfig reducedMotion="user"` for the presets; an explicit static fallback for the rest).
 
 ## Commands
 
 ```sh
-pnpm test        # timing and split unit tests
+pnpm test        # timing, split unit and number parsing tests
 pnpm typecheck
 ```
 

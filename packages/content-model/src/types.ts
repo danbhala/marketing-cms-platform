@@ -14,6 +14,7 @@ export type ComparisonColumn = InferContent<typeof defs.comparisonColumn>
 export type ComparisonRow = InferContent<typeof defs.comparisonRow>
 export type FaqItem = InferContent<typeof defs.faqItem>
 export type Card = InferContent<typeof defs.card>
+export type GalleryItem = InferContent<typeof defs.galleryItem>
 export type Person = InferContent<typeof defs.person>
 export type Step = InferContent<typeof defs.step>
 export type Tab = InferContent<typeof defs.tab>
@@ -40,6 +41,7 @@ export type StepsBlock = InferContent<typeof defs.steps>
 export type TabsBlock = InferContent<typeof defs.tabs>
 export type RichTextBlock = InferContent<typeof defs.richTextBlock>
 export type MediaBlock = InferContent<typeof defs.mediaBlock>
+export type GalleryBlock = InferContent<typeof defs.gallery>
 export type FormBlock = InferContent<typeof defs.form>
 
 export type Block =
@@ -59,6 +61,7 @@ export type Block =
   | TabsBlock
   | RichTextBlock
   | MediaBlock
+  | GalleryBlock
   | FormBlock
 
 export type BlockType = Block["type"]

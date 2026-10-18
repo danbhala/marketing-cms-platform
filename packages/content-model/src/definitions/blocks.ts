@@ -1,4 +1,4 @@
-import { animationDelays, animationDurations, animationPresets, headingAnimations } from "../animation";
+import { animationDelays, animationDurations, animationPresets, headingAnimations, marqueeSpeeds, scrollEffects } from "../animation";
 import { defineBlock, field } from "../fields";
 import { themeNames } from "../themes";
 import {
@@ -9,6 +9,7 @@ import {
   faqItem,
   featureItem,
   formField,
+  galleryItem,
   logo,
   person,
   pricingPlan,
@@ -52,6 +53,26 @@ const heading = {
 
 const columns = field.select(["2", "3", "4"] as const, { defaultValue: "3" });
 
+/** Scroll-linked movement of a block's media (hero, media, gallery stage). */
+const scrollEffect = field.select(scrollEffects, {
+  defaultValue: "none",
+  label: "Scroll effect",
+  description: "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+});
+
+/** Speed of a scrolling strip (logo cloud and testimonials marquee layouts). */
+const marqueeSpeed = field.select(marqueeSpeeds, {
+  defaultValue: "normal",
+  label: "Marquee speed",
+  description: "Only used by the marquee layout.",
+});
+
+/** Count numbers up from zero when the block scrolls into view. */
+const countUp = field.boolean({
+  label: "Count up",
+  description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+});
+
 export const hero = defineBlock("hero", {
   label: "Hero",
   fields: {
@@ -63,6 +84,7 @@ export const hero = defineBlock("hero", {
     layout: field.select(["centered", "split", "splitReverse", "background"] as const, {
       defaultValue: "centered",
     }),
+    scrollEffect,
     ...presentation,
   },
 });
@@ -72,7 +94,8 @@ export const logoCloud = defineBlock("logoCloud", {
   fields: {
     title: field.text(),
     logos: field.items([logo]),
-    layout: field.select(["row", "grid"] as const, { defaultValue: "row" }),
+    layout: field.select(["row", "grid", "marquee"] as const, { defaultValue: "row" }),
+    marqueeSpeed,
     grayscale: field.boolean(),
     ...presentation,
   },
@@ -109,6 +132,7 @@ export const stats = defineBlock("stats", {
     ...heading,
     stats: field.items([stat]),
     columns,
+    countUp,
     ...presentation,
   },
 });
@@ -118,7 +142,8 @@ export const testimonials = defineBlock("testimonials", {
   fields: {
     ...heading,
     testimonials: field.items([testimonial]),
-    layout: field.select(["grid", "featured"] as const, { defaultValue: "grid" }),
+    layout: field.select(["grid", "featured", "carousel", "marquee"] as const, { defaultValue: "grid" }),
+    marqueeSpeed,
     ...presentation,
   },
 });
@@ -128,6 +153,7 @@ export const pricing = defineBlock("pricing", {
   fields: {
     ...heading,
     plans: field.items([pricingPlan], { max: 4 }),
+    countUp,
     ...presentation,
   },
 });
@@ -219,6 +245,28 @@ export const mediaBlock = defineBlock("media", {
     media: field.media({ required: true, accept: "any" }),
     caption: field.text(),
     width: field.select(["contained", "full"] as const, { defaultValue: "contained" }),
+    scrollEffect,
+    ...presentation,
+  },
+});
+
+export const gallery = defineBlock("gallery", {
+  label: "Gallery",
+  description: "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.",
+  fields: {
+    ...heading,
+    items: field.items([galleryItem]),
+    layout: field.select(["grid", "masonry", "featured", "stage", "strip"] as const, {
+      defaultValue: "grid",
+      description: "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.",
+    }),
+    columns,
+    lightbox: field.boolean({
+      description: "Open items full screen on tap, with previous and next.",
+    }),
+    autoplay: field.boolean({
+      description: "Stage layout only: advance every few seconds, with a pause control.",
+    }),
     ...presentation,
   },
 });
@@ -256,5 +304,6 @@ export const allBlocks = [
   tabs,
   richTextBlock,
   mediaBlock,
+  gallery,
   form,
 ] as const;

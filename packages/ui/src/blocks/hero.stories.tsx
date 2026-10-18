@@ -43,3 +43,20 @@ export const Themed: Story = {
   args: { block: { ...fixtures.heroBlock, ...{ layout: 'split', theme: 'brand' } } },
   parameters: { docs: { description: { story: "The `theme` field applies a theme class to this block only." } } },
 }
+
+/** `scrollEffect: parallax` on the background layout: the photo drifts slower than the copy as the page scrolls. */
+export const BackgroundParallax: Story = {
+  args: { block: { ...fixtures.heroBlock, ...{ layout: 'background', scrollEffect: 'parallax' } } },
+  decorators: [(Story) => <div className="pb-[80vh]"><Story /></div>],
+}
+
+/** `scrollEffect: zoom` on the split layout. */
+export const SplitZoom: Story = {
+  args: { block: { ...fixtures.heroBlock, ...{ layout: 'split', scrollEffect: 'zoom' } } },
+  decorators: [(Story) => <div className="pb-[80vh]"><Story /></div>],
+}
+
+/** An action with `magnetic` on pulls towards the mouse pointer on hover and springs back. Touch and keyboard users see a normal button. */
+export const MagneticActions: Story = {
+  args: { block: { ...fixtures.heroBlock, ...{ layout: 'centered', media: undefined, actions: fixtures.heroBlock.actions!.map((a, i) => ({ ...a, magnetic: i === 0 })) } } },
+}
