@@ -13,7 +13,7 @@ import { getAdapter, siteConfig } from "@/cms.config"
 import { createCollectionBlock } from "@/components/collection-block"
 import { createLatestNewsBlock } from "@/components/latest-news-block"
 import { PreviewBridge } from "@/components/preview-bridge"
-import { getBreadcrumbs } from "@/lib/breadcrumbs"
+import { getBreadcrumbs } from "@/lib/breadcrumb-trail"
 import { getPublishedDocument, getPublishedPaths, getPublishedSettings } from "@/lib/cms"
 import { pathToSlug, slugToPath } from "@/lib/paths"
 

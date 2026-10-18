@@ -1,0 +1,20 @@
+{
+  "name": "@platform/registry",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Builds the shadcn registry create-marketing-cms-app installs from, and checks a scaffolded site end to end.",
+  "scripts": {
+    "registry:build": "node build.mjs",
+    "registry:smoke": "node smoke.mjs"
+  },
+  "devDependencies": {
+    "@platform/animation": "workspace:*",
+    "@platform/cms-core": "workspace:*",
+    "@platform/cms-storyblok": "workspace:*",
+    "@platform/component-registry": "workspace:*",
+    "@platform/content-model": "workspace:*",
+    "@platform/ui": "workspace:*",
+    "web": "workspace:*"
+  }
+}

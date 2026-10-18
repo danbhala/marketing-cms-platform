@@ -23,7 +23,7 @@ export interface BreadcrumbsProps extends Omit<React.ComponentProps<"nav">, "chi
 
 /**
  * Path trail under the header. The host derives `items` from the page path
- * (see apps/web/lib/breadcrumbs.ts), so no CMS field is needed. Renders
+ * (see apps/web/lib/breadcrumb-trail.ts), so no CMS field is needed. Renders
  * nothing for a single crumb (the home page).
  */
 function Breadcrumbs({ items, structuredData = true, siteUrl = "", className, ...props }: BreadcrumbsProps) {

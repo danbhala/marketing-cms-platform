@@ -1,0 +1,41 @@
+---
+title: Start a new site
+description: "One command copies the platform into a plain Next.js project that your team owns."
+---
+
+```sh
+npx create-marketing-cms-app my-site --storyblok
+```
+
+The command runs the [shadcn CLI](https://ui.shadcn.com/docs/cli) to create a Next.js app, then installs the `site-storyblok` item from this site's registry (`/r/site-storyblok.json`). Nothing is installed as a platform package: blocks, templates, the content model, the Storyblok adapter and the routes are all copied in as source.
+
+Storyblok is the only CMS in this version.
+
+## Then
+
+```sh
+cd my-site
+# in .env.local: STORYBLOK_SPACE_ID, STORYBLOK_PREVIEW_TOKEN, STORYBLOK_MANAGEMENT_TOKEN (a personal access token)
+npm run cms:push   # creates every block and field in the space from lib/content-model
+npm run dev        # http://localhost:3000/en
+```
+
+Run `cms:push` again after changing a definition.
+
+## What lands where
+
+| Path                                                      | From                           |
+| --------------------------------------------------------- | ------------------------------ |
+| `app/`, `cms.config.ts`, `proxy.ts`, top-level `lib/*.ts` | `apps/web`                     |
+| `components/`                                             | `@platform/ui`                 |
+| `lib/content-model/`                                      | `@platform/content-model`      |
+| `lib/cms-core/`                                           | `@platform/cms-core`           |
+| `lib/cms-storyblok/`                                      | `@platform/cms-storyblok`      |
+| `lib/animation/`                                          | `@platform/animation`          |
+| `lib/component-registry/`                                 | `@platform/component-registry` |
+
+`components.json` points the `ui` alias at `components/primitives`, so `npx shadcn add <component>` lands next to the site's own primitives. The demo content, the theme editor and the other CMS adapters stay in the monorepo.
+
+## Maintaining the registry
+
+`packages/registry/build.mjs` builds the registry from the monorepo on every docs deploy, rewriting `@platform/*` imports to `@/…` paths. `node packages/registry/smoke.mjs` scaffolds a site from a local copy of the registry and checks it lints and compiles; CI runs it on every pull request.
