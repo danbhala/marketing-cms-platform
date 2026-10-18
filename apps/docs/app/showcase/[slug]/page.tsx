@@ -28,6 +28,7 @@ export default async function ShowcasePage({ params }: PageProps<"/showcase/[slu
       <ThemedFrame showcase={showcase} />
       <ThemeEditor
         seed={showcase.theme}
+        preset={showcase.slug}
         name={showcase.name}
         sharePath={`/showcase/${showcase.slug}`}
         studioUrl="/theme"

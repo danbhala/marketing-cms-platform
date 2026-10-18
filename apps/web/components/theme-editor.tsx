@@ -3,11 +3,13 @@
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
 
-import { tabs } from "@platform/theme-studio/panels"
+import { defineAnimation } from "@platform/content-model"
 import { presetBySlug } from "@platform/theme-studio/presets"
 import { useThemeOverride } from "@platform/theme-studio/store"
 import { encodeTheme, themeToVars } from "@platform/theme-studio/theme"
 import { ThemeEditor as Drawer } from "@platform/theme-studio/theme-editor"
+
+import { animation } from "@/animation.config"
 
 const harbor = presetBySlug("harbor")!.theme
 const STUDIO_URL = "https://marketing-cms-platform.vercel.app/theme"
@@ -17,8 +19,9 @@ const KEY = "theme-editor"
  * The demo site's "Edit theme" pill. Edits live in the URL hash (`#t=…`) like
  * the docs studio; this applies them to <html> as inline CSS variables, which
  * beat app/brand.css. Internal links drop the hash, so the edited theme is
- * carried to the next page for the rest of the tab session. Motion is left
- * out: the site's motion comes from animation.config.ts at build time.
+ * carried to the next page for the rest of the tab session. Motion edits go
+ * to `defineAnimation()` in the browser; the root layout turns on live
+ * animation when the editor is on, so blocks resolve their entrances here.
  */
 export function ThemeEditor() {
   const theme = useThemeOverride()
@@ -57,5 +60,11 @@ export function ThemeEditor() {
     }
   }, [theme])
 
-  return <Drawer seed={harbor} name="Harbor & Co" studioUrl={STUDIO_URL} tabs={tabs.filter((t) => t !== "motion")} />
+  // Live motion: the edited defaults while the URL carries a theme, else the site's own config.
+  const motion = theme?.motion
+  useEffect(() => {
+    defineAnimation(motion ?? animation)
+  }, [motion])
+
+  return <Drawer seed={harbor} preset="harbor" name="Harbor & Co" studioUrl={STUDIO_URL} />
 }

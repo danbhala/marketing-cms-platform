@@ -75,7 +75,7 @@ function FormBlock({ block, index, submit, className, ...props }: FormBlockProps
         {status.state === "success" ? (
           <div
             role="status"
-            className="flex items-center justify-center gap-3 rounded-xl border bg-card p-6 text-card-foreground"
+            className="flex items-center justify-center gap-3 rounded-xl border bg-card p-(--card-inset) text-card-foreground"
           >
             <CheckCircle2Icon className="size-5 text-primary" aria-hidden />
             <Text weight="medium" {...fieldAttrs(block, "successMessage")}>

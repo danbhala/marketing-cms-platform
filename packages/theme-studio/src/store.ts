@@ -1,5 +1,7 @@
 import { useSyncExternalStore } from "react"
 
+import { replayAnimation } from "@platform/content-model"
+
 import { presetBySlug } from "./presets"
 import { decodeTheme, encodeTheme, type Theme } from "./theme"
 
@@ -74,10 +76,11 @@ export function useThemeOverride(): Theme | null {
 
 let runs = 0
 
-/** Bumps a counter the previews key on, so the entrance animations play again. */
+/** Bumps a counter the previews key on, so the entrance animations play again; live blocks on a real page replay too. */
 export function replay() {
   runs += 1
   for (const l of listeners) l()
+  replayAnimation()
 }
 
 export function useReplay(): number {

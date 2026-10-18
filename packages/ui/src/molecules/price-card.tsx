@@ -1,7 +1,7 @@
 import type * as React from "react"
 import { CheckIcon } from "lucide-react"
 
-import type { AnimationDelay, AnimationDuration, PricingPlan } from "@platform/content-model"
+import type { CountUpSettings, PricingPlan } from "@platform/content-model"
 import { editAttrs, fieldAttrs } from "@platform/cms-core/edit"
 import { CountUp } from "@platform/animation"
 
@@ -15,7 +15,7 @@ export interface PriceCardProps extends React.ComponentProps<"div"> {
   /** The pricing plan content item (name, price, features, actions, highlighted). */
   plan: PricingPlan
   /** Count the price up from zero when it scrolls into view (the Pricing block's `countUp` field). */
-  countUp?: { duration: AnimationDuration; delay: AnimationDelay } | null
+  countUp?: CountUpSettings | null
 }
 
 /** One pricing plan. `highlighted` gives it the primary border and a badge. */
@@ -25,7 +25,7 @@ function PriceCard({ plan, countUp, className, ...props }: PriceCardProps) {
       data-slot="price-card"
       data-highlighted={plan.highlighted ? "" : undefined}
       className={cn(
-        "relative flex h-full flex-col gap-6 rounded-xl border bg-card p-6 text-card-foreground",
+        "relative flex h-full flex-col gap-6 rounded-xl border bg-card p-(--card-inset) text-card-foreground",
         plan.highlighted && "border-primary shadow-lg ring-1 ring-primary",
         className
       )}
@@ -49,7 +49,11 @@ function PriceCard({ plan, countUp, className, ...props }: PriceCardProps) {
       </div>
       <p className="flex items-baseline gap-1">
         <span className="font-heading text-4xl heading-style" {...fieldAttrs(plan, "price")}>
-          {countUp ? <CountUp value={plan.price} duration={countUp.duration} delay={countUp.delay} /> : plan.price}
+          {countUp ? (
+            <CountUp value={plan.price} duration={countUp.duration} delay={countUp.delay} live={countUp.live} />
+          ) : (
+            plan.price
+          )}
         </span>
         {plan.period ? (
           <span className="text-sm text-muted-foreground" {...fieldAttrs(plan, "period")}>

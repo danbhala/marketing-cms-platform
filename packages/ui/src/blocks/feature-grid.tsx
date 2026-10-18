@@ -24,7 +24,7 @@ function FeatureGrid({ block, index, className, ...props }: FeatureGridProps) {
             source={block}
           />
         </BlockItem>
-        <Grid columns={block.columns ?? "3"} {...fieldAttrs(block, "features")}>
+        <Grid columns={block.columns ?? "3"} fit {...fieldAttrs(block, "features")}>
           {block.features.map((feature) => (
             <BlockItem key={feature.id} block={block}>
               <FeatureItem item={feature} appearance={block.itemStyle ?? "plain"} />

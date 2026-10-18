@@ -7,7 +7,7 @@ All colour, radius and spacing comes from CSS variables in three layers:
 
 1. **`tokens.css`** — the shadcn semantic variables (`--background`, `--primary`, `--muted-foreground`, `--radius`…) for `:root` and `.dark`, plus platform additions: `--inverse`, `--brand`, the fonts (`--font-heading`, `--font-sans`, `--font-eyebrow`, `--font-mono`) and the heading treatment (`--heading-weight`, `--heading-tracking`, `--heading-case`).
 2. **`themes.css`** — `theme-*` classes that re-declare those variables on whatever element carries the class.
-3. **`blocks.css`** — layout variables blocks read: `--section-scale` and `--gap-scale` (multipliers on the responsive section and grid steps), `--section-space-sm|md|lg`, `--container-*`, `--block-grid-gap`.
+3. **`blocks.css`** — layout variables blocks read: `--section-space-sm|md|lg`, `--block-header-gap`, `--block-grid-gap`, `--block-split-gap` (between the text and media halves of a hero, feature split, FAQ or tabs), `--card-inset` (padding inside cards and panels), `--card-min` and `--container-*`. The whitespace inputs below scale them.
 
 Tailwind utilities map to the variables with `@theme inline`, so `bg-primary` follows the nearest theme class.
 
@@ -35,9 +35,25 @@ Themes nest: a brand-coloured CTA on a dark page keeps the brand colours inside 
 
 <Screenshot name="templates-pages--landing-dark" alt="Landing page with the page-level dark theme" height={2000} />
 
+## Whitespace and card size
+
+One setting decides how much room a whole site breathes with. The spacing tokens multiply by three inputs, each with a phone value and a desktop value (from 64rem), all `1` by default:
+
+| Input                                       | Scales                                                |
+| ------------------------------------------- | ----------------------------------------------------- |
+| `--space-section-sm` / `--space-section-lg` | Section padding (`--section-space-*`)                 |
+| `--space-gap-sm` / `--space-gap-lg`         | Header, grid and split gaps                           |
+| `--space-inset-sm` / `--space-inset-lg`     | Card and panel padding (`--card-inset`), the gentlest |
+
+The theme studio's **Whitespace** control writes them in five steps, Compact, Snug, Balanced, Airy and Spacious. Balanced is all `1`, exactly the stock spacing. Phones swing about a third as far as desktop, so Compact stays readable and Spacious doesn't push content off a small screen.
+
+**Card size** (`--card-min`: 10, 14 or 20rem) is how narrow a grid card may get before the grid drops a column. Editors still choose a block's column count; grids fit as many columns as are at least `--card-min` wide, up to that count. **Content width** is `--container-section`.
+
+The tokens are recomputed on every section, so a class or inline style on one block works too. `theme-compact` is a class that tightens one block or page this way.
+
 ## Theme studio
 
-The quickest way to a brand is the [theme studio](/theme): pick a preset, change fonts, colours, radius and rhythm with live preview on a showcase site, check contrast, then copy the CSS, or copy a prompt that has any LLM set the theme up in your project for you. The URL carries the theme, so a link is a shareable draft, and the [showcases](/docs/showcases) are its presets. Every showcase page also has an **Edit theme** pill that slides the same controls over the live site, so a theme can be tuned at full size in its own tab and the link copied from there.
+The quickest way to a brand is the [theme studio](/theme): pick a preset, change fonts, colours, corners, whitespace and card size with live preview on a showcase site, check contrast, then copy the CSS, or copy a prompt that has any LLM set the theme up in your project for you. The URL carries the theme, so a link is a shareable draft, and the [showcases](/docs/showcases) are its presets. Every showcase page also has an **Edit theme** pill that slides the same controls over the live site, so a theme can be tuned at full size in its own tab and the link copied from there. On phones it is a bottom sheet you drag between three heights; from 64rem it docks beside the page, which narrows to make room. The demo site has the same pill, and there its Motion tab replays the site's animation live as you change it.
 
 <Video
   src="/video/theme-studio-walkthrough.mp4"
@@ -63,9 +79,15 @@ Start with variables, not components; when a brand needs more than variables, se
 .theme-brand {
   --brand: var(--primary);
 }
-.theme-airy {
-  --section-scale: 1.4;
-  --gap-scale: 1.2;
+/* Whitespace "Airy" and the default card size, as the studio exports them */
+:root {
+  --space-section-sm: 1.1;
+  --space-section-lg: 1.25;
+  --space-gap-sm: 1.07;
+  --space-gap-lg: 1.15;
+  --space-inset-sm: 1.05;
+  --space-inset-lg: 1.12;
+  --card-min: 14rem;
 }
 ```
 

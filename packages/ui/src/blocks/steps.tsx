@@ -27,7 +27,10 @@ function Steps({ block, index, className, ...props }: StepsProps) {
           />
         </BlockItem>
         <ol
-          className={cn("grid gap-8", !vertical && "section-md:grid-cols-[repeat(auto-fit,minmax(0,1fr))]")}
+          className={cn(
+            "grid gap-(--block-grid-gap)",
+            !vertical && "section-md:grid-cols-[repeat(auto-fit,minmax(0,1fr))]"
+          )}
           {...fieldAttrs(block, "steps")}
         >
           {block.steps.map((step, i) => (

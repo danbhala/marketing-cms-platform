@@ -123,8 +123,8 @@ function ContentCard({ item, variant = "card", className, ...props }: ContentCar
       <div
         className={cn(
           "flex flex-1 flex-col gap-3",
-          shape === "card" && "p-6",
-          shape === "feature" && "p-6 section-md:p-10",
+          shape === "card" && "p-(--card-inset)",
+          shape === "feature" && "p-(--card-inset) section-md:p-[calc(var(--card-inset)*5/3)]",
           shape === "row" && "min-w-0 py-1"
         )}
       >

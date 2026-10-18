@@ -23,7 +23,7 @@ function Faq({ block, index, className, ...props }: FaqProps) {
         size={split ? "section" : "md"}
         className={cn(
           split
-            ? "grid gap-10 section-md:grid-cols-[1fr_2fr] section-lg:gap-16"
+            ? "grid gap-(--block-split-gap) section-md:grid-cols-[1fr_2fr]"
             : "flex flex-col gap-(--block-header-gap)"
         )}
       >

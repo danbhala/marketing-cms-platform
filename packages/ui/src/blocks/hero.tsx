@@ -15,7 +15,7 @@ import { ActionGroup } from "../molecules/action-group"
 import { cn } from "../lib/utils"
 import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
-const heroLayout = cva("grid items-center gap-10 section-lg:gap-16", {
+const heroLayout = cva("grid items-center gap-(--block-split-gap)", {
   variants: {
     layout: {
       centered: "grid-cols-1 justify-items-center text-center",

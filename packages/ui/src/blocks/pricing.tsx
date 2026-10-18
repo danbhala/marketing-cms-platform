@@ -27,7 +27,7 @@ function Pricing({ block, index, className, ...props }: PricingProps) {
             source={block}
           />
         </BlockItem>
-        <Grid columns={columns} align="stretch" {...fieldAttrs(block, "plans")}>
+        <Grid columns={columns} align="stretch" fit {...fieldAttrs(block, "plans")}>
           {block.plans.map((plan) => (
             <BlockItem key={plan.id} block={block}>
               <PriceCard plan={plan} countUp={countUp} />

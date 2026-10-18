@@ -18,7 +18,7 @@ Links and images go through `UiProvider`, so the same components run in Storyboo
 
 ## Theming
 
-Fonts, heading weight/tracking/case and section rhythm are variables too (`--font-heading`, `--heading-weight`, `--section-scale`…), so a brand is one `:root` rule; the docs' theme studio (`/theme`) writes it. Themes are CSS classes that redefine the semantic variables: `theme-light`, `theme-dark`, `theme-muted`, `theme-brand`, `theme-blue`, `theme-green`, `theme-orange`, `theme-rose`, `theme-violet`, `theme-compact`. A page or any single block can carry one; blocks read `block.theme` and apply it to their own section.
+Fonts, heading weight/tracking/case and whitespace are variables too (`--font-heading`, `--heading-weight`, `--space-section-lg`, `--card-min`…), so a brand is one `:root` rule; the docs' theme studio (`/theme`) writes it. Themes are CSS classes that redefine the semantic variables: `theme-light`, `theme-dark`, `theme-muted`, `theme-brand`, `theme-blue`, `theme-green`, `theme-orange`, `theme-rose`, `theme-violet`, `theme-compact`. A page or any single block can carry one; blocks read `block.theme` and apply it to their own section.
 
 ## Animation
 

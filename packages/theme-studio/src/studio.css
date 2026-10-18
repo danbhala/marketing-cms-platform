@@ -47,3 +47,13 @@
   background: white;
   border: 2px solid oklch(0.3 0 0);
 }
+
+/* "Edit theme" makes room for itself: docked beside the page from 64rem, or as a sheet with page padding below. */
+@media (min-width: 64rem) {
+  html[data-theme-editor="dock"] body {
+    margin-right: 24rem;
+  }
+}
+html[data-theme-editor="sheet"] body {
+  padding-bottom: var(--theme-editor-sheet, 0px);
+}

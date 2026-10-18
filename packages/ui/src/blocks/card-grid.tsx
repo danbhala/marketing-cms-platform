@@ -27,7 +27,7 @@ function CardGrid({ block, index, className, ...props }: CardGridProps) {
             actions={<ActionGroup actions={block.actions} size="sm" {...fieldAttrs(block, "actions")} />}
           />
         </BlockItem>
-        <Grid columns={block.columns ?? "3"} {...fieldAttrs(block, "cards")}>
+        <Grid columns={block.columns ?? "3"} fit {...fieldAttrs(block, "cards")}>
           {block.cards.map((card) => (
             <BlockItem key={card.id} block={block}>
               <ContentCard item={card} />

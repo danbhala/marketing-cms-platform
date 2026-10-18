@@ -21,7 +21,7 @@ function FeatureSplit({ block, index, className, ...props }: FeatureSplitProps) 
   const mediaLeft = block.mediaPosition === "left"
   return (
     <BlockSection block={block} className={className} {...props}>
-      <Container className="grid items-center gap-10 section-md:grid-cols-2 section-lg:gap-16">
+      <Container className="grid items-center gap-(--block-split-gap) section-md:grid-cols-2">
         <Stack gap="lg" align="start" className={cn(mediaLeft && "section-md:order-2")}>
           {block.eyebrow ? (
             <BlockItem block={block}>

@@ -1162,6 +1162,9 @@ importers:
       '@platform/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      '@platform/theme-studio':
+        specifier: workspace:*
+        version: link:../theme-studio
       '@platform/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config

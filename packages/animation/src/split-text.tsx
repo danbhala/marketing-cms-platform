@@ -4,8 +4,9 @@ import * as React from "react"
 import { useInView, useReducedMotion, type HTMLMotionProps } from "motion/react"
 import * as m from "motion/react-m"
 
-import type { TextAnimationSettings } from "@platform/content-model"
+import { resolveHeadingAnimation, type TextAnimationSettings } from "@platform/content-model"
 
+import { useLiveSettings } from "./live"
 import { revealViewport } from "./presets"
 import { MotionRoot, useReveal } from "./reveal"
 import { scrambleGlyphs, scrambleTiming, textVariants } from "./text-presets"
@@ -37,13 +38,15 @@ export interface SplitTextProps extends Omit<React.ComponentProps<"span">, "chil
   animation: TextAnimationSettings
 }
 
-function SplitText({ text, animation, ...props }: SplitTextProps) {
+function SplitText({ text, animation: given, ...props }: SplitTextProps) {
   const reveal = useReveal()
+  const [animation, key] = useLiveSettings(given, resolveHeadingAnimation)
+  if (!animation) return <span {...props}>{text}</span>
   const content =
     animation.preset === "scramble" ? (
-      <ScrambleText text={text} animation={animation} inherit={reveal !== null} {...props} />
+      <ScrambleText key={key} text={text} animation={animation} inherit={reveal !== null} {...props} />
     ) : (
-      <SplitPieces text={text} animation={animation} inherit={reveal !== null} {...props} />
+      <SplitPieces key={key} text={text} animation={animation} inherit={reveal !== null} {...props} />
     )
   return reveal ? content : <MotionRoot>{content}</MotionRoot>
 }

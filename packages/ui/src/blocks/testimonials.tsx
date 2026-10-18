@@ -48,7 +48,7 @@ function Testimonials({ block, index, className, ...props }: TestimonialsProps) 
             ))}
           </Marquee>
         ) : featured ? (
-          <div className="flex flex-col gap-12" {...fieldAttrs(block, "testimonials")}>
+          <div className="flex flex-col gap-(--block-header-gap)" {...fieldAttrs(block, "testimonials")}>
             {block.testimonials.map((item) => (
               <BlockItem key={item.id} block={block}>
                 <Quote item={item} variant="featured" />
@@ -56,7 +56,7 @@ function Testimonials({ block, index, className, ...props }: TestimonialsProps) 
             ))}
           </div>
         ) : (
-          <Grid columns={block.testimonials.length >= 3 ? "3" : "2"} {...fieldAttrs(block, "testimonials")}>
+          <Grid columns={block.testimonials.length >= 3 ? "3" : "2"} fit {...fieldAttrs(block, "testimonials")}>
             {block.testimonials.map((item) => (
               <BlockItem key={item.id} block={block}>
                 <Quote item={item} />

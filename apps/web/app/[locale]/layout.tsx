@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 
-import { themeClassName } from "@platform/content-model"
+import { enableLiveAnimation, themeClassName } from "@platform/content-model"
 
 import "@/animation.config"
 // The brand's fonts (see app/brand.css).
@@ -13,6 +13,10 @@ import { ThemeEditor } from "@/components/theme-editor"
 import { UiProvider } from "@/components/ui-provider"
 
 import "../globals.css"
+
+// The theme editor changes motion in the browser, so blocks hand their
+// animation fields to the client to resolve there (see enableLiveAnimation).
+if (themeEditor) enableLiveAnimation()
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),

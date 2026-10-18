@@ -91,7 +91,7 @@ function FooterBand({ settings, labels }: { settings: FooterSettings; labels: Ch
   return (
     <div
       data-slot="footer-band"
-      className="theme-brand flex flex-col gap-6 rounded-2xl bg-background p-6 text-foreground section-md:flex-row section-md:items-center section-md:justify-between section-md:p-10"
+      className="theme-brand flex flex-col gap-6 rounded-2xl bg-background p-(--card-inset) text-foreground section-md:flex-row section-md:items-center section-md:justify-between section-md:p-[calc(var(--card-inset)*5/3)]"
     >
       <div className="flex max-w-xl flex-col gap-2">
         <Heading as="h2" size="h3" {...fieldAttrs(settings, "footerHeading")}>
@@ -132,7 +132,10 @@ function Columns({
   return (
     <nav
       aria-label={labels.footerNavigation}
-      className={cn("grid grid-cols-2 gap-8 section-md:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]", className)}
+      className={cn(
+        "grid grid-cols-2 gap-(--block-grid-gap) section-md:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]",
+        className
+      )}
       {...fieldAttrs(settings, "footerColumns")}
     >
       {settings.footerColumns.map((column) => (
@@ -226,7 +229,7 @@ function SiteFooter({
     )
   } else if (layout === "split") {
     body = (
-      <div className="grid gap-10 section-lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] section-lg:gap-16">
+      <div className="grid gap-[calc(var(--block-grid-gap)*1.25)] section-lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] section-lg:gap-[calc(var(--block-grid-gap)*2)]">
         <div className="flex flex-col gap-4">
           <Brand settings={settings} />
           {tagline}
@@ -242,7 +245,7 @@ function SiteFooter({
     )
   } else {
     body = (
-      <div className="grid gap-10 section-lg:grid-cols-[minmax(0,1.5fr)_minmax(0,4fr)]">
+      <div className="grid gap-[calc(var(--block-grid-gap)*1.25)] section-lg:grid-cols-[minmax(0,1.5fr)_minmax(0,4fr)]">
         <div className="flex flex-col gap-3">
           <Brand settings={settings} />
           {tagline}
@@ -260,7 +263,14 @@ function SiteFooter({
       className={cn("@container/section border-t bg-muted/40", className)}
       {...props}
     >
-      <Container className={cn("flex flex-col gap-10", layout === "minimal" ? "py-10" : "py-12 section-lg:py-16")}>
+      <Container
+        className={cn(
+          "flex flex-col gap-[calc(var(--block-grid-gap)*1.25)]",
+          layout === "minimal"
+            ? "py-[calc(var(--spacing)*10*var(--space-section-sm,1))] section-lg:py-[calc(var(--spacing)*10*var(--space-section-lg,1))]"
+            : "py-[calc(var(--spacing)*12*var(--space-section-sm,1))] section-lg:py-[calc(var(--spacing)*16*var(--space-section-lg,1))]"
+        )}
+      >
         <FooterBand settings={settings} labels={labels} />
         {body}
         <Separator />
