@@ -16,10 +16,11 @@ export const faq = defineBlock("faq", {
 
 ## Exports
 
-| Import | Contents |
-| --- | --- |
-| `@platform/content-model` | `field` DSL, `defineBlock/Item/Document`, `allBlocks/allItems/allDocuments`, types (`Page`, `Block`, `SiteSettings`, `Media`, rich text AST), `schemaFor()` validators, `themeClassName()`, `animationSettings()`, `headingAnimationSettings()`. |
-| `@platform/content-model/fixtures` | Sample content for every block and six page compositions, used by Storybook, the docs and the local adapter. |
+| Import                                | Contents                                                                                                                                                                                                                                         |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@platform/content-model`             | `field` DSL, `defineBlock/Item/Document`, `allBlocks/allItems/allDocuments`, types (`Page`, `Block`, `SiteSettings`, `Media`, rich text AST), `schemaFor()` validators, `themeClassName()`, `animationSettings()`, `headingAnimationSettings()`. |
+| `@platform/content-model/fixtures`    | Sample content for every block and six page compositions, used by Storybook, the docs and the local adapter.                                                                                                                                     |
+| `@platform/content-model/strip-types` | Node resolve hook so `node --experimental-strip-types` can run the workspace's TypeScript without a build; every adapter's `schema:generate` loads it with `--import`.                                                                           |
 
 ## Conventions
 

@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "typecheck": "tsc",
     "test": "vitest run",
-    "schema:generate": "node --experimental-strip-types scripts/generate-schema.ts"
+    "schema:generate": "node --experimental-strip-types --import @platform/content-model/strip-types scripts/generate-schema.ts"
   },
   "dependencies": {
     "@platform/cms-core": "workspace:*",
