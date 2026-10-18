@@ -1,5 +1,5 @@
 import { siteConfig } from "@/cms.config"
-import { getPublishedPaths } from "@/lib/cms"
+import { getPublishedPaths, getPublishedTranslatedPaths } from "@/lib/cms"
 import { localePath } from "@/lib/paths"
 
 export interface Alternate {
@@ -11,17 +11,27 @@ export interface Alternate {
 }
 
 /**
- * The page at `path` in every locale that publishes it, for hreflang links,
- * the sitemap and the language switcher. A locale counts when it publishes
- * the same path, which is how field-level translation works in every
- * adapter; CMS-specific translated slugs are not mapped.
+ * The page at `path` in `locale`, in every locale that publishes it, for
+ * hreflang links, the sitemap and the language switcher. Each locale's path
+ * comes from the adapter when the CMS translates slugs (`/about` ↔
+ * `/a-propos`), else it is the same path; it counts when that locale
+ * publishes it. Every page in a group gets the same set, as hreflang requires.
  */
-export async function getAlternates(path: string): Promise<Alternate[]> {
+export async function getAlternates(locale: string, path: string): Promise<Alternate[]> {
   if (siteConfig.locales.length < 2) return []
-  const published = await Promise.all(siteConfig.locales.map((locale) => getPublishedPaths(locale)))
-  return siteConfig.locales.flatMap((locale, i) =>
-    published[i]?.includes(path) ? [{ locale, href: localePath(locale, path), label: languageName(locale) }] : []
-  )
+  const [translated, published] = await Promise.all([
+    getPublishedTranslatedPaths(locale, path),
+    Promise.all(siteConfig.locales.map((l) => getPublishedPaths(l))),
+  ])
+  return siteConfig.locales.flatMap((l, i) => {
+    const target = translatedPath(translated, l, path)
+    return published[i]?.includes(target) ? [{ locale: l, href: localePath(l, target), label: languageName(l) }] : []
+  })
+}
+
+/** The path in locale `l`: its translated slug, else the default locale's, else the same path. */
+export function translatedPath(translated: Record<string, string>, l: string, path: string): string {
+  return translated[l] ?? translated[siteConfig.defaultLocale] ?? path
 }
 
 /** `{ "en": "https://…/en/about", "x-default": … }` for Next's `alternates.languages`. */

@@ -1,5 +1,6 @@
 import type { CmsAdapter, FetchContext } from "@platform/cms-core"
 import type { Field, ListingQuery } from "@platform/content-model"
+import type { ISbStoryData } from "storyblok-js-client"
 import { article as articleDefinition, listableDocuments, page as pageDefinition } from "@platform/content-model"
 
 import { createStoryblokApi, type StoryblokApi, type StoryQuery } from "./client"
@@ -46,6 +47,12 @@ export interface StoryblokAdapterOptions {
   defaultLocale?: string
   /** Every locale the site serves; used to fan out webhook tags (default [defaultLocale]). */
   locales?: readonly string[]
+  /**
+   * The space uses the Translatable Slugs app, so each language has its own URL
+   * (`/fr/a-propos`). Pages are then read by their translated path and report it
+   * for hreflang (STORYBLOK_TRANSLATED_SLUGS=true; default false).
+   */
+  translatedSlugs?: boolean
   /** Pre-built API client, used by tests to avoid the network. */
   api?: StoryblokApi
 }
@@ -69,6 +76,7 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
   const siteSettingsSlug = options.siteSettingsSlug ?? "site-settings"
   const defaultLocale = options.defaultLocale ?? "en"
   const locales = options.locales ?? [defaultLocale]
+  const translatedSlugs = options.translatedSlugs ?? env.STORYBLOK_TRANSLATED_SLUGS === "true"
 
   let api: StoryblokApi | undefined = options.api
   const getApi = (): StoryblokApi => {
@@ -86,6 +94,21 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
     version: ctx.draft ? "draft" : "published",
     ...(ctx.locale !== defaultLocale ? { language: ctx.locale } : {}),
   })
+  // With translated slugs a path is that language's slug, which Storyblok
+  // resolves behind a language prefix (`fr/a-propos`) instead of `language`.
+  // The home story stays `/` in every language, so it keeps the parameter.
+  const storyRequest = (path: string, ctx: FetchContext): [string, StoryQuery] => {
+    const slug = pathToSlug(path, homeSlug)
+    if (!translatedSlugs || ctx.locale === defaultLocale || slug === homeSlug) return [slug, query(ctx)]
+    return [`${ctx.locale}/${slug}`, { version: query(ctx).version }]
+  }
+  /** A story's path in one locale: its translated slug when it has one. */
+  const localizedPath = (story: ISbStoryData, locale: string) => {
+    const base = story.default_full_slug ?? story.full_slug
+    if (base === homeSlug) return "/"
+    const translated = locale === defaultLocale ? null : story.translated_slugs?.find((t) => t.lang === locale)
+    return storyPath(translated?.path ?? base, homeSlug)
+  }
   // Click-to-edit attributes only mean something inside the Visual Editor.
   const transformOptions = (ctx: FetchContext) => ({
     edit: ctx.draft && (ctx.preview == null || ctx.preview.mode === "edit"),
@@ -96,17 +119,17 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
     name: "storyblok",
 
     async getPage(path, ctx) {
-      const slug = pathToSlug(path, homeSlug)
-      if (slug === siteSettingsSlug) return null
-      const story = await getApi().getStory(slug, { ...query(ctx), resolveRelations: pageRelations })
+      if (pathToSlug(path, homeSlug) === siteSettingsSlug) return null
+      const [slug, storyQuery] = storyRequest(path, ctx)
+      const story = await getApi().getStory(slug, { ...storyQuery, resolveRelations: pageRelations })
       if (!story || story.content?.component !== "page") return null
       return storyToPage(story, transformOptions(ctx))
     },
 
     async getDocument(path, ctx) {
-      const slug = pathToSlug(path, homeSlug)
-      if (slug === siteSettingsSlug) return null
-      const story = await getApi().getStory(slug, { ...query(ctx), resolveRelations: documentRelations })
+      if (pathToSlug(path, homeSlug) === siteSettingsSlug) return null
+      const [slug, storyQuery] = storyRequest(path, ctx)
+      const story = await getApi().getStory(slug, { ...storyQuery, resolveRelations: documentRelations })
       switch (story?.content?.component) {
         case "page":
           return storyToPage(story, transformOptions(ctx))
@@ -165,10 +188,23 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
         const stories = await getApi().getStories(type, query({ locale, draft: false }))
         for (const story of stories) {
           if (story.content?.component === type && story.full_slug !== siteSettingsSlug)
-            paths.push(storyPath(story.full_slug, homeSlug))
+            paths.push(translatedSlugs ? localizedPath(story, locale) : storyPath(story.full_slug, homeSlug))
         }
       }
       return [...new Set(paths)]
+    },
+
+    async getTranslatedPaths(path, ctx) {
+      if (!translatedSlugs || pathToSlug(path, homeSlug) === homeSlug) return {}
+      const [slug, storyQuery] = storyRequest(path, ctx)
+      const story = await getApi().getStory(slug, storyQuery)
+      if (!story) return {}
+      const paths: Record<string, string> = { [defaultLocale]: localizedPath(story, defaultLocale) }
+      for (const translated of story.translated_slugs ?? []) {
+        if (translated.published !== false && locales.includes(translated.lang))
+          paths[translated.lang] = localizedPath(story, translated.lang)
+      }
+      return paths
     },
 
     resolvePreviewPath(searchParams) {

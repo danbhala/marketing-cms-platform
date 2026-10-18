@@ -244,6 +244,7 @@ const sites = [
       STORYBLOK_PUBLIC_TOKEN: "",
       STORYBLOK_SPACE_ID: "",
       STORYBLOK_WEBHOOK_SECRET: "",
+      STORYBLOK_TRANSLATED_SLUGS: "false",
       STORYBLOK_MANAGEMENT_TOKEN: "",
     },
     docs: "Fill in the STORYBLOK_* values in .env.local, run `npm run cms:push` to create the blocks in your space, then `npm run dev` and open /en.",

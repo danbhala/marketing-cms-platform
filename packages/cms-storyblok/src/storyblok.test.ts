@@ -606,6 +606,66 @@ describe("webhook", () => {
   })
 })
 
+describe("translated slugs", () => {
+  // Pricing with the Translatable Slugs app: `tarifs` in French; German has no slug of its own.
+  const translated = {
+    ...pricingStory,
+    default_full_slug: "pricing",
+    translated_slugs: [
+      { path: "tarifs", name: "Tarifs", lang: "fr", published: true },
+      { path: "preise", name: "Preise", lang: "de", published: false },
+    ],
+  } as ISbStoryData
+  const requests: { slug: string; query: StoryQuery }[] = []
+  const api: StoryblokApi = {
+    async getStory(slug, query) {
+      requests.push({ slug, query })
+      if (slug === "pricing" || slug === "fr/tarifs") return translated
+      return slug === "home" ? homeStory : null
+    },
+    async getStories(contentType) {
+      return [homeStory, translated].filter((s) => s.content.component === contentType)
+    },
+    async queryStories() {
+      return { stories: [], total: 0 }
+    },
+  }
+  const multi = createStoryblokAdapter({
+    api,
+    previewToken: "x",
+    locales: ["en", "fr", "de"],
+    translatedSlugs: true,
+  })
+  const fr = { locale: "fr", draft: false }
+
+  it("reads a translated path behind the language prefix, and the home page by language", async () => {
+    requests.length = 0
+    expect(await multi.getDocument("/tarifs", fr)).not.toBeNull()
+    await multi.getDocument("/", fr)
+    await multi.getDocument("/pricing", published)
+    expect(requests.map((r) => [r.slug, r.query.language])).toEqual([
+      ["fr/tarifs", undefined],
+      ["home", "fr"],
+      ["pricing", undefined],
+    ])
+  })
+
+  it("lists each locale's own paths", async () => {
+    expect(await multi.getPaths("fr")).toEqual(["/", "/tarifs"])
+    expect(await multi.getPaths("en")).toEqual(["/", "/pricing"])
+  })
+
+  it("reports the path in every locale with a published translated slug", async () => {
+    expect(await multi.getTranslatedPaths?.("/tarifs", fr)).toEqual({ en: "/pricing", fr: "/tarifs" })
+    expect(await multi.getTranslatedPaths?.("/pricing", published)).toEqual({ en: "/pricing", fr: "/tarifs" })
+    expect(await multi.getTranslatedPaths?.("/", fr)).toEqual({})
+  })
+
+  it("does nothing different without the option", async () => {
+    expect(await adapter.getTranslatedPaths?.("/pricing", published)).toEqual({})
+  })
+})
+
 describe("schema generator", () => {
   const { components } = generateComponents()
   const byName = new Map(components.map((c) => [c.name, c]))
