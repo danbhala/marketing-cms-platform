@@ -46,10 +46,7 @@ export interface SanitySchemaType extends SanitySchemaField {
   preview?: { select: Record<string, string> }
 }
 
-const titleCase = (name: string) =>
-  name
-    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-    .replace(/^./, (c) => c.toUpperCase())
+const titleCase = (name: string) => name.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/^./, (c) => c.toUpperCase())
 
 const ALT_FIELD: SanitySchemaField = {
   name: "alt",
@@ -176,9 +173,17 @@ export function fieldToSanity(name: string, field: Field, definition: AnyDefinit
     case "boolean":
       return withValidation({ ...base, type: "boolean" })
     case "link":
-      return withValidation({ ...base, type: "url", description: field.description ?? "Absolute URL or a site path such as /pricing." })
+      return withValidation({
+        ...base,
+        type: "url",
+        description: field.description ?? "Absolute URL or a site path such as /pricing.",
+      })
     case "icon":
-      return withValidation({ ...base, type: "string", description: field.description ?? "Lucide icon name, e.g. arrow-right." })
+      return withValidation({
+        ...base,
+        type: "string",
+        description: field.description ?? "Lucide icon name, e.g. arrow-right.",
+      })
     case "media":
       return withValidation({ ...base, type: mediaType(field.accept) })
     case "select":
@@ -195,8 +200,11 @@ export function fieldToSanity(name: string, field: Field, definition: AnyDefinit
 }
 
 export function definitionToSanity(definition: AnyDefinition): SanitySchemaType {
-  const fields = Object.entries(definition.fields as Record<string, Field>).map(([name, field]) => fieldToSanity(name, field, definition))
-  const titleField = fields.find((f) => f.type === "string" && f.validation?.required) ?? fields.find((f) => f.type === "string")
+  const fields = Object.entries(definition.fields as Record<string, Field>).map(([name, field]) =>
+    fieldToSanity(name, field, definition)
+  )
+  const titleField =
+    fields.find((f) => f.type === "string" && f.validation?.required) ?? fields.find((f) => f.type === "string")
   const out: SanitySchemaType = {
     name: definition.type,
     title: definition.label,
@@ -214,7 +222,12 @@ export function definitionToSanity(definition: AnyDefinition): SanitySchemaType 
 
 /** Every type the Studio needs: shared helpers, items, blocks, documents. */
 export function generateSanitySchema(): SanitySchemaType[] {
-  return [...sharedTypes, ...allItems.map(definitionToSanity), ...allBlocks.map(definitionToSanity), ...allDocuments.map(definitionToSanity)]
+  return [
+    ...sharedTypes,
+    ...allItems.map(definitionToSanity),
+    ...allBlocks.map(definitionToSanity),
+    ...allDocuments.map(definitionToSanity),
+  ]
 }
 
 // ---------------------------------------------------------------------------
@@ -269,10 +282,10 @@ export function renderSchemaModule(types: SanitySchemaType[] = generateSanitySch
     '//   import { schemaTypes } from "./schemaTypes"',
     "//   export default defineConfig({ /* … */ schema: { types: schemaTypes } })",
     "//",
-    "// `siteSettings` is a singleton: give it the fixed _id \"siteSettings\" in your structure builder",
-    "// (S.document().schemaType(\"siteSettings\").documentId(\"siteSettings\")) and remove create/delete actions.",
+    '// `siteSettings` is a singleton: give it the fixed _id "siteSettings" in your structure builder',
+    '// (S.document().schemaType("siteSettings").documentId("siteSettings")) and remove create/delete actions.',
     "",
-    "/** The subset of Sanity's validation `Rule` these schemas use; swap for `import type { Rule } from \"sanity\"` in the Studio. */",
+    '/** The subset of Sanity\'s validation `Rule` these schemas use; swap for `import type { Rule } from "sanity"` in the Studio. */',
     "export interface SanityRule {",
     "  required(): SanityRule",
     "  min(value: number): SanityRule",

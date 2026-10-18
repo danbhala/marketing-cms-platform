@@ -15,9 +15,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Row: Story = {
-  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: 'row' } } },
+  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "row" } } },
 }
 
 export const Grid: Story = {
-  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: 'grid', grayscale: false } } },
+  args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "grid", grayscale: false } } },
 }

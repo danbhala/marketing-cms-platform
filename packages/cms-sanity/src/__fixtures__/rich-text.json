@@ -61,7 +61,12 @@
     "style": "blockquote",
     "markDefs": [],
     "children": [
-      { "_type": "span", "_key": "q", "text": "The best tracking plan is the one your team actually follows.", "marks": ["em"] }
+      {
+        "_type": "span",
+        "_key": "q",
+        "text": "The best tracking plan is the one your team actually follows.",
+        "marks": ["em"]
+      }
     ]
   },
   {

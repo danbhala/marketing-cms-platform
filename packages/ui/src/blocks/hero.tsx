@@ -55,13 +55,18 @@ function Hero({ block, className, ...props }: HeroProps) {
         <Stack gap="lg" align={centered ? "center" : "start"} className={cn(centered && "max-w-(--container-md)")}>
           {block.eyebrow ? (
             <BlockItem block={block}>
-              <Eyebrow {...fieldAttrs(block, "eyebrow")}>
-                {block.eyebrow}
-              </Eyebrow>
+              <Eyebrow {...fieldAttrs(block, "eyebrow")}>{block.eyebrow}</Eyebrow>
             </BlockItem>
           ) : null}
           <BlockItem block={block}>
-            <Heading as="h1" size="display" tone="inherit" align={centered ? "center" : "start"} animation={headingAnimationSettings(block)} {...fieldAttrs(block, "title")}>
+            <Heading
+              as="h1"
+              size="display"
+              tone="inherit"
+              align={centered ? "center" : "start"}
+              animation={headingAnimationSettings(block)}
+              {...fieldAttrs(block, "title")}
+            >
               {block.title}
             </Heading>
           </BlockItem>
@@ -73,12 +78,29 @@ function Hero({ block, className, ...props }: HeroProps) {
             </BlockItem>
           ) : null}
           <BlockItem block={block}>
-            <ActionGroup actions={block.actions} align={centered ? "center" : "start"} stackOnMobile {...fieldAttrs(block, "actions")} />
+            <ActionGroup
+              actions={block.actions}
+              align={centered ? "center" : "start"}
+              stackOnMobile
+              {...fieldAttrs(block, "actions")}
+            />
           </BlockItem>
         </Stack>
         {block.media && !background ? (
-          <BlockItem block={block} as="div" className={cn("w-full", centered && "mt-4 max-w-(--container-lg)")} {...fieldAttrs(block, "media")}>
-            <Image media={block.media} ratio={centered ? "video" : "4/3"} radius="xl" priority sizes="(min-width: 1024px) 50vw, 100vw" className="shadow-lg ring-1 ring-foreground/10" />
+          <BlockItem
+            block={block}
+            as="div"
+            className={cn("w-full", centered && "mt-4 max-w-(--container-lg)")}
+            {...fieldAttrs(block, "media")}
+          >
+            <Image
+              media={block.media}
+              ratio={centered ? "video" : "4/3"}
+              radius="xl"
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="shadow-lg ring-1 ring-foreground/10"
+            />
           </BlockItem>
         ) : null}
       </Container>

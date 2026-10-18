@@ -5,18 +5,18 @@ description: "Routes, configuration and the two files that know about CMSs."
 
 `apps/web` is intentionally small:
 
-| File | Purpose |
-| --- | --- |
-| `cms.config.ts` | `siteConfig` (locales, site URL, default theme) and `getAdapter()`, which picks the adapter from `CMS_PROVIDER`. The only file allowed to import `@platform/cms-*`. |
-| `cms.bridges.ts` | Lazy map of provider → live-editing bridge, used by the client `PreviewBridge`. |
-| `lib/cms.ts` | `'use cache'` reads for published content with cache tags. |
-| `lib/breadcrumbs.ts` | Builds the breadcrumb trail from the URL and ancestor page titles. |
-| `app/[locale]/layout.tsx` | Root layout: `<html>` with the default theme, `UiProvider` (next/link, next/image), Suspense. |
-| `app/[locale]/[[...slug]]/page.tsx` | Every CMS page. `generateStaticParams` from the adapter's paths; metadata from the page's SEO fields. |
-| `app/api/preview`, `/api/preview/exit` | Enter/leave Draft Mode. |
-| `app/api/revalidate` | The webhook endpoint. |
-| `proxy.ts` | Locale redirect and `frame-ancestors`. |
-| `app/sitemap.ts`, `app/robots.ts` | From the adapter's paths. |
+| File                                   | Purpose                                                                                                                                                             |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cms.config.ts`                        | `siteConfig` (locales, site URL, default theme) and `getAdapter()`, which picks the adapter from `CMS_PROVIDER`. The only file allowed to import `@platform/cms-*`. |
+| `cms.bridges.ts`                       | Lazy map of provider → live-editing bridge, used by the client `PreviewBridge`.                                                                                     |
+| `lib/cms.ts`                           | `'use cache'` reads for published content with cache tags.                                                                                                          |
+| `lib/breadcrumbs.ts`                   | Builds the breadcrumb trail from the URL and ancestor page titles.                                                                                                  |
+| `app/[locale]/layout.tsx`              | Root layout: `<html>` with the default theme, `UiProvider` (next/link, next/image), Suspense.                                                                       |
+| `app/[locale]/[[...slug]]/page.tsx`    | Every CMS page. `generateStaticParams` from the adapter's paths; metadata from the page's SEO fields.                                                               |
+| `app/api/preview`, `/api/preview/exit` | Enter/leave Draft Mode.                                                                                                                                             |
+| `app/api/revalidate`                   | The webhook endpoint.                                                                                                                                               |
+| `proxy.ts`                             | Locale redirect and `frame-ancestors`.                                                                                                                              |
+| `app/sitemap.ts`, `app/robots.ts`      | From the adapter's paths.                                                                                                                                           |
 
 ## Configuration
 
@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   reactCompiler: true,
   typedRoutes: true,
-  transpilePackages: ["@platform/ui", "@platform/content-model", /* … */],
+  transpilePackages: ["@platform/ui", "@platform/content-model" /* … */],
   images: { remotePatterns: [/* each CMS's asset host */] },
 }
 ```

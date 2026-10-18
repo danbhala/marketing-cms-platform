@@ -29,7 +29,11 @@ describe("portableTextToRichText", () => {
   })
 
   it("maps styles, decorators and link annotations", () => {
-    expect(doc.children[0]).toEqual({ type: "heading", level: 2, children: [{ type: "text", value: "Why event-based analytics" }] })
+    expect(doc.children[0]).toEqual({
+      type: "heading",
+      level: 2,
+      children: [{ type: "text", value: "Why event-based analytics" }],
+    })
     expect(doc.children[1]).toEqual({
       type: "paragraph",
       children: [
@@ -42,7 +46,14 @@ describe("portableTextToRichText", () => {
     })
     expect(doc.children[4]).toEqual({
       type: "blockquote",
-      children: [{ type: "paragraph", children: [{ type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] }] }],
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            { type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] },
+          ],
+        },
+      ],
     })
   })
 
@@ -51,7 +62,12 @@ describe("portableTextToRichText", () => {
       type: "list",
       ordered: false,
       children: [
-        { type: "listItem", children: [{ type: "paragraph", children: [{ type: "text", value: "Name events after what the user did." }] }] },
+        {
+          type: "listItem",
+          children: [
+            { type: "paragraph", children: [{ type: "text", value: "Name events after what the user did." }] },
+          ],
+        },
         {
           type: "listItem",
           children: [
@@ -59,7 +75,14 @@ describe("portableTextToRichText", () => {
             {
               type: "list",
               ordered: false,
-              children: [{ type: "listItem", children: [{ type: "paragraph", children: [{ type: "text", value: "Storage is cheap.", marks: ["italic"] }] }] }],
+              children: [
+                {
+                  type: "listItem",
+                  children: [
+                    { type: "paragraph", children: [{ type: "text", value: "Storage is cheap.", marks: ["italic"] }] },
+                  ],
+                },
+              ],
             },
           ],
         },
@@ -68,12 +91,21 @@ describe("portableTextToRichText", () => {
     expect(doc.children[3]).toEqual({
       type: "list",
       ordered: true,
-      children: [{ type: "listItem", children: [{ type: "paragraph", children: [{ type: "text", value: "Version your definitions." }] }] }],
+      children: [
+        {
+          type: "listItem",
+          children: [{ type: "paragraph", children: [{ type: "text", value: "Version your definitions." }] }],
+        },
+      ],
     })
   })
 
   it("converts code objects and inline images with asset metadata", () => {
-    expect(doc.children[5]).toEqual({ type: "codeBlock", language: "ts", code: 'track("checkout_completed", {\n  plan: "growth",\n})' })
+    expect(doc.children[5]).toEqual({
+      type: "codeBlock",
+      language: "ts",
+      code: 'track("checkout_completed", {\n  plan: "growth",\n})',
+    })
     expect(doc.children[6]).toEqual({
       type: "image",
       media: {

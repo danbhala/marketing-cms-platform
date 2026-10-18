@@ -57,8 +57,13 @@ export function createWebhookHandlers(options: WebhookOptions) {
       const notes: string[] = []
 
       for (const event of events) {
-        const body = (event ?? {}) as { type?: { subject?: string; action?: string }; data?: { docId?: unknown }; docId?: unknown }
-        const docId = typeof body.data?.docId === "string" ? body.data.docId : typeof body.docId === "string" ? body.docId : null
+        const body = (event ?? {}) as {
+          type?: { subject?: string; action?: string }
+          data?: { docId?: unknown }
+          docId?: unknown
+        }
+        const docId =
+          typeof body.data?.docId === "string" ? body.data.docId : typeof body.docId === "string" ? body.docId : null
         const subject = body.type?.subject
 
         if (subject === "bulk" || (!docId && subject !== "doc")) {

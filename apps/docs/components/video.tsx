@@ -2,8 +2,18 @@
 export function Video({ src, caption, autoPlay = true }: { src: string; caption?: string; autoPlay?: boolean }) {
   return (
     <figure className="not-prose my-6">
-      <video src={src} controls autoPlay={autoPlay} muted={autoPlay} loop={autoPlay} playsInline className="w-full rounded-xl border bg-black" />
-      {caption ? <figcaption className="mt-2 text-center text-xs text-fd-muted-foreground">{caption}</figcaption> : null}
+      <video
+        src={src}
+        controls
+        autoPlay={autoPlay}
+        muted={autoPlay}
+        loop={autoPlay}
+        playsInline
+        className="w-full rounded-xl border bg-black"
+      />
+      {caption ? (
+        <figcaption className="text-fd-muted-foreground mt-2 text-center text-xs">{caption}</figcaption>
+      ) : null}
     </figure>
   )
 }

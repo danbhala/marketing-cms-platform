@@ -67,7 +67,12 @@ function SplitPieces({ text, animation, inherit, className, ...props }: InnerPro
   // Typewriter: index of the last character typed, so the caret can follow it.
   const [typed, setTyped] = React.useState(-1)
   const pieces = React.useMemo(
-    () => words.reduce((n, word) => n + (animation.preset === "characters" || animation.preset === "typewriter" ? Array.from(word).length : 1), 0),
+    () =>
+      words.reduce(
+        (n, word) =>
+          n + (animation.preset === "characters" || animation.preset === "typewriter" ? Array.from(word).length : 1),
+        0
+      ),
     [words, animation.preset]
   )
   const spec = React.useMemo(

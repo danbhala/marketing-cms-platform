@@ -1,10 +1,6 @@
 import type * as React from "react"
 
-import {
-  animationSettings,
-  themeClassName,
-  type Block,
-} from "@platform/content-model"
+import { animationSettings, themeClassName, type Block } from "@platform/content-model"
 import { editAttrs } from "@platform/cms-core/edit"
 import { Reveal, RevealItem, type RevealItemProps } from "@platform/animation"
 
@@ -63,13 +59,7 @@ function BlockSection({
   const animation = animationSettings(block)
   if (!animation) {
     return (
-      <Section
-        theme={theme}
-        spacing={spacing ?? block.spacing}
-        surface={surface}
-        className={className}
-        {...shared}
-      >
+      <Section theme={theme} spacing={spacing ?? block.spacing} surface={surface} className={className} {...shared}>
         {children}
       </Section>
     )
@@ -78,11 +68,7 @@ function BlockSection({
     <Reveal
       animation={animation}
       data-slot="section"
-      className={cn(
-        themeClassName(theme),
-        sectionVariants({ spacing: spacing ?? block.spacing, surface }),
-        className
-      )}
+      className={cn(themeClassName(theme), sectionVariants({ spacing: spacing ?? block.spacing, surface }), className)}
       {...shared}
     >
       {children}
@@ -117,10 +103,7 @@ function BlockItem({ block, as, children, ...props }: BlockItemProps) {
 }
 
 /** Props shared by every block component. */
-export interface BlockComponentProps<B> extends Omit<
-  React.ComponentProps<"section">,
-  "children"
-> {
+export interface BlockComponentProps<B> extends Omit<React.ComponentProps<"section">, "children"> {
   /**
    * The block's content from the CMS, already normalised to the content
    * model. Its fields are documented in `@platform/content-model`.

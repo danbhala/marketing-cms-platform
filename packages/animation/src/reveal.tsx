@@ -69,16 +69,8 @@ export interface RevealProps extends PlainProps {
   as?: "section" | "div"
 }
 
-function Reveal({
-  animation,
-  as = "section",
-  children,
-  ...props
-}: RevealProps) {
-  const { root, item } = React.useMemo(
-    () => revealVariants(animation),
-    [animation]
-  )
+function Reveal({ animation, as = "section", children, ...props }: RevealProps) {
+  const { root, item } = React.useMemo(() => revealVariants(animation), [animation])
   const motionProps = {
     initial: "hidden",
     whileInView: "visible",
@@ -94,10 +86,7 @@ function Reveal({
             {children}
           </m.div>
         ) : (
-          <m.section
-            {...motionProps}
-            {...(props as HTMLMotionProps<"section">)}
-          >
+          <m.section {...motionProps} {...(props as HTMLMotionProps<"section">)}>
             {children}
           </m.section>
         )}

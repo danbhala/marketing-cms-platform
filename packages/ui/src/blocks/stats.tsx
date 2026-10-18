@@ -15,7 +15,8 @@ export type StatsProps = BlockComponentProps<StatsBlock>
 function Stats({ block, index, className, ...props }: StatsProps) {
   const columns = block.columns ?? "4"
   // Vertical dividers only read as dividers when every stat is on one row.
-  const divide = columns === "2" ? "section-sm:divide-x" : columns === "3" ? "section-md:divide-x" : "section-lg:divide-x"
+  const divide =
+    columns === "2" ? "section-sm:divide-x" : columns === "3" ? "section-md:divide-x" : "section-lg:divide-x"
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container className="flex flex-col gap-(--block-header-gap)">

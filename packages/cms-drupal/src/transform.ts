@@ -35,7 +35,7 @@ export class TransformError extends Error {
   constructor(
     message: string,
     readonly entryId: string,
-    readonly field?: string,
+    readonly field?: string
   ) {
     super(message)
     this.name = "DrupalTransformError"
@@ -80,7 +80,8 @@ export function nodeToSiteSettings(doc: JsonApiDocument, options: TransformOptio
 function single(doc: JsonApiDocument, expectedType: string): JsonApiResourceObject {
   const node = Array.isArray(doc.data) ? doc.data[0] : doc.data
   if (!node) throw new TransformError(`Expected one ${expectedType} resource, got none`, "")
-  if (node.type !== expectedType) throw new TransformError(`Expected ${expectedType}, got ${node.type} ${node.id}`, node.id)
+  if (node.type !== expectedType)
+    throw new TransformError(`Expected ${expectedType}, got ${node.type} ${node.id}`, node.id)
   return node
 }
 
@@ -94,7 +95,7 @@ export function transformResource(
   definition: AnyDefinition,
   included: IncludedMap,
   options: TransformOptions,
-  overrides: Record<string, unknown> = {},
+  overrides: Record<string, unknown> = {}
 ): Record<string, unknown> {
   const attributes = resource.attributes ?? {}
   const relationships = resource.relationships ?? {}
@@ -107,7 +108,10 @@ export function transformResource(
       continue
     }
     const machine = fieldNameFor(definition, name)
-    const raw = field.kind === "media" || field.kind === "items" || field.kind === "blocks" ? relationships[machine]?.data : attributes[machine]
+    const raw =
+      field.kind === "media" || field.kind === "items" || field.kind === "blocks"
+        ? relationships[machine]?.data
+        : attributes[machine]
     const value = transformField(raw, field, included, options, nodeId, name)
     if (value !== undefined) out[name] = value
   }
@@ -122,7 +126,14 @@ export function transformResource(
   return result.data as Record<string, unknown>
 }
 
-function transformField(value: unknown, field: Field, included: IncludedMap, options: TransformOptions, entryId: string, name: string): unknown {
+function transformField(
+  value: unknown,
+  field: Field,
+  included: IncludedMap,
+  options: TransformOptions,
+  entryId: string,
+  name: string
+): unknown {
   switch (field.kind) {
     case "text":
     case "textarea":
@@ -136,7 +147,11 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
       return href === "" ? undefined : href
     }
     case "textList": {
-      const list = Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string" && entry !== "") : typeof value === "string" && value ? [value] : []
+      const list = Array.isArray(value)
+        ? value.filter((entry): entry is string => typeof entry === "string" && entry !== "")
+        : typeof value === "string" && value
+          ? [value]
+          : []
       return list.length === 0 && !field.required ? undefined : list
     }
     case "richText": {
@@ -148,13 +163,16 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
     case "number": {
       if (value === "" || value === null || value === undefined) return undefined
       const n = typeof value === "number" ? value : Number(value)
-      if (Number.isNaN(n)) throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
+      if (Number.isNaN(n))
+        throw new TransformError(`Field "${name}" of ${entryId} is not a number: ${String(value)}`, entryId, name)
       return n
     }
     case "boolean":
       return typeof value === "boolean" ? value : undefined
     case "media": {
-      const rel = Array.isArray(value) ? (value[0] as JsonApiRelationship | undefined) : (value as JsonApiRelationship | null | undefined)
+      const rel = Array.isArray(value)
+        ? (value[0] as JsonApiRelationship | undefined)
+        : (value as JsonApiRelationship | null | undefined)
       // A reference to media the current user may not see is omitted from `included`; treat it as unset.
       return mediaToMedia(resolve(included, rel), included, options.baseUrl) ?? undefined
     }
@@ -165,7 +183,7 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
         throw new TransformError(
           `Field "${name}" of ${entryId} has value "${selected}", expected one of ${field.options.join(", ")}`,
           entryId,
-          name,
+          name
         )
       }
       return selected
@@ -184,7 +202,7 @@ function transformField(value: unknown, field: Field, included: IncludedMap, opt
           throw new TransformError(
             `Field "${name}" of ${entryId} holds a "${resource.type}" paragraph at index ${index}; allowed: ${(field.of as AnyDefinition[]).map(resourceTypeFor).join(", ")}`,
             entryId,
-            name,
+            name
           )
         }
         out.push(transformResource(resource, definition, included, options))

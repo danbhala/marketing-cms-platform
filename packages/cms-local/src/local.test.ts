@@ -43,10 +43,14 @@ describe("local adapter", () => {
     const bad = await adapter.preview.enter(new Request("https://site.test/api/preview?secret=wrong&path=/pricing"))
     expect(bad).toMatchObject({ ok: false, status: 401 })
 
-    const good = await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=/pricing&mode=edit"))
+    const good = await adapter.preview.enter(
+      new Request("https://site.test/api/preview?secret=s3cret&path=/pricing&mode=edit")
+    )
     expect(good).toEqual({ ok: true, path: "/pricing", context: { mode: "edit" } })
 
-    const offsite = await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test"))
+    const offsite = await adapter.preview.enter(
+      new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test")
+    )
     expect(offsite).toMatchObject({ ok: true, path: "/" })
   })
 

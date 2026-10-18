@@ -19,7 +19,11 @@ describe("rich text conversion", () => {
   })
 
   it("clamps heading-1 to level 2", () => {
-    expect(ast.children[0]).toEqual({ type: "heading", level: 2, children: [{ type: "text", value: "Why event-based analytics" }] })
+    expect(ast.children[0]).toEqual({
+      type: "heading",
+      level: 2,
+      children: [{ type: "text", value: "Why event-based analytics" }],
+    })
   })
 
   it("maps marks and turns newlines into breaks", () => {
@@ -40,8 +44,16 @@ describe("rich text conversion", () => {
       type: "list",
       ordered: false,
       children: [
-        { type: "listItem", children: [{ type: "paragraph", children: [{ type: "text", value: "Name events after what the user did." }] }] },
-        { type: "listItem", children: [{ type: "paragraph", children: [{ type: "text", value: "Attach properties generously." }] }] },
+        {
+          type: "listItem",
+          children: [
+            { type: "paragraph", children: [{ type: "text", value: "Name events after what the user did." }] },
+          ],
+        },
+        {
+          type: "listItem",
+          children: [{ type: "paragraph", children: [{ type: "text", value: "Attach properties generously." }] }],
+        },
       ],
     })
     expect(ast.children[3]).toMatchObject({ type: "list", ordered: true })
@@ -61,7 +73,14 @@ describe("rich text conversion", () => {
   it("converts blockquotes, rules and embedded assets", () => {
     expect(ast.children[4]).toEqual({
       type: "blockquote",
-      children: [{ type: "paragraph", children: [{ type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] }] }],
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            { type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] },
+          ],
+        },
+      ],
     })
     expect(ast.children[5]).toEqual({ type: "thematicBreak" })
     expect(ast.children[6]).toEqual({

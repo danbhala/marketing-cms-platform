@@ -24,11 +24,7 @@ export interface TextProps
 function Text({ as = "p", size = "base", tone, align, weight, className, ...props }: TextProps) {
   const Comp = as as "p"
   return (
-    <Comp
-      data-slot="text"
-      className={cn(typographyVariants({ size, tone, align, weight }), className)}
-      {...props}
-    />
+    <Comp data-slot="text" className={cn(typographyVariants({ size, tone, align, weight }), className)} {...props} />
   )
 }
 

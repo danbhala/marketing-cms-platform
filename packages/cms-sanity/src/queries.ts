@@ -35,15 +35,19 @@ function fieldProjection(name: string, field: Field): string {
 /** Projection body for one definition: its fields, with the page `path` read from the slug. */
 export function fieldsProjection(definition: AnyDefinition): string {
   return Object.entries(definition.fields as Record<string, Field>)
-    .map(([name, field]) => (definition.type === "page" && name === "path" ? `"path": slug.current` : fieldProjection(name, field)))
+    .map(([name, field]) =>
+      definition.type === "page" && name === "path" ? `"path": slug.current` : fieldProjection(name, field)
+    )
     .join(", ")
 }
 
 export const PAGE_QUERY = defineQuery(
-  `*[_type == "page" && slug.current in $slugs][0]{ _id, _type, ${fieldsProjection(page)} }`,
+  `*[_type == "page" && slug.current in $slugs][0]{ _id, _type, ${fieldsProjection(page)} }`
 )
 
-export const SITE_SETTINGS_QUERY = defineQuery(`*[_type == "siteSettings"][0]{ _id, _type, ${fieldsProjection(siteSettings)} }`)
+export const SITE_SETTINGS_QUERY = defineQuery(
+  `*[_type == "siteSettings"][0]{ _id, _type, ${fieldsProjection(siteSettings)} }`
+)
 
 export const PATHS_QUERY = defineQuery(`*[_type == "page" && defined(slug.current)].slug.current`)
 

@@ -32,17 +32,26 @@ function Quote({ item, variant = "card", className, ...props }: QuoteProps) {
       data-slot="quote"
       className={cn(
         "flex flex-col gap-6",
-        featured ? "items-center text-center" : "h-full justify-between rounded-xl border bg-card p-6 text-card-foreground",
-        className,
+        featured
+          ? "items-center text-center"
+          : "h-full justify-between rounded-xl border bg-card p-6 text-card-foreground",
+        className
       )}
       {...editAttrs(item)}
       {...props}
     >
       {item.companyLogo ? (
-        <Image media={item.companyLogo} radius="none" className="h-8 w-auto bg-transparent" {...fieldAttrs(item, "companyLogo")} />
+        <Image
+          media={item.companyLogo}
+          radius="none"
+          className="h-8 w-auto bg-transparent"
+          {...fieldAttrs(item, "companyLogo")}
+        />
       ) : null}
       <blockquote
-        className={cn(featured ? "font-heading text-2xl font-medium text-balance section-sm:text-3xl" : "text-base text-pretty")}
+        className={cn(
+          featured ? "font-heading text-2xl font-medium text-balance section-sm:text-3xl" : "text-base text-pretty"
+        )}
         {...fieldAttrs(item, "quote")}
       >
         <p>&ldquo;{item.quote}&rdquo;</p>

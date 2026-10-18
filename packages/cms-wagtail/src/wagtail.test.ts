@@ -3,7 +3,13 @@ import { readFileSync } from "node:fs"
 import { describe, expect, it } from "vitest"
 
 import { tags } from "@platform/cms-core/tags"
-import { allBlocks, allItems, page as pageDefinition, schemaFor, siteSettings as siteSettingsDefinition } from "@platform/content-model"
+import {
+  allBlocks,
+  allItems,
+  page as pageDefinition,
+  schemaFor,
+  siteSettings as siteSettingsDefinition,
+} from "@platform/content-model"
 import type { FeatureSplitBlock, HeroBlock, PricingBlock, RichTextBlock } from "@platform/content-model"
 
 import {
@@ -61,7 +67,11 @@ const adapter = createWagtailAdapter({
   webhookSecret: "hook-secret",
 })
 const published = { locale: "en", draft: false }
-const draft = { locale: "en", draft: true, preview: { mode: "edit" as const, contentType: PAGE_TYPE.toLowerCase(), token: PREVIEW_TOKEN } }
+const draft = {
+  locale: "en",
+  draft: true,
+  preview: { mode: "edit" as const, contentType: PAGE_TYPE.toLowerCase(), token: PREVIEW_TOKEN },
+}
 const transform = { edit: false, baseUrl: API_URL }
 
 describe("transform: page", () => {
@@ -96,25 +106,60 @@ describe("transform: page", () => {
         { id: "act-1", type: "action", label: "Start free trial", href: "/signup", variant: "default" },
         { id: "act-2", type: "action", label: "Book a demo", href: "/demo", variant: "outline" },
       ],
-      media: { kind: "image", url: "https://cms.example.com/media/images/product-screenshot.png", alt: "Product screenshot", width: 1200, height: 800 },
+      media: {
+        kind: "image",
+        url: "https://cms.example.com/media/images/product-screenshot.png",
+        alt: "Product screenshot",
+        width: 1200,
+        height: 800,
+      },
     })
     expect(hero.actions[0]).not.toHaveProperty("icon")
     expect(hero).not.toHaveProperty("spacing")
 
     const split = page?.blocks[1] as FeatureSplitBlock
-    expect(split.bullets).toEqual(["Compare any two versions", "Annotate changes for your team", "Export to your warehouse"])
-    expect(split.media).toEqual({ kind: "video", url: "https://cms.example.com/documents/7/funnel-walkthrough.mp4", alt: "Funnel walkthrough", mimeType: "video/mp4" })
+    expect(split.bullets).toEqual([
+      "Compare any two versions",
+      "Annotate changes for your team",
+      "Export to your warehouse",
+    ])
+    expect(split.media).toEqual({
+      kind: "video",
+      url: "https://cms.example.com/documents/7/funnel-walkthrough.mp4",
+      alt: "Funnel walkthrough",
+      mimeType: "video/mp4",
+    })
     expect(split.body).toEqual({
       type: "root",
-      children: [{ type: "paragraph", children: [{ type: "text", value: "Change a step, rename an event or add a filter and the old version stays put. Compare them side by side and see exactly what moved." }] }],
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            {
+              type: "text",
+              value:
+                "Change a step, rename an event or add a filter and the old version stays put. Compare them side by side and see exactly what moved.",
+            },
+          ],
+        },
+      ],
     })
     // A chosen page becomes a site path without Wagtail's trailing slash.
     expect(split.actions[0]).toMatchObject({ icon: "arrow-right", href: "/docs" })
 
     const pricing = page?.blocks[2] as PricingBlock
-    expect(pricing.plans[0]).toMatchObject({ id: "plan-1", features: ["100k events / month", "1 project"], highlighted: false, action: [{ href: "/signup" }] })
+    expect(pricing.plans[0]).toMatchObject({
+      id: "plan-1",
+      features: ["100k events / month", "1 project"],
+      highlighted: false,
+      action: [{ href: "/signup" }],
+    })
     expect(pricing.plans[0]).not.toHaveProperty("badge")
-    expect(pricing.plans[1]).toMatchObject({ badge: "Most popular", highlighted: true, action: [{ href: "/signup?plan=growth" }] })
+    expect(pricing.plans[1]).toMatchObject({
+      badge: "Most popular",
+      highlighted: true,
+      action: [{ href: "/signup?plan=growth" }],
+    })
     expect(pricing.anchor).toBe("pricing")
 
     const cta = page?.blocks[5]
@@ -131,7 +176,11 @@ describe("transform: page", () => {
   it("derives the path from html_url and lists every routable page", async () => {
     const pricing = await adapter.getPage("/pricing/", published)
     expect(pricing?.path).toBe("/pricing")
-    expect(pricing).toMatchObject({ noIndex: true, theme: "muted", ogImage: { kind: "image", url: "https://cms.example.com/media/images/og-pricing.png", width: 1200, height: 630 } })
+    expect(pricing).toMatchObject({
+      noIndex: true,
+      theme: "muted",
+      ogImage: { kind: "image", url: "https://cms.example.com/media/images/og-pricing.png", width: 1200, height: 630 },
+    })
     expect(await adapter.getPaths("en")).toEqual(["/", "/pricing"])
   })
 
@@ -176,7 +225,12 @@ describe("transform: site settings", () => {
     })
     expect(settings).not.toHaveProperty("logo")
     expect(settings?.navigation.map((g) => g.href)).toEqual([undefined, "/pricing"])
-    expect(settings?.navigation[0]?.links[1]).toEqual({ id: "nav-2", type: "navLink", label: "Funnels", href: "/product/funnels" })
+    expect(settings?.navigation[0]?.links[1]).toEqual({
+      id: "nav-2",
+      type: "navLink",
+      label: "Funnels",
+      href: "/product/funnels",
+    })
     expect(settings?.footerColumns[0]?.links[0]?.href).toBe("https://status.example.com")
   })
 })
@@ -185,16 +239,49 @@ describe("rich text", () => {
   it("converts Wagtail's HTML to the portable AST", async () => {
     const page = await adapter.getPage("/", published)
     const body = (page?.blocks[4] as RichTextBlock).body
-    expect(body.children.map((n) => n.type)).toEqual(["heading", "paragraph", "list", "blockquote", "codeBlock", "paragraph"])
-    expect(body.children[0]).toEqual({ type: "heading", level: 2, children: [{ type: "text", value: "Why event-based analytics" }] })
-    expect(body.children[1]).toMatchObject({ children: [{ value: "Page views tell you where people went. " }, { value: "Events", marks: ["bold"] }, {}] })
-    expect(body.children[2]).toMatchObject({ type: "list", ordered: false, children: [{ type: "listItem" }, { type: "listItem" }, { type: "listItem" }] })
+    expect(body.children.map((n) => n.type)).toEqual([
+      "heading",
+      "paragraph",
+      "list",
+      "blockquote",
+      "codeBlock",
+      "paragraph",
+    ])
+    expect(body.children[0]).toEqual({
+      type: "heading",
+      level: 2,
+      children: [{ type: "text", value: "Why event-based analytics" }],
+    })
+    expect(body.children[1]).toMatchObject({
+      children: [{ value: "Page views tell you where people went. " }, { value: "Events", marks: ["bold"] }, {}],
+    })
+    expect(body.children[2]).toMatchObject({
+      type: "list",
+      ordered: false,
+      children: [{ type: "listItem" }, { type: "listItem" }, { type: "listItem" }],
+    })
     expect((body.children[2] as { children: { children: unknown[] }[] }).children[2]?.children[0]).toEqual({
       type: "paragraph",
-      children: [{ type: "text", value: "Version your definitions so last quarter's chart still means what it meant." }],
+      children: [
+        { type: "text", value: "Version your definitions so last quarter's chart still means what it meant." },
+      ],
     })
-    expect(body.children[3]).toEqual({ type: "blockquote", children: [{ type: "paragraph", children: [{ type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] }] }] })
-    expect(body.children[4]).toEqual({ type: "codeBlock", language: "ts", code: 'track("checkout_completed", {\n  plan: "growth",\n  seats: 12,\n})' })
+    expect(body.children[3]).toEqual({
+      type: "blockquote",
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            { type: "text", value: "The best tracking plan is the one your team actually follows.", marks: ["italic"] },
+          ],
+        },
+      ],
+    })
+    expect(body.children[4]).toEqual({
+      type: "codeBlock",
+      language: "ts",
+      code: 'track("checkout_completed", {\n  plan: "growth",\n  seats: 12,\n})',
+    })
     expect(body.children[5]).toEqual({
       type: "paragraph",
       children: [
@@ -207,27 +294,61 @@ describe("rich text", () => {
 
   it("maps link runs, nested marks, breaks, rules, images, ordered lists and database-format leftovers", () => {
     const ast = richTextToAst(richTextExtras, { baseUrl: API_URL })
-    expect(ast.children.map((n) => n.type)).toEqual(["paragraph", "thematicBreak", "image", "list", "heading", "paragraph", "paragraph"])
+    expect(ast.children.map((n) => n.type)).toEqual([
+      "paragraph",
+      "thematicBreak",
+      "image",
+      "list",
+      "heading",
+      "paragraph",
+      "paragraph",
+    ])
     expect(ast.children[0]).toEqual({
       type: "paragraph",
       children: [
         { type: "text", value: "See the " },
-        { type: "link", href: "/pricing#plans", children: [{ type: "text", value: "pricing " }, { type: "text", value: "page", marks: ["bold"] }] },
+        {
+          type: "link",
+          href: "/pricing#plans",
+          children: [
+            { type: "text", value: "pricing " },
+            { type: "text", value: "page", marks: ["bold"] },
+          ],
+        },
         { type: "break" },
         { type: "text", value: "or email " },
         { type: "link", href: "mailto:hi@example.com", children: [{ type: "text", value: "us" }] },
         { type: "text", value: "deleted", marks: ["strikethrough", "underline", "code"] },
       ],
     })
-    expect(ast.children[2]).toEqual({ type: "image", media: { kind: "image", url: "https://cms.example.com/media/images/chart.width-800.jpg", alt: "Chart", width: 800, height: 450 } })
-    expect(ast.children[3]).toMatchObject({ type: "list", ordered: true, children: [{ children: [{ type: "paragraph", children: [{ type: "text", value: "One" }] }] }, {}] })
+    expect(ast.children[2]).toEqual({
+      type: "image",
+      media: {
+        kind: "image",
+        url: "https://cms.example.com/media/images/chart.width-800.jpg",
+        alt: "Chart",
+        width: 800,
+        height: 450,
+      },
+    })
+    expect(ast.children[3]).toMatchObject({
+      type: "list",
+      ordered: true,
+      children: [{ children: [{ type: "paragraph", children: [{ type: "text", value: "One" }] }] }, {}],
+    })
     // h1 is reserved for the page title.
     expect(ast.children[4]).toMatchObject({ type: "heading", level: 2 })
     // `<a linktype="page" id>` cannot be resolved here: its text survives, the `<embed>` is dropped.
-    expect(ast.children[5]).toEqual({ type: "paragraph", children: [{ type: "text", value: "Unresolved page link stays as text" }] })
+    expect(ast.children[5]).toEqual({
+      type: "paragraph",
+      children: [{ type: "text", value: "Unresolved page link stays as text" }],
+    })
     expect(ast.children[6]).toEqual({ type: "paragraph", children: [] })
     expect(richTextToAst(undefined)).toEqual({ type: "root", children: [] })
-    expect(richTextToAst("<p>&amp; &lt;b&gt; &#169; &#xA9;</p>").children[0]).toEqual({ type: "paragraph", children: [{ type: "text", value: "& <b> © ©" }] })
+    expect(richTextToAst("<p>&amp; &lt;b&gt; &#169; &#xA9;</p>").children[0]).toEqual({
+      type: "paragraph",
+      children: [{ type: "text", value: "& <b> © ©" }],
+    })
   })
 })
 
@@ -246,13 +367,19 @@ describe("$edit", () => {
       "data-wagtail-edit-url": `https://cms.example.com/admin/pages/${HOME_PAGE_ID}/edit/`,
     })
     const hero = preview?.blocks[0] as HeroBlock
-    expect(hero.$edit?.self).toEqual({ "data-wagtail-id": "blk-hero", "data-wagtail-type": "hero", "data-wagtail-page": String(HOME_PAGE_ID) })
+    expect(hero.$edit?.self).toEqual({
+      "data-wagtail-id": "blk-hero",
+      "data-wagtail-type": "hero",
+      "data-wagtail-page": String(HOME_PAGE_ID),
+    })
     // Wagtail has no field-level editing targets.
     expect(hero.$edit?.fields).toEqual({})
     expect(hero.actions[1]?.$edit?.self?.["data-wagtail-id"]).toBe("act-2")
 
     const settings = await adapter.getSiteSettings(draft)
-    expect(settings?.$edit?.self?.["data-wagtail-edit-url"]).toBe("https://cms.example.com/admin/settings/platform_cms/sitesettings/")
+    expect(settings?.$edit?.self?.["data-wagtail-edit-url"]).toBe(
+      "https://cms.example.com/admin/settings/platform_cms/sitesettings/"
+    )
     expect(settings?.navigation[0]?.links[0]?.$edit?.self?.["data-wagtail-id"]).toBe("nav-1")
   })
 
@@ -281,28 +408,54 @@ describe("preview", () => {
 
   it("accepts a wagtail-headless-preview token and resolves the draft's path", async () => {
     const entry = await adapter.preview.enter(new Request(editorUrl()))
-    expect(entry).toEqual({ ok: true, path: "/", context: { mode: "edit", contentType: PAGE_TYPE.toLowerCase(), token: PREVIEW_TOKEN } })
+    expect(entry).toEqual({
+      ok: true,
+      path: "/",
+      context: { mode: "edit", contentType: PAGE_TYPE.toLowerCase(), token: PREVIEW_TOKEN },
+    })
   })
 
   it("rejects unknown tokens, other content types and malformed content types", async () => {
     expect(await adapter.preview.enter(new Request(editorUrl("id=3:forged")))).toMatchObject({ ok: false, status: 404 })
-    expect(await adapter.preview.enter(new Request(editorUrl(PREVIEW_TOKEN, "blog.blogpage")))).toMatchObject({ ok: false, status: 401 })
-    expect(await adapter.preview.enter(new Request(editorUrl(PREVIEW_TOKEN, "../etc")))).toMatchObject({ ok: false, status: 401 })
+    expect(await adapter.preview.enter(new Request(editorUrl(PREVIEW_TOKEN, "blog.blogpage")))).toMatchObject({
+      ok: false,
+      status: 401,
+    })
+    expect(await adapter.preview.enter(new Request(editorUrl(PREVIEW_TOKEN, "../etc")))).toMatchObject({
+      ok: false,
+      status: 401,
+    })
   })
 
   it("accepts the shared secret and never redirects off-site", async () => {
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=wrong&path=/pricing"))).toMatchObject({ ok: false, status: 401 })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?path=/pricing"))).toMatchObject({ ok: false, status: 401 })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=/pricing/"))).toEqual({ ok: true, path: "/pricing", context: { mode: "preview" } })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test"))).toMatchObject({ ok: false, status: 404 })
-    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=//evil.test"))).toMatchObject({ ok: false, status: 404 })
+    expect(
+      await adapter.preview.enter(new Request("https://site.test/api/preview?secret=wrong&path=/pricing"))
+    ).toMatchObject({ ok: false, status: 401 })
+    expect(await adapter.preview.enter(new Request("https://site.test/api/preview?path=/pricing"))).toMatchObject({
+      ok: false,
+      status: 401,
+    })
+    expect(
+      await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=/pricing/"))
+    ).toEqual({ ok: true, path: "/pricing", context: { mode: "preview" } })
+    expect(
+      await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=https://evil.test"))
+    ).toMatchObject({ ok: false, status: 404 })
+    expect(
+      await adapter.preview.enter(new Request("https://site.test/api/preview?secret=s3cret&path=//evil.test"))
+    ).toMatchObject({ ok: false, status: 404 })
     // No configured secret means hand-made previews are never accepted.
     const noSecret = createWagtailAdapter({ api: fakeApi, apiUrl: API_URL, previewSecret: "" })
-    expect(await noSecret.preview.enter(new Request("https://site.test/api/preview?secret=&path=/"))).toMatchObject({ ok: false, status: 401 })
+    expect(await noSecret.preview.enter(new Request("https://site.test/api/preview?secret=&path=/"))).toMatchObject({
+      ok: false,
+      status: 401,
+    })
   })
 
   it("derives the context from the query string and frames the admin origin", () => {
-    expect(adapter.preview.context(new URLSearchParams({ content_type: PAGE_TYPE.toLowerCase(), token: "t" }), true)).toEqual({ mode: "edit", contentType: PAGE_TYPE.toLowerCase(), token: "t" })
+    expect(
+      adapter.preview.context(new URLSearchParams({ content_type: PAGE_TYPE.toLowerCase(), token: "t" }), true)
+    ).toEqual({ mode: "edit", contentType: PAGE_TYPE.toLowerCase(), token: "t" })
     expect(adapter.preview.context(new URLSearchParams(""), true)).toEqual({ mode: "preview" })
     expect(adapter.preview.context(new URLSearchParams("token=t"), false)).toBeNull()
     expect(adapter.preview.frameAncestors).toEqual(["'self'", "https://cms.example.com"])
@@ -312,7 +465,11 @@ describe("preview", () => {
     expect(await adapter.resolvePreviewPath(new URLSearchParams(`id=${PRICING_PAGE_ID}`))).toBe("/pricing")
     expect(await adapter.resolvePreviewPath(new URLSearchParams("id=99"))).toBeNull()
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=/about"))).toBe("/about")
-    expect(await adapter.resolvePreviewPath(new URLSearchParams({ content_type: PAGE_TYPE.toLowerCase(), token: PREVIEW_TOKEN }))).toBe("/")
+    expect(
+      await adapter.resolvePreviewPath(
+        new URLSearchParams({ content_type: PAGE_TYPE.toLowerCase(), token: PREVIEW_TOKEN })
+      )
+    ).toBe("/")
   })
 
   it("does not touch the network until a read happens", async () => {
@@ -331,18 +488,36 @@ describe("webhook", () => {
 
   it("verifies the HMAC-SHA256 signature of the raw body", async () => {
     const body = JSON.stringify(webhookPublished)
-    expect(await adapter.webhook.verify(post(webhookPublished, signWebhookBody(body, "hook-secret")))).toEqual(webhookPublished)
-    expect(await adapter.webhook.verify(post(webhookPublished, signWebhookBody(body, "hook-secret").slice("sha256=".length)))).toEqual(webhookPublished)
+    expect(await adapter.webhook.verify(post(webhookPublished, signWebhookBody(body, "hook-secret")))).toEqual(
+      webhookPublished
+    )
+    expect(
+      await adapter.webhook.verify(post(webhookPublished, signWebhookBody(body, "hook-secret").slice("sha256=".length)))
+    ).toEqual(webhookPublished)
     expect(await adapter.webhook.verify(post(webhookPublished, signWebhookBody(body, "other")))).toBeNull()
     expect(await adapter.webhook.verify(post(webhookPublished))).toBeNull()
     // No configured secret means nothing is ever accepted.
-    expect(await createWagtailAdapter({ api: fakeApi, apiUrl: API_URL, webhookSecret: "" }).webhook.verify(post(webhookPublished, "sha256=abc"))).toBeNull()
+    expect(
+      await createWagtailAdapter({ api: fakeApi, apiUrl: API_URL, webhookSecret: "" }).webhook.verify(
+        post(webhookPublished, "sha256=abc")
+      )
+    ).toBeNull()
   })
 
   it("maps page and settings events to cache tags", () => {
-    expect(adapter.webhook.toEvent(webhookPublished).tags).toEqual([tags.entry(String(HOME_PAGE_ID)), tags.page("en", "/"), tags.paths("en")])
+    expect(adapter.webhook.toEvent(webhookPublished).tags).toEqual([
+      tags.entry(String(HOME_PAGE_ID)),
+      tags.page("en", "/"),
+      tags.paths("en"),
+    ])
     expect(adapter.webhook.toEvent(webhookSettings).tags).toEqual([tags.entry("1"), tags.global("en")])
-    expect(adapter.webhook.toEvent(webhookMoved).tags).toEqual([tags.entry(String(PRICING_PAGE_ID)), tags.page("en", "/plans/pricing"), tags.page("en", "/pricing"), tags.paths("en"), tags.type("page")])
+    expect(adapter.webhook.toEvent(webhookMoved).tags).toEqual([
+      tags.entry(String(PRICING_PAGE_ID)),
+      tags.page("en", "/plans/pricing"),
+      tags.page("en", "/pricing"),
+      tags.paths("en"),
+      tags.type("page"),
+    ])
     expect(adapter.webhook.toEvent({}).tags).toEqual([])
     expect(adapter.webhook.toEvent(webhookPublished).summary).toContain("page_published")
   })
@@ -350,7 +525,11 @@ describe("webhook", () => {
   it("fans out to every configured locale when the payload names none", () => {
     const multi = createWagtailAdapter({ api: fakeApi, apiUrl: API_URL, locales: ["en", "de"] })
     expect(multi.webhook.toEvent(webhookSettings).tags).toEqual([tags.entry("1"), tags.global("en"), tags.global("de")])
-    expect(multi.webhook.toEvent({ ...webhookPublished, locale: "de" }).tags).toEqual([tags.entry(String(HOME_PAGE_ID)), tags.page("de", "/"), tags.paths("de")])
+    expect(multi.webhook.toEvent({ ...webhookPublished, locale: "de" }).tags).toEqual([
+      tags.entry(String(HOME_PAGE_ID)),
+      tags.page("de", "/"),
+      tags.paths("de"),
+    ])
   })
 })
 
@@ -360,22 +539,40 @@ describe("schema generator", () => {
   const files = renderFiles(schema)
 
   it("emits a StructBlock for every item and block, a Page and a settings model", () => {
-    for (const d of allItems) expect(byName.get(d.type), d.type).toMatchObject({ base: "StructBlock", kind: "item", label: d.label })
-    for (const d of allBlocks) expect(byName.get(d.type), d.type).toMatchObject({ base: "StructBlock", kind: "block", stream: expect.stringMatching(/^[a-z_]+$/) })
+    for (const d of allItems)
+      expect(byName.get(d.type), d.type).toMatchObject({ base: "StructBlock", kind: "item", label: d.label })
+    for (const d of allBlocks)
+      expect(byName.get(d.type), d.type).toMatchObject({
+        base: "StructBlock",
+        kind: "block",
+        stream: expect.stringMatching(/^[a-z_]+$/),
+      })
     expect(byName.get("page")).toMatchObject({ base: "Page", python: "ContentPage", apiType: PAGE_TYPE })
-    expect(byName.get("siteSettings")).toMatchObject({ base: "BaseGenericSetting", python: "SiteSettings", apiType: "platform_cms.SiteSettings" })
+    expect(byName.get("siteSettings")).toMatchObject({
+      base: "BaseGenericSetting",
+      python: "SiteSettings",
+      apiType: "platform_cms.SiteSettings",
+    })
     expect(byName.get("richText")?.python).toBe("RichTextSection")
     expect(byName.get("faqItem")?.python).toBe("FaqItem")
   })
 
   it("maps field kinds to Wagtail blocks and model fields", () => {
     const hero = Object.fromEntries(byName.get("hero")!.fields.map((f) => [f.name, f]))
-    expect(hero.title).toMatchObject({ python: "title", required: true, definition: 'blocks.CharBlock(required=True, label="Title")' })
+    expect(hero.title).toMatchObject({
+      python: "title",
+      required: true,
+      definition: 'blocks.CharBlock(required=True, label="Title")',
+    })
     expect(hero.description?.definition).toContain("blocks.TextBlock(required=False")
     expect(hero.media?.definition).toBe('MediaBlock(required=False, accept="any", label="Media")')
     expect(hero.actions?.definition).toBe('ItemListBlock(ActionItem(), max_num=3, default=[], label="Actions")')
-    expect(hero.layout?.definition).toContain('blocks.ChoiceBlock(choices=[("centered", "Centered"), ("split", "Split"), ("splitReverse", "Split reverse"), ("background", "Background")], required=False, default="centered"')
-    expect(Object.fromEntries(byName.get("action")!.fields.map((f) => [f.name, f.definition])).href).toBe('LinkBlock(required=True, label="Href")')
+    expect(hero.layout?.definition).toContain(
+      'blocks.ChoiceBlock(choices=[("centered", "Centered"), ("split", "Split"), ("splitReverse", "Split reverse"), ("background", "Background")], required=False, default="centered"'
+    )
+    expect(Object.fromEntries(byName.get("action")!.fields.map((f) => [f.name, f.definition])).href).toBe(
+      'LinkBlock(required=True, label="Href")'
+    )
     expect(Object.fromEntries(byName.get("featureSplit")!.fields.map((f) => [f.name, f.definition]))).toMatchObject({
       body: 'blocks.RichTextBlock(required=False, label="Body")',
       bullets: 'blocks.ListBlock(blocks.CharBlock(label="Text"), default=[], label="Bullets")',
@@ -389,17 +586,26 @@ describe("schema generator", () => {
     expect(page.ogImage?.definition).toContain('models.ForeignKey("wagtailimages.Image"')
     expect(page.blocks?.definition).toBe('StreamField(ContentStreamBlock(), blank=True, verbose_name="Blocks")')
     const settings = Object.fromEntries(byName.get("siteSettings")!.fields.map((f) => [f.name, f.definition]))
-    expect(settings.headerActions).toBe('StreamField([("action", ActionItem())], blank=True, max_num=2, verbose_name="Header actions")')
+    expect(settings.headerActions).toBe(
+      'StreamField([("action", ActionItem())], blank=True, max_num=2, verbose_name="Header actions")'
+    )
     expect(settings.siteName).toContain("blank=False")
   })
 
   it("renders the Django app with the stream of every block and the API endpoints", () => {
     expect(files["platform_cms/blocks.py"]).toContain("class ContentStreamBlock(blocks.StreamBlock):")
-    for (const d of allBlocks) expect(files["platform_cms/blocks.py"]).toContain(`    ${byName.get(d.type)!.stream} = ${byName.get(d.type)!.python}()`)
+    for (const d of allBlocks)
+      expect(files["platform_cms/blocks.py"]).toContain(
+        `    ${byName.get(d.type)!.stream} = ${byName.get(d.type)!.python}()`
+      )
     expect(files["platform_cms/models.py"]).toContain("class ContentPage(HeadlessMixin, Page):")
     expect(files["platform_cms/models.py"]).toContain('APIField("og_image", serializer=ImageSerializer())')
-    expect(files["platform_cms/api.py"]).toContain('api_router.register_endpoint("page_preview", PagePreviewAPIViewSet)')
-    expect(files["platform_cms/api.py"]).toContain('api_router.register_endpoint("site_settings", SiteSettingsAPIViewSet)')
+    expect(files["platform_cms/api.py"]).toContain(
+      'api_router.register_endpoint("page_preview", PagePreviewAPIViewSet)'
+    )
+    expect(files["platform_cms/api.py"]).toContain(
+      'api_router.register_endpoint("site_settings", SiteSettingsAPIViewSet)'
+    )
     expect(files["platform_cms/signals.py"]).toContain("@receiver(page_published, sender=ContentPage)")
     expect(files["platform_cms/signals.py"]).toContain('SIGNATURE_HEADER = "X-Wagtail-Signature"')
   })

@@ -14,6 +14,7 @@ pnpm install
 ```
 
 Requires Node 22+ and pnpm 12 (`npm i -g pnpm@12`).
+
 </Step>
 <Step>
 ### Run the marketing site
@@ -25,6 +26,7 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). You are redirected to `/en`, the default locale.
+
 </Step>
 <Step>
 ### Open Storybook
@@ -34,6 +36,7 @@ pnpm --filter @platform/ui storybook
 ```
 
 Every atom, molecule, block and page composition, with a theme switcher in the toolbar. See [Blocks](/docs/blocks) for the explorer in these docs.
+
 </Step>
 <Step>
 ### Try draft mode
@@ -46,21 +49,22 @@ Visit [`/api/preview?secret=change-me&path=/pricing&mode=edit`](http://localhost
 ### Point it at a CMS
 
 Set `CMS_PROVIDER` to `contentful`, `storyblok`, `optimizely`, `sanity`, `drupal` or `wagtail`, add that CMS's credentials from `.env.example`, and push the generated schema with `pnpm --filter @platform/cms-<name> schema:generate`. Nothing in `apps/web` changes. See [CMS adapters](/docs/cms).
+
 </Step>
 </Steps>
 
 ## Repository layout
 
-| Path | Package | Purpose |
-| --- | --- | --- |
-| `packages/content-model` | `@platform/content-model` | The field DSL, every block/item/document definition, types, validators, fixtures |
-| `packages/ui` | `@platform/ui` | shadcn primitives, atoms, molecules, 17 blocks, templates, Storybook |
-| `packages/cms-core` | `@platform/cms-core` | The adapter contract, `$edit` helpers, cache tag scheme |
-| `packages/cms-local` | `@platform/cms-local` | Reference adapter backed by fixtures |
-| `packages/cms-contentful` …`-storyblok` …`-optimizely` …`-sanity` …`-drupal` …`-wagtail` | `@platform/cms-*` | One adapter per CMS: schema generator, transform, preview, webhook, bridge |
-| `packages/component-registry` | `@platform/component-registry` | Block type → component map |
-| `apps/web` | | The CMS-agnostic Next.js site |
-| `apps/docs` | | This site |
+| Path                                                                                     | Package                        | Purpose                                                                          |
+| ---------------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------- |
+| `packages/content-model`                                                                 | `@platform/content-model`      | The field DSL, every block/item/document definition, types, validators, fixtures |
+| `packages/ui`                                                                            | `@platform/ui`                 | shadcn primitives, atoms, molecules, 17 blocks, templates, Storybook             |
+| `packages/cms-core`                                                                      | `@platform/cms-core`           | The adapter contract, `$edit` helpers, cache tag scheme                          |
+| `packages/cms-local`                                                                     | `@platform/cms-local`          | Reference adapter backed by fixtures                                             |
+| `packages/cms-contentful` …`-storyblok` …`-optimizely` …`-sanity` …`-drupal` …`-wagtail` | `@platform/cms-*`              | One adapter per CMS: schema generator, transform, preview, webhook, bridge       |
+| `packages/component-registry`                                                            | `@platform/component-registry` | Block type → component map                                                       |
+| `apps/web`                                                                               |                                | The CMS-agnostic Next.js site                                                    |
+| `apps/docs`                                                                              |                                | This site                                                                        |
 
 ## Commands
 

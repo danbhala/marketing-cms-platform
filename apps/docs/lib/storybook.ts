@@ -6,8 +6,6 @@
 export function storybookUrl(): string {
   return (
     process.env.NEXT_PUBLIC_STORYBOOK_URL ??
-    (process.env.NODE_ENV === "production"
-      ? "/storybook"
-      : "http://localhost:6006")
+    (process.env.NODE_ENV === "production" ? "/storybook" : "http://localhost:6006")
   )
 }

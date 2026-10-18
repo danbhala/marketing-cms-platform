@@ -15,9 +15,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Contained: Story = {
-  args: { block: { ...fixtures.mediaBlock, ...{ width: 'contained' } } },
+  args: { block: { ...fixtures.mediaBlock, ...{ width: "contained" } } },
 }
 
 export const FullWidth: Story = {
-  args: { block: { ...fixtures.mediaBlock, ...{ width: 'full' } } },
+  args: { block: { ...fixtures.mediaBlock, ...{ width: "full" } } },
 }

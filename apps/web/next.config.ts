@@ -30,7 +30,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.sanity.io" },
       // Drupal serves files from its own origin; only known when the env is set.
       ...(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
-        ? [{ protocol: new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).protocol.replace(":", "") as "http" | "https", hostname: new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).hostname }]
+        ? [
+            {
+              protocol: new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).protocol.replace(":", "") as "http" | "https",
+              hostname: new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL).hostname,
+            },
+          ]
         : []),
     ],
     qualities: [75],

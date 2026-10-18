@@ -33,8 +33,40 @@ interface TextLeaf {
 type HtmlNode = ElementNode | TextLeaf
 
 const voidTags = new Set(["br", "hr", "img", "embed", "input", "meta", "link", "source", "wbr"])
-const blockTags = new Set(["p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "blockquote", "hr", "img", "embed", "pre", "div", "section", "article", "table", "figure", "figcaption"])
-const markTags: Record<string, Mark> = { b: "bold", strong: "bold", i: "italic", em: "italic", u: "underline", s: "strikethrough", del: "strikethrough", strike: "strikethrough", code: "code" }
+const blockTags = new Set([
+  "p",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "ul",
+  "ol",
+  "li",
+  "blockquote",
+  "hr",
+  "img",
+  "embed",
+  "pre",
+  "div",
+  "section",
+  "article",
+  "table",
+  "figure",
+  "figcaption",
+])
+const markTags: Record<string, Mark> = {
+  b: "bold",
+  strong: "bold",
+  i: "italic",
+  em: "italic",
+  u: "underline",
+  s: "strikethrough",
+  del: "strikethrough",
+  strike: "strikethrough",
+  code: "code",
+}
 
 const entities: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " }
 
@@ -60,7 +92,9 @@ function parseAttrs(source: string): Record<string, string> {
 export function parseHtml(html: string): HtmlNode[] {
   const root: ElementNode = { kind: "element", tag: "#root", attrs: {}, children: [] }
   const stack: ElementNode[] = [root]
-  const tokens = html.matchAll(/<!--[\s\S]*?-->|<\/([a-zA-Z][\w:-]*)\s*>|<([a-zA-Z][\w:-]*)((?:\s+[^>]*?)?)(\/?)>|([^<]+)|</g)
+  const tokens = html.matchAll(
+    /<!--[\s\S]*?-->|<\/([a-zA-Z][\w:-]*)\s*>|<([a-zA-Z][\w:-]*)((?:\s+[^>]*?)?)(\/?)>|([^<]+)|</g
+  )
   for (const token of tokens) {
     const [, closing, opening, attrSource, selfClosing, text] = token
     const parent = stack[stack.length - 1]!
@@ -139,7 +173,9 @@ function block(node: ElementNode, options: RichTextOptions): BlockNode[] {
       ]
     case "li":
       // A stray list item outside a list still renders as its own list.
-      return [{ type: "list", ordered: false, children: [{ type: "listItem", children: blocks(node.children, options) }] }]
+      return [
+        { type: "list", ordered: false, children: [{ type: "listItem", children: blocks(node.children, options) }] },
+      ]
     case "blockquote":
       return [{ type: "blockquote", children: blocks(node.children, options) }]
     case "hr":
@@ -190,8 +226,14 @@ function paragraphs(nodes: HtmlNode[], options: RichTextOptions, keepEmpty = fal
 function imageFromAttrs(attrs: Record<string, string>, options: RichTextOptions) {
   if (!attrs.src) return null
   return imageToMedia(
-    { id: Number(attrs["data-id"] ?? 0), url: attrs.src, alt: attrs.alt ?? "", width: Number(attrs.width) || null, height: Number(attrs.height) || null },
-    options.baseUrl ?? "http://placeholder.invalid/",
+    {
+      id: Number(attrs["data-id"] ?? 0),
+      url: attrs.src,
+      alt: attrs.alt ?? "",
+      width: Number(attrs.width) || null,
+      height: Number(attrs.height) || null,
+    },
+    options.baseUrl ?? "http://placeholder.invalid/"
   )
 }
 
@@ -264,5 +306,7 @@ export function linkHref(attrs: Record<string, string>): string | null {
 }
 
 function plainText(nodes: HtmlNode[]): string {
-  return nodes.map((node) => (node.kind === "text" ? node.text : node.tag === "br" ? "\n" : plainText(node.children))).join("")
+  return nodes
+    .map((node) => (node.kind === "text" ? node.text : node.tag === "br" ? "\n" : plainText(node.children)))
+    .join("")
 }

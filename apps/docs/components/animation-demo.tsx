@@ -2,7 +2,17 @@
 
 import { useState } from "react"
 
-import { animationDelays, animationDurations, animationPresets, headingAnimations, type AnimationDelay, type AnimationDuration, type AnimationPreset, type Block, type HeadingAnimation } from "@platform/content-model"
+import {
+  animationDelays,
+  animationDurations,
+  animationPresets,
+  headingAnimations,
+  type AnimationDelay,
+  type AnimationDuration,
+  type AnimationPreset,
+  type Block,
+  type HeadingAnimation,
+} from "@platform/content-model"
 import { allBlockFixtures } from "@platform/content-model/fixtures"
 import { BlockList } from "@platform/ui/templates"
 
@@ -70,7 +80,11 @@ export function AnimationDemo() {
       <div className="flex flex-wrap items-end gap-x-5 gap-y-3 text-sm">
         <label className="flex flex-col gap-1.5">
           <span className="font-medium">Block</span>
-          <Select value={type} onChange={(v) => setType(v as typeof type)} className="h-8 rounded-md border bg-fd-background px-2 text-sm">
+          <Select
+            value={type}
+            onChange={(v) => setType(v as typeof type)}
+            className="bg-fd-background h-8 rounded-md border px-2 text-sm"
+          >
             {demoBlocks.map((b) => (
               <option key={b.type} value={b.type}>
                 {b.label}
@@ -80,15 +94,27 @@ export function AnimationDemo() {
         </label>
         <div className="flex flex-col gap-1.5">
           <span className="font-medium">animation</span>
-          <Segmented value={preset} onChange={setPreset} options={animationPresets.map((p) => ({ value: p, label: presetLabels[p] }))} />
+          <Segmented
+            value={preset}
+            onChange={setPreset}
+            options={animationPresets.map((p) => ({ value: p, label: presetLabels[p] }))}
+          />
         </div>
         <div className="flex flex-col gap-1.5">
           <span className="font-medium">headingAnimation</span>
-          <Segmented value={heading} onChange={setHeading} options={headingAnimations.map((h) => ({ value: h, label: headingLabels[h] }))} />
+          <Segmented
+            value={heading}
+            onChange={setHeading}
+            options={headingAnimations.map((h) => ({ value: h, label: headingLabels[h] }))}
+          />
         </div>
         <div className="flex flex-col gap-1.5">
           <span className="font-medium">animationDuration</span>
-          <Segmented value={duration} onChange={setDuration} options={animationDurations.map((d) => ({ value: d, label: d }))} />
+          <Segmented
+            value={duration}
+            onChange={setDuration}
+            options={animationDurations.map((d) => ({ value: d, label: d }))}
+          />
         </div>
         <div className="flex flex-col gap-1.5">
           <span className="font-medium">animationDelay</span>
@@ -100,18 +126,19 @@ export function AnimationDemo() {
         <button
           type="button"
           onClick={() => setRun((n) => n + 1)}
-          className="h-8 rounded-md bg-fd-primary px-3 text-sm font-medium text-fd-primary-foreground hover:opacity-90"
+          className="bg-fd-primary text-fd-primary-foreground h-8 rounded-md px-3 text-sm font-medium hover:opacity-90"
         >
           Replay
         </button>
       </div>
-      <div className="overflow-hidden rounded-xl border theme-light">
+      <div className="theme-light overflow-hidden rounded-xl border">
         <div key={`${type}-${preset}-${stagger}-${heading}-${duration}-${delay}-${run}`} style={{ zoom: 0.6 }}>
           <BlockList blocks={[block]} />
         </div>
       </div>
-      <p className="text-xs text-fd-muted-foreground">
-        Settings shown are the block's CMS fields; the frame is scaled to 60%. The preset replays when any setting changes.
+      <p className="text-fd-muted-foreground text-xs">
+        Settings shown are the block's CMS fields; the frame is scaled to 60%. The preset replays when any setting
+        changes.
       </p>
     </div>
   )

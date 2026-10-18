@@ -29,7 +29,7 @@ function ActionGroup({ actions, size = "lg", align = "start", stackOnMobile, cla
         align === "center" && "justify-center",
         align === "end" && "justify-end",
         stackOnMobile && "section-max-sm:flex-col section-max-sm:*:w-full",
-        className,
+        className
       )}
       {...props}
     >

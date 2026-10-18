@@ -23,11 +23,15 @@ export function ShowcaseGallery() {
           <section key={showcase.slug} id={showcase.slug} className="flex flex-col gap-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="text-2xl font-semibold tracking-tight">{showcase.name}</h2>
-              <span className="flex gap-4 text-sm font-medium text-fd-primary">
+              <span className="text-fd-primary flex gap-4 text-sm font-medium">
                 <Link href={`/theme#t=${encodeTheme(showcase.theme)}`} className="underline-offset-4 hover:underline">
                   Edit in studio
                 </Link>
-                <Link href={`/showcase/${showcase.slug}`} className="underline-offset-4 hover:underline" target="_blank">
+                <Link
+                  href={`/showcase/${showcase.slug}`}
+                  className="underline-offset-4 hover:underline"
+                  target="_blank"
+                >
                   Open full page ↗
                 </Link>
               </span>
@@ -53,9 +57,25 @@ export function ShowcaseGallery() {
               <dt className="text-fd-muted-foreground">Radius</dt>
               <dd>{radius}rem</dd>
             </dl>
-            <div className="flex overflow-hidden rounded-lg border" style={themeToStyle(showcase.theme)} aria-label={`${showcase.name} palette`}>
+            <div
+              className="flex overflow-hidden rounded-lg border"
+              style={themeToStyle(showcase.theme)}
+              aria-label={`${showcase.name} palette`}
+            >
               {swatches.map((token) => (
-                <div key={token} className="flex h-14 flex-1 items-end p-1.5 text-[10px] leading-none" style={{ background: `var(--${token})`, color: token === "background" || token === "muted" || token === "secondary" ? "var(--foreground)" : token === "foreground" ? "var(--background)" : `var(--${token}-foreground, var(--background))` }}>
+                <div
+                  key={token}
+                  className="flex h-14 flex-1 items-end p-1.5 text-[10px] leading-none"
+                  style={{
+                    background: `var(--${token})`,
+                    color:
+                      token === "background" || token === "muted" || token === "secondary"
+                        ? "var(--foreground)"
+                        : token === "foreground"
+                          ? "var(--background)"
+                          : `var(--${token}-foreground, var(--background))`,
+                  }}
+                >
                   {token}
                 </div>
               ))}

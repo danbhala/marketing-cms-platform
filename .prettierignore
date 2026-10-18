@@ -4,4 +4,8 @@ node_modules/
 .turbo/
 coverage/
 pnpm-lock.yaml
-.pnpm-store/
+.pnpm-store/# generated or vendored
+packages/*/schema/
+**/__snapshots__/
+apps/docs/public/
+.claude/skills/

@@ -40,7 +40,12 @@ export interface DrupalApi {
   /** `GET /router/translate-path?path=…` (decoupled_router, installed with the `next` module). */
   translatePath(path: string, query: DrupalQuery): Promise<DrupalTranslatedPath | null>
   /** One resource by type and uuid with query params (`include`, `fields[…]`). Null on 404. */
-  getResource(type: string, uuid: string, params: Record<string, string>, query: DrupalQuery): Promise<JsonApiDocument | null>
+  getResource(
+    type: string,
+    uuid: string,
+    params: Record<string, string>,
+    query: DrupalQuery
+  ): Promise<JsonApiDocument | null>
   /** A collection, following `links.next` so callers see every page; `data` and `included` are merged across pages. */
   getCollection(type: string, params: Record<string, string>, query: DrupalQuery): Promise<JsonApiDocument>
   /** POSTs the preview query string to `/next/draft-url`; true when Drupal accepts the secret. */
@@ -71,7 +76,9 @@ export function createDrupalApi(options: DrupalClientOptions): DrupalApi {
   })
 
   const localeOptions = (query: DrupalQuery) =>
-    query.locale && query.locale !== options.defaultLocale ? { locale: query.locale, defaultLocale: options.defaultLocale } : {}
+    query.locale && query.locale !== options.defaultLocale
+      ? { locale: query.locale, defaultLocale: options.defaultLocale }
+      : {}
   const withAuth = (query: DrupalQuery) => query.draft && hasAuth
 
   return {
@@ -81,7 +88,8 @@ export function createDrupalApi(options: DrupalClientOptions): DrupalApi {
     },
 
     async getResource(type, uuid, params, query) {
-      const versioned = query.draft && query.resourceVersion && hasAuth ? { ...params, resourceVersion: query.resourceVersion } : params
+      const versioned =
+        query.draft && query.resourceVersion && hasAuth ? { ...params, resourceVersion: query.resourceVersion } : params
       try {
         // `deserialize: false` hands back the raw document, which next-drupal's generic cannot express.
         const json = (await drupal.getResource(type, uuid, {

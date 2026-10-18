@@ -38,7 +38,11 @@ function candidates(type: string): string[] {
 function pick(raw: string, type: string): string {
   try {
     const parsed = JSON.parse(raw) as unknown
-    const list = Array.isArray(parsed) ? parsed : typeof parsed === "object" && parsed ? Object.values(parsed as Record<string, unknown>) : []
+    const list = Array.isArray(parsed)
+      ? parsed
+      : typeof parsed === "object" && parsed
+        ? Object.values(parsed as Record<string, unknown>)
+        : []
     const flat = list.flatMap((entry) => (Array.isArray(entry) ? entry : [entry]))
     const names = candidates(type)
     const hit = flat.find((entry) => {
@@ -61,10 +65,18 @@ async function pickDir(dir: string, type: string): Promise<string | null> {
   } catch {
     return null
   }
-  const own = names.filter((name) => name === `paragraphs.paragraphs_type.${bundle}.yml` || name === `node.type.${bundle}.yml`)
-  const fields = names.filter((name) => name.startsWith(`field.field.paragraph.${bundle}.`) || name.startsWith(`field.field.node.${bundle}.`)).sort()
+  const own = names.filter(
+    (name) => name === `paragraphs.paragraphs_type.${bundle}.yml` || name === `node.type.${bundle}.yml`
+  )
+  const fields = names
+    .filter(
+      (name) => name.startsWith(`field.field.paragraph.${bundle}.`) || name.startsWith(`field.field.node.${bundle}.`)
+    )
+    .sort()
   if (own.length === 0) return `# type ${type} not found`
-  const parts = await Promise.all([...own, ...fields].map(async (name) => `# ${name}\n${(await readFile(join(dir, name), "utf8")).trimEnd()}`))
+  const parts = await Promise.all(
+    [...own, ...fields].map(async (name) => `# ${name}\n${(await readFile(join(dir, name), "utf8")).trimEnd()}`)
+  )
   return parts.join("\n\n")
 }
 
@@ -77,11 +89,21 @@ export async function SchemaCompare({ type }: { type: string }) {
   const items = await readOptional(join(packagesDir, "content-model/src/definitions", "items.ts"))
   const canonicalSnippet = extractDefinition(`${canonical ?? ""}\n${items ?? ""}`, type)
 
-  const tabs: { label: string; code: string; lang: string }[] = [{ label: "Canonical", code: canonicalSnippet, lang: "ts" }]
+  const tabs: { label: string; code: string; lang: string }[] = [
+    { label: "Canonical", code: canonicalSnippet, lang: "ts" },
+  ]
   for (const source of Object.values(sources)) {
     const location = "file" in source ? source.file : source.dir
-    const raw = "file" in source ? await readOptional(join(packagesDir, source.file)) : await pickDir(join(packagesDir, source.dir), type)
-    const code = raw === null ? `// run \`pnpm schema:generate\` in packages/${location.split("/")[0]}` : "file" in source ? pick(raw, type) : raw
+    const raw =
+      "file" in source
+        ? await readOptional(join(packagesDir, source.file))
+        : await pickDir(join(packagesDir, source.dir), type)
+    const code =
+      raw === null
+        ? `// run \`pnpm schema:generate\` in packages/${location.split("/")[0]}`
+        : "file" in source
+          ? pick(raw, type)
+          : raw
     tabs.push({ label: source.label, code, lang: source.lang })
   }
 

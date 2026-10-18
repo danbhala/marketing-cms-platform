@@ -18,7 +18,7 @@ export function entry(id: string, contentType: string, fields: Record<string, un
 
 export function asset(
   id: string,
-  file: { title: string; description?: string; url: string; contentType: string; width?: number; height?: number },
+  file: { title: string; description?: string; url: string; contentType: string; width?: number; height?: number }
 ): RawAsset {
   return {
     sys: { id, type: "Asset" },
@@ -78,9 +78,17 @@ export const chartAsset = asset("asset-chart", {
   height: 720,
 })
 
-export const actionPrimary = entry("act-1", "action", { label: "Start free trial", href: "/signup", variant: "default" })
+export const actionPrimary = entry("act-1", "action", {
+  label: "Start free trial",
+  href: "/signup",
+  variant: "default",
+})
 export const actionSecondary = entry("act-2", "action", { label: "Book a demo", href: "/demo", variant: "outline" })
-export const actionContact = entry("act-4", "action", { label: "Talk to sales", href: "/contact", variant: "secondary" })
+export const actionContact = entry("act-4", "action", {
+  label: "Talk to sales",
+  href: "/contact",
+  variant: "secondary",
+})
 
 /** Exercises every node type the converter handles plus the ones it must skip. */
 export const richTextDocument: RawDocument = {
@@ -91,7 +99,9 @@ export const richTextDocument: RawDocument = {
     paragraph(
       text("Page views tell you where people went. "),
       text("Events", ["bold"]),
-      text(" tell you what they did.\nModelling your product as a stream of events makes every later question a filter."),
+      text(
+        " tell you what they did.\nModelling your product as a stream of events makes every later question a filter."
+      )
     ),
     {
       nodeType: "unordered-list",
@@ -104,21 +114,51 @@ export const richTextDocument: RawDocument = {
     {
       nodeType: "ordered-list",
       data: {},
-      content: [{ nodeType: "list-item", data: {}, content: [paragraph(text("E = mc"), text("2", ["superscript"]), text(" is "), text("not", ["underline", "code"]), text(" analytics."))] }],
+      content: [
+        {
+          nodeType: "list-item",
+          data: {},
+          content: [
+            paragraph(
+              text("E = mc"),
+              text("2", ["superscript"]),
+              text(" is "),
+              text("not", ["underline", "code"]),
+              text(" analytics.")
+            ),
+          ],
+        },
+      ],
     },
-    { nodeType: "blockquote", data: {}, content: [paragraph(text("The best tracking plan is the one your team actually follows.", ["italic"]))] },
+    {
+      nodeType: "blockquote",
+      data: {},
+      content: [paragraph(text("The best tracking plan is the one your team actually follows.", ["italic"]))],
+    },
     { nodeType: "hr", data: {}, content: [] },
     { nodeType: "embedded-asset-block", data: { target: chartAsset }, content: [] },
-    { nodeType: "embedded-entry-block", data: { target: entry("blk-legacy", "legacyBanner", { text: "old" }) }, content: [] },
+    {
+      nodeType: "embedded-entry-block",
+      data: { target: entry("blk-legacy", "legacyBanner", { text: "old" }) },
+      content: [],
+    },
     paragraph(
       text("Read the "),
       { nodeType: "hyperlink", data: { uri: "/docs/tracking-plan" }, content: [text("tracking plan guide")] },
       text(" for the full checklist, or "),
-      { nodeType: "entry-hyperlink", data: { target: entry("page-pricing", "page", { path: "/pricing", title: "Pricing" }) }, content: [text("see pricing")] },
+      {
+        nodeType: "entry-hyperlink",
+        data: { target: entry("page-pricing", "page", { path: "/pricing", title: "Pricing" }) },
+        content: [text("see pricing")],
+      },
       text(" and "),
-      { nodeType: "entry-hyperlink", data: { target: { sys: { type: "Link", linkType: "Entry", id: "missing" } } }, content: [text("a missing link")] },
+      {
+        nodeType: "entry-hyperlink",
+        data: { target: { sys: { type: "Link", linkType: "Entry", id: "missing" } } },
+        content: [text("a missing link")],
+      },
       text("."),
-      { nodeType: "embedded-entry-inline", data: { target: entry("blk-legacy", "legacyBanner", {}) }, content: [] },
+      { nodeType: "embedded-entry-inline", data: { target: entry("blk-legacy", "legacyBanner", {}) }, content: [] }
     ),
   ],
 }
@@ -168,7 +208,7 @@ export const pageEntry = entry("page-home", "page", {
         entry("faq-1", "faqItem", {
           question: "Do I need a cookie banner?",
           answer: paragraphDocument(
-            "No. Collection is anonymous by design and stores nothing on the visitor's device, so no consent prompt is required in the EU or UK.",
+            "No. Collection is anonymous by design and stores nothing on the visitor's device, so no consent prompt is required in the EU or UK."
           ),
         }),
       ],

@@ -24,7 +24,7 @@ function PriceCard({ plan, className, ...props }: PriceCardProps) {
       className={cn(
         "relative flex h-full flex-col gap-6 rounded-xl border bg-card p-6 text-card-foreground",
         plan.highlighted && "border-primary shadow-lg ring-1 ring-primary",
-        className,
+        className
       )}
       {...editAttrs(plan)}
       {...props}
@@ -45,7 +45,7 @@ function PriceCard({ plan, className, ...props }: PriceCardProps) {
         ) : null}
       </div>
       <p className="flex items-baseline gap-1">
-        <span className="font-heading heading-style text-4xl" {...fieldAttrs(plan, "price")}>
+        <span className="font-heading text-4xl heading-style" {...fieldAttrs(plan, "price")}>
           {plan.price}
         </span>
         {plan.period ? (

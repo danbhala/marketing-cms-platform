@@ -52,7 +52,7 @@ const blockNode: z.ZodType<unknown> = z.lazy(() =>
     z.object({ type: z.literal("thematicBreak") }),
     z.object({ type: z.literal("image"), media: mediaSchema }),
     z.object({ type: z.literal("codeBlock"), code: z.string(), language: z.string().optional() }),
-  ]),
+  ])
 )
 
 export const richTextSchema = z.object({

@@ -64,7 +64,10 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
   const client = () =>
     (clientPromise ??= options.client
       ? Promise.resolve(options.client)
-      : createGraphClient({ graphKey: options.graphKey ?? env.OPTIMIZELY_GRAPH_SINGLE_KEY, graphUrl: options.graphUrl ?? env.OPTIMIZELY_GRAPH_GATEWAY }))
+      : createGraphClient({
+          graphKey: options.graphKey ?? env.OPTIMIZELY_GRAPH_SINGLE_KEY,
+          graphUrl: options.graphUrl ?? env.OPTIMIZELY_GRAPH_GATEWAY,
+        }))
 
   // getPage and getSiteSettings both need the previewed item in one request;
   // a short memo keeps that to a single Graph call per preview token.
@@ -97,7 +100,9 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
 
   /** In edit mode, mark everything except the content the editor has open. */
   const decorate = <T>(value: T, ctx: FetchContext): T =>
-    ctx.draft && ctx.preview?.mode === "edit" ? withEditAttrs(value, typeof ctx.preview.key === "string" ? ctx.preview.key : undefined) : value
+    ctx.draft && ctx.preview?.mode === "edit"
+      ? withEditAttrs(value, typeof ctx.preview.key === "string" ? ctx.preview.key : undefined)
+      : value
 
   return {
     name: "optimizely",
@@ -109,7 +114,8 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
         const item = await previewItem(params)
         // Previewing a page shows that draft whatever the URL says; previewing
         // anything else (site settings) shows the published page underneath.
-        if (item && isPageItem(item)) return decorate(transformPage(item, { locale: ctx.locale, previewToken: token }), ctx)
+        if (item && isPageItem(item))
+          return decorate(transformPage(item, { locale: ctx.locale, previewToken: token }), ctx)
       }
       const item = await publishedPage(path, ctx.locale)
       return item ? decorate(transformPage(item, { locale: ctx.locale, previewToken: token }), ctx) : null
@@ -120,7 +126,8 @@ export function createOptimizelyAdapter(options: OptimizelyCmsOptions = {}): Cms
       const token = params?.preview_token
       if (params) {
         const item = await previewItem(params)
-        if (item && isSettingsItem(item)) return decorate(transformSiteSettings(item, { locale: ctx.locale, previewToken: token }), ctx)
+        if (item && isSettingsItem(item))
+          return decorate(transformSiteSettings(item, { locale: ctx.locale, previewToken: token }), ctx)
       }
       const item = await publishedSettings(ctx.locale)
       return item ? decorate(transformSiteSettings(item, { locale: ctx.locale, previewToken: token }), ctx) : null

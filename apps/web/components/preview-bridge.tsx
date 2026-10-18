@@ -9,7 +9,7 @@ import { bridges } from "@/cms.bridges"
 
 /** Created once at module scope; next/dynamic still only fetches the chunk that renders. */
 const components: Record<string, ComponentType<PreviewBridgeProps>> = Object.fromEntries(
-  Object.entries(bridges).map(([provider, load]) => [provider, dynamic(load, { ssr: false })]),
+  Object.entries(bridges).map(([provider, load]) => [provider, dynamic(load, { ssr: false })])
 )
 
 /** Loads the configured CMS's live-editing bridge. Rendered only in Draft Mode. */

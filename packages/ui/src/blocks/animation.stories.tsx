@@ -25,8 +25,9 @@ function AnimatedBlocks({ blocks }: { blocks: Block[] }) {
 async function waitForReveal({ canvasElement }: { canvasElement: HTMLElement }) {
   const deadline = Date.now() + 6000
   const settled = () =>
-    Array.from(canvasElement.querySelectorAll<HTMLElement>("[style]")).every((el) => getComputedStyle(el).opacity === "1") &&
-    !canvasElement.querySelector("[data-char][style]")
+    Array.from(canvasElement.querySelectorAll<HTMLElement>("[style]")).every(
+      (el) => getComputedStyle(el).opacity === "1"
+    ) && !canvasElement.querySelector("[data-char][style]")
   await new Promise((resolve) => setTimeout(resolve, 300))
   while (!settled() && Date.now() < deadline) await new Promise((resolve) => setTimeout(resolve, 100))
 }
@@ -92,7 +93,16 @@ export const BlurIn: Story = {
 
 /** `animationDuration` and `animationDelay` tune the timing of any preset. */
 export const SlowWithDelay: Story = {
-  args: { blocks: [animated(fixtures.testimonialsBlock, { animation: "fadeUp", animationStagger: true, animationDuration: "slow", animationDelay: "medium" })] },
+  args: {
+    blocks: [
+      animated(fixtures.testimonialsBlock, {
+        animation: "fadeUp",
+        animationStagger: true,
+        animationDuration: "slow",
+        animationDelay: "medium",
+      }),
+    ],
+  },
 }
 
 /** `headingAnimation: "words"` on a block that does not otherwise animate: only the title moves. */
@@ -102,12 +112,23 @@ export const HeadingWords: Story = {
 
 /** Heading and block effects combine: the title reveals line by line as the staggered hero fades up around it. */
 export const HeadingLines: Story = {
-  args: { blocks: [animated(fixtures.heroBlock, { layout: "split", animation: "fadeUp", animationStagger: true, headingAnimation: "lines" })] },
+  args: {
+    blocks: [
+      animated(fixtures.heroBlock, {
+        layout: "split",
+        animation: "fadeUp",
+        animationStagger: true,
+        headingAnimation: "lines",
+      }),
+    ],
+  },
 }
 
 /** Letter by letter, with the block's `slow` duration. */
 export const HeadingCharacters: Story = {
-  args: { blocks: [animated(fixtures.featureSplitBlock, { headingAnimation: "characters", animationDuration: "slow" })] },
+  args: {
+    blocks: [animated(fixtures.featureSplitBlock, { headingAnimation: "characters", animationDuration: "slow" })],
+  },
 }
 
 /** Typed out behind a caret; suits short titles. */

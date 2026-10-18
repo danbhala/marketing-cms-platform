@@ -46,7 +46,8 @@ export function generateModule(): ModuleFiles {
 
   files[`${MODULE_NAME}.info.yml`] = toYaml(infoFile())
 
-  for (const definition of [...allBlocks, ...allItems]) emit(`paragraphs.paragraphs_type.${bundleFor(definition)}`, paragraphType(definition))
+  for (const definition of [...allBlocks, ...allItems])
+    emit(`paragraphs.paragraphs_type.${bundleFor(definition)}`, paragraphType(definition))
   for (const definition of allDocuments) emit(`node.type.${bundleFor(definition)}`, nodeType(definition))
 
   for (const [key, storage] of fieldStorages()) {
@@ -114,7 +115,9 @@ function nodeType(definition: AnyDefinition): Record<string, YamlValue> {
     dependencies: {},
     name: definition.label,
     type: bundleFor(definition),
-    description: definition.description ?? (definition.singleton ? "Exactly one of these exists per site." : "A page built from paragraph blocks."),
+    description:
+      definition.description ??
+      (definition.singleton ? "Exactly one of these exists per site." : "A page built from paragraph blocks."),
     help: "",
     // Every save makes a revision so `resourceVersion=rel:working-copy` has a draft to show.
     new_revision: true,
@@ -149,11 +152,19 @@ function fieldStorage(entityType: DrupalEntityType, name: string, storage: Field
   }
 }
 
-function fieldInstance(definition: AnyDefinition, name: string, field: Field, machine: string): Record<string, YamlValue> {
+function fieldInstance(
+  definition: AnyDefinition,
+  name: string,
+  field: Field,
+  machine: string
+): Record<string, YamlValue> {
   const entityType = entityTypeFor(definition)
   const bundle = bundleFor(definition)
   const storage = fieldStorages().get(`${entityType}.${machine}`)!
-  const config = [`field.storage.${entityType}.${machine}`, entityType === "node" ? `node.type.${bundle}` : `paragraphs.paragraphs_type.${bundle}`]
+  const config = [
+    `field.storage.${entityType}.${machine}`,
+    entityType === "node" ? `node.type.${bundle}` : `paragraphs.paragraphs_type.${bundle}`,
+  ]
   const modules = new Set<string>()
   let settings: YamlValue = {}
   let defaultValue: YamlValue = []
@@ -284,7 +295,13 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
   let weight = 0
 
   if (entityType === "node") {
-    content.title = { type: "string_textfield", weight: weight++, region: "content", settings: { size: 60, placeholder: "" }, third_party_settings: {} }
+    content.title = {
+      type: "string_textfield",
+      weight: weight++,
+      region: "content",
+      settings: { size: 60, placeholder: "" },
+      third_party_settings: {},
+    }
   }
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
     if (base[name]) continue
@@ -292,12 +309,25 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
     const widget = widgetFor(field)
     if (widget.module) modules.add(widget.module)
     config.push(`field.field.${entityType}.${bundle}.${machine}`)
-    content[machine] = { type: widget.type, weight: weight++, region: "content", settings: widget.settings, third_party_settings: {} }
+    content[machine] = {
+      type: widget.type,
+      weight: weight++,
+      region: "content",
+      settings: widget.settings,
+      third_party_settings: {},
+    }
   }
   if (entityType === "node") {
     modules.add("path")
-    if (base.path) content.path = { type: "path", weight: weight++, region: "content", settings: {}, third_party_settings: {} }
-    content.status = { type: "boolean_checkbox", weight, region: "content", settings: { display_label: true }, third_party_settings: {} }
+    if (base.path)
+      content.path = { type: "path", weight: weight++, region: "content", settings: {}, third_party_settings: {} }
+    content.status = {
+      type: "boolean_checkbox",
+      weight,
+      region: "content",
+      settings: { display_label: true },
+      third_party_settings: {},
+    }
   }
 
   return {
@@ -309,7 +339,10 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
     bundle,
     mode: "default",
     content,
-    hidden: entityType === "node" ? { created: true, promote: true, sticky: true, uid: true } : { created: true, status: true, uid: true },
+    hidden:
+      entityType === "node"
+        ? { created: true, promote: true, sticky: true, uid: true }
+        : { created: true, status: true, uid: true },
   }
 }
 

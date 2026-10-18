@@ -24,7 +24,7 @@ export class OptimizelyTransformError extends Error {
   constructor(
     readonly entryId: string,
     readonly field: string,
-    detail: string,
+    detail: string
   ) {
     super(`Optimizely content "${entryId}" is invalid at "${field}": ${detail}`)
     this.name = "OptimizelyTransformError"
@@ -58,13 +58,15 @@ export function pathFromUrl(url: GraphUrl | null | undefined, locale: string): s
 }
 
 export function transformPage(item: GraphItem, options: TransformOptions): Page {
-  if (!isPageItem(item)) throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${pageKey}, got ${item.__typename}`)
+  if (!isPageItem(item))
+    throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${pageKey}, got ${item.__typename}`)
   const path = pathFromUrl(item._metadata?.url, options.locale) ?? "/"
   return transformNode(item, pageDefinition, options, { path }) as Page
 }
 
 export function transformSiteSettings(item: GraphItem, options: TransformOptions): SiteSettings {
-  if (!isSettingsItem(item)) throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${settingsKey}, got ${item.__typename}`)
+  if (!isSettingsItem(item))
+    throw new OptimizelyTransformError(itemId(item, "?"), "type", `expected ${settingsKey}, got ${item.__typename}`)
   return transformNode(item, settingsDefinition, options) as SiteSettings
 }
 
@@ -77,7 +79,7 @@ export function transformNode(
   definition: AnyDefinition,
   options: TransformOptions,
   extra: Record<string, unknown> = {},
-  fallbackId = "unknown",
+  fallbackId = "unknown"
 ): Record<string, unknown> {
   const id = itemId(item, fallbackId)
   const out: Record<string, unknown> = { id, type: definition.type, ...extra }
@@ -113,9 +115,17 @@ function convert(raw: unknown, field: Field, ctx: FieldContext): unknown {
     case "link":
       return linkHref(raw)
     case "textList":
-      return Array.isArray(raw) ? raw.filter((v): v is string => typeof v === "string") : field.required ? [] : undefined
+      return Array.isArray(raw)
+        ? raw.filter((v): v is string => typeof v === "string")
+        : field.required
+          ? []
+          : undefined
     case "richText":
-      return isEmpty(raw) ? (field.required ? toRichText(null) : undefined) : toRichText(raw as OptimizelyRichText | string)
+      return isEmpty(raw)
+        ? field.required
+          ? toRichText(null)
+          : undefined
+        : toRichText(raw as OptimizelyRichText | string)
     case "number":
       return typeof raw === "number" ? raw : isEmpty(raw) ? undefined : Number(raw)
     case "boolean":
@@ -145,7 +155,10 @@ function convert(raw: unknown, field: Field, ctx: FieldContext): unknown {
 function linkHref(raw: unknown): string | undefined {
   if (typeof raw === "string") return raw || undefined
   if (!raw || typeof raw !== "object") return undefined
-  const url = "url" in raw && (raw as GraphLink).url && typeof (raw as GraphLink).url === "object" ? (raw as GraphLink).url : (raw as GraphUrl)
+  const url =
+    "url" in raw && (raw as GraphLink).url && typeof (raw as GraphLink).url === "object"
+      ? (raw as GraphLink).url
+      : (raw as GraphUrl)
   const href = url?.default ?? url?.hierarchical ?? url?.internal
   return href || undefined
 }
@@ -164,7 +177,9 @@ export function toMedia(ref: GraphContentReference | null | undefined, previewTo
   if (!rawUrl) return undefined
   const mimeType = asset?.MimeType ?? undefined
   const kind =
-    asset?.__typename === "cmp_PublicVideoAsset" || mimeType?.startsWith("video/") || videoExtensions.test(rawUrl) ? "video" : "image"
+    asset?.__typename === "cmp_PublicVideoAsset" || mimeType?.startsWith("video/") || videoExtensions.test(rawUrl)
+      ? "video"
+      : "image"
   const width = asset?.Width ?? undefined
   const height = asset?.Height ?? undefined
   return {

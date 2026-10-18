@@ -66,8 +66,6 @@ export interface WagtailSchema {
   types: WagtailTypeSchema[]
 }
 
-
-
 /**
  * Canonical page fields Wagtail already provides. The generated model does not
  * redeclare them; the transform reads them from the API's body or `meta`.
@@ -144,7 +142,8 @@ export function blockField(name: string, field: Field): string {
       return `blocks.ListBlock(blocks.CharBlock(label="Text"), default=[], ${common})`
     case "items": {
       const bounds = `${field.min !== undefined ? `, min_num=${field.min}` : ""}${field.max !== undefined ? `, max_num=${field.max}` : ""}`
-      if (field.of.length === 1) return `ItemListBlock(${pythonClassName(field.of[0]!)}()${bounds}, default=[], ${common})`
+      if (field.of.length === 1)
+        return `ItemListBlock(${pythonClassName(field.of[0]!)}()${bounds}, default=[], ${common})`
       return `blocks.StreamBlock(${streamChildren(field.of)}, required=False${bounds}, ${common})`
     }
     case "blocks":

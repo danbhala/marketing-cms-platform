@@ -1,6 +1,6 @@
-import { animationDelays, animationDurations, animationPresets, headingAnimations } from "../animation";
-import { defineBlock, field } from "../fields";
-import { themeNames } from "../themes";
+import { animationDelays, animationDurations, animationPresets, headingAnimations } from "../animation"
+import { defineBlock, field } from "../fields"
+import { themeNames } from "../themes"
 import {
   action,
   card,
@@ -16,7 +16,7 @@ import {
   step,
   tab,
   testimonial,
-} from "./items";
+} from "./items"
 
 /**
  * Presentation fields every block gets, so any block can be themed, anchored
@@ -41,16 +41,16 @@ const presentation = {
   }),
   animationDuration: field.select(animationDurations, { defaultValue: "normal" }),
   animationDelay: field.select(animationDelays, { defaultValue: "none" }),
-};
+}
 
 /** The shared heading slot: eyebrow, title and description. */
 const heading = {
   eyebrow: field.text(),
   title: field.text(),
   description: field.textarea(),
-};
+}
 
-const columns = field.select(["2", "3", "4"] as const, { defaultValue: "3" });
+const columns = field.select(["2", "3", "4"] as const, { defaultValue: "3" })
 
 export const hero = defineBlock("hero", {
   label: "Hero",
@@ -65,7 +65,7 @@ export const hero = defineBlock("hero", {
     }),
     ...presentation,
   },
-});
+})
 
 export const logoCloud = defineBlock("logoCloud", {
   label: "Logo cloud",
@@ -76,7 +76,7 @@ export const logoCloud = defineBlock("logoCloud", {
     grayscale: field.boolean(),
     ...presentation,
   },
-});
+})
 
 export const featureGrid = defineBlock("featureGrid", {
   label: "Feature grid",
@@ -87,7 +87,7 @@ export const featureGrid = defineBlock("featureGrid", {
     itemStyle: field.select(["plain", "card"] as const, { defaultValue: "plain" }),
     ...presentation,
   },
-});
+})
 
 export const featureSplit = defineBlock("featureSplit", {
   label: "Feature split",
@@ -101,7 +101,7 @@ export const featureSplit = defineBlock("featureSplit", {
     mediaPosition: field.select(["right", "left"] as const, { defaultValue: "right" }),
     ...presentation,
   },
-});
+})
 
 export const stats = defineBlock("stats", {
   label: "Stats",
@@ -111,7 +111,7 @@ export const stats = defineBlock("stats", {
     columns,
     ...presentation,
   },
-});
+})
 
 export const testimonials = defineBlock("testimonials", {
   label: "Testimonials",
@@ -121,7 +121,7 @@ export const testimonials = defineBlock("testimonials", {
     layout: field.select(["grid", "featured"] as const, { defaultValue: "grid" }),
     ...presentation,
   },
-});
+})
 
 export const pricing = defineBlock("pricing", {
   label: "Pricing table",
@@ -130,7 +130,7 @@ export const pricing = defineBlock("pricing", {
     plans: field.items([pricingPlan], { max: 4 }),
     ...presentation,
   },
-});
+})
 
 export const comparisonTable = defineBlock("comparisonTable", {
   label: "Comparison table",
@@ -140,7 +140,7 @@ export const comparisonTable = defineBlock("comparisonTable", {
     rows: field.items([comparisonRow]),
     ...presentation,
   },
-});
+})
 
 export const faq = defineBlock("faq", {
   label: "FAQ",
@@ -150,7 +150,7 @@ export const faq = defineBlock("faq", {
     layout: field.select(["single", "split"] as const, { defaultValue: "single" }),
     ...presentation,
   },
-});
+})
 
 export const cta = defineBlock("cta", {
   label: "Call to action",
@@ -162,7 +162,7 @@ export const cta = defineBlock("cta", {
     layout: field.select(["centered", "split"] as const, { defaultValue: "centered" }),
     ...presentation,
   },
-});
+})
 
 export const cardGrid = defineBlock("cardGrid", {
   label: "Card grid",
@@ -173,7 +173,7 @@ export const cardGrid = defineBlock("cardGrid", {
     actions: field.items([action], { max: 1 }),
     ...presentation,
   },
-});
+})
 
 export const teamGrid = defineBlock("teamGrid", {
   label: "Team grid",
@@ -183,7 +183,7 @@ export const teamGrid = defineBlock("teamGrid", {
     columns: field.select(["3", "4"] as const, { defaultValue: "4" }),
     ...presentation,
   },
-});
+})
 
 export const steps = defineBlock("steps", {
   label: "Steps",
@@ -193,7 +193,7 @@ export const steps = defineBlock("steps", {
     orientation: field.select(["horizontal", "vertical"] as const, { defaultValue: "horizontal" }),
     ...presentation,
   },
-});
+})
 
 export const tabs = defineBlock("tabs", {
   label: "Tabbed content",
@@ -202,7 +202,7 @@ export const tabs = defineBlock("tabs", {
     tabs: field.items([tab]),
     ...presentation,
   },
-});
+})
 
 export const richTextBlock = defineBlock("richText", {
   label: "Rich text",
@@ -211,7 +211,7 @@ export const richTextBlock = defineBlock("richText", {
     width: field.select(["prose", "full"] as const, { defaultValue: "prose" }),
     ...presentation,
   },
-});
+})
 
 export const mediaBlock = defineBlock("media", {
   label: "Media",
@@ -221,7 +221,7 @@ export const mediaBlock = defineBlock("media", {
     width: field.select(["contained", "full"] as const, { defaultValue: "contained" }),
     ...presentation,
   },
-});
+})
 
 export const form = defineBlock("form", {
   label: "Form",
@@ -236,7 +236,7 @@ export const form = defineBlock("form", {
     layout: field.select(["stacked", "inline"] as const, { defaultValue: "stacked" }),
     ...presentation,
   },
-});
+})
 
 /** Every block a page can contain. Add new blocks here. */
 export const allBlocks = [
@@ -257,4 +257,4 @@ export const allBlocks = [
   richTextBlock,
   mediaBlock,
   form,
-] as const;
+] as const

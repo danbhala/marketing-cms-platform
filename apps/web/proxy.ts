@@ -20,7 +20,7 @@ export function proxy(request: NextRequest) {
 
   const response = NextResponse.next()
   const previewing = request.cookies.has("__prerender_bypass")
-  const ancestors = previewing ? frameAncestors[siteConfig.provider] ?? ["'self'"] : ["'self'"]
+  const ancestors = previewing ? (frameAncestors[siteConfig.provider] ?? ["'self'"]) : ["'self'"]
   response.headers.set("Content-Security-Policy", `frame-ancestors ${ancestors.join(" ")}`)
   return response
 }

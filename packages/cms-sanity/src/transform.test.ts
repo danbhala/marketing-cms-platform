@@ -28,7 +28,8 @@ function stega(text: string, payload: Record<string, unknown>): string {
   const alphabet = ["​", "‌", "‍", "﻿"]
   let encoded = "​".repeat(4)
   for (const byte of new TextEncoder().encode(JSON.stringify(payload))) {
-    encoded += alphabet[(byte >> 6) & 3]! + alphabet[(byte >> 4) & 3]! + alphabet[(byte >> 2) & 3]! + alphabet[byte & 3]!
+    encoded +=
+      alphabet[(byte >> 6) & 3]! + alphabet[(byte >> 4) & 3]! + alphabet[(byte >> 2) & 3]! + alphabet[byte & 3]!
   }
   return text + encoded
 }
@@ -67,7 +68,9 @@ describe("transformDocument", () => {
     const broken = clone(pageFixture) as Record<string, unknown>
     delete broken.title
     expect(() => transformDocument(broken, pageDefinition, { config, edit: false })).toThrow(SanityTransformError)
-    expect(() => transformDocument(broken, pageDefinition, { config, edit: false })).toThrow(/page "page-home" is invalid at "title"/)
+    expect(() => transformDocument(broken, pageDefinition, { config, edit: false })).toThrow(
+      /page "page-home" is invalid at "title"/
+    )
 
     const badSelect = clone(pageFixture) as { blocks: Array<Record<string, unknown>> }
     badSelect.blocks[0]!.layout = "diagonal"
@@ -122,8 +125,12 @@ describe("transformDocument", () => {
 
       const hero = page.blocks[0] as HeroBlock
       expect(hero.$edit?.self).toEqual({ "data-sanity": `id=page-home;type=page;path=blocks:blk-hero;${base}` })
-      expect(hero.$edit?.fields?.title).toEqual({ "data-sanity": `id=page-home;type=page;path=blocks:blk-hero.title;${base}` })
-      expect(hero.actions[0]?.$edit?.self).toEqual({ "data-sanity": `id=page-home;type=page;path=blocks:blk-hero.actions:act-1;${base}` })
+      expect(hero.$edit?.fields?.title).toEqual({
+        "data-sanity": `id=page-home;type=page;path=blocks:blk-hero.title;${base}`,
+      })
+      expect(hero.actions[0]?.$edit?.self).toEqual({
+        "data-sanity": `id=page-home;type=page;path=blocks:blk-hero.actions:act-1;${base}`,
+      })
       expect(hero.actions[0]?.$edit?.fields?.label).toEqual({
         "data-sanity": `id=page-home;type=page;path=blocks:blk-hero.actions:act-1.label;${base}`,
       })
@@ -148,7 +155,16 @@ describe("toMedia", () => {
   }
 
   it("applies crop to the reported dimensions and url", () => {
-    const media = toMedia({ _type: "imageWithAlt", alt: "Cropped", asset, crop: { left: 0.25, right: 0.25, top: 0, bottom: 0 }, hotspot: null }, config)
+    const media = toMedia(
+      {
+        _type: "imageWithAlt",
+        alt: "Cropped",
+        asset,
+        crop: { left: 0.25, right: 0.25, top: 0, bottom: 0 },
+        hotspot: null,
+      },
+      config
+    )
     expect(media).toMatchObject({ kind: "image", alt: "Cropped", width: 800, height: 900 })
     expect(media?.url).toContain("rect=")
   })
@@ -158,11 +174,24 @@ describe("toMedia", () => {
       {
         _type: "anyMedia",
         image: null,
-        video: { _type: "videoWithAlt", alt: "Demo", asset: { _id: "file-def-mp4", url: "https://cdn.sanity.io/files/testproj/production/def.mp4", mimeType: "video/mp4" } },
+        video: {
+          _type: "videoWithAlt",
+          alt: "Demo",
+          asset: {
+            _id: "file-def-mp4",
+            url: "https://cdn.sanity.io/files/testproj/production/def.mp4",
+            mimeType: "video/mp4",
+          },
+        },
       },
-      config,
+      config
     )
-    expect(video).toEqual({ kind: "video", url: "https://cdn.sanity.io/files/testproj/production/def.mp4", alt: "Demo", mimeType: "video/mp4" })
+    expect(video).toEqual({
+      kind: "video",
+      url: "https://cdn.sanity.io/files/testproj/production/def.mp4",
+      alt: "Demo",
+      mimeType: "video/mp4",
+    })
   })
 
   it("returns undefined for empty values", () => {

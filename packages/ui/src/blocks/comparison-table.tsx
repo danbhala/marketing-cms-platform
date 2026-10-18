@@ -58,7 +58,10 @@ function ComparisonTable({ block, index, className, ...props }: ComparisonTableP
                   <TableHead
                     key={column.id}
                     scope="col"
-                    className={cn("px-4 py-4 text-center text-base font-semibold text-foreground", column.highlighted && "bg-primary/5")}
+                    className={cn(
+                      "px-4 py-4 text-center text-base font-semibold text-foreground",
+                      column.highlighted && "bg-primary/5"
+                    )}
                     {...editAttrs(column)}
                   >
                     <span className="inline-flex items-center gap-2">
@@ -76,7 +79,10 @@ function ComparisonTable({ block, index, className, ...props }: ComparisonTableP
                     {row.label}
                   </TableHead>
                   {block.columns.map((column, i) => (
-                    <TableCell key={column.id} className={cn("px-4 py-3 text-center", column.highlighted && "bg-primary/5")}>
+                    <TableCell
+                      key={column.id}
+                      className={cn("px-4 py-3 text-center", column.highlighted && "bg-primary/5")}
+                    >
                       <CellValue value={row.values?.[i]} />
                     </TableCell>
                   ))}

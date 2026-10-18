@@ -89,7 +89,8 @@ export function createPreviewHandlers(options: PreviewOptions): PreviewHandlers 
     async enter(request): Promise<PreviewEntry> {
       const url = new URL(request.url)
       const params = previewParams(url.searchParams)
-      if (!params) return { ok: false, status: 400, message: "Missing Optimizely preview parameters (key, preview_token)" }
+      if (!params)
+        return { ok: false, status: 400, message: "Missing Optimizely preview parameters (key, preview_token)" }
 
       let item: unknown
       try {
@@ -97,15 +98,22 @@ export function createPreviewHandlers(options: PreviewOptions): PreviewHandlers 
       } catch (error) {
         // Graph rejects expired or forged tokens with an HTTP error; anything else is not ours to hide.
         const status = (error as { status?: number }).status
-        if (status === 401 || status === 403) return { ok: false, status: 401, message: "Invalid or expired Optimizely preview token" }
+        if (status === 401 || status === 403)
+          return { ok: false, status: 401, message: "Invalid or expired Optimizely preview token" }
         return { ok: false, status: 404, message: `Optimizely content "${params.key}" could not be loaded` }
       }
-      if (!isGraphItem(item)) return { ok: false, status: 404, message: `Optimizely content "${params.key}" was not found` }
+      if (!isGraphItem(item))
+        return { ok: false, status: 404, message: `Optimizely content "${params.key}" was not found` }
 
       const locale = params.loc || item._metadata?.locale || options.locale || "en"
       // Site settings have no page of their own: show them on the home page.
-      const path = isSettingsItem(item) ? "/" : isPageItem(item) ? pathFromUrl(item._metadata?.url, locale) ?? "/" : null
-      if (path === null) return { ok: false, status: 404, message: `Content type "${item.__typename}" has no page to preview` }
+      const path = isSettingsItem(item)
+        ? "/"
+        : isPageItem(item)
+          ? (pathFromUrl(item._metadata?.url, locale) ?? "/")
+          : null
+      if (path === null)
+        return { ok: false, status: 404, message: `Content type "${item.__typename}" has no page to preview` }
 
       return { ok: true, path: normalizePath(path), context: toContext(params, cmsUrl) }
     },

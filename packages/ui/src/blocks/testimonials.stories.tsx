@@ -15,13 +15,18 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Grid: Story = {
-  args: { block: { ...fixtures.testimonialsBlock, ...{ layout: 'grid' } } },
+  args: { block: { ...fixtures.testimonialsBlock, ...{ layout: "grid" } } },
 }
 
 export const Featured: Story = {
-  args: { block: { ...fixtures.testimonialsBlock, ...{ layout: 'featured', testimonials: fixtures.testimonials.slice(0, 1) } } },
+  args: {
+    block: {
+      ...fixtures.testimonialsBlock,
+      ...{ layout: "featured", testimonials: fixtures.testimonials.slice(0, 1) },
+    },
+  },
 }
 
 export const Dark: Story = {
-  args: { block: { ...fixtures.testimonialsBlock, ...{ theme: 'dark' } } },
+  args: { block: { ...fixtures.testimonialsBlock, ...{ theme: "dark" } } },
 }

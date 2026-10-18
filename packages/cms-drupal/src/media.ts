@@ -16,7 +16,10 @@ export function includedMap(included: JsonApiResourceObject[] | undefined): Incl
   return new Map((included ?? []).map((resource) => [`${resource.type}:${resource.id}`, resource]))
 }
 
-export function resolve(included: IncludedMap, rel: JsonApiRelationship | null | undefined): JsonApiResourceObject | undefined {
+export function resolve(
+  included: IncludedMap,
+  rel: JsonApiRelationship | null | undefined
+): JsonApiResourceObject | undefined {
   return rel ? included.get(`${rel.type}:${rel.id}`) : undefined
 }
 
@@ -27,7 +30,11 @@ const sourceFields: Record<string, string> = {
   "media--audio": "field_media_audio_file",
 }
 
-export function mediaToMedia(media: JsonApiResourceObject | undefined, included: IncludedMap, baseUrl: string): Media | null {
+export function mediaToMedia(
+  media: JsonApiResourceObject | undefined,
+  included: IncludedMap,
+  baseUrl: string
+): Media | null {
   if (!media) return null
   const attributes = media.attributes ?? {}
   const name = typeof attributes.name === "string" ? attributes.name : ""
@@ -37,14 +44,19 @@ export function mediaToMedia(media: JsonApiResourceObject | undefined, included:
     return typeof url === "string" && url ? { kind: "video", url, alt: name } : null
   }
 
-  const sourceField = sourceFields[media.type] ?? Object.keys(media.relationships ?? {}).find((key) => key.startsWith("field_media_"))
+  const sourceField =
+    sourceFields[media.type] ?? Object.keys(media.relationships ?? {}).find((key) => key.startsWith("field_media_"))
   const relationship = sourceField ? media.relationships?.[sourceField]?.data : null
   const rel = Array.isArray(relationship) ? relationship[0] : relationship
   const file = resolve(included, rel)
   const uri = file?.attributes?.uri as { url?: string } | undefined
   if (!uri?.url) return null
 
-  const meta = (rel?.meta ?? {}) as { alt?: string | null; width?: number | string | null; height?: number | string | null }
+  const meta = (rel?.meta ?? {}) as {
+    alt?: string | null
+    width?: number | string | null
+    height?: number | string | null
+  }
   const mimeType = typeof file?.attributes?.filemime === "string" ? file.attributes.filemime : undefined
   const kind = media.type === "media--video" || mimeType?.startsWith("video/") ? "video" : "image"
   const width = Number(meta.width)

@@ -73,7 +73,10 @@ function FormBlock({ block, index, submit, className, ...props }: FormBlockProps
           source={block}
         />
         {status.state === "success" ? (
-          <div role="status" className="flex items-center justify-center gap-3 rounded-xl border bg-card p-6 text-card-foreground">
+          <div
+            role="status"
+            className="flex items-center justify-center gap-3 rounded-xl border bg-card p-6 text-card-foreground"
+          >
             <CheckCircle2Icon className="size-5 text-primary" aria-hidden />
             <Text weight="medium" {...fieldAttrs(block, "successMessage")}>
               {block.successMessage ?? "Thank you."}
@@ -88,18 +91,33 @@ function FormBlock({ block, index, submit, className, ...props }: FormBlockProps
             className="flex flex-col gap-6"
             aria-busy={status.state === "submitting"}
           >
-            <div className={cn("flex gap-4", inline ? "flex-col section-sm:flex-row section-sm:items-start" : "flex-col")} {...fieldAttrs(block, "fields")}>
+            <div
+              className={cn("flex gap-4", inline ? "flex-col section-sm:flex-row section-sm:items-start" : "flex-col")}
+              {...fieldAttrs(block, "fields")}
+            >
               {block.fields.map((field) => (
                 <FormField key={field.id} field={field} />
               ))}
               {inline ? (
-                <Button type="submit" size="lg" disabled={status.state === "submitting"} className="section-sm:mt-6" {...fieldAttrs(block, "submitLabel")}>
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={status.state === "submitting"}
+                  className="section-sm:mt-6"
+                  {...fieldAttrs(block, "submitLabel")}
+                >
                   {block.submitLabel}
                 </Button>
               ) : null}
             </div>
             {!inline ? (
-              <Button type="submit" size="lg" disabled={status.state === "submitting"} className="self-start" {...fieldAttrs(block, "submitLabel")}>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={status.state === "submitting"}
+                className="self-start"
+                {...fieldAttrs(block, "submitLabel")}
+              >
                 {status.state === "submitting" ? "Sending…" : block.submitLabel}
               </Button>
             ) : null}

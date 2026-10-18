@@ -65,7 +65,7 @@ interface WebhookDocument {
 
 export function webhookToEvent(payload: unknown, defaultLocale: string): WebhookEvent {
   const docs = (Array.isArray(payload) ? payload : [payload]).filter(
-    (d): d is WebhookDocument => typeof d === "object" && d !== null,
+    (d): d is WebhookDocument => typeof d === "object" && d !== null
   )
   const list: string[] = []
   const summary: string[] = []
@@ -78,7 +78,12 @@ export function webhookToEvent(payload: unknown, defaultLocale: string): Webhook
     if (type) list.push(tags.type(type))
 
     if (type === "page") {
-      const slug = typeof doc.slug === "string" ? doc.slug : typeof (doc.slug as { current?: unknown })?.current === "string" ? ((doc.slug as { current: string }).current) : null
+      const slug =
+        typeof doc.slug === "string"
+          ? doc.slug
+          : typeof (doc.slug as { current?: unknown })?.current === "string"
+            ? (doc.slug as { current: string }).current
+            : null
       if (slug !== null) list.push(tags.page(locale, normalizePath(slug)))
       // Creating, deleting or re-slugging a page changes the routable path list; we cannot
       // tell a rename from an edit without the previous slug, so always refresh it.

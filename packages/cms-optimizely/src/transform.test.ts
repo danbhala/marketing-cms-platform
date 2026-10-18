@@ -57,7 +57,12 @@ describe("transformPage", () => {
     const split = page.blocks[1] as FeatureSplitBlock
     expect(split.media).toEqual({ kind: "image", url: "/globalassets/funnel-chart.png", alt: "" })
     const media = page.blocks[3] as MediaBlock
-    expect(media.media).toMatchObject({ kind: "video", url: "https://images.cmp.optimizely.com/dashboard-tour.mp4", alt: "A tour of the dashboard", mimeType: "video/mp4" })
+    expect(media.media).toMatchObject({
+      kind: "video",
+      url: "https://images.cmp.optimizely.com/dashboard-tour.mp4",
+      alt: "A tour of the dashboard",
+      mimeType: "video/mp4",
+    })
   })
 
   it("converts rich text from JSON and from HTML", () => {
@@ -72,7 +77,11 @@ describe("transformPage", () => {
         { type: "text", value: "." },
       ],
     })
-    expect(split.bullets).toEqual(["Compare any two versions", "Annotate changes for your team", "Export to your warehouse"])
+    expect(split.bullets).toEqual([
+      "Compare any two versions",
+      "Annotate changes for your team",
+      "Export to your warehouse",
+    ])
     const faq = page.blocks[2] as FaqBlock
     expect(faq.items[1]?.answer).toEqual({
       type: "root",
@@ -93,7 +102,9 @@ describe("transformPage", () => {
     const cta = page.blocks[4]
     expect(cta && "actions" in cta && cta.actions).toEqual([])
     const draft = transformPage(homePageItem, { locale: "en", previewToken: "tok" })
-    expect((draft.blocks[0] as HeroBlock).media?.url).toBe("https://images.cmp.optimizely.com/product-screenshot.png?preview_token=tok")
+    expect((draft.blocks[0] as HeroBlock).media?.url).toBe(
+      "https://images.cmp.optimizely.com/product-screenshot.png?preview_token=tok"
+    )
     expect((draft.blocks[1] as FeatureSplitBlock).media?.url).toBe("/globalassets/funnel-chart.png?preview_token=tok")
   })
 
@@ -103,7 +114,10 @@ describe("transformPage", () => {
   })
 
   it("rejects content types that are not allowed in a list", () => {
-    const item = { ...pricingPageItem, blocks: [{ __typename: "ActionItem", _metadata: { key: "x" }, label: "x", href: { default: "/" } }] }
+    const item = {
+      ...pricingPageItem,
+      blocks: [{ __typename: "ActionItem", _metadata: { key: "x" }, label: "x", href: { default: "/" } }],
+    }
     expect(() => transformPage(item, en)).toThrow(/"page-pricing".*"blocks".*ActionItem/)
   })
 
@@ -117,13 +131,35 @@ describe("transformSiteSettings", () => {
 
   it("validates and maps navigation, actions, footer and social links", () => {
     expect(() => schemaFor(settingsDefinition).parse(settings)).not.toThrow()
-    expect(settings).toMatchObject({ id: "site", type: "siteSettings", siteName: "Metrica", announcementHref: "/blog/october" })
+    expect(settings).toMatchObject({
+      id: "site",
+      type: "siteSettings",
+      siteName: "Metrica",
+      announcementHref: "/blog/october",
+    })
     expect(settings.navigation[0]).toMatchObject({ id: "nav-product", type: "navGroup", label: "Product" })
-    expect(settings.navigation[0]?.links[1]).toEqual({ id: "nav-2", type: "navLink", label: "Funnels", href: "/product/funnels", description: "Versioned so last quarter still makes sense." })
-    expect(settings.navigation[1]).toEqual({ id: "nav-pricing", type: "navGroup", label: "Pricing", href: "/pricing", links: [] })
+    expect(settings.navigation[0]?.links[1]).toEqual({
+      id: "nav-2",
+      type: "navLink",
+      label: "Funnels",
+      href: "/product/funnels",
+      description: "Versioned so last quarter still makes sense.",
+    })
+    expect(settings.navigation[1]).toEqual({
+      id: "nav-pricing",
+      type: "navGroup",
+      label: "Pricing",
+      href: "/pricing",
+      links: [],
+    })
     expect(settings.headerActions[0]).toMatchObject({ variant: "ghost" })
     expect(settings.footerColumns[0]?.links.map((l) => l.href)).toEqual(["/product/dashboards", "/pricing"])
-    expect(settings.socialLinks[0]).toEqual({ id: "soc-1", type: "socialLink", platform: "x", href: "https://x.com/example" })
+    expect(settings.socialLinks[0]).toEqual({
+      id: "soc-1",
+      type: "socialLink",
+      platform: "x",
+      href: "https://x.com/example",
+    })
     expect(settings).not.toHaveProperty("logo")
   })
 })

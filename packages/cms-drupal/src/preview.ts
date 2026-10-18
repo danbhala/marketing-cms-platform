@@ -74,7 +74,10 @@ export function previewContext(searchParams: URLSearchParams, draft: boolean): P
   }
 }
 
-export function resolvePreviewPath(searchParams: URLSearchParams, options: Pick<PreviewOptions, "frontPage" | "frontendUrl">): string | null {
+export function resolvePreviewPath(
+  searchParams: URLSearchParams,
+  options: Pick<PreviewOptions, "frontPage" | "frontendUrl">
+): string | null {
   const path = safePath(searchParams.get("path"), options.frontendUrl)
   return path ? sitePath(path, options.frontPage) : null
 }

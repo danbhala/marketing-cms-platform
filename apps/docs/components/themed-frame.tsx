@@ -17,7 +17,11 @@ const subscribe = (cb: () => void) => {
  * theme on the real site.
  */
 export function ThemedFrame({ theme, className, children }: { theme: Theme; className?: string; children: ReactNode }) {
-  const hash = useSyncExternalStore(subscribe, () => window.location.hash, () => "")
+  const hash = useSyncExternalStore(
+    subscribe,
+    () => window.location.hash,
+    () => ""
+  )
   const override = hash ? readThemeFromHash() : null
   return (
     <div className={className} style={themeToStyle(override ?? theme)}>

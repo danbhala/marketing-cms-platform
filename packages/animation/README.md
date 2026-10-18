@@ -2,12 +2,12 @@
 
 Entrance and heading animation for blocks, in one package so it can be copied, tuned or swapped on its own. It is the only package that imports [Motion](https://motion.dev) (`motion/react`, the small `m` + `domAnimation` build).
 
-| File | Contents |
-| --- | --- |
-| `src/presets.ts` | Block presets (`fadeUp`, `fadeIn`, `scaleIn`, `slideFromLeft`, `slideFromRight`, `blurIn`) as Motion variants; `durationSeconds`, `delaySeconds`, `revealVariants()`, `revealViewport`. |
-| `src/text-presets.ts` | Heading effects (`words`, `characters`, `lines`, `typewriter`, `scramble`): split unit, timing and variants via `textVariants()`; `scrambleTiming()`. |
-| `src/reveal.tsx` | `Reveal` (a block root that plays its preset once in view, with optional stagger), `RevealItem` (one staggered item), `MotionRoot`, `useReveal()`. |
-| `src/split-text.tsx` | `SplitText`: renders a title as animated words, characters or lines, or types/scrambles it. |
+| File                  | Contents                                                                                                                                                                                |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/presets.ts`      | Block presets (`fadeUp`, `fadeIn`, `scaleIn`, `slideFromLeft`, `slideFromRight`, `blurIn`) as Motion variants; `durationSeconds`, `delaySeconds`, `revealVariants()`, `revealViewport`. |
+| `src/text-presets.ts` | Heading effects (`words`, `characters`, `lines`, `typewriter`, `scramble`): split unit, timing and variants via `textVariants()`; `scrambleTiming()`.                                   |
+| `src/reveal.tsx`      | `Reveal` (a block root that plays its preset once in view, with optional stagger), `RevealItem` (one staggered item), `MotionRoot`, `useReveal()`.                                      |
+| `src/split-text.tsx`  | `SplitText`: renders a title as animated words, characters or lines, or types/scrambles it.                                                                                             |
 
 Field names and options (`animation`, `animationStagger`, `headingAnimation`, `animationDuration`, `animationDelay`) are defined once in `@platform/content-model`; this package maps them to motion. `@platform/ui` renders `Reveal` from `BlockSection` only when a block has a preset, and `SplitText` from `Heading` only when it has a heading effect, so a page without animation ships none of this code.
 

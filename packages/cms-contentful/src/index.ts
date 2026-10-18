@@ -70,10 +70,20 @@ export function createContentfulAdapter(options: ContentfulAdapterOptions = {}):
 
   const delivery =
     options.clients?.delivery ??
-    createFetcher({ space, environment, accessToken: options.deliveryToken ?? env("CONTENTFUL_DELIVERY_TOKEN"), preview: false })
+    createFetcher({
+      space,
+      environment,
+      accessToken: options.deliveryToken ?? env("CONTENTFUL_DELIVERY_TOKEN"),
+      preview: false,
+    })
   const preview =
     options.clients?.preview ??
-    createFetcher({ space, environment, accessToken: options.previewToken ?? env("CONTENTFUL_PREVIEW_TOKEN"), preview: true })
+    createFetcher({
+      space,
+      environment,
+      accessToken: options.previewToken ?? env("CONTENTFUL_PREVIEW_TOKEN"),
+      preview: true,
+    })
 
   const clientFor = (draft: boolean) => (draft ? preview : delivery)
   const contentfulLocale = (locale: string) => localeMap[locale] ?? locale
@@ -93,9 +103,15 @@ export function createContentfulAdapter(options: ContentfulAdapterOptions = {}):
     const own = await preview.getEntries({ "sys.id": entryId, include: 0, limit: 1 })
     const entry = own.items.find(isEntry)
     if (!entry) return null
-    if (contentTypeOf(entry) === "page") return typeof entry.fields?.path === "string" ? normalizePath(entry.fields.path) : null
+    if (contentTypeOf(entry) === "page")
+      return typeof entry.fields?.path === "string" ? normalizePath(entry.fields.path) : null
 
-    const pages = await preview.getEntries({ content_type: "page", links_to_entry: entryId, select: ["fields.path"], limit: 1 })
+    const pages = await preview.getEntries({
+      content_type: "page",
+      links_to_entry: entryId,
+      select: ["fields.path"],
+      limit: 1,
+    })
     const page = pages.items.find(isEntry)
     if (page && typeof page.fields?.path === "string") return normalizePath(page.fields.path)
 
@@ -135,7 +151,7 @@ export function createContentfulAdapter(options: ContentfulAdapterOptions = {}):
     async getPaths(locale) {
       const paths = new Set<string>()
       const limit = 1000
-      for (let skip = 0; ; ) {
+      for (let skip = 0; ;) {
         const result = await delivery.getEntries({
           content_type: "page",
           select: ["fields.path"],

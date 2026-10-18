@@ -13,7 +13,11 @@ import { SIGNATURE_HEADER, isValidSignature, signPayload } from "./webhook"
 /** In-memory GROQ "server": answers the adapter's queries from fixtures and records every call. */
 function stubAdapter() {
   const configs: ClientConfig[] = []
-  const calls: Array<{ query: string; params: Record<string, unknown> | undefined; perspective: ClientConfig["perspective"] }> = []
+  const calls: Array<{
+    query: string
+    params: Record<string, unknown> | undefined
+    perspective: ClientConfig["perspective"]
+  }> = []
   const adapter = createSanityAdapter({
     projectId: "testproj",
     dataset: "production",
@@ -28,11 +32,18 @@ function stubAdapter() {
           calls.push({ query, params, perspective: config.perspective })
           if (query === PAGE_QUERY) {
             const slugs = params?.slugs as string[]
-            return (slugs.includes("/") ? pageFixture : slugs.includes("pricing") ? { ...pageFixture, _id: "page-pricing", path: "pricing" } : null) as R
+            return (
+              slugs.includes("/")
+                ? pageFixture
+                : slugs.includes("pricing")
+                  ? { ...pageFixture, _id: "page-pricing", path: "pricing" }
+                  : null
+            ) as R
           }
           if (query === SITE_SETTINGS_QUERY) return settingsFixture as R
           if (query === PATHS_QUERY) return ["/", "pricing", "/about", "about"] as R
-          if (query === PATH_BY_ID_QUERY) return ((params?.ids as string[]).includes("page-pricing") ? "pricing" : null) as R
+          if (query === PATH_BY_ID_QUERY)
+            return ((params?.ids as string[]).includes("page-pricing") ? "pricing" : null) as R
           throw new Error(`unexpected query: ${query}`)
         },
       }
@@ -59,7 +70,12 @@ describe("sanity adapter", () => {
     await adapter.getPage("/", draft)
 
     expect(configs).toHaveLength(2)
-    expect(configs[0]).toMatchObject({ projectId: "testproj", dataset: "production", perspective: "published", useCdn: true })
+    expect(configs[0]).toMatchObject({
+      projectId: "testproj",
+      dataset: "production",
+      perspective: "published",
+      useCdn: true,
+    })
     expect(configs[0]!.token).toBeUndefined()
     expect(configs[1]).toMatchObject({
       perspective: "drafts",
@@ -95,7 +111,9 @@ describe("sanity adapter", () => {
 
     const editing = await adapter.getPage("/", draft)
     const hero = editing?.blocks[0] as HeroBlock
-    expect(hero.$edit?.self?.["data-sanity"]).toBe("id=page-home;type=page;path=blocks:blk-hero;base=https%3A%2F%2Fstudio.example.com")
+    expect(hero.$edit?.self?.["data-sanity"]).toBe(
+      "id=page-home;type=page;path=blocks:blk-hero;base=https%3A%2F%2Fstudio.example.com"
+    )
     expect(hero.actions[0]?.$edit?.fields?.label?.["data-sanity"]).toContain("path=blocks:blk-hero.actions:act-1.label")
 
     const previewOnly = await adapter.getPage("/", { locale: "en", draft: true, preview: { mode: "preview" } })
@@ -107,21 +125,30 @@ describe("sanity adapter", () => {
     const { adapter } = stubAdapter()
     expect(await adapter.resolvePreviewPath(new URLSearchParams("id=drafts.page-pricing"))).toBe("/pricing")
     expect(await adapter.resolvePreviewPath(new URLSearchParams("id=page-missing"))).toBeNull()
-    expect(await adapter.resolvePreviewPath(new URLSearchParams("sanity-preview-pathname=/about?tab=team"))).toBe("/about?tab=team")
+    expect(await adapter.resolvePreviewPath(new URLSearchParams("sanity-preview-pathname=/about?tab=team"))).toBe(
+      "/about?tab=team"
+    )
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=https://evil.test/x"))).toBeNull()
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=//evil.test/x"))).toBeNull()
     expect(await adapter.resolvePreviewPath(new URLSearchParams("path=/ok\\..evil"))).toBeNull()
   })
 
   describe("preview.enter", () => {
-    const enter = (query: string) => stubAdapter().adapter.preview.enter(new Request(`https://site.test/api/preview?${query}`))
+    const enter = (query: string) =>
+      stubAdapter().adapter.preview.enter(new Request(`https://site.test/api/preview?${query}`))
 
     it("rejects a missing or wrong secret", async () => {
       expect(await enter("sanity-preview-pathname=/pricing")).toMatchObject({ ok: false, status: 401 })
-      expect(await enter("sanity-preview-secret=nope&sanity-preview-pathname=/pricing")).toMatchObject({ ok: false, status: 401 })
+      expect(await enter("sanity-preview-secret=nope&sanity-preview-pathname=/pricing")).toMatchObject({
+        ok: false,
+        status: 401,
+      })
       expect(await enter("secret=wrong&path=/pricing")).toMatchObject({ ok: false, status: 401 })
       const unconfigured = createSanityAdapter({ projectId: "p", previewSecret: "" })
-      expect(await unconfigured.preview.enter(new Request("https://site.test/api/preview?secret="))).toMatchObject({ ok: false, status: 401 })
+      expect(await unconfigured.preview.enter(new Request("https://site.test/api/preview?secret="))).toMatchObject({
+        ok: false,
+        status: 401,
+      })
     })
 
     it("accepts the Presentation tool's parameter names and the generic ones", async () => {
@@ -130,7 +157,11 @@ describe("sanity adapter", () => {
         path: "/pricing",
         context: { mode: "edit" },
       })
-      expect(await enter("secret=s3cret&path=/about/&mode=preview")).toEqual({ ok: true, path: "/about", context: { mode: "preview" } })
+      expect(await enter("secret=s3cret&path=/about/&mode=preview")).toEqual({
+        ok: true,
+        path: "/about",
+        context: { mode: "preview" },
+      })
       expect(await enter("secret=s3cret&id=page-pricing")).toMatchObject({ ok: true, path: "/pricing" })
     })
 
@@ -142,7 +173,12 @@ describe("sanity adapter", () => {
 
   it("exposes the Studio origins as frame ancestors and a bridge module", async () => {
     const { adapter } = stubAdapter()
-    expect(adapter.preview.frameAncestors).toEqual(["'self'", "https://*.sanity.studio", "http://localhost:3333", "https://studio.example.com"])
+    expect(adapter.preview.frameAncestors).toEqual([
+      "'self'",
+      "https://*.sanity.studio",
+      "http://localhost:3333",
+      "https://studio.example.com",
+    ])
     expect(adapter.preview.context(new URLSearchParams(""), false)).toBeNull()
     expect(adapter.preview.context(new URLSearchParams(""), true)).toEqual({ mode: "edit" })
     expect(adapter.preview.context(new URLSearchParams("mode=preview"), true)).toEqual({ mode: "preview" })
@@ -187,15 +223,19 @@ describe("sanity adapter", () => {
         tags: [tags.entry("page-pricing"), tags.type("page"), tags.page("en", "/pricing"), tags.paths("en")],
         summary: "sanity: update page page-pricing",
       })
-      expect(adapter.webhook.toEvent({ _id: "siteSettings", _type: "siteSettings", slug: null, operation: "update" }).tags).toEqual([
-        tags.entry("siteSettings"),
-        tags.type("siteSettings"),
-        tags.global("en"),
-      ])
-      expect(adapter.webhook.toEvent({ _id: "page-new", _type: "page", slug: { current: "/launch" }, operation: "create" }).tags).toContain(
-        tags.page("en", "/launch"),
-      )
-      expect(adapter.webhook.toEvent([{ _id: "a", _type: "page" }, { _id: "image-x", _type: "sanity.imageAsset" }]).tags).toEqual([
+      expect(
+        adapter.webhook.toEvent({ _id: "siteSettings", _type: "siteSettings", slug: null, operation: "update" }).tags
+      ).toEqual([tags.entry("siteSettings"), tags.type("siteSettings"), tags.global("en")])
+      expect(
+        adapter.webhook.toEvent({ _id: "page-new", _type: "page", slug: { current: "/launch" }, operation: "create" })
+          .tags
+      ).toContain(tags.page("en", "/launch"))
+      expect(
+        adapter.webhook.toEvent([
+          { _id: "a", _type: "page" },
+          { _id: "image-x", _type: "sanity.imageAsset" },
+        ]).tags
+      ).toEqual([
         tags.entry("a"),
         tags.type("page"),
         tags.paths("en"),
