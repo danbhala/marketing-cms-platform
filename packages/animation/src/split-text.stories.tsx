@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { animationDelays, animationDurations, headingAnimations } from "@platform/content-model"
+import { animationDelays, animationDurations, easeCurves, headingAnimations } from "@platform/content-model"
 import type { AnimationDelay, AnimationDuration, HeadingAnimation } from "@platform/content-model"
 
 import { SplitText } from "./split-text"
@@ -20,7 +20,7 @@ interface DemoProps {
 function Demo({ text, preset, duration, delay }: DemoProps) {
   return (
     <h2 aria-label={text} className="max-w-3xl font-heading text-4xl heading-style text-balance section-sm:text-5xl">
-      <SplitText text={text} animation={{ preset, duration, delay }} />
+      <SplitText text={text} animation={{ preset, duration, delay, ease: easeCurves.gentle }} />
     </h2>
   )
 }

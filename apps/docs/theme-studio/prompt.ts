@@ -1,5 +1,5 @@
 import { fontById } from "./fonts"
-import { themeToCss, type Theme } from "./theme"
+import { themeToAnimationConfig, themeToCss, type Theme } from "./theme"
 
 /**
  * A self-contained brief a person can paste into any LLM to have the current
@@ -47,7 +47,9 @@ export function themeToPrompt(theme: Theme, { shareUrl }: { shareUrl?: string } 
     "",
     '3. Optional, to use this as a scoped theme instead of the site default: change `:root` to a class such as `.theme-<name>` in the same file. Theme classes nest, so it works on <html>, a page wrapper or a single block. Then add "<name>" to `themeNames` in packages/content-model/src/themes.ts (or the project\'s copy) and run `pnpm schema:generate` so editors can pick it in the CMS.',
     "",
-    "4. Verify.",
+    '4. Set the animation treatment: create the file from the "Animation config" section as apps/web/animation.config.ts (in a project that copied the platform code, next to its cms.config.ts) and import it for its side effect from the root layout and from the client-side UiProvider wrapper, so the server and browser bundles share it. Every block inherits it; editors override per block in the CMS.',
+    "",
+    "5. Verify.",
     "   - Run the dev server and open the home page.",
     `   - In devtools, getComputedStyle(document.documentElement).getPropertyValue("--primary") should be ${varValue(theme, "--primary")}, and headings should render in ${fontById(theme.fonts.heading).label}.`,
     `   - The page should use the ${theme.scheme} colour scheme and a ${theme.radius}rem corner radius on buttons and cards.`,
@@ -57,6 +59,12 @@ export function themeToPrompt(theme: Theme, { shareUrl }: { shareUrl?: string } 
     "",
     "```css",
     themeToCss(theme).trimEnd(),
+    "```",
+    "",
+    "## Animation config",
+    "",
+    "```ts",
+    themeToAnimationConfig(theme).trimEnd(),
     "```",
     "",
     ...(shareUrl

@@ -6,6 +6,8 @@ import NextLink from "next/link"
 
 import { UiProvider as BaseUiProvider, type UiImageProps, type UiLinkProps } from "@platform/ui"
 
+import "@/animation.config"
+
 /** Routes the UI package's links and images through next/link and next/image. */
 function Link({ href, prefetch, ...props }: UiLinkProps) {
   // CMS-authored hrefs are not statically known, so they bypass typedRoutes.

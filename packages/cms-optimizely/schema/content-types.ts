@@ -48,10 +48,16 @@ export const ActionItemContentType = contentType({
     },
     magnetic: {
       displayName: "Magnetic",
-      description: "Pull the button towards the pointer on hover (mouse only).",
+      description: "Pull the button towards the pointer on hover (mouse only). Inherit follows the site setting.",
       group: "Content",
       sortOrder: 50,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
   },
 })
@@ -755,12 +761,13 @@ export const HeroBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 110,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -775,7 +782,13 @@ export const HeroBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 120,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -785,6 +798,7 @@ export const HeroBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -800,6 +814,7 @@ export const HeroBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -812,6 +827,7 @@ export const HeroBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -863,6 +879,7 @@ export const LogoCloudBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "slow", displayName: "Slow" },
         { value: "normal", displayName: "Normal" },
         { value: "fast", displayName: "Fast" },
@@ -911,12 +928,13 @@ export const LogoCloudBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -931,7 +949,13 @@ export const LogoCloudBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 100,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -941,6 +965,7 @@ export const LogoCloudBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -956,6 +981,7 @@ export const LogoCloudBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -968,6 +994,7 @@ export const LogoCloudBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -1072,12 +1099,13 @@ export const FeatureGridBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 100,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -1092,7 +1120,13 @@ export const FeatureGridBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 110,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -1102,6 +1136,7 @@ export const FeatureGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -1117,6 +1152,7 @@ export const FeatureGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -1129,6 +1165,7 @@ export const FeatureGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -1237,12 +1274,13 @@ export const FeatureSplitBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 110,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -1257,7 +1295,13 @@ export const FeatureSplitBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 120,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -1267,6 +1311,7 @@ export const FeatureSplitBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -1282,6 +1327,7 @@ export const FeatureSplitBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -1294,6 +1340,7 @@ export const FeatureSplitBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -1350,7 +1397,13 @@ export const StatsBlockContentType = contentType({
       description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
       group: "Content",
       sortOrder: 60,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     theme: {
       displayName: "Theme",
@@ -1394,12 +1447,13 @@ export const StatsBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 100,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -1414,7 +1468,13 @@ export const StatsBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 110,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -1424,6 +1484,7 @@ export const StatsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -1439,6 +1500,7 @@ export const StatsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -1451,6 +1513,7 @@ export const StatsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -1511,6 +1574,7 @@ export const TestimonialsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "slow", displayName: "Slow" },
         { value: "normal", displayName: "Normal" },
         { value: "fast", displayName: "Fast" },
@@ -1558,12 +1622,13 @@ export const TestimonialsBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 100,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -1578,7 +1643,13 @@ export const TestimonialsBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 110,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -1588,6 +1659,7 @@ export const TestimonialsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -1603,6 +1675,7 @@ export const TestimonialsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -1615,6 +1688,7 @@ export const TestimonialsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -1660,7 +1734,13 @@ export const PricingBlockContentType = contentType({
       description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
       group: "Content",
       sortOrder: 50,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     theme: {
       displayName: "Theme",
@@ -1704,12 +1784,13 @@ export const PricingBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -1724,7 +1805,13 @@ export const PricingBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 100,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -1734,6 +1821,7 @@ export const PricingBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -1749,6 +1837,7 @@ export const PricingBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -1761,6 +1850,7 @@ export const PricingBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -1852,12 +1942,13 @@ export const ComparisonTableBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -1872,7 +1963,13 @@ export const ComparisonTableBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 100,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -1882,6 +1979,7 @@ export const ComparisonTableBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -1897,6 +1995,7 @@ export const ComparisonTableBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -1909,6 +2008,7 @@ export const ComparisonTableBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -2001,12 +2101,13 @@ export const FaqBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -2021,7 +2122,13 @@ export const FaqBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 100,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -2031,6 +2138,7 @@ export const FaqBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -2046,6 +2154,7 @@ export const FaqBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -2058,6 +2167,7 @@ export const FaqBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -2152,12 +2262,13 @@ export const CtaBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -2172,7 +2283,13 @@ export const CtaBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 100,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -2182,6 +2299,7 @@ export const CtaBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -2197,6 +2315,7 @@ export const CtaBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -2209,6 +2328,7 @@ export const CtaBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -2313,12 +2433,13 @@ export const CardGridBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 100,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -2333,7 +2454,13 @@ export const CardGridBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 110,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -2343,6 +2470,7 @@ export const CardGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -2358,6 +2486,7 @@ export const CardGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -2370,6 +2499,7 @@ export const CardGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -2459,12 +2589,13 @@ export const TeamGridBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -2479,7 +2610,13 @@ export const TeamGridBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 100,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -2489,6 +2626,7 @@ export const TeamGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -2504,6 +2642,7 @@ export const TeamGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -2516,6 +2655,7 @@ export const TeamGridBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -2608,12 +2748,13 @@ export const StepsBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -2628,7 +2769,13 @@ export const StepsBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 100,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -2638,6 +2785,7 @@ export const StepsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -2653,6 +2801,7 @@ export const StepsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -2665,6 +2814,7 @@ export const StepsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -2746,12 +2896,13 @@ export const TabsBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 80,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -2766,7 +2917,13 @@ export const TabsBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 90,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -2776,6 +2933,7 @@ export const TabsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -2791,6 +2949,7 @@ export const TabsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -2803,6 +2962,7 @@ export const TabsBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -2877,12 +3037,13 @@ export const RichTextBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 60,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -2897,7 +3058,13 @@ export const RichTextBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 70,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -2907,6 +3074,7 @@ export const RichTextBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -2922,6 +3090,7 @@ export const RichTextBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -2934,6 +3103,7 @@ export const RichTextBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -3030,12 +3200,13 @@ export const MediaBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 80,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -3050,7 +3221,13 @@ export const MediaBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 90,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -3060,6 +3237,7 @@ export const MediaBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -3075,6 +3253,7 @@ export const MediaBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -3087,6 +3266,7 @@ export const MediaBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -3210,12 +3390,13 @@ export const GalleryBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -3230,7 +3411,13 @@ export const GalleryBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 130,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -3240,6 +3427,7 @@ export const GalleryBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -3255,6 +3443,7 @@ export const GalleryBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -3267,6 +3456,7 @@ export const GalleryBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },
@@ -3391,12 +3581,13 @@ export const FormBlockContentType = contentType({
     },
     animation: {
       displayName: "Animation",
-      description: "Entrance animation played once when the block scrolls into view.",
+      description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
       sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "fadeUp", displayName: "Fade Up" },
         { value: "fadeIn", displayName: "Fade In" },
@@ -3411,7 +3602,13 @@ export const FormBlockContentType = contentType({
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
       sortOrder: 140,
-      type: "boolean",
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "inherit", displayName: "Inherit" },
+        { value: "on", displayName: "On" },
+        { value: "off", displayName: "Off" },
+      ],
     },
     headingAnimation: {
       displayName: "Heading animation",
@@ -3421,6 +3618,7 @@ export const FormBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "words", displayName: "Words" },
         { value: "characters", displayName: "Characters" },
@@ -3436,6 +3634,7 @@ export const FormBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "fast", displayName: "Fast" },
         { value: "normal", displayName: "Normal" },
         { value: "slow", displayName: "Slow" },
@@ -3448,6 +3647,7 @@ export const FormBlockContentType = contentType({
       type: "string",
       format: "selectOne",
       enum: [
+        { value: "inherit", displayName: "Inherit" },
         { value: "none", displayName: "None" },
         { value: "short", displayName: "Short" },
         { value: "medium", displayName: "Medium" },

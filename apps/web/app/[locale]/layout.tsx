@@ -3,6 +3,7 @@ import { Suspense } from "react"
 
 import { themeClassName } from "@platform/content-model"
 
+import "@/animation.config"
 import { siteConfig } from "@/cms.config"
 import { UiProvider } from "@/components/ui-provider"
 

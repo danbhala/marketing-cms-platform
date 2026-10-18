@@ -68,14 +68,25 @@ const contentTypes = [
       {
         "id": "magnetic",
         "name": "Magnetic",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
-            "helpText": "Pull the button towards the pointer on hover (mouse only)."
+            "helpText": "Pull the button towards the pointer on hover (mouse only). Inherit follows the site setting."
           }
         }
       }
@@ -1278,6 +1289,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -1289,24 +1301,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -1321,6 +1344,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -1331,7 +1355,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -1349,6 +1373,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -1356,7 +1381,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -1371,6 +1396,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -1379,7 +1405,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -1456,6 +1482,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "slow",
               "normal",
               "fast"
@@ -1463,7 +1490,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -1557,6 +1584,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -1568,24 +1596,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -1600,6 +1639,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -1610,7 +1650,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -1628,6 +1668,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -1635,7 +1676,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -1650,6 +1691,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -1658,7 +1700,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -1843,6 +1885,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -1854,24 +1897,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -1886,6 +1940,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -1896,7 +1951,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -1914,6 +1969,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -1921,7 +1977,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -1936,6 +1992,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -1944,7 +2001,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -2166,6 +2223,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -2177,24 +2235,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -2209,6 +2278,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -2219,7 +2289,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -2237,6 +2307,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -2244,7 +2315,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -2259,6 +2330,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -2267,7 +2339,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -2360,12 +2432,23 @@ const contentTypes = [
       {
         "id": "countUp",
         "name": "Count up",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
           }
@@ -2445,6 +2528,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -2456,24 +2540,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -2488,6 +2583,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -2498,7 +2594,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -2516,6 +2612,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -2523,7 +2620,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -2538,6 +2635,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -2546,7 +2644,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -2646,6 +2744,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "slow",
               "normal",
               "fast"
@@ -2653,7 +2752,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -2736,6 +2835,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -2747,24 +2847,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -2779,6 +2890,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -2789,7 +2901,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -2807,6 +2919,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -2814,7 +2927,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -2829,6 +2942,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -2837,7 +2951,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -2914,12 +3028,23 @@ const contentTypes = [
       {
         "id": "countUp",
         "name": "Count up",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
           }
@@ -2999,6 +3124,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -3010,24 +3136,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -3042,6 +3179,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -3052,7 +3190,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -3070,6 +3208,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -3077,7 +3216,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -3092,6 +3231,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -3100,7 +3240,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -3264,6 +3404,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -3275,24 +3416,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -3307,6 +3459,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -3317,7 +3470,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -3335,6 +3488,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -3342,7 +3496,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -3357,6 +3511,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -3365,7 +3520,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -3528,6 +3683,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -3539,24 +3695,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -3571,6 +3738,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -3581,7 +3749,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -3599,6 +3767,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -3606,7 +3775,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -3621,6 +3790,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -3629,7 +3799,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -3798,6 +3968,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -3809,24 +3980,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -3841,6 +4023,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -3851,7 +4034,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -3869,6 +4052,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -3876,7 +4060,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -3891,6 +4075,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -3899,7 +4084,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4091,6 +4276,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -4102,24 +4288,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -4134,6 +4331,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -4144,7 +4342,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -4162,6 +4360,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -4169,7 +4368,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4184,6 +4383,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -4192,7 +4392,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4355,6 +4555,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -4366,24 +4567,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -4398,6 +4610,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -4408,7 +4621,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -4426,6 +4639,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -4433,7 +4647,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4448,6 +4662,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -4456,7 +4671,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4619,6 +4834,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -4630,24 +4846,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -4662,6 +4889,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -4672,7 +4900,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -4690,6 +4918,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -4697,7 +4926,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4712,6 +4941,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -4720,7 +4950,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4862,6 +5092,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -4873,24 +5104,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -4905,6 +5147,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -4915,7 +5158,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -4933,6 +5176,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -4940,7 +5184,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -4955,6 +5199,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -4963,7 +5208,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -5109,6 +5354,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -5120,24 +5366,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -5152,6 +5409,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -5162,7 +5420,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -5180,6 +5438,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -5187,7 +5446,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -5202,6 +5461,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -5210,7 +5470,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -5367,6 +5627,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -5378,24 +5639,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -5410,6 +5682,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -5420,7 +5693,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -5438,6 +5711,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -5445,7 +5719,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -5460,6 +5734,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -5468,7 +5743,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -5688,6 +5963,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -5699,24 +5975,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -5731,6 +6018,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -5741,7 +6029,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -5759,6 +6047,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -5766,7 +6055,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -5781,6 +6070,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -5789,7 +6079,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -6003,6 +6293,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "fadeUp",
               "fadeIn",
@@ -6014,24 +6305,35 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
           "settings": {
-            "helpText": "Entrance animation played once when the block scrolls into view."
+            "helpText": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting."
           }
         }
       },
       {
         "id": "animationStagger",
         "name": "Stagger items",
-        "type": "Boolean",
+        "type": "Symbol",
         "required": false,
         "localized": false,
-        "validations": [],
+        "validations": [
+          {
+            "in": [
+              "inherit",
+              "on",
+              "off"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "inherit"
+        },
         "editor": {
-          "widgetId": "boolean",
+          "widgetId": "dropdown",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
           }
@@ -6046,6 +6348,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "words",
               "characters",
@@ -6056,7 +6359,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown",
@@ -6074,6 +6377,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "fast",
               "normal",
               "slow"
@@ -6081,7 +6385,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "normal"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"
@@ -6096,6 +6400,7 @@ const contentTypes = [
         "validations": [
           {
             "in": [
+              "inherit",
               "none",
               "short",
               "medium",
@@ -6104,7 +6409,7 @@ const contentTypes = [
           }
         ],
         "defaultValue": {
-          "en-US": "none"
+          "en-US": "inherit"
         },
         "editor": {
           "widgetId": "dropdown"

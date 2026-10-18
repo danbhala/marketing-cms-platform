@@ -377,8 +377,12 @@
           "type": "option",
           "pos": 10,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -408,13 +412,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 11,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -422,6 +441,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -447,13 +470,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 13,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -467,13 +494,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 14,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -491,7 +522,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -545,6 +576,10 @@
           "description": "Only used by the marquee layout.",
           "options": [
             {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
               "name": "Slow",
               "value": "slow"
             },
@@ -557,7 +592,7 @@
               "value": "fast"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "grayscale": {
           "type": "boolean",
@@ -642,8 +677,12 @@
           "type": "option",
           "pos": 8,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -673,13 +712,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 9,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -687,6 +741,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -712,13 +770,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -732,13 +794,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -756,7 +822,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -907,8 +973,12 @@
           "type": "option",
           "pos": 9,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -938,13 +1008,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 10,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -952,6 +1037,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -977,13 +1066,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -997,13 +1090,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 13,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1021,7 +1118,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -1173,8 +1270,12 @@
           "type": "option",
           "pos": 10,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1204,13 +1305,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 11,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -1218,6 +1334,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1243,13 +1363,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 13,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -1263,13 +1387,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 14,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1287,7 +1415,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -1345,10 +1473,25 @@
           "default_value": "3"
         },
         "countUp": {
-          "type": "boolean",
+          "type": "option",
           "pos": 5,
           "display_name": "Count up",
-          "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
+          "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "theme": {
           "type": "option",
@@ -1428,8 +1571,12 @@
           "type": "option",
           "pos": 9,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1459,13 +1606,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 10,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -1473,6 +1635,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1498,13 +1664,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -1518,13 +1688,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 13,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1542,7 +1716,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -1610,6 +1784,10 @@
           "description": "Only used by the marquee layout.",
           "options": [
             {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
               "name": "Slow",
               "value": "slow"
             },
@@ -1622,7 +1800,7 @@
               "value": "fast"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "theme": {
           "type": "option",
@@ -1702,8 +1880,12 @@
           "type": "option",
           "pos": 9,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1733,13 +1915,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 10,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -1747,6 +1944,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1772,13 +1973,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -1792,13 +1997,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 13,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1816,7 +2025,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -1855,10 +2064,25 @@
           "maximum": 4
         },
         "countUp": {
-          "type": "boolean",
+          "type": "option",
           "pos": 4,
           "display_name": "Count up",
-          "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written."
+          "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "theme": {
           "type": "option",
@@ -1938,8 +2162,12 @@
           "type": "option",
           "pos": 8,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -1969,13 +2197,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 9,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -1983,6 +2226,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2008,13 +2255,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -2028,13 +2279,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2052,7 +2307,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -2178,8 +2433,12 @@
           "type": "option",
           "pos": 8,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2209,13 +2468,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 9,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -2223,6 +2497,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2248,13 +2526,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -2268,13 +2550,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2292,7 +2578,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -2423,8 +2709,12 @@
           "type": "option",
           "pos": 8,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2454,13 +2744,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 9,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -2468,6 +2773,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2493,13 +2802,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -2513,13 +2826,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2537,7 +2854,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -2670,8 +2987,12 @@
           "type": "option",
           "pos": 8,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2701,13 +3022,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 9,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -2715,6 +3051,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2740,13 +3080,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -2760,13 +3104,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2784,7 +3132,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -2931,8 +3279,12 @@
           "type": "option",
           "pos": 9,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -2962,13 +3314,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 10,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -2976,6 +3343,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3001,13 +3372,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -3021,13 +3396,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 13,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3045,7 +3424,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -3176,8 +3555,12 @@
           "type": "option",
           "pos": 8,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3207,13 +3590,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 9,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -3221,6 +3619,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3246,13 +3648,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -3266,13 +3672,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3290,7 +3700,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -3421,8 +3831,12 @@
           "type": "option",
           "pos": 8,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3452,13 +3866,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 9,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -3466,6 +3895,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3491,13 +3924,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -3511,13 +3948,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 12,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3535,7 +3976,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -3650,8 +4091,12 @@
           "type": "option",
           "pos": 7,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3681,13 +4126,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 8,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -3695,6 +4155,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3720,13 +4184,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 10,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -3740,13 +4208,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3764,7 +4236,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -3874,8 +4346,12 @@
           "type": "option",
           "pos": 5,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3905,13 +4381,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 6,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -3919,6 +4410,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3944,13 +4439,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 8,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -3964,13 +4463,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 9,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -3988,7 +4491,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -4132,8 +4635,12 @@
           "type": "option",
           "pos": 7,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4163,13 +4670,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 8,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -4177,6 +4699,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4202,13 +4728,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 10,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -4222,13 +4752,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 11,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4246,7 +4780,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -4423,8 +4957,12 @@
           "type": "option",
           "pos": 11,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4454,13 +4992,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 12,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -4468,6 +5021,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4493,13 +5050,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 14,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -4513,13 +5074,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 15,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4537,7 +5102,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -4693,8 +5258,12 @@
           "type": "option",
           "pos": 12,
           "display_name": "Animation",
-          "description": "Entrance animation played once when the block scrolls into view.",
+          "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4724,13 +5293,28 @@
               "value": "blurIn"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationStagger": {
-          "type": "boolean",
+          "type": "option",
           "pos": 13,
           "display_name": "Stagger items",
-          "description": "Reveal the block's items one after another instead of all at once."
+          "description": "Reveal the block's items one after another instead of all at once.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         },
         "headingAnimation": {
           "type": "option",
@@ -4738,6 +5322,10 @@
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4763,13 +5351,17 @@
               "value": "scramble"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         },
         "animationDuration": {
           "type": "option",
           "pos": 15,
           "display_name": "Animation duration",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "Fast",
               "value": "fast"
@@ -4783,13 +5375,17 @@
               "value": "slow"
             }
           ],
-          "default_value": "normal"
+          "default_value": "inherit"
         },
         "animationDelay": {
           "type": "option",
           "pos": 16,
           "display_name": "Animation delay",
           "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
             {
               "name": "None",
               "value": "none"
@@ -4807,7 +5403,7 @@
               "value": "long"
             }
           ],
-          "default_value": "none"
+          "default_value": "inherit"
         }
       }
     },
@@ -4867,10 +5463,25 @@
           "description": "Lucide icon name, e.g. arrow-right."
         },
         "magnetic": {
-          "type": "boolean",
+          "type": "option",
           "pos": 4,
           "display_name": "Magnetic",
-          "description": "Pull the button towards the pointer on hover (mouse only)."
+          "description": "Pull the button towards the pointer on hover (mouse only). Inherit follows the site setting.",
+          "options": [
+            {
+              "name": "Inherit",
+              "value": "inherit"
+            },
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ],
+          "default_value": "inherit"
         }
       }
     },

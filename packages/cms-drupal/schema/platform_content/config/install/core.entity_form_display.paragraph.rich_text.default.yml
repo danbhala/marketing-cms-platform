@@ -62,11 +62,10 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_animation_stagger:
-    type: boolean_checkbox
+    type: options_select
     weight: 6
     region: content
-    settings:
-      display_label: true
+    settings: {  }
     third_party_settings: {  }
   field_heading_animation:
     type: options_select

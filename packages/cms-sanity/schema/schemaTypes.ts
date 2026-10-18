@@ -244,8 +244,26 @@ export const schemaTypes = [
       {
         name: "magnetic",
         title: "Magnetic",
-        type: "boolean",
-        description: "Pull the button towards the pointer on hover (mouse only).",
+        type: "string",
+        description: "Pull the button towards the pointer on hover (mouse only). Inherit follows the site setting.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -1102,9 +1120,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1136,13 +1158,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -1151,6 +1191,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1178,7 +1222,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -1186,6 +1230,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -1201,7 +1249,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -1209,6 +1257,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1228,7 +1280,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -1288,6 +1340,10 @@ export const schemaTypes = [
         options: {
           list: [
             {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
               title: "Slow",
               value: "slow",
             },
@@ -1302,7 +1358,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "grayscale",
@@ -1393,9 +1449,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1427,13 +1487,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -1442,6 +1520,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1469,7 +1551,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -1477,6 +1559,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -1492,7 +1578,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -1500,6 +1586,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1519,7 +1609,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -1685,9 +1775,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1719,13 +1813,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -1734,6 +1846,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1761,7 +1877,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -1769,6 +1885,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -1784,7 +1904,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -1792,6 +1912,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -1811,7 +1935,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -1970,9 +2094,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2004,13 +2132,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -2019,6 +2165,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2046,7 +2196,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -2054,6 +2204,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -2069,7 +2223,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -2077,6 +2231,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2096,7 +2254,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -2162,8 +2320,26 @@ export const schemaTypes = [
       {
         name: "countUp",
         title: "Count up",
-        type: "boolean",
+        type: "string",
         description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "theme",
@@ -2249,9 +2425,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2283,13 +2463,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -2298,6 +2496,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2325,7 +2527,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -2333,6 +2535,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -2348,7 +2554,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -2356,6 +2562,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2375,7 +2585,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -2450,6 +2660,10 @@ export const schemaTypes = [
         options: {
           list: [
             {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
               title: "Slow",
               value: "slow",
             },
@@ -2464,7 +2678,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "theme",
@@ -2550,9 +2764,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2584,13 +2802,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -2599,6 +2835,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2626,7 +2866,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -2634,6 +2874,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -2649,7 +2893,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -2657,6 +2901,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2676,7 +2924,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -2720,8 +2968,26 @@ export const schemaTypes = [
       {
         name: "countUp",
         title: "Count up",
-        type: "boolean",
+        type: "string",
         description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "theme",
@@ -2807,9 +3073,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2841,13 +3111,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -2856,6 +3144,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2883,7 +3175,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -2891,6 +3183,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -2906,7 +3202,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -2914,6 +3210,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -2933,7 +3233,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -3067,9 +3367,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3101,13 +3405,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -3116,6 +3438,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3143,7 +3469,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -3151,6 +3477,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -3166,7 +3496,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -3174,6 +3504,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3193,7 +3527,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -3336,9 +3670,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3370,13 +3708,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -3385,6 +3741,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3412,7 +3772,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -3420,6 +3780,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -3435,7 +3799,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -3443,6 +3807,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3462,7 +3830,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -3607,9 +3975,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3641,13 +4013,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -3656,6 +4046,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3683,7 +4077,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -3691,6 +4085,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -3706,7 +4104,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -3714,6 +4112,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3733,7 +4135,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -3891,9 +4293,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3925,13 +4331,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -3940,6 +4364,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -3967,7 +4395,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -3975,6 +4403,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -3990,7 +4422,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -3998,6 +4430,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4017,7 +4453,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -4160,9 +4596,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4194,13 +4634,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -4209,6 +4667,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4236,7 +4698,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -4244,6 +4706,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -4259,7 +4725,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -4267,6 +4733,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4286,7 +4756,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -4429,9 +4899,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4463,13 +4937,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -4478,6 +4970,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4505,7 +5001,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -4513,6 +5009,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -4528,7 +5028,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -4536,6 +5036,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4555,7 +5059,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -4679,9 +5183,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4713,13 +5221,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -4728,6 +5254,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4755,7 +5285,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -4763,6 +5293,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -4778,7 +5312,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -4786,6 +5320,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4805,7 +5343,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -4928,9 +5466,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -4962,13 +5504,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -4977,6 +5537,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5004,7 +5568,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -5012,6 +5576,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -5027,7 +5595,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -5035,6 +5603,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5054,7 +5626,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -5210,9 +5782,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5244,13 +5820,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -5259,6 +5853,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5286,7 +5884,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -5294,6 +5892,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -5309,7 +5911,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -5317,6 +5919,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5336,7 +5942,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -5528,9 +6134,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5562,13 +6172,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -5577,6 +6205,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5604,7 +6236,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -5612,6 +6244,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -5627,7 +6263,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -5635,6 +6271,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5654,7 +6294,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {
@@ -5822,9 +6462,13 @@ export const schemaTypes = [
         name: "animation",
         title: "Animation",
         type: "string",
-        description: "Entrance animation played once when the block scrolls into view.",
+        description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5856,13 +6500,31 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationStagger",
         title: "Stagger items",
-        type: "boolean",
+        type: "string",
         description: "Reveal the block's items one after another instead of all at once.",
+        options: {
+          list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
+            {
+              title: "On",
+              value: "on",
+            },
+            {
+              title: "Off",
+              value: "off",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "inherit",
       },
       {
         name: "headingAnimation",
@@ -5871,6 +6533,10 @@ export const schemaTypes = [
         description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5898,7 +6564,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
       {
         name: "animationDuration",
@@ -5906,6 +6572,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "Fast",
               value: "fast",
@@ -5921,7 +6591,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "normal",
+        initialValue: "inherit",
       },
       {
         name: "animationDelay",
@@ -5929,6 +6599,10 @@ export const schemaTypes = [
         type: "string",
         options: {
           list: [
+            {
+              title: "Inherit",
+              value: "inherit",
+            },
             {
               title: "None",
               value: "none",
@@ -5948,7 +6622,7 @@ export const schemaTypes = [
           ],
           layout: "dropdown",
         },
-        initialValue: "none",
+        initialValue: "inherit",
       },
     ],
     preview: {

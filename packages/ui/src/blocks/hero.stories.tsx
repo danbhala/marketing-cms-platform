@@ -76,7 +76,7 @@ export const MagneticActions: Story = {
       ...{
         layout: "centered",
         media: undefined,
-        actions: fixtures.heroBlock.actions!.map((a, i) => ({ ...a, magnetic: i === 0 })),
+        actions: fixtures.heroBlock.actions!.map((a, i) => ({ ...a, magnetic: i === 0 ? "on" : "off" })),
       },
     },
   },

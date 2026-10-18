@@ -1,4 +1,4 @@
-import type { StatsBlock } from "@platform/content-model"
+import { countUpSetting, type StatsBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"
@@ -14,6 +14,7 @@ export type StatsProps = BlockComponentProps<StatsBlock>
 /** A row of big numbers. Pairs well with `theme: "muted"` or `"brand"`. */
 function Stats({ block, index, className, ...props }: StatsProps) {
   const columns = block.columns ?? "4"
+  const countUp = countUpSetting(block)
   // Vertical dividers only read as dividers when every stat is on one row.
   const divide =
     columns === "2" ? "section-sm:divide-x" : columns === "3" ? "section-md:divide-x" : "section-lg:divide-x"
@@ -32,11 +33,7 @@ function Stats({ block, index, className, ...props }: StatsProps) {
         <Grid columns={columns} className={cn("divide-border", divide)} {...fieldAttrs(block, "stats")}>
           {block.stats.map((stat) => (
             <BlockItem key={stat.id} block={block}>
-              <StatItem
-                item={stat}
-                countUp={block.countUp ? { duration: block.animationDuration, delay: block.animationDelay } : null}
-                className="px-4"
-              />
+              <StatItem item={stat} countUp={countUp} className="px-4" />
             </BlockItem>
           ))}
         </Grid>

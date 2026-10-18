@@ -28,7 +28,7 @@ export const NoHeading: Story = {
 
 /** `countUp` counts each number from zero when the block scrolls into view; the text around the number ("+", "%", "ms") stays as written. */
 export const CountUp: Story = {
-  args: { block: { ...fixtures.statsBlock, ...{ countUp: true } } },
+  args: { block: { ...fixtures.statsBlock, ...{ countUp: "on" } } },
   play: async () => {
     await new Promise((resolve) => setTimeout(resolve, 1800))
   },

@@ -1,4 +1,4 @@
-import type { TestimonialsBlock } from "@platform/content-model"
+import { marqueeSpeedSetting, type TestimonialsBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Marquee } from "@platform/animation"
@@ -38,7 +38,7 @@ function Testimonials({ block, index, className, ...props }: TestimonialsProps) 
           </Carousel>
         ) : layout === "marquee" ? (
           <Marquee
-            speed={block.marqueeSpeed ?? "normal"}
+            speed={marqueeSpeedSetting(block)}
             gap={24}
             className="-mx-4 section-sm:-mx-6 section-lg:-mx-8"
             {...fieldAttrs(block, "testimonials")}

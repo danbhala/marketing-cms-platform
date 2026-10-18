@@ -15,7 +15,7 @@ export interface PriceCardProps extends React.ComponentProps<"div"> {
   /** The pricing plan content item (name, price, features, actions, highlighted). */
   plan: PricingPlan
   /** Count the price up from zero when it scrolls into view (the Pricing block's `countUp` field). */
-  countUp?: { duration?: AnimationDuration | null; delay?: AnimationDelay | null } | null
+  countUp?: { duration: AnimationDuration; delay: AnimationDelay } | null
 }
 
 /** One pricing plan. `highlighted` gives it the primary border and a badge. */
@@ -49,11 +49,7 @@ function PriceCard({ plan, countUp, className, ...props }: PriceCardProps) {
       </div>
       <p className="flex items-baseline gap-1">
         <span className="font-heading text-4xl heading-style" {...fieldAttrs(plan, "price")}>
-          {countUp ? (
-            <CountUp value={plan.price} duration={countUp.duration ?? undefined} delay={countUp.delay ?? undefined} />
-          ) : (
-            plan.price
-          )}
+          {countUp ? <CountUp value={plan.price} duration={countUp.duration} delay={countUp.delay} /> : plan.price}
         </span>
         {plan.period ? (
           <span className="text-sm text-muted-foreground" {...fieldAttrs(plan, "period")}>

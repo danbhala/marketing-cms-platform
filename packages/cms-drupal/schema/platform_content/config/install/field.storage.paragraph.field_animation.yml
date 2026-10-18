@@ -10,6 +10,8 @@ entity_type: paragraph
 type: list_string
 settings:
   allowed_values:
+    - value: inherit
+      label: Inherit
     - value: none
       label: None
     - value: fadeUp

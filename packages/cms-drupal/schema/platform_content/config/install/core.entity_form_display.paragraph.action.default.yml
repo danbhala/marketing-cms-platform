@@ -47,11 +47,10 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_magnetic:
-    type: boolean_checkbox
+    type: options_select
     weight: 4
     region: content
-    settings:
-      display_label: true
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

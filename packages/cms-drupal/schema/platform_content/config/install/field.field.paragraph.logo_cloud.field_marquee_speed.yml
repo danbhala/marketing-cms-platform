@@ -15,7 +15,7 @@ description: Only used by the marquee layout.
 required: false
 translatable: true
 default_value:
-  - value: normal
+  - value: inherit
 default_value_callback: ''
 settings: {  }
 field_type: list_string

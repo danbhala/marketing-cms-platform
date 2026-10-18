@@ -2,6 +2,16 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import {
+  animationDelays,
+  animationDurations,
+  animationPresets,
+  easeCurves,
+  headingAnimations,
+  marqueeSpeeds,
+  type AnimationDefaults,
+  type EaseCurve,
+} from "@platform/content-model"
 import { PageTemplate } from "@platform/ui/templates"
 
 import { showcases } from "@/showcases"
@@ -14,13 +24,14 @@ import {
   encodeTheme,
   generatePalette,
   randomTheme,
+  themeToAnimationConfig,
   themeToCss,
   themeToStyle,
   type PaletteOptions,
   type Theme,
 } from "./theme"
 
-type Tab = "colours" | "type" | "layout" | "export"
+type Tab = "colours" | "type" | "layout" | "motion" | "export"
 type Viewport = "desktop" | "tablet" | "mobile"
 const viewportWidth: Record<Viewport, number> = { desktop: 1280, tablet: 834, mobile: 390 }
 
@@ -110,8 +121,8 @@ export function ThemeStudio() {
 
       <div className="flex min-h-0 flex-1">
         <aside className="flex w-80 shrink-0 flex-col border-r">
-          <nav className="grid grid-cols-4 border-b text-xs">
-            {(["colours", "type", "layout", "export"] as Tab[]).map((t) => (
+          <nav className="grid grid-cols-5 border-b text-xs">
+            {(["colours", "type", "layout", "motion", "export"] as Tab[]).map((t) => (
               <button
                 key={t}
                 type="button"
@@ -127,6 +138,7 @@ export function ThemeStudio() {
             {tab === "colours" ? <ColoursPanel theme={theme} patch={patch} /> : null}
             {tab === "type" ? <TypePanel theme={theme} patch={patch} /> : null}
             {tab === "layout" ? <LayoutPanel theme={theme} patch={patch} /> : null}
+            {tab === "motion" ? <MotionPanel theme={theme} patch={patch} /> : null}
             {tab === "export" ? <ExportPanel theme={theme} /> : null}
           </div>
         </aside>
@@ -404,7 +416,123 @@ function LayoutPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>
   )
 }
 
-type ExportFormat = "css" | "prompt"
+const label = (s: string) => s.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase())
+
+/**
+ * The site-wide animation treatment, exported as the project's
+ * animation.config.ts. It is a production-team decision made in code, so the
+ * preview on the right does not replay it; the Animation docs page shows each
+ * option live.
+ */
+function MotionPanel({ theme, patch }: { theme: Theme; patch: (p: Partial<Theme>) => void }) {
+  const m = theme.motion
+  const set = (partial: Partial<AnimationDefaults>) => patch({ motion: { ...m, ...partial } })
+  const custom = typeof m.ease !== "string"
+  const curve: EaseCurve = custom ? (m.ease as EaseCurve) : easeCurves[m.ease as keyof typeof easeCurves]
+  const setPoint = (i: number, v: number) => {
+    const next = [...curve] as [number, number, number, number]
+    next[i] = v
+    set({ ease: next })
+  }
+  const options = (values: readonly string[]) =>
+    values.map((v) => (
+      <option key={v} value={v}>
+        {label(v)}
+      </option>
+    ))
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-fd-muted-foreground text-xs">
+        Site defaults every block inherits. Developers set them in <code>animation.config.ts</code> (see Export);
+        editors can only override a block in the CMS. The preview does not replay them.
+      </p>
+      <Group title="Entrance">
+        <Field label="Preset">
+          <Select
+            value={m.animation}
+            onChange={(animation) => set({ animation: animation as AnimationDefaults["animation"] })}
+          >
+            {options(animationPresets)}
+          </Select>
+        </Field>
+        <Toggle checked={m.stagger} onChange={(stagger) => set({ stagger })} label="Stagger items" />
+        <Field label="Heading effect">
+          <Select
+            value={m.headingAnimation}
+            onChange={(headingAnimation) =>
+              set({ headingAnimation: headingAnimation as AnimationDefaults["headingAnimation"] })
+            }
+          >
+            {options(headingAnimations)}
+          </Select>
+        </Field>
+      </Group>
+      <Group title="Timing">
+        <Field label="Duration">
+          <Segmented
+            value={m.duration}
+            onChange={(duration) => set({ duration })}
+            options={animationDurations.map((v) => ({ value: v, label: label(v) }))}
+          />
+        </Field>
+        <Field label="Delay">
+          <Segmented
+            value={m.delay}
+            onChange={(delay) => set({ delay })}
+            options={animationDelays.map((v) => ({ value: v, label: label(v) }))}
+          />
+        </Field>
+        <Field label="Easing" hint={`cubic-bezier(${curve.join(", ")})`}>
+          <Select
+            value={custom ? "custom" : (m.ease as string)}
+            onChange={(ease) => set({ ease: ease === "custom" ? curve : (ease as keyof typeof easeCurves) })}
+          >
+            {options(Object.keys(easeCurves))}
+            <option value="custom">Custom curve</option>
+          </Select>
+        </Field>
+        {custom ? (
+          <div className="grid grid-cols-4 gap-1.5">
+            {(["x1", "y1", "x2", "y2"] as const).map((name, i) => (
+              <label key={name} className="flex flex-col gap-1 text-xs">
+                <span className="text-fd-muted-foreground">{name}</span>
+                <input
+                  type="number"
+                  value={curve[i]}
+                  min={name.startsWith("x") ? 0 : -1}
+                  max={name.startsWith("x") ? 1 : 2}
+                  step={0.01}
+                  onChange={(e) => setPoint(i, Number(e.target.value))}
+                  className="bg-fd-background h-8 rounded-md border px-1.5 text-sm tabular-nums"
+                />
+              </label>
+            ))}
+          </div>
+        ) : null}
+        <p className="text-fd-muted-foreground text-xs">
+          Keep y1 and y2 within 0–1 so movement settles without bouncing. x values must stay within 0–1.
+        </p>
+      </Group>
+      <Group title="Effects">
+        <Toggle
+          checked={m.countUp}
+          onChange={(countUp) => set({ countUp })}
+          label="Count numbers up (stats, pricing)"
+        />
+        <Toggle checked={m.magnetic} onChange={(magnetic) => set({ magnetic })} label="Magnetic buttons (mouse only)" />
+        <Field label="Marquee speed">
+          <Segmented
+            value={m.marqueeSpeed}
+            onChange={(marqueeSpeed) => set({ marqueeSpeed })}
+            options={marqueeSpeeds.map((v) => ({ value: v, label: label(v) }))}
+          />
+        </Field>
+      </Group>
+    </div>
+  )
+}
+
+type ExportFormat = "css" | "motion" | "prompt"
 
 function ExportPanel({ theme }: { theme: Theme }) {
   const [format, setFormat] = useState<ExportFormat>("css")
@@ -412,7 +540,11 @@ function ExportPanel({ theme }: { theme: Theme }) {
   const text =
     format === "css"
       ? css
-      : themeToPrompt(theme, { shareUrl: typeof window === "undefined" ? undefined : shareUrl(theme) })
+      : format === "motion"
+        ? themeToAnimationConfig(theme)
+        : themeToPrompt(theme, { shareUrl: typeof window === "undefined" ? undefined : shareUrl(theme) })
+  const fileName =
+    format === "css" ? "brand.css" : format === "motion" ? "animation.config.ts" : "brand-theme-prompt.md"
   return (
     <div className="flex flex-col gap-3">
       <Segmented
@@ -420,6 +552,7 @@ function ExportPanel({ theme }: { theme: Theme }) {
         onChange={setFormat}
         options={[
           { value: "css", label: "CSS" },
+          { value: "motion", label: "Motion" },
           { value: "prompt", label: "Prompt" },
         ]}
       />
@@ -428,6 +561,11 @@ function ExportPanel({ theme }: { theme: Theme }) {
           Paste into your app's stylesheet after <code>@platform/ui/globals.css</code>. Change <code>:root</code> to a
           class to use it as a page or block theme.
         </p>
+      ) : format === "motion" ? (
+        <p className="text-fd-muted-foreground text-sm">
+          Save as <code>apps/web/animation.config.ts</code> (it is imported from the root layout and the UI provider).
+          Every block inherits it; editors override per block in the CMS.
+        </p>
       ) : (
         <p className="text-fd-muted-foreground text-sm">
           Paste into any LLM. The prompt carries the CSS, the font packages, where the file goes and how to check it, so
@@ -435,13 +573,17 @@ function ExportPanel({ theme }: { theme: Theme }) {
         </p>
       )}
       <div className="flex gap-2">
-        <CopyButton label={format === "css" ? "Copy CSS" : "Copy prompt"} getText={() => text} primary />
+        <CopyButton
+          label={format === "css" ? "Copy CSS" : format === "motion" ? "Copy config" : "Copy prompt"}
+          getText={() => text}
+          primary
+        />
         <a
           href={`data:${format === "css" ? "text/css" : "text/plain"};charset=utf-8,${encodeURIComponent(text)}`}
-          download={format === "css" ? "brand.css" : "brand-theme-prompt.md"}
+          download={fileName}
           className="hover:bg-fd-muted h-8 rounded-md border px-2.5 text-sm leading-8"
         >
-          Download {format === "css" ? "brand.css" : "prompt"}
+          Download {format === "prompt" ? "prompt" : fileName}
         </a>
       </div>
       <pre className="bg-fd-card overflow-auto rounded-md border p-3 text-[11px] leading-relaxed whitespace-pre-wrap">

@@ -1,4 +1,4 @@
-import type { LogoCloudBlock } from "@platform/content-model"
+import { marqueeSpeedSetting, type LogoCloudBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 import { Marquee } from "@platform/animation"
 
@@ -30,7 +30,7 @@ function LogoCloud({ block, className, ...props }: LogoCloudProps) {
           ) : null}
         </Container>
         <Marquee
-          speed={block.marqueeSpeed ?? "normal"}
+          speed={marqueeSpeedSetting(block)}
           gap={64}
           className="mt-8 first:mt-0"
           {...fieldAttrs(block, "logos")}

@@ -16,17 +16,17 @@ export const faq = defineBlock("faq", {
 
 ## Exports
 
-| Import                                | Contents                                                                                                                                                                                                                                         |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `@platform/content-model`             | `field` DSL, `defineBlock/Item/Document`, `allBlocks/allItems/allDocuments`, types (`Page`, `Block`, `SiteSettings`, `Media`, rich text AST), `schemaFor()` validators, `themeClassName()`, `animationSettings()`, `headingAnimationSettings()`. |
-| `@platform/content-model/fixtures`    | Sample content for every block and six page compositions, used by Storybook, the docs and the local adapter.                                                                                                                                     |
-| `@platform/content-model/strip-types` | Node resolve hook so `node --experimental-strip-types` can run the workspace's TypeScript without a build; every adapter's `schema:generate` loads it with `--import`.                                                                           |
+| Import                                | Contents                                                                                                                                                                                                                                                                            |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@platform/content-model`             | `field` DSL, `defineBlock/Item/Document`, `allBlocks/allItems/allDocuments`, types (`Page`, `Block`, `SiteSettings`, `Media`, rich text AST), `schemaFor()` validators, `themeClassName()`, `animationSettings()`, `headingAnimationSettings()`, `defineAnimation()` site defaults. |
+| `@platform/content-model/fixtures`    | Sample content for every block and six page compositions, used by Storybook, the docs and the local adapter.                                                                                                                                                                        |
+| `@platform/content-model/strip-types` | Node resolve hook so `node --experimental-strip-types` can run the workspace's TypeScript without a build; every adapter's `schema:generate` loads it with `--import`.                                                                                                              |
 
 ## Conventions
 
 - Field kinds: `text`, `textarea`, `richText`, `number`, `boolean`, `select`, `link`, `media`, `items`, `blocks`, `textList`.
 - `Media` is `{ kind, url, alt, width, height }`; rich text is a portable JSON AST, never CMS-specific markup.
 - Every node carries `id` and `type`; adapters may add `$edit` (live-edit attributes) in draft mode.
-- `presentation` adds `theme`, `spacing`, `anchor` and the animation fields (`animation`, `animationStagger`, `headingAnimation`, `animationDuration`, `animationDelay`; off by default, see `src/animation.ts`) to every block.
+- `presentation` adds `theme`, `spacing`, `anchor` and the animation fields (`animation`, `animationStagger`, `headingAnimation`, `animationDuration`, `animationDelay`; each defaults to `inherit`, resolved against the site's `defineAnimation()` config, see `src/animation.ts`) to every block.
 
 To add a block: define it in `src/definitions/blocks.ts`, export its type from `types.ts`, add a fixture in `src/fixtures/content.ts`, then build the component in `@platform/ui`.

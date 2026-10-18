@@ -1,4 +1,10 @@
-import type { AnimationDelay, AnimationDuration, AnimationPreset, AnimationSettings } from "@platform/content-model"
+import {
+  easeCurves,
+  type AnimationDelay,
+  type AnimationDuration,
+  type AnimationPreset,
+  type AnimationSettings,
+} from "@platform/content-model"
 import { stagger, type Transition, type Variants } from "motion/react"
 
 /**
@@ -26,8 +32,12 @@ export const delaySeconds: Record<AnimationDelay, number> = {
   long: 0.6,
 }
 
-/** A soft ease-out (the "expo out" curve) so movement lands gently rather than bouncing. */
-export const revealEase: Transition["ease"] = [0.16, 1, 0.3, 1]
+/**
+ * The site's default curve for anything that is not a block entrance (shared
+ * layout morphs, crossfades). Entrances use the `ease` the site config
+ * resolved into their settings.
+ */
+export const revealEase: Transition["ease"] = [...easeCurves.gentle]
 
 /** Start state of each preset; `visible` is always the identity. */
 const hiddenStates: Record<Exclude<AnimationPreset, "none">, Record<string, number | string>> = {
@@ -57,9 +67,16 @@ export interface RevealVariants {
   item: Variants | null
 }
 
-export function revealVariants({ preset, stagger: staggered, duration, delay }: AnimationSettings): RevealVariants {
+export function revealVariants({
+  preset,
+  stagger: staggered,
+  duration,
+  delay,
+  ease,
+}: AnimationSettings): RevealVariants {
   const seconds = durationSeconds[duration]
   const startDelay = delaySeconds[delay]
+  const revealEase = [...ease] as [number, number, number, number]
   if (!staggered) {
     return {
       // `delayChildren` keeps a `SplitText` heading inside the block in step

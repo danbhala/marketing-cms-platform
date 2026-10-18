@@ -16,7 +16,7 @@ Entrance, heading, scroll and gallery animation for blocks, in one package so it
 | `src/crossfade.tsx`                 | `Crossfade`: fades between contents when a key changes (the gallery stage).                                                                                                             |
 | `src/shared.tsx`                    | `SharedLayout` (a `layoutId` wrapper for the lightbox morph) and `Swipeable` (drag to go to the previous or next item).                                                                 |
 
-Field names and options (`animation`, `animationStagger`, `headingAnimation`, `animationDuration`, `animationDelay`, `countUp`, `marqueeSpeed`, `scrollEffect`, the gallery `layout`) are defined once in `@platform/content-model`; this package maps them to motion. `@platform/ui` renders these components only when a block asks for them, so a page without animation ships none of this code.
+Field names and options (`animation`, `animationStagger`, `headingAnimation`, `animationDuration`, `animationDelay`, `countUp`, `marqueeSpeed`, `scrollEffect`, the gallery `layout`) are defined once in `@platform/content-model`; this package maps them to motion. So are the site defaults (`defineAnimation()` in the app's `animation.config.ts`, with the easing curve) that every block field inherits; `animationSettings()` and friends resolve a block's fields against them before anything here runs. `@platform/ui` renders these components only when a block asks for them, so a page without animation ships none of this code.
 
 ## Motion+ and why these are our own
 

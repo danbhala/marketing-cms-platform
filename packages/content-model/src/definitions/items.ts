@@ -1,4 +1,5 @@
 import { defineItem, field } from "../fields"
+import { toggleOptions } from "../animation"
 
 export const buttonVariants = ["default", "secondary", "outline", "ghost", "link"] as const
 
@@ -10,7 +11,10 @@ export const action = defineItem("action", {
     href: field.link({ required: true }),
     variant: field.select(buttonVariants, { defaultValue: "default" }),
     icon: field.icon(),
-    magnetic: field.boolean({ description: "Pull the button towards the pointer on hover (mouse only)." }),
+    magnetic: field.select(toggleOptions, {
+      defaultValue: "inherit",
+      description: "Pull the button towards the pointer on hover (mouse only). Inherit follows the site setting.",
+    }),
   },
 })
 

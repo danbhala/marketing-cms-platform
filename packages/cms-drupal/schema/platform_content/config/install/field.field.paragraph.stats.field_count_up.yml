@@ -4,6 +4,8 @@ dependencies:
   config:
     - field.storage.paragraph.field_count_up
     - paragraphs.paragraphs_type.stats
+  module:
+    - options
 id: paragraph.stats.field_count_up
 field_name: field_count_up
 entity_type: paragraph
@@ -12,9 +14,8 @@ label: Count up
 description: Animate numbers from zero when the block scrolls into view. Text around the number stays as written.
 required: false
 translatable: true
-default_value: [  ]
+default_value:
+  - value: inherit
 default_value_callback: ''
-settings:
-  on_label: 'On'
-  off_label: 'Off'
-field_type: boolean
+settings: {  }
+field_type: list_string
