@@ -9,6 +9,7 @@ dependencies:
     - field.field.paragraph.testimonials.field_animation_stagger
     - field.field.paragraph.testimonials.field_description
     - field.field.paragraph.testimonials.field_eyebrow
+    - field.field.paragraph.testimonials.field_heading_animation
     - field.field.paragraph.testimonials.field_spacing
     - field.field.paragraph.testimonials.field_testimonials
     - field.field.paragraph.testimonials.field_testimonials_layout
@@ -105,15 +106,21 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
-  field_animation_duration:
+  field_heading_animation:
     type: options_select
     weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_animation_delay:
+  field_animation_duration:
     type: options_select
     weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_delay:
+    type: options_select
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }

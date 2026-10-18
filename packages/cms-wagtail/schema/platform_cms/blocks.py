@@ -386,6 +386,7 @@ class HeroSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -405,6 +406,7 @@ class LogoCloudSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -426,6 +428,7 @@ class FeatureGridSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -448,6 +451,7 @@ class FeatureSplitSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -468,6 +472,7 @@ class StatsSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -488,6 +493,7 @@ class TestimonialsSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -507,6 +513,7 @@ class PricingSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -527,6 +534,7 @@ class ComparisonTableSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -547,6 +555,7 @@ class FaqSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -567,6 +576,7 @@ class CtaSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -588,6 +598,7 @@ class CardGridSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -608,6 +619,7 @@ class TeamGridSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -628,6 +640,7 @@ class StepsSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -647,6 +660,7 @@ class TabsSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -664,6 +678,7 @@ class RichTextSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -682,6 +697,7 @@ class MediaSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 
@@ -706,6 +722,7 @@ class FormSection(blocks.StructBlock):
     anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
     animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
     animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
     animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
     animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
 

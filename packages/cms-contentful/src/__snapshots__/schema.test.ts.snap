@@ -1243,6 +1243,34 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
         "id": "animationDuration",
         "name": "Animation duration",
         "type": "Symbol",
@@ -1464,6 +1492,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -1722,6 +1778,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -2021,6 +2105,34 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
         "id": "animationDuration",
         "name": "Animation duration",
         "type": "Symbol",
@@ -2254,6 +2366,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -2494,6 +2634,34 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
         "id": "animationDuration",
         "name": "Animation duration",
         "type": "Symbol",
@@ -2711,6 +2879,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -2952,6 +3148,34 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
         "id": "animationDuration",
         "name": "Animation duration",
         "type": "Symbol",
@@ -3184,6 +3408,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -3426,6 +3678,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -3695,6 +3975,34 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
         "id": "animationDuration",
         "name": "Animation duration",
         "type": "Symbol",
@@ -3927,6 +4235,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -4167,6 +4503,34 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
         "id": "animationDuration",
         "name": "Animation duration",
         "type": "Symbol",
@@ -4378,6 +4742,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -4601,6 +4993,34 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
         "id": "animationDuration",
         "name": "Animation duration",
         "type": "Symbol",
@@ -4801,6 +5221,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },
@@ -5088,6 +5536,34 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "boolean",
           "settings": {
             "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
           }
         }
       },

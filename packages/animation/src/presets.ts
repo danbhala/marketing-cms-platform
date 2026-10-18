@@ -13,7 +13,7 @@ import { stagger, type Transition, type Variants } from "motion/react"
  * once, when they scroll into view, and never animate out.
  *
  * Names are the `animation` field options in the content model; the two files
- * must stay in sync.
+ * must stay in sync. Heading effects live in `text-presets.ts`.
  */
 
 /** Seconds per duration option. Marketing sections are large surfaces, so these sit at the long end of the 150–500 ms UI range. */
@@ -78,9 +78,12 @@ export function revealVariants({
   const startDelay = delaySeconds[delay]
   if (!staggered) {
     return {
+      // `delayChildren` keeps a `SplitText` heading inside the block in step
+      // with the block's own delay.
       root: elementVariants(preset, {
         duration: seconds,
         delay: startDelay,
+        delayChildren: startDelay,
         ease: revealEase,
       }),
       item: null,

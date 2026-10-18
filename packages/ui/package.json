@@ -30,12 +30,12 @@
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
+    "@platform/animation": "workspace:*",
     "@platform/cms-core": "workspace:*",
     "@platform/content-model": "workspace:*",
     "class-variance-authority": "catalog:",
     "cn": "catalog:",
     "lucide-react": "catalog:",
-    "motion": "catalog:",
     "tw-animate-css": "catalog:"
   },
   "peerDependencies": {

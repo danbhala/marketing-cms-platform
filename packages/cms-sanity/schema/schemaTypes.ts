@@ -1088,6 +1088,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -1313,6 +1349,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",
@@ -1571,6 +1643,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -1820,6 +1928,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -2057,6 +2201,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -2290,6 +2470,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -2503,6 +2719,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",
@@ -2727,6 +2979,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",
@@ -2962,6 +3250,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -3195,6 +3519,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",
@@ -3445,6 +3805,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -3676,6 +4072,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",
@@ -3911,6 +4343,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -4125,6 +4593,42 @@ export const schemaTypes = [
         description: "Reveal the block's items one after another instead of all at once.",
       },
       {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "animationDuration",
         title: "Animation Duration",
         type: "string",
@@ -4336,6 +4840,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",
@@ -4554,6 +5094,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",
@@ -4812,6 +5388,42 @@ export const schemaTypes = [
         title: "Stagger items",
         type: "boolean",
         description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
       },
       {
         name: "animationDuration",

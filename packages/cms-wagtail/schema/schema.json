@@ -649,6 +649,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -722,6 +728,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -810,6 +822,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -907,6 +925,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -986,6 +1010,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -1071,6 +1101,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -1144,6 +1180,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -1229,6 +1271,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -1311,6 +1359,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -1390,6 +1444,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -1481,6 +1541,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -1560,6 +1626,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -1645,6 +1717,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -1721,6 +1799,12 @@
           "required": false
         },
         {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
           "name": "animationDuration",
           "python": "animation_duration",
           "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
@@ -1782,6 +1866,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -1852,6 +1942,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {
@@ -1959,6 +2055,12 @@
           "name": "animationStagger",
           "python": "animation_stagger",
           "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
           "required": false
         },
         {

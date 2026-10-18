@@ -13,10 +13,10 @@ import * as m from "motion/react-m"
 
 import type { AnimationSettings } from "@platform/content-model"
 
-import { revealVariants, revealViewport } from "../lib/animation"
+import { revealVariants, revealViewport } from "./presets"
 
 /**
- * The one place the UI package touches Motion. `Reveal` is the root of an
+ * `Reveal` is the root of an
  * animated block: it plays the preset once when it scrolls into view. With
  * `stagger` on, it instead times its `RevealItem` children one after another.
  *
@@ -36,7 +36,31 @@ type PlainProps = Omit<React.HTMLAttributes<HTMLElement>, keyof MotionProps> & {
   children?: React.ReactNode
 }
 
-const ItemVariants = React.createContext<Variants | null>(null)
+/** Set by `Reveal` for everything inside it. `item` is the per-item variants when the block staggers, else `null`. */
+const RevealContext = React.createContext<{ item: Variants | null } | null>(null)
+
+/**
+ * `null` outside a `Reveal`; inside one, whether its items stagger. Nested
+ * Motion elements (a `SplitText` heading) use it to inherit the block's
+ * `hidden`/`visible` state instead of triggering on their own.
+ */
+function useReveal() {
+  return React.use(RevealContext)
+}
+
+/**
+ * Motion's small build: `m` components plus the `domAnimation` features (no
+ * gestures, drag or layout animation), with movement turned off for people
+ * who ask their OS for reduced motion. `Reveal` and a standalone `SplitText`
+ * render inside one; nesting them is harmless.
+ */
+function MotionRoot({ children }: { children: React.ReactNode }) {
+  return (
+    <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+    </LazyMotion>
+  )
+}
 
 export interface RevealProps extends PlainProps {
   /** Resolved animation fields of the block, from `animationSettings()`. */
@@ -61,25 +85,24 @@ function Reveal({
     viewport: revealViewport,
     variants: root,
   }
+  const context = React.useMemo(() => ({ item }), [item])
   return (
-    <LazyMotion features={domAnimation} strict>
-      <MotionConfig reducedMotion="user">
-        <ItemVariants value={item}>
-          {as === "div" ? (
-            <m.div {...motionProps} {...(props as HTMLMotionProps<"div">)}>
-              {children}
-            </m.div>
-          ) : (
-            <m.section
-              {...motionProps}
-              {...(props as HTMLMotionProps<"section">)}
-            >
-              {children}
-            </m.section>
-          )}
-        </ItemVariants>
-      </MotionConfig>
-    </LazyMotion>
+    <MotionRoot>
+      <RevealContext value={context}>
+        {as === "div" ? (
+          <m.div {...motionProps} {...(props as HTMLMotionProps<"div">)}>
+            {children}
+          </m.div>
+        ) : (
+          <m.section
+            {...motionProps}
+            {...(props as HTMLMotionProps<"section">)}
+          >
+            {children}
+          </m.section>
+        )}
+      </RevealContext>
+    </MotionRoot>
   )
 }
 
@@ -94,7 +117,7 @@ export interface RevealItemProps extends PlainProps {
  * `Reveal` it is a plain element.
  */
 function RevealItem({ as = "div", ...props }: RevealItemProps) {
-  const variants = React.use(ItemVariants)
+  const variants = React.use(RevealContext)?.item
   if (!variants) {
     const Plain = as
     return <Plain {...props} />
@@ -104,4 +127,4 @@ function RevealItem({ as = "div", ...props }: RevealItemProps) {
   return <m.div variants={variants} {...(props as HTMLMotionProps<"div">)} />
 }
 
-export { Reveal, RevealItem }
+export { MotionRoot, Reveal, RevealItem, useReveal }

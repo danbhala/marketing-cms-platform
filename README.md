@@ -9,6 +9,7 @@ One marketing front-end that renders from any CMS. Content from Contentful, Stor
 | `apps/web` | `web` | The marketing site (Next.js 16). Picks its CMS from `CMS_PROVIDER`. |
 | `apps/docs` | `docs` | Documentation site (Fumadocs): block explorer, schemas, theming, preview, per-CMS setup. |
 | `packages/ui` | `@platform/ui` | shadcn primitives, atoms, molecules, 17 marketing blocks, page templates, Storybook. |
+| `packages/animation` | `@platform/animation` | Block entrance presets, heading effects (`SplitText`) and the `Reveal` wrapper on Motion; the only package that imports it. |
 | `packages/content-model` | `@platform/content-model` | Field DSL and the canonical definitions every CMS maps to; types, zod validators, fixtures. |
 | `packages/cms-core` | `@platform/cms-core` | The `CmsAdapter` contract, cache-tag scheme and `$edit` helpers. The only CMS package the app imports. |
 | `packages/cms-local` | `@platform/cms-local` | Adapter over the in-repo fixtures; the default for development and tests. |

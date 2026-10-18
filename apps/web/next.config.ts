@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   // Workspace packages ship TypeScript source, so Next compiles them.
   transpilePackages: [
     "@platform/ui",
+    "@platform/animation",
     "@platform/content-model",
     "@platform/cms-core",
     "@platform/cms-local",

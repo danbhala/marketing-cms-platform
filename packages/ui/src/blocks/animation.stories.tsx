@@ -7,8 +7,9 @@ import * as fixtures from "@platform/content-model/fixtures"
 import { blockComponents } from "./index"
 
 /**
- * Every block carries four animation fields: `animation` (the preset, off by
- * default), `animationStagger`, `animationDuration` and `animationDelay`.
+ * Every block carries five animation fields: `animation` (the preset, off by
+ * default), `animationStagger`, `headingAnimation`, `animationDuration` and
+ * `animationDelay`.
  * These stories set them on fixture blocks. Re-select a story to replay it:
  * blocks reveal once, when they scroll into view.
  */
@@ -22,8 +23,11 @@ function AnimatedBlocks({ blocks }: { blocks: Block[] }) {
 
 /** Reveals fade in over up to a second; wait for them so the axe run sees the finished state. */
 async function waitForReveal({ canvasElement }: { canvasElement: HTMLElement }) {
-  const deadline = Date.now() + 4000
-  const settled = () => Array.from(canvasElement.querySelectorAll<HTMLElement>("[style]")).every((el) => getComputedStyle(el).opacity === "1")
+  const deadline = Date.now() + 6000
+  const settled = () =>
+    Array.from(canvasElement.querySelectorAll<HTMLElement>("[style]")).every((el) => getComputedStyle(el).opacity === "1") &&
+    !canvasElement.querySelector("[data-char][style]")
+  await new Promise((resolve) => setTimeout(resolve, 300))
   while (!settled() && Date.now() < deadline) await new Promise((resolve) => setTimeout(resolve, 100))
 }
 
@@ -36,7 +40,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Entrance animations are a per-block CMS setting, off unless an editor picks a preset. The presets live in `lib/animation.ts` and are played by the `Reveal` atom through Motion's small `m` + `domAnimation` build, which is only loaded on pages where a block animates. Reduced-motion users get the opacity fade without movement.",
+          "Entrance animations are a per-block CMS setting, off unless an editor picks a preset. The presets live in `@platform/animation` and are played by its `Reveal` component through Motion's small `m` + `domAnimation` build, which is only loaded on pages where a block animates. Reduced-motion users get the opacity fade without movement.",
       },
     },
   },
@@ -91,11 +95,36 @@ export const SlowWithDelay: Story = {
   args: { blocks: [animated(fixtures.testimonialsBlock, { animation: "fadeUp", animationStagger: true, animationDuration: "slow", animationDelay: "medium" })] },
 }
 
+/** `headingAnimation: "words"` on a block that does not otherwise animate: only the title moves. */
+export const HeadingWords: Story = {
+  args: { blocks: [animated(fixtures.heroBlock, { headingAnimation: "words" })] },
+}
+
+/** Heading and block effects combine: the title reveals line by line as the staggered hero fades up around it. */
+export const HeadingLines: Story = {
+  args: { blocks: [animated(fixtures.heroBlock, { layout: "split", animation: "fadeUp", animationStagger: true, headingAnimation: "lines" })] },
+}
+
+/** Letter by letter, with the block's `slow` duration. */
+export const HeadingCharacters: Story = {
+  args: { blocks: [animated(fixtures.featureSplitBlock, { headingAnimation: "characters", animationDuration: "slow" })] },
+}
+
+/** Typed out behind a caret; suits short titles. */
+export const HeadingTypewriter: Story = {
+  args: { blocks: [animated(fixtures.ctaBlock, { theme: "brand", headingAnimation: "typewriter" })] },
+}
+
+/** Scrambled glyphs settle into the title, left to right. */
+export const HeadingScramble: Story = {
+  args: { blocks: [animated(fixtures.statsBlock, { headingAnimation: "scramble", animation: "fadeIn" })] },
+}
+
 /** A page where each block has its own setting, as an editor would compose it. */
 export const Page: Story = {
   args: {
     blocks: [
-      animated(fixtures.heroBlock, { animation: "fadeUp", animationStagger: true }),
+      animated(fixtures.heroBlock, { animation: "fadeUp", animationStagger: true, headingAnimation: "lines" }),
       animated(fixtures.logoCloudBlock, { animation: "fadeIn", animationDelay: "short" }),
       animated(fixtures.featureGridBlock, { animation: "fadeUp", animationStagger: true }),
       animated(fixtures.featureSplitBlock, { animation: "slideFromLeft", animationStagger: true }),

@@ -8,6 +8,7 @@ dependencies:
     - field.field.paragraph.logo_cloud.field_animation_duration
     - field.field.paragraph.logo_cloud.field_animation_stagger
     - field.field.paragraph.logo_cloud.field_grayscale
+    - field.field.paragraph.logo_cloud.field_heading_animation
     - field.field.paragraph.logo_cloud.field_logo_cloud_layout
     - field.field.paragraph.logo_cloud.field_logos
     - field.field.paragraph.logo_cloud.field_spacing
@@ -95,15 +96,21 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
-  field_animation_duration:
+  field_heading_animation:
     type: options_select
     weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_animation_delay:
+  field_animation_duration:
     type: options_select
     weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_delay:
+    type: options_select
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }

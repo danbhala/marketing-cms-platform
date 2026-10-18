@@ -390,9 +390,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 11,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 12,
           "display_name": "Animation duration",
           "options": [
             {
@@ -412,7 +445,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 12,
+          "pos": 13,
           "display_name": "Animation delay",
           "options": [
             {
@@ -597,9 +630,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 9,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 10,
           "display_name": "Animation duration",
           "options": [
             {
@@ -619,7 +685,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Animation delay",
           "options": [
             {
@@ -829,9 +895,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 11,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 12,
           "display_name": "Animation duration",
           "options": [
             {
@@ -851,7 +950,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 12,
+          "pos": 13,
           "display_name": "Animation delay",
           "options": [
             {
@@ -1062,9 +1161,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 12,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 13,
           "display_name": "Animation duration",
           "options": [
             {
@@ -1084,7 +1216,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 13,
+          "pos": 14,
           "display_name": "Animation delay",
           "options": [
             {
@@ -1278,9 +1410,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 10,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -1300,7 +1465,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -1490,9 +1655,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 10,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -1512,7 +1710,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -1687,9 +1885,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 9,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 10,
           "display_name": "Animation duration",
           "options": [
             {
@@ -1709,7 +1940,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Animation delay",
           "options": [
             {
@@ -1894,9 +2125,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 10,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -1916,7 +2180,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -2106,9 +2370,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 10,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -2128,7 +2425,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -2320,9 +2617,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 10,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -2342,7 +2672,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -2548,9 +2878,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 11,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 12,
           "display_name": "Animation duration",
           "options": [
             {
@@ -2570,7 +2933,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 12,
+          "pos": 13,
           "display_name": "Animation delay",
           "options": [
             {
@@ -2760,9 +3123,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 10,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -2782,7 +3178,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -2972,9 +3368,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 10,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 11,
           "display_name": "Animation duration",
           "options": [
             {
@@ -2994,7 +3423,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Animation delay",
           "options": [
             {
@@ -3168,9 +3597,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 9,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 10,
           "display_name": "Animation duration",
           "options": [
             {
@@ -3190,7 +3652,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Animation delay",
           "options": [
             {
@@ -3359,9 +3821,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 7,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 8,
           "display_name": "Animation duration",
           "options": [
             {
@@ -3381,7 +3876,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 8,
+          "pos": 9,
           "display_name": "Animation delay",
           "options": [
             {
@@ -3559,9 +4054,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 8,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 9,
           "display_name": "Animation duration",
           "options": [
             {
@@ -3581,7 +4109,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 9,
+          "pos": 10,
           "display_name": "Animation delay",
           "options": [
             {
@@ -3796,9 +4324,42 @@
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once."
         },
-        "animationDuration": {
+        "headingAnimation": {
           "type": "option",
           "pos": 14,
+          "display_name": "Heading animation",
+          "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+          "options": [
+            {
+              "name": "None",
+              "value": "none"
+            },
+            {
+              "name": "Words",
+              "value": "words"
+            },
+            {
+              "name": "Characters",
+              "value": "characters"
+            },
+            {
+              "name": "Lines",
+              "value": "lines"
+            },
+            {
+              "name": "Typewriter",
+              "value": "typewriter"
+            },
+            {
+              "name": "Scramble",
+              "value": "scramble"
+            }
+          ],
+          "default_value": "none"
+        },
+        "animationDuration": {
+          "type": "option",
+          "pos": 15,
           "display_name": "Animation duration",
           "options": [
             {
@@ -3818,7 +4379,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 15,
+          "pos": 16,
           "display_name": "Animation delay",
           "options": [
             {

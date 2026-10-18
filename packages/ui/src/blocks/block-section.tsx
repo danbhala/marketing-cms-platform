@@ -6,8 +6,8 @@ import {
   type Block,
 } from "@platform/content-model"
 import { editAttrs } from "@platform/cms-core/edit"
+import { Reveal, RevealItem, type RevealItemProps } from "@platform/animation"
 
-import { Reveal, RevealItem, type RevealItemProps } from "../atoms/reveal"
 import { Section, sectionVariants, type SectionProps } from "../atoms/section"
 import { cn } from "../lib/utils"
 
@@ -19,6 +19,7 @@ type Presentation = Pick<
   | "anchor"
   | "animation"
   | "animationStagger"
+  | "headingAnimation"
   | "animationDuration"
   | "animationDelay"
 > & {

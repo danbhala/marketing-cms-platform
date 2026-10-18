@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-import { animationDelays, animationDurations, animationPresets, type AnimationDelay, type AnimationDuration, type AnimationPreset, type Block } from "@platform/content-model"
+import { animationDelays, animationDurations, animationPresets, headingAnimations, type AnimationDelay, type AnimationDuration, type AnimationPreset, type Block, type HeadingAnimation } from "@platform/content-model"
 import { allBlockFixtures } from "@platform/content-model/fixtures"
 import { BlockList } from "@platform/ui/templates"
 
@@ -31,8 +31,17 @@ const presetLabels: Record<AnimationPreset, string> = {
   blurIn: "Blur in",
 }
 
+const headingLabels: Record<HeadingAnimation, string> = {
+  none: "Off",
+  words: "Words",
+  characters: "Characters",
+  lines: "Lines",
+  typewriter: "Typewriter",
+  scramble: "Scramble",
+}
+
 /**
- * The four animation fields as an editor would see them, applied live to a
+ * The five animation fields as an editor would see them, applied live to a
  * real block from the UI package. "Replay" remounts the block so the reveal
  * runs again; on a page it runs once, when the block scrolls into view.
  */
@@ -40,6 +49,7 @@ export function AnimationDemo() {
   const [type, setType] = useState<(typeof demoBlocks)[number]["type"]>("featureGrid")
   const [preset, setPreset] = useState<AnimationPreset>("fadeUp")
   const [stagger, setStagger] = useState(true)
+  const [heading, setHeading] = useState<HeadingAnimation>("none")
   const [duration, setDuration] = useState<AnimationDuration>("normal")
   const [delay, setDelay] = useState<AnimationDelay>("none")
   const [run, setRun] = useState(0)
@@ -50,6 +60,7 @@ export function AnimationDemo() {
     ...entry.patch,
     animation: preset,
     animationStagger: stagger,
+    headingAnimation: heading,
     animationDuration: duration,
     animationDelay: delay,
   } as Block
@@ -72,6 +83,10 @@ export function AnimationDemo() {
           <Segmented value={preset} onChange={setPreset} options={animationPresets.map((p) => ({ value: p, label: presetLabels[p] }))} />
         </div>
         <div className="flex flex-col gap-1.5">
+          <span className="font-medium">headingAnimation</span>
+          <Segmented value={heading} onChange={setHeading} options={headingAnimations.map((h) => ({ value: h, label: headingLabels[h] }))} />
+        </div>
+        <div className="flex flex-col gap-1.5">
           <span className="font-medium">animationDuration</span>
           <Segmented value={duration} onChange={setDuration} options={animationDurations.map((d) => ({ value: d, label: d }))} />
         </div>
@@ -91,7 +106,7 @@ export function AnimationDemo() {
         </button>
       </div>
       <div className="overflow-hidden rounded-xl border theme-light">
-        <div key={`${type}-${preset}-${stagger}-${duration}-${delay}-${run}`} style={{ zoom: 0.6 }}>
+        <div key={`${type}-${preset}-${stagger}-${heading}-${duration}-${delay}-${run}`} style={{ zoom: 0.6 }}>
           <BlockList blocks={[block]} />
         </div>
       </div>

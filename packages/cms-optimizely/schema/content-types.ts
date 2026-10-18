@@ -733,10 +733,26 @@ export const HeroBlockContentType = contentType({
       sortOrder: 110,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 120,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -748,7 +764,7 @@ export const HeroBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 130,
+      sortOrder: 140,
       type: "string",
       format: "selectOne",
       enum: [
@@ -856,10 +872,26 @@ export const LogoCloudBlockContentType = contentType({
       sortOrder: 90,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 100,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 100,
+      sortOrder: 110,
       type: "string",
       format: "selectOne",
       enum: [
@@ -871,7 +903,7 @@ export const LogoCloudBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1001,10 +1033,26 @@ export const FeatureGridBlockContentType = contentType({
       sortOrder: 110,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 120,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1016,7 +1064,7 @@ export const FeatureGridBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 130,
+      sortOrder: 140,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1150,10 +1198,26 @@ export const FeatureSplitBlockContentType = contentType({
       sortOrder: 120,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 130,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 130,
+      sortOrder: 140,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1165,7 +1229,7 @@ export const FeatureSplitBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 140,
+      sortOrder: 150,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1284,10 +1348,26 @@ export const StatsBlockContentType = contentType({
       sortOrder: 100,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 110,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1299,7 +1379,7 @@ export const StatsBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1417,10 +1497,26 @@ export const TestimonialsBlockContentType = contentType({
       sortOrder: 100,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 110,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1432,7 +1528,7 @@ export const TestimonialsBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1540,10 +1636,26 @@ export const PricingBlockContentType = contentType({
       sortOrder: 90,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 100,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 100,
+      sortOrder: 110,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1555,7 +1667,7 @@ export const PricingBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1672,10 +1784,26 @@ export const ComparisonTableBlockContentType = contentType({
       sortOrder: 100,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 110,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1687,7 +1815,7 @@ export const ComparisonTableBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1805,10 +1933,26 @@ export const FaqBlockContentType = contentType({
       sortOrder: 100,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 110,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1820,7 +1964,7 @@ export const FaqBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1940,10 +2084,26 @@ export const CtaBlockContentType = contentType({
       sortOrder: 100,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 110,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -1955,7 +2115,7 @@ export const CtaBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2085,10 +2245,26 @@ export const CardGridBlockContentType = contentType({
       sortOrder: 110,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 120,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2100,7 +2276,7 @@ export const CardGridBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 130,
+      sortOrder: 140,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2215,10 +2391,26 @@ export const TeamGridBlockContentType = contentType({
       sortOrder: 100,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 110,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2230,7 +2422,7 @@ export const TeamGridBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2348,10 +2540,26 @@ export const StepsBlockContentType = contentType({
       sortOrder: 100,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 110,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2363,7 +2571,7 @@ export const StepsBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2470,10 +2678,26 @@ export const TabsBlockContentType = contentType({
       sortOrder: 90,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 100,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 100,
+      sortOrder: 110,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2485,7 +2709,7 @@ export const TabsBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2585,10 +2809,26 @@ export const RichTextBlockContentType = contentType({
       sortOrder: 70,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 80,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 80,
+      sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2600,7 +2840,7 @@ export const RichTextBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 90,
+      sortOrder: 100,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2708,10 +2948,26 @@ export const MediaBlockContentType = contentType({
       sortOrder: 80,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 90,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 90,
+      sortOrder: 100,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2723,7 +2979,7 @@ export const MediaBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 100,
+      sortOrder: 110,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2873,10 +3129,26 @@ export const FormBlockContentType = contentType({
       sortOrder: 140,
       type: "boolean",
     },
+    headingAnimation: {
+      displayName: "Heading animation",
+      description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+      group: "Content",
+      sortOrder: 150,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "none", displayName: "None" },
+        { value: "words", displayName: "Words" },
+        { value: "characters", displayName: "Characters" },
+        { value: "lines", displayName: "Lines" },
+        { value: "typewriter", displayName: "Typewriter" },
+        { value: "scramble", displayName: "Scramble" },
+      ],
+    },
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 150,
+      sortOrder: 160,
       type: "string",
       format: "selectOne",
       enum: [
@@ -2888,7 +3160,7 @@ export const FormBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 160,
+      sortOrder: 170,
       type: "string",
       format: "selectOne",
       enum: [

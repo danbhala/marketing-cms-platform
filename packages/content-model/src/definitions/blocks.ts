@@ -1,4 +1,4 @@
-import { animationDelays, animationDurations, animationPresets } from "../animation";
+import { animationDelays, animationDurations, animationPresets, headingAnimations } from "../animation";
 import { defineBlock, field } from "../fields";
 import { themeNames } from "../themes";
 import {
@@ -33,6 +33,11 @@ const presentation = {
   animationStagger: field.boolean({
     label: "Stagger items",
     description: "Reveal the block's items one after another instead of all at once.",
+  }),
+  headingAnimation: field.select(headingAnimations, {
+    defaultValue: "none",
+    label: "Heading animation",
+    description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
   }),
   animationDuration: field.select(animationDurations, { defaultValue: "normal" }),
   animationDelay: field.select(animationDelays, { defaultValue: "none" }),

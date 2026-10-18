@@ -7,7 +7,7 @@ The component library: vendored shadcn/ui primitives (base-nova style on Base UI
 | Folder | Contents |
 | --- | --- |
 | `src/primitives` | shadcn/ui components, vendored by `pnpm vendor:shadcn`. Edit via the script, not by hand. |
-| `src/atoms` | Typography (CVA variants), Container, Section, Image, Link, Icon, Badge, buttons, `Reveal` (entrance animation). |
+| `src/atoms` | Typography (CVA variants), Container, Section, Image, Link, Icon, Badge, buttons. |
 | `src/molecules` | Slot-based pieces: action groups, feature items, quotes, price cards, form fields, breadcrumbs, rich text renderer. |
 | `src/blocks` | One component per block type; `blocks/index.ts` exports `blockComponents`. Every block's root is `BlockSection`. |
 | `src/templates` | `PageTemplate` (announcement bar, header, breadcrumbs, blocks, footer) and `BlockList`. |
@@ -22,7 +22,7 @@ Fonts, heading weight/tracking/case and section rhythm are variables too (`--fon
 
 ## Animation
 
-Blocks are static by default. When a block's `animation` field is set, `BlockSection` renders through the `Reveal` atom, which plays the preset once as the block scrolls into view using [Motion](https://motion.dev) (`m` components with the `domAnimation` feature bundle, loaded only on pages that animate). `animationStagger` reveals the block's items one after another: blocks mark those with `BlockItem`, which is a fragment when the block is not staggered. Presets, durations and delays are in `src/lib/animation.ts`; the field options come from `@platform/content-model`. `MotionConfig reducedMotion="user"` keeps the opacity fade and drops the movement for people who ask for reduced motion.
+Blocks are static by default. When a block's `animation` field is set, `BlockSection` renders through `Reveal` from `@platform/animation`, which plays the preset once as the block scrolls into view. `animationStagger` reveals the block's items one after another: blocks mark those with `BlockItem`, which is a fragment when the block is not staggered. When `headingAnimation` is set, `Heading` renders the title through `SplitText` (words, characters, lines, typewriter or scramble) and keeps the full text in `aria-label`; `SectionHeader` reads the field from its `source` block, and blocks with their own title pass `animation={headingAnimationSettings(block)}`. Presets and timing live in `@platform/animation`, the field options in `@platform/content-model`; this package imports no Motion itself.
 
 ## Responsive layout
 

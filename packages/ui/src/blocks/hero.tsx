@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority"
 
-import type { HeroBlock } from "@platform/content-model"
+import { headingAnimationSettings, type HeroBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"
@@ -61,7 +61,7 @@ function Hero({ block, className, ...props }: HeroProps) {
             </BlockItem>
           ) : null}
           <BlockItem block={block}>
-            <Heading as="h1" size="display" tone="inherit" align={centered ? "center" : "start"} {...fieldAttrs(block, "title")}>
+            <Heading as="h1" size="display" tone="inherit" align={centered ? "center" : "start"} animation={headingAnimationSettings(block)} {...fieldAttrs(block, "title")}>
               {block.title}
             </Heading>
           </BlockItem>

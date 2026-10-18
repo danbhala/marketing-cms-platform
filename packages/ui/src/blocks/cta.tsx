@@ -1,4 +1,4 @@
-import { themeClassName, type CtaBlock } from "@platform/content-model"
+import { headingAnimationSettings, themeClassName, type CtaBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"
@@ -36,7 +36,7 @@ function Cta({ block, index, className, ...props }: CtaProps) {
               </BlockItem>
             ) : null}
             <BlockItem block={block}>
-              <Heading as={index === 0 ? "h1" : "h2"} size="h2" {...fieldAttrs(block, "title")}>
+              <Heading as={index === 0 ? "h1" : "h2"} size="h2" animation={headingAnimationSettings(block)} {...fieldAttrs(block, "title")}>
                 {block.title}
               </Heading>
             </BlockItem>

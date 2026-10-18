@@ -10,6 +10,7 @@ dependencies:
     - field.field.paragraph.faq.field_description
     - field.field.paragraph.faq.field_eyebrow
     - field.field.paragraph.faq.field_faq_layout
+    - field.field.paragraph.faq.field_heading_animation
     - field.field.paragraph.faq.field_items
     - field.field.paragraph.faq.field_spacing
     - field.field.paragraph.faq.field_theme
@@ -105,15 +106,21 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
-  field_animation_duration:
+  field_heading_animation:
     type: options_select
     weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_animation_delay:
+  field_animation_duration:
     type: options_select
     weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animation_delay:
+    type: options_select
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
