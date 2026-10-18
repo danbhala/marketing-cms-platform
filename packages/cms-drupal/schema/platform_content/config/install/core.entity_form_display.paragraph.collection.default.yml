@@ -7,6 +7,7 @@ dependencies:
     - field.field.paragraph.collection.field_animation_delay
     - field.field.paragraph.collection.field_animation_duration
     - field.field.paragraph.collection.field_animation_stagger
+    - field.field.paragraph.collection.field_collection_layout
     - field.field.paragraph.collection.field_description
     - field.field.paragraph.collection.field_empty_message
     - field.field.paragraph.collection.field_eyebrow
@@ -57,35 +58,41 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_collection_layout:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_page_size:
     type: number
-    weight: 4
+    weight: 5
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_filters:
     type: options_select
-    weight: 5
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   field_search:
     type: boolean_checkbox
-    weight: 6
+    weight: 7
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_sort:
     type: options_select
-    weight: 7
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   field_empty_message:
     type: string_textfield
-    weight: 8
+    weight: 9
     region: content
     settings:
       size: 60
@@ -93,19 +100,19 @@ content:
     third_party_settings: {  }
   field_theme:
     type: options_select
-    weight: 9
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   field_spacing:
     type: options_select
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   field_anchor:
     type: string_textfield
-    weight: 11
+    weight: 12
     region: content
     settings:
       size: 60
@@ -113,31 +120,31 @@ content:
     third_party_settings: {  }
   field_animation:
     type: options_select
-    weight: 12
+    weight: 13
     region: content
     settings: {  }
     third_party_settings: {  }
   field_animation_stagger:
     type: options_select
-    weight: 13
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
   field_heading_animation:
     type: options_select
-    weight: 14
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
   field_animation_duration:
     type: options_select
-    weight: 15
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
   field_animation_delay:
     type: options_select
-    weight: 16
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }

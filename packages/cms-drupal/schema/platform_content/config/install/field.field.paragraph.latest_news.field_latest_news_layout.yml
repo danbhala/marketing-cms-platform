@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_latest_news_layout
+    - paragraphs.paragraphs_type.latest_news
+  module:
+    - options
+id: paragraph.latest_news.field_latest_news_layout
+field_name: field_latest_news_layout
+entity_type: paragraph
+bundle: latest_news
+label: Layout
+description: Same layouts as the collection block. featured shows the newest item large.
+required: false
+translatable: true
+default_value:
+  - value: grid
+default_value_callback: ''
+settings: {  }
+field_type: list_string

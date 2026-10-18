@@ -5575,15 +5575,40 @@
           ],
           "default_value": "article"
         },
+        "layout": {
+          "type": "option",
+          "pos": 4,
+          "display_name": "Layout",
+          "description": "grid: cards. list: rows with a thumbnail. featured: the newest item large, the rest as cards. compact: title and date only.",
+          "options": [
+            {
+              "name": "Grid",
+              "value": "grid"
+            },
+            {
+              "name": "List",
+              "value": "list"
+            },
+            {
+              "name": "Featured",
+              "value": "featured"
+            },
+            {
+              "name": "Compact",
+              "value": "compact"
+            }
+          ],
+          "default_value": "grid"
+        },
         "pageSize": {
           "type": "number",
-          "pos": 4,
+          "pos": 5,
           "display_name": "Page size",
           "description": "Items per page. Defaults to 12."
         },
         "filters": {
           "type": "option",
-          "pos": 5,
+          "pos": 6,
           "display_name": "Filters",
           "description": "Taxonomy shown as filter chips.",
           "options": [
@@ -5600,13 +5625,13 @@
         },
         "search": {
           "type": "boolean",
-          "pos": 6,
+          "pos": 7,
           "display_name": "Search",
           "description": "Show a search box. Searches use the CMS's own search and are never cached."
         },
         "sort": {
           "type": "option",
-          "pos": 7,
+          "pos": 8,
           "display_name": "Sort",
           "description": "Default order; visitors can change it.",
           "options": [
@@ -5627,13 +5652,13 @@
         },
         "emptyMessage": {
           "type": "text",
-          "pos": 8,
+          "pos": 9,
           "display_name": "Empty message",
           "description": "Shown when no items match."
         },
         "theme": {
           "type": "option",
-          "pos": 9,
+          "pos": 10,
           "display_name": "Theme",
           "description": "Applies a theme class to this block only.",
           "options": [
@@ -5677,7 +5702,7 @@
         },
         "spacing": {
           "type": "option",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Spacing",
           "options": [
             {
@@ -5701,13 +5726,13 @@
         },
         "anchor": {
           "type": "text",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Anchor",
           "description": "Optional id for in-page links, e.g. 'pricing'."
         },
         "animation": {
           "type": "option",
-          "pos": 12,
+          "pos": 13,
           "display_name": "Animation",
           "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
@@ -5748,7 +5773,7 @@
         },
         "animationStagger": {
           "type": "option",
-          "pos": 13,
+          "pos": 14,
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once.",
           "options": [
@@ -5769,7 +5794,7 @@
         },
         "headingAnimation": {
           "type": "option",
-          "pos": 14,
+          "pos": 15,
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
@@ -5806,7 +5831,7 @@
         },
         "animationDuration": {
           "type": "option",
-          "pos": 15,
+          "pos": 16,
           "display_name": "Animation duration",
           "options": [
             {
@@ -5830,7 +5855,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 16,
+          "pos": 17,
           "display_name": "Animation delay",
           "options": [
             {
@@ -5926,9 +5951,34 @@
           ],
           "default_value": "3"
         },
+        "layout": {
+          "type": "option",
+          "pos": 6,
+          "display_name": "Layout",
+          "description": "Same layouts as the collection block. featured shows the newest item large.",
+          "options": [
+            {
+              "name": "Grid",
+              "value": "grid"
+            },
+            {
+              "name": "List",
+              "value": "list"
+            },
+            {
+              "name": "Featured",
+              "value": "featured"
+            },
+            {
+              "name": "Compact",
+              "value": "compact"
+            }
+          ],
+          "default_value": "grid"
+        },
         "actions": {
           "type": "bloks",
-          "pos": 6,
+          "pos": 7,
           "display_name": "Actions",
           "description": "The \"see all\" link. Left empty, it links to the page that lists this type.",
           "required": true,
@@ -5941,7 +5991,7 @@
         },
         "theme": {
           "type": "option",
-          "pos": 7,
+          "pos": 8,
           "display_name": "Theme",
           "description": "Applies a theme class to this block only.",
           "options": [
@@ -5985,7 +6035,7 @@
         },
         "spacing": {
           "type": "option",
-          "pos": 8,
+          "pos": 9,
           "display_name": "Spacing",
           "options": [
             {
@@ -6009,13 +6059,13 @@
         },
         "anchor": {
           "type": "text",
-          "pos": 9,
+          "pos": 10,
           "display_name": "Anchor",
           "description": "Optional id for in-page links, e.g. 'pricing'."
         },
         "animation": {
           "type": "option",
-          "pos": 10,
+          "pos": 11,
           "display_name": "Animation",
           "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
           "options": [
@@ -6056,7 +6106,7 @@
         },
         "animationStagger": {
           "type": "option",
-          "pos": 11,
+          "pos": 12,
           "display_name": "Stagger items",
           "description": "Reveal the block's items one after another instead of all at once.",
           "options": [
@@ -6077,7 +6127,7 @@
         },
         "headingAnimation": {
           "type": "option",
-          "pos": 12,
+          "pos": 13,
           "display_name": "Heading animation",
           "description": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
           "options": [
@@ -6114,7 +6164,7 @@
         },
         "animationDuration": {
           "type": "option",
-          "pos": 13,
+          "pos": 14,
           "display_name": "Animation duration",
           "options": [
             {
@@ -6138,7 +6188,7 @@
         },
         "animationDelay": {
           "type": "option",
-          "pos": 14,
+          "pos": 15,
           "display_name": "Animation delay",
           "options": [
             {
