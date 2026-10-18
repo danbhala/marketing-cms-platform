@@ -23,3 +23,11 @@ export const TwoPlans: Story = {
 export const Muted: Story = {
   args: { block: { ...fixtures.pricingBlock, ...{ theme: "muted" } } },
 }
+
+/** `countUp` counts each price from zero when the block scrolls into view; the currency symbol stays as written. */
+export const CountUp: Story = {
+  args: { block: { ...fixtures.pricingBlock, ...{ countUp: true } } },
+  play: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1800))
+  },
+}

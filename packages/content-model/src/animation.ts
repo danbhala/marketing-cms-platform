@@ -85,3 +85,27 @@ export function headingAnimationSettings(block: AnimationFields | null | undefin
     delay: block.animationDelay ?? "none",
   }
 }
+
+// ---------------------------------------------------------------------------
+// Thin layers over open-source Motion for the effects Motion+ sells
+// ---------------------------------------------------------------------------
+
+/**
+ * How a block's media moves with the page scroll. `parallax` drifts the image
+ * slower than the page, `zoom` grows it as it passes through the viewport,
+ * `fade` dims it at the edges. All three are transforms and opacity only.
+ */
+export const scrollEffects = ["none", "parallax", "zoom", "fade"] as const
+export type ScrollEffect = (typeof scrollEffects)[number]
+
+/** Marquee speed, in pixels per second (see `@platform/animation`'s `Marquee`). */
+export const marqueeSpeeds = ["slow", "normal", "fast"] as const
+export type MarqueeSpeed = (typeof marqueeSpeeds)[number]
+
+/** Resolve a `scrollEffect` field; `null` means the media sits still. */
+export function scrollEffectSetting(
+  block: { scrollEffect?: ScrollEffect | null } | null | undefined
+): Exclude<ScrollEffect, "none"> | null {
+  const effect = block?.scrollEffect
+  return !effect || effect === "none" ? null : effect
+}

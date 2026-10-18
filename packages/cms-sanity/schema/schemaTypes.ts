@@ -241,6 +241,12 @@ export const schemaTypes = [
         type: "string",
         description: "Lucide icon name, e.g. arrow-right.",
       },
+      {
+        name: "magnetic",
+        title: "Magnetic",
+        type: "boolean",
+        description: "Pull the button towards the pointer on hover (mouse only).",
+      },
     ],
     preview: {
       select: {
@@ -573,6 +579,29 @@ export const schemaTypes = [
     preview: {
       select: {
         title: "title",
+      },
+    },
+  },
+  {
+    name: "galleryItem",
+    title: "Gallery item",
+    type: "object",
+    fields: [
+      {
+        name: "media",
+        title: "Media",
+        type: "anyMedia",
+        validation: (rule: SanityRule) => rule.required(),
+      },
+      {
+        name: "caption",
+        title: "Caption",
+        type: "string",
+      },
+    ],
+    preview: {
+      select: {
+        title: "caption",
       },
     },
   },
@@ -962,6 +991,34 @@ export const schemaTypes = [
         initialValue: "centered",
       },
       {
+        name: "scrollEffect",
+        title: "Scroll effect",
+        type: "string",
+        description: "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Parallax",
+              value: "parallax",
+            },
+            {
+              title: "Zoom",
+              value: "zoom",
+            },
+            {
+              title: "Fade",
+              value: "fade",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "theme",
         title: "Theme",
         type: "string",
@@ -1214,10 +1271,38 @@ export const schemaTypes = [
               title: "Grid",
               value: "grid",
             },
+            {
+              title: "Marquee",
+              value: "marquee",
+            },
           ],
           layout: "dropdown",
         },
         initialValue: "row",
+      },
+      {
+        name: "marqueeSpeed",
+        title: "Marquee speed",
+        type: "string",
+        description: "Only used by the marquee layout.",
+        options: {
+          list: [
+            {
+              title: "Slow",
+              value: "slow",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Fast",
+              value: "fast",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
       },
       {
         name: "grayscale",
@@ -2075,6 +2160,12 @@ export const schemaTypes = [
         initialValue: "3",
       },
       {
+        name: "countUp",
+        title: "Count up",
+        type: "boolean",
+        description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
+      },
+      {
         name: "theme",
         title: "Theme",
         type: "string",
@@ -2338,10 +2429,42 @@ export const schemaTypes = [
               title: "Featured",
               value: "featured",
             },
+            {
+              title: "Carousel",
+              value: "carousel",
+            },
+            {
+              title: "Marquee",
+              value: "marquee",
+            },
           ],
           layout: "dropdown",
         },
         initialValue: "grid",
+      },
+      {
+        name: "marqueeSpeed",
+        title: "Marquee speed",
+        type: "string",
+        description: "Only used by the marquee layout.",
+        options: {
+          list: [
+            {
+              title: "Slow",
+              value: "slow",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Fast",
+              value: "fast",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
       },
       {
         name: "theme",
@@ -2593,6 +2716,12 @@ export const schemaTypes = [
           },
         ],
         validation: (rule: SanityRule) => rule.max(4),
+      },
+      {
+        name: "countUp",
+        title: "Count up",
+        type: "boolean",
+        description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
       },
       {
         name: "theme",
@@ -4970,6 +5099,34 @@ export const schemaTypes = [
         initialValue: "contained",
       },
       {
+        name: "scrollEffect",
+        title: "Scroll effect",
+        type: "string",
+        description: "Moves the media with the page scroll: parallax drift, a slow zoom, or a fade at the edges.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Parallax",
+              value: "parallax",
+            },
+            {
+              title: "Zoom",
+              value: "zoom",
+            },
+            {
+              title: "Fade",
+              value: "fade",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
         name: "theme",
         title: "Theme",
         type: "string",
@@ -5185,6 +5342,324 @@ export const schemaTypes = [
     preview: {
       select: {
         title: "caption",
+      },
+    },
+  },
+  {
+    name: "gallery",
+    title: "Gallery",
+    type: "object",
+    description: "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.",
+    fields: [
+      {
+        name: "eyebrow",
+        title: "Eyebrow",
+        type: "string",
+      },
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+      },
+      {
+        name: "description",
+        title: "Description",
+        type: "text",
+        rows: 3,
+      },
+      {
+        name: "items",
+        title: "Items",
+        type: "array",
+        of: [
+          {
+            type: "galleryItem",
+          },
+        ],
+      },
+      {
+        name: "layout",
+        title: "Layout",
+        type: "string",
+        description: "grid: equal tiles; masonry: natural heights in columns; featured: the first item large; stage: one large image with a thumbnail row; strip: a row that moves sideways as the page scrolls.",
+        options: {
+          list: [
+            {
+              title: "Grid",
+              value: "grid",
+            },
+            {
+              title: "Masonry",
+              value: "masonry",
+            },
+            {
+              title: "Featured",
+              value: "featured",
+            },
+            {
+              title: "Stage",
+              value: "stage",
+            },
+            {
+              title: "Strip",
+              value: "strip",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "grid",
+      },
+      {
+        name: "columns",
+        title: "Columns",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "2",
+              value: "2",
+            },
+            {
+              title: "3",
+              value: "3",
+            },
+            {
+              title: "4",
+              value: "4",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "3",
+      },
+      {
+        name: "lightbox",
+        title: "Lightbox",
+        type: "boolean",
+        description: "Open items full screen on tap, with previous and next.",
+      },
+      {
+        name: "autoplay",
+        title: "Autoplay",
+        type: "boolean",
+        description: "Stage layout only: advance every few seconds, with a pause control.",
+      },
+      {
+        name: "theme",
+        title: "Theme",
+        type: "string",
+        description: "Applies a theme class to this block only.",
+        options: {
+          list: [
+            {
+              title: "Light",
+              value: "light",
+            },
+            {
+              title: "Dark",
+              value: "dark",
+            },
+            {
+              title: "Brand",
+              value: "brand",
+            },
+            {
+              title: "Muted",
+              value: "muted",
+            },
+            {
+              title: "Blue",
+              value: "blue",
+            },
+            {
+              title: "Green",
+              value: "green",
+            },
+            {
+              title: "Orange",
+              value: "orange",
+            },
+            {
+              title: "Rose",
+              value: "rose",
+            },
+            {
+              title: "Violet",
+              value: "violet",
+            },
+          ],
+          layout: "dropdown",
+        },
+      },
+      {
+        name: "spacing",
+        title: "Spacing",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Sm",
+              value: "sm",
+            },
+            {
+              title: "Md",
+              value: "md",
+            },
+            {
+              title: "Lg",
+              value: "lg",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "md",
+      },
+      {
+        name: "anchor",
+        title: "Anchor",
+        type: "string",
+        description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+    ],
+    preview: {
+      select: {
+        title: "eyebrow",
       },
     },
   },
@@ -5630,6 +6105,9 @@ export const schemaTypes = [
           },
           {
             type: "media",
+          },
+          {
+            type: "gallery",
           },
           {
             type: "form",

@@ -56,8 +56,9 @@ for (const id of ids) {
           if (r.width === 0) continue
           const cs = getComputedStyle(el)
           const over = Math.round(Math.max(r.right - vw, -r.left))
-          // A wide table inside an overflow-x-auto wrapper scrolls on purpose.
-          const scrolls = (node) => node && node !== document.body && (/(auto|scroll)/.test(getComputedStyle(node).overflowX) || scrolls(node.parentElement))
+          // A wide table inside an overflow-x-auto wrapper scrolls on purpose; a
+          // marquee track or a parallax image inside overflow-hidden is clipped on purpose.
+          const scrolls = (node) => node && node !== document.body && (/(auto|scroll|hidden|clip)/.test(getComputedStyle(node).overflowX) || scrolls(node.parentElement))
           if (over > 1 && !scrolls(el.parentElement)) {
             // Only report the outermost offender of a subtree.
             if ([...seen].some((p) => p.contains(el))) continue

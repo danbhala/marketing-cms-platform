@@ -11,6 +11,8 @@ import type {
   FeatureItem,
   FeatureSplitBlock,
   FormBlock,
+  GalleryBlock,
+  GalleryItem,
   HeroBlock,
   Logo,
   LogoCloudBlock,
@@ -29,7 +31,7 @@ import type {
   Testimonial,
   TestimonialsBlock,
 } from "../types"
-import { placeholderAvatar, placeholderLogo, placeholderMedia } from "./placeholder"
+import { placeholderAvatar, placeholderLogo, placeholderMedia, placeholderPhoto } from "./placeholder"
 
 /**
  * Sample content in the canonical shape. One set of fixtures feeds Storybook
@@ -250,6 +252,23 @@ export const cards: Card[] = [
     href: "/blog/october",
   },
 ]
+
+/** Eight photos in mixed orientations so masonry and featured layouts have something to arrange. */
+export const galleryItems: GalleryItem[] = [
+  { w: 1200, h: 800, caption: "The Berlin office, opening week" },
+  { w: 800, h: 1000, caption: "Design review on the roof" },
+  { w: 1200, h: 800, caption: "Launch day in the war room" },
+  { w: 1000, h: 1000, caption: "Our first customer summit" },
+  { w: 1200, h: 800, caption: "The data team's wall of funnels" },
+  { w: 800, h: 1000, caption: "Late night before the October release" },
+  { w: 1200, h: 800, caption: "Hack week demos" },
+  { w: 1200, h: 800, caption: "The whole company, Lisbon offsite" },
+].map(({ w, h, caption }, i) => ({
+  id: `gal-${i + 1}`,
+  type: "galleryItem",
+  media: placeholderPhoto(w, h, caption, i),
+  caption,
+}))
 
 export const people: Person[] = [
   {
@@ -584,6 +603,18 @@ export const mediaBlock: MediaBlock = {
   width: "contained",
 }
 
+export const galleryBlock: GalleryBlock = {
+  id: "blk-gallery",
+  type: "gallery",
+  eyebrow: "Life at Metrica",
+  title: "A year in pictures",
+  description: "Offsites, launches and the odd late night.",
+  items: galleryItems,
+  layout: "grid",
+  columns: "4",
+  lightbox: true,
+}
+
 export const formBlock: FormBlock = {
   id: "blk-form",
   type: "form",
@@ -665,6 +696,7 @@ export const allBlockFixtures = {
   tabs: tabsBlock,
   richText: richTextBlock,
   media: mediaBlock,
+  gallery: galleryBlock,
   form: formBlock,
 } as const
 
@@ -837,6 +869,7 @@ export const aboutPage: Page = {
     },
     { ...statsBlock, id: "about-stats", title: undefined },
     teamGridBlock,
+    { ...galleryBlock, id: "about-gallery", layout: "featured" },
     { ...richTextBlock, id: "about-story" },
     ctaBlock,
   ],

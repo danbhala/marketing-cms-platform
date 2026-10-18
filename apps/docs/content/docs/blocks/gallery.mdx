@@ -1,0 +1,36 @@
+---
+title: Gallery
+description: "Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with a lightbox."
+---
+
+<BlockPreview type="gallery" />
+
+## Fields
+
+<BlockReference type="gallery" />
+
+## Layouts
+
+| Layout     | What it does                                                                                                                                                                        |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `grid`     | Equal 4:3 tiles, two per row on phones and `columns` on desktop.                                                                                                                    |
+| `masonry`  | Natural heights flowing down columns, for mixed portrait and landscape.                                                                                                             |
+| `featured` | The first item fills a 2×2 cell; the rest are squares.                                                                                                                              |
+| `stage`    | One large image with a thumbnail row and a crossfade between them. `autoplay` advances every five seconds with a progress bar; it pauses on hover and focus and has a pause button. |
+| `strip`    | A row that moves sideways as the page scrolls down. Phones and reduced-motion settings get a swipeable row instead.                                                                 |
+
+With `lightbox` on, every tile is a button that opens the item full screen: it morphs from its tile (Motion's `layoutId`), with previous and next, swipe on touch, arrow keys, and focus returned to the tile on close. Videos play with their native controls in the lightbox.
+
+Alt text comes from the media, then the caption, then the item's position, so every tile has a name.
+
+<StorybookEmbed story="blocks-gallery--grid" viewMode="docs" height={720} />
+
+## Schema in each CMS
+
+The canonical definition and what the schema generators produce for it.
+
+<SchemaCompare type="gallery" />
+
+## Source
+
+`packages/ui/src/blocks/gallery.tsx` · stories in `gallery.stories.tsx` · lightbox in `molecules/lightbox.tsx`.

@@ -1,5 +1,6 @@
 import type { LogoCloudBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
+import { Marquee } from "@platform/animation"
 
 import { Container } from "../atoms/container"
 import { Text } from "../atoms/text"
@@ -10,9 +11,37 @@ import { BlockItem, BlockSection, type BlockComponentProps } from "./block-secti
 /** Props for the LogoCloud block: the `LogoCloudBlock` content plus section attributes. */
 export type LogoCloudProps = BlockComponentProps<LogoCloudBlock>
 
-/** A row or grid of customer logos with an optional one-line title. */
+/** A row, grid or scrolling marquee of customer logos with an optional one-line title. */
 function LogoCloud({ block, className, ...props }: LogoCloudProps) {
   const grid = block.layout === "grid"
+  if (block.layout === "marquee") {
+    return (
+      <BlockSection
+        block={block}
+        spacing={block.spacing ?? "sm"}
+        className={cn("overflow-hidden", className)}
+        {...props}
+      >
+        <Container className="flex flex-col items-center gap-8">
+          {block.title ? (
+            <Text size="sm" tone="muted" weight="medium" align="center" {...fieldAttrs(block, "title")}>
+              {block.title}
+            </Text>
+          ) : null}
+        </Container>
+        <Marquee
+          speed={block.marqueeSpeed ?? "normal"}
+          gap={64}
+          className="mt-8 first:mt-0"
+          {...fieldAttrs(block, "logos")}
+        >
+          {block.logos.map((logo) => (
+            <LogoItem key={logo.id} item={logo} grayscale={block.grayscale ?? false} />
+          ))}
+        </Marquee>
+      </BlockSection>
+    )
+  }
   return (
     <BlockSection block={block} spacing={block.spacing ?? "sm"} className={className} {...props}>
       <Container className="flex flex-col items-center gap-8">

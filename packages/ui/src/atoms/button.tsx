@@ -3,6 +3,7 @@
 import type * as React from "react"
 
 import { isExternalHref } from "@platform/content-model"
+import { Magnetic } from "@platform/animation"
 
 import { useUi } from "../lib/ui-provider"
 import { Button as ButtonPrimitive, buttonVariants } from "../primitives/button"
@@ -17,6 +18,8 @@ export interface ButtonProps extends React.ComponentProps<typeof ButtonPrimitive
   href?: string
   /** Link target. `_blank` also adds `rel="noopener noreferrer"`. */
   target?: string
+  /** Pull the button towards the pointer on hover (mouse only; see `Magnetic`). */
+  magnetic?: boolean
 }
 
 /**
@@ -24,19 +27,23 @@ export interface ButtonProps extends React.ComponentProps<typeof ButtonPrimitive
  * the atom handles the link case once: internal hrefs go through the injected
  * framework Link (client-side navigation), external ones through <a>.
  */
-function Button({ href, target, ...props }: ButtonProps) {
+function Button({ href, target, magnetic, ...props }: ButtonProps) {
   const { Link } = useUi()
-  if (!href) return <ButtonPrimitive {...props} />
-
-  const external = isExternalHref(href)
-  const rel = target === "_blank" ? "noopener noreferrer" : undefined
-  return (
-    <ButtonPrimitive
-      {...props}
-      nativeButton={false}
-      render={external ? <a href={href} target={target} rel={rel} /> : <Link href={href} target={target} rel={rel} />}
-    />
-  )
+  let button: React.ReactElement
+  if (!href) {
+    button = <ButtonPrimitive {...props} />
+  } else {
+    const external = isExternalHref(href)
+    const rel = target === "_blank" ? "noopener noreferrer" : undefined
+    button = (
+      <ButtonPrimitive
+        {...props}
+        nativeButton={false}
+        render={external ? <a href={href} target={target} rel={rel} /> : <Link href={href} target={target} rel={rel} />}
+      />
+    )
+  }
+  return magnetic ? <Magnetic className="section-max-sm:w-full section-max-sm:*:w-full">{button}</Magnetic> : button
 }
 
 export { Button, buttonVariants }

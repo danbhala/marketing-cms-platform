@@ -5,6 +5,7 @@ import {
   LazyMotion,
   MotionConfig,
   domAnimation,
+  domMax,
   type HTMLMotionProps,
   type MotionProps,
   type Variants,
@@ -52,11 +53,20 @@ function useReveal() {
  * Motion's small build: `m` components plus the `domAnimation` features (no
  * gestures, drag or layout animation), with movement turned off for people
  * who ask their OS for reduced motion. `Reveal` and a standalone `SplitText`
- * render inside one; nesting them is harmless.
+ * render inside one; nesting them is harmless. `features="max"` loads the
+ * full `domMax` bundle (drag and layout animation) for the few components
+ * that need it, such as the gallery lightbox; a nested root with fewer
+ * features does not take them away again.
  */
-function MotionRoot({ children }: { children: React.ReactNode }) {
+function MotionRoot({
+  children,
+  features = "animation",
+}: {
+  children: React.ReactNode
+  features?: "animation" | "max"
+}) {
   return (
-    <LazyMotion features={domAnimation} strict>
+    <LazyMotion features={features === "max" ? domMax : domAnimation} strict>
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </LazyMotion>
   )

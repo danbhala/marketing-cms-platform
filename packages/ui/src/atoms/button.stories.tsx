@@ -63,3 +63,8 @@ export const AsLink: Story = {
 export const ExternalLink: Story = {
   args: { href: "https://example.com", variant: "outline", children: "External link (opens in new tab)" },
 }
+
+/** `magnetic` pulls the button towards the pointer while it hovers nearby (mouse only; touch, keyboard and reduced motion get a still button). */
+export const Magnetic: Story = {
+  args: { magnetic: true, size: "lg", children: "Hover me" },
+}

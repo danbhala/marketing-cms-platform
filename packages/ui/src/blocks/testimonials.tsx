@@ -1,20 +1,25 @@
 import type { TestimonialsBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
+import { Marquee } from "@platform/animation"
+
 import { Container } from "../atoms/container"
 import { Grid } from "../atoms/layout"
+import { Carousel } from "../molecules/carousel"
 import { Quote } from "../molecules/quote"
 import { SectionHeader } from "../molecules/section-header"
+import { cn } from "../lib/utils"
 import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
 /** Props for the Testimonials block: the `TestimonialsBlock` content plus section attributes. */
 export type TestimonialsProps = BlockComponentProps<TestimonialsBlock>
 
-/** Grid of quote cards, or one large featured quote. */
+/** Grid of quote cards, one large featured quote, a swipeable carousel, or a scrolling marquee. */
 function Testimonials({ block, index, className, ...props }: TestimonialsProps) {
   const featured = block.layout === "featured"
+  const layout = block.layout ?? "grid"
   return (
-    <BlockSection block={block} className={className} {...props}>
+    <BlockSection block={block} className={cn(layout === "marquee" && "overflow-hidden", className)} {...props}>
       <Container size={featured ? "md" : "section"} className="flex flex-col gap-(--block-header-gap)">
         <BlockItem block={block}>
           <SectionHeader
@@ -25,7 +30,24 @@ function Testimonials({ block, index, className, ...props }: TestimonialsProps) 
             source={block}
           />
         </BlockItem>
-        {featured ? (
+        {layout === "carousel" ? (
+          <Carousel label={block.title ?? "Testimonials"} {...fieldAttrs(block, "testimonials")}>
+            {block.testimonials.map((item) => (
+              <Quote key={item.id} item={item} />
+            ))}
+          </Carousel>
+        ) : layout === "marquee" ? (
+          <Marquee
+            speed={block.marqueeSpeed ?? "normal"}
+            gap={24}
+            className="-mx-4 section-sm:-mx-6 section-lg:-mx-8"
+            {...fieldAttrs(block, "testimonials")}
+          >
+            {block.testimonials.map((item) => (
+              <Quote key={item.id} item={item} className="w-80 section-sm:w-96" />
+            ))}
+          </Marquee>
+        ) : featured ? (
           <div className="flex flex-col gap-12" {...fieldAttrs(block, "testimonials")}>
             {block.testimonials.map((item) => (
               <BlockItem key={item.id} block={block}>
