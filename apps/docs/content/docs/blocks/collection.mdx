@@ -3,13 +3,21 @@ title: Collection
 description: "A filterable, searchable, paginated listing of one document type, driven by the URL."
 ---
 
-The block lists `article` documents with category chips, an optional search box, a sort select and numbered pagination. Every state is a URL; see [Listing pages](/docs/listing-pages) for the URL contract, rendering and caching.
+The block lists `article` documents with category chips, an optional search box, a sort select and numbered pagination, in one of four layouts: a card grid, rows with a thumbnail, the newest item featured above a grid, or a compact title-and-date list. Every state is a URL; see [Listing pages](/docs/listing-pages) for the URL contract, layouts, rendering and caching.
 
 <StorybookEmbed story="blocks-collection--default" height={900} />
 
 ## Fields
 
 <BlockReference type="collection" />
+
+## Layouts
+
+<StorybookEmbed story="blocks-collection--list" height={720} />
+
+<StorybookEmbed story="blocks-collection--featured" height={900} />
+
+<StorybookEmbed story="blocks-collection--compact" height={640} />
 
 ## Variants
 

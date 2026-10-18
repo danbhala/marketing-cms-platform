@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_collection_layout
+    - paragraphs.paragraphs_type.collection
+  module:
+    - options
+id: paragraph.collection.field_collection_layout
+field_name: field_collection_layout
+entity_type: paragraph
+bundle: collection
+label: Layout
+description: 'grid: cards. list: rows with a thumbnail. featured: the newest item large, the rest as cards. compact: title and date only.'
+required: false
+translatable: true
+default_value:
+  - value: grid
+default_value_callback: ''
+settings: {  }
+field_type: list_string

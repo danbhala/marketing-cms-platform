@@ -37,4 +37,12 @@ export const Six: Story = { args: filled({ ...fixtures.latestNewsBlock, count: "
 export const DefaultLink: Story = {
   args: { ...filled({ ...fixtures.latestNewsBlock, actions: [] }), listingHref: "/news" },
 }
+/** Rows instead of cards, for a sidebar-width or text-heavy page. */
+export const List: Story = { args: filled({ ...fixtures.latestNewsBlock, layout: "list", count: "4" }) }
+/** The newest story large, the other two as cards. */
+export const Featured: Story = { args: filled({ ...fixtures.latestNewsBlock, layout: "featured" }) }
+/** Six titles with dates and nothing else. */
+export const Compact: Story = {
+  args: filled({ ...fixtures.latestNewsBlock, layout: "compact", count: "6", title: "Recent publications" }),
+}
 export const Themed: Story = { args: filled({ ...fixtures.latestNewsBlock, theme: "dark" }) }

@@ -6480,6 +6480,32 @@ exports[`schema generator > is stable 1`] = `
         }
       },
       {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "grid",
+              "list",
+              "featured",
+              "compact"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "grid"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "grid: cards. list: rows with a thumbnail. featured: the newest item large, the rest as cards. compact: title and date only."
+          }
+        }
+      },
+      {
         "id": "pageSize",
         "name": "Page size",
         "type": "Number",
@@ -6873,6 +6899,32 @@ exports[`schema generator > is stable 1`] = `
           "widgetId": "dropdown",
           "settings": {
             "helpText": "How many items; the grid always fills."
+          }
+        }
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "grid",
+              "list",
+              "featured",
+              "compact"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "grid"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Same layouts as the collection block. featured shows the newest item large."
           }
         }
       },

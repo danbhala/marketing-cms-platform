@@ -1,6 +1,13 @@
 import type * as React from "react"
 
-import type { Card, CollectionBlock, CollectionItem, CollectionResult, ListingQuery } from "@platform/content-model"
+import type {
+  Card,
+  CollectionBlock,
+  CollectionItem,
+  CollectionResult,
+  ListingLayout,
+  ListingQuery,
+} from "@platform/content-model"
 import { isDefaultQuery } from "@platform/cms-core/listing"
 
 import { Grid, gridVariants } from "../atoms/layout"
@@ -16,14 +23,76 @@ import { Pagination } from "./pagination"
 export interface CollectionResultsProps extends React.ComponentProps<"div"> {
   basePath: string
   query: ListingQuery
-  block: Pick<CollectionBlock, "source" | "pageSize" | "sort" | "emptyMessage">
+  block: Pick<CollectionBlock, "source" | "pageSize" | "sort" | "emptyMessage" | "layout">
   result: CollectionResult<CollectionItem>
   /** Prefix for item links, usually the locale segment (`/en`). */
   linkPrefix?: string
   /** BCP 47 locale for date formatting. */
   locale?: string
-  columns?: "2" | "3" | "4"
+  /** Grid columns for the `grid` and `featured` layouts; see `listingColumns`. */
+  columns?: ListingColumns
   labels?: Partial<ListingLabels>
+}
+
+export type ListingColumns = "2" | "3" | "4"
+
+/**
+ * Column count for a page of `count` items: the grid should fill its last
+ * row where it can. `featured` takes the first item out of the grid.
+ */
+export function listingColumns(layout: ListingLayout | undefined, count: number): ListingColumns {
+  const n = layout === "featured" ? count - 1 : count
+  if (n <= 2) return "2"
+  return n % 4 === 0 ? "4" : "3"
+}
+
+export interface ListingItemsProps extends React.ComponentProps<"ul"> {
+  items: Card[]
+  /** `grid` (default), `list`, `featured` or `compact`; the block's `layout` field. */
+  layout?: ListingLayout
+  columns?: ListingColumns
+}
+
+/**
+ * The items of a listing in one of the four layouts. One `<ul>` whatever the
+ * layout, so the collection block and the latest-news block render results
+ * the same way and a screen reader always hears a list of N items.
+ */
+function ListingItems({ items, layout = "grid", columns = "3", className, ...props }: ListingItemsProps) {
+  if (layout === "list" || layout === "compact") {
+    const variant = layout === "list" ? "row" : "line"
+    return (
+      <ul
+        data-slot="listing-items"
+        data-layout={layout}
+        className={cn("flex list-none flex-col divide-y p-0", className)}
+        {...props}
+      >
+        {items.map((card) => (
+          <li key={card.id} className={cn(layout === "list" ? "py-6 first:pt-0 last:pb-0" : "py-3 first:pt-0")}>
+            <ContentCard item={card} variant={variant} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  return (
+    <ul
+      data-slot="listing-items"
+      data-layout={layout}
+      className={cn(gridVariants({ columns }), "list-none p-0", className)}
+      {...props}
+    >
+      {items.map((card, i) => {
+        const feature = layout === "featured" && i === 0
+        return (
+          <li key={card.id} className={cn("flex", feature && "col-span-full")}>
+            <ContentCard item={card} variant={feature ? "feature" : "card"} className="w-full" />
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
 
 /** Maps a listed item to the card molecule's content shape. */
@@ -41,7 +110,7 @@ export function toCard(item: CollectionItem, linkPrefix = "", locale = "en"): Ca
   }
 }
 
-/** Result count, the card grid (or the empty state) and pagination. */
+/** Result count, the items in the block's layout (or the empty state) and pagination. */
 function CollectionResults({
   basePath,
   query,
@@ -67,13 +136,11 @@ function CollectionResults({
           {!isDefaultQuery(query, block) ? <Link href={basePath}>{labels.clear}</Link> : null}
         </div>
       ) : (
-        <ul className={cn(gridVariants({ columns }), "list-none p-0")}>
-          {result.items.map((item) => (
-            <li key={item.id} className="flex">
-              <ContentCard item={toCard(item, linkPrefix, locale)} className="w-full" />
-            </li>
-          ))}
-        </ul>
+        <ListingItems
+          items={result.items.map((item) => toCard(item, linkPrefix, locale))}
+          layout={block.layout ?? "grid"}
+          columns={columns}
+        />
       )}
       <Pagination basePath={basePath} query={query} block={block} result={result} labels={labels} />
     </div>
@@ -83,13 +150,15 @@ function CollectionResults({
 export interface CollectionSkeletonProps extends React.ComponentProps<"div"> {
   /** Cards to draw; use the block's page size so the fallback has the final height. */
   count?: number
-  columns?: "2" | "3" | "4"
+  layout?: ListingLayout
+  columns?: ListingColumns
   label?: string
 }
 
-/** Suspense fallback with the same grid shape as the results. */
+/** Suspense fallback with the same shape as the results in each layout. */
 function CollectionSkeleton({
   count = 6,
+  layout = "grid",
   columns = "3",
   label = defaultListingLabels.loading,
   className,
@@ -104,21 +173,57 @@ function CollectionSkeleton({
       {...props}
     >
       <Skeleton className="h-4 w-24" />
-      <Grid columns={columns}>
-        {Array.from({ length: count }, (_, i) => (
-          <div key={i} className="flex flex-col overflow-hidden rounded-xl border">
-            <Skeleton className="aspect-[3/2] w-full rounded-none" />
-            <div className="flex flex-col gap-3 p-6">
-              <Skeleton className="h-3 w-16" />
-              <Skeleton className="h-5 w-4/5" />
-              <Skeleton className="h-4 w-full" />
+      {layout === "compact" ? (
+        <div className="flex flex-col divide-y">
+          {Array.from({ length: count }, (_, i) => (
+            <div key={i} className="flex items-baseline justify-between gap-6 py-3 first:pt-0">
               <Skeleton className="h-4 w-2/3" />
+              <Skeleton className="h-3 w-20" />
             </div>
-          </div>
-        ))}
-      </Grid>
+          ))}
+        </div>
+      ) : layout === "list" ? (
+        <div className="flex flex-col divide-y">
+          {Array.from({ length: count }, (_, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 py-6 first:pt-0 last:pb-0 section-sm:grid-cols-[14rem_minmax(0,1fr)] section-sm:gap-6"
+            >
+              <Skeleton className="aspect-3/2 w-full" />
+              <div className="flex flex-col gap-3 py-1">
+                <Skeleton className="h-3 w-24" />
+                <Skeleton className="h-5 w-4/5" />
+                <Skeleton className="hidden h-4 w-full section-sm:block" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <Grid columns={columns}>
+          {Array.from({ length: count }, (_, i) => {
+            const feature = layout === "featured" && i === 0
+            return (
+              <div
+                key={i}
+                className={cn(
+                  "overflow-hidden rounded-xl border",
+                  feature ? "col-span-full grid section-md:grid-cols-2" : "flex flex-col"
+                )}
+              >
+                <Skeleton className={cn("aspect-3/2 w-full rounded-none", feature && "section-md:aspect-auto")} />
+                <div className={cn("flex flex-col gap-3 p-6", feature && "section-md:p-10")}>
+                  <Skeleton className="h-3 w-16" />
+                  <Skeleton className={cn("w-4/5", feature ? "h-7" : "h-5")} />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+              </div>
+            )
+          })}
+        </Grid>
+      )}
     </div>
   )
 }
 
-export { CollectionResults, CollectionSkeleton }
+export { CollectionResults, CollectionSkeleton, ListingItems }

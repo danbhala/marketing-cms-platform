@@ -2,9 +2,20 @@ import { Suspense } from "react"
 
 import type { FetchContext } from "@platform/cms-core"
 import { parseListingQuery, type RawSearchParams } from "@platform/cms-core/listing"
-import type { CollectionBlock, CollectionItem, CollectionResult } from "@platform/content-model"
+import {
+  listingDefaults,
+  type CollectionBlock,
+  type CollectionItem,
+  type CollectionResult,
+} from "@platform/content-model"
 import { Collection, type CollectionProps } from "@platform/ui/blocks"
-import { CollectionResults, CollectionSkeleton, FilterBar } from "@platform/ui/molecules"
+import {
+  CollectionResults,
+  CollectionSkeleton,
+  FilterBar,
+  listingColumns,
+  type ListingColumns,
+} from "@platform/ui/molecules"
 
 import { getAdapter } from "@/cms.config"
 import { getPublishedCollection, getPublishedTaxonomy } from "@/lib/cms"
@@ -24,7 +35,7 @@ export interface CollectionHost {
  * the result into the registry for `collection`, so a CMS page can place the
  * block anywhere. Three layers, following the Cache Components model:
  *
- * 1. The block's heading and layout are static.
+ * 1. The block's heading is static.
  * 2. The filter bar awaits `searchParams` inside its own Suspense boundary,
  *    so the chips and inputs ship in the shell and the active state streams.
  * 3. The results await `searchParams`, parse the query and read the cached
@@ -33,7 +44,8 @@ export interface CollectionHost {
 export function createCollectionBlock(host: CollectionHost) {
   return function HostedCollection(props: Omit<CollectionProps, "filters" | "results">) {
     const { block } = props
-    const columns = block.pageSize && block.pageSize % 4 === 0 ? "4" : "3"
+    const pageSize = block.pageSize ?? listingDefaults.pageSize
+    const columns = listingColumns(block.layout, pageSize)
     return (
       <Collection
         {...props}
@@ -43,7 +55,7 @@ export function createCollectionBlock(host: CollectionHost) {
           </Suspense>
         }
         results={
-          <Suspense fallback={<CollectionSkeleton count={block.pageSize ?? 12} columns={columns} />}>
+          <Suspense fallback={<CollectionSkeleton count={pageSize} layout={block.layout} columns={columns} />}>
             <Results block={block} host={host} columns={columns} />
           </Suspense>
         }
@@ -66,7 +78,15 @@ async function Filters({
   return <FilterBar basePath={host.basePath} query={query} block={block} terms={terms} />
 }
 
-async function Results({ block, host, columns }: { block: CollectionBlock; host: CollectionHost; columns: "3" | "4" }) {
+async function Results({
+  block,
+  host,
+  columns,
+}: {
+  block: CollectionBlock
+  host: CollectionHost
+  columns: ListingColumns
+}) {
   const query = parseListingQuery(await host.searchParams, block)
   const result = await getResult(query, host)
   return (

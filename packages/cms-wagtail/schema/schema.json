@@ -2282,6 +2282,12 @@
           "required": false
         },
         {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"grid\", \"Grid\"), (\"list\", \"List\"), (\"featured\", \"Featured\"), (\"compact\", \"Compact\")], required=False, default=\"grid\", label=\"Layout\", help_text=\"grid: cards. list: rows with a thumbnail. featured: the newest item large, the rest as cards. compact: title and date only.\")",
+          "required": false
+        },
+        {
           "name": "pageSize",
           "python": "page_size",
           "definition": "blocks.FloatBlock(required=False, label=\"Page size\", help_text=\"Items per page. Defaults to 12.\")",
@@ -2404,6 +2410,12 @@
           "name": "count",
           "python": "count",
           "definition": "blocks.ChoiceBlock(choices=[(\"3\", \"3\"), (\"4\", \"4\"), (\"6\", \"6\")], required=False, default=\"3\", label=\"Count\", help_text=\"How many items; the grid always fills.\")",
+          "required": false
+        },
+        {
+          "name": "layout",
+          "python": "layout",
+          "definition": "blocks.ChoiceBlock(choices=[(\"grid\", \"Grid\"), (\"list\", \"List\"), (\"featured\", \"Featured\"), (\"compact\", \"Compact\")], required=False, default=\"grid\", label=\"Layout\", help_text=\"Same layouts as the collection block. featured shows the newest item large.\")",
           "required": false
         },
         {
