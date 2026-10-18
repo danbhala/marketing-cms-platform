@@ -315,6 +315,11 @@ export const collection = defineBlock("collection", {
       defaultValue: "article",
       description: "Which document type to list.",
     }),
+    layout: field.select(["grid", "list", "featured", "compact"] as const, {
+      defaultValue: "grid",
+      description:
+        "grid: cards. list: rows with a thumbnail. featured: the newest item large, the rest as cards. compact: title and date only.",
+    }),
     pageSize: field.number({ description: "Items per page. Defaults to 12." }),
     filters: field.select(["category", "tags"] as const, {
       defaultValue: "category",
@@ -349,6 +354,10 @@ export const latestNews = defineBlock("latestNews", {
     count: field.select(["3", "4", "6"] as const, {
       defaultValue: "3",
       description: "How many items; the grid always fills.",
+    }),
+    layout: field.select(["grid", "list", "featured", "compact"] as const, {
+      defaultValue: "grid",
+      description: "Same layouts as the collection block. featured shows the newest item large.",
     }),
     actions: field.items([action], {
       max: 1,

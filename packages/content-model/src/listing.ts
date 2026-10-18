@@ -26,6 +26,9 @@ export interface CollectionResult<T = CollectionItem> {
   pageSize: number
 }
 
+/** How a listing lays out its items; the `layout` option shared by the collection and latest-news blocks. */
+export type ListingLayout = NonNullable<CollectionBlock["layout"]>
+
 /** The item shape a listing returns. Extend this union when adding a source. */
 export type CollectionItem = ArticleSummary
 

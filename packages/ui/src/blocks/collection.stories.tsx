@@ -2,9 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 
 import * as fixtures from "@platform/content-model/fixtures"
 import { queryArticles } from "@platform/content-model/fixtures"
+import type { CollectionBlock } from "@platform/content-model"
 import { parseListingQuery } from "@platform/cms-core/listing"
 
-import { CollectionResults, CollectionSkeleton } from "../molecules/collection-results"
+import { CollectionResults, CollectionSkeleton, listingColumns } from "../molecules/collection-results"
 import { FilterBar } from "../molecules/filter-bar"
 import { Collection } from "./collection"
 
@@ -13,21 +14,31 @@ const basePath = "/news"
 
 /** Fills the block's slots the way the Next.js app does, from a raw query string. */
 // A listing normally follows a hero, so its heading is an h2 and the cards are h3s.
-function filled(search: string, index = 1) {
-  const query = parseListingQuery(new URLSearchParams(search), block)
+function filled(search: string, overrides: Partial<CollectionBlock> = {}, index = 1) {
+  const b = { ...block, ...overrides }
+  const query = parseListingQuery(new URLSearchParams(search), b)
   const result = queryArticles(fixtures.articles, query)
   return {
-    block,
+    block: b,
     index,
-    filters: <FilterBar basePath={basePath} query={query} block={block} terms={fixtures.categories} />,
-    results: <CollectionResults basePath={basePath} query={query} block={block} result={result} />,
+    filters: <FilterBar basePath={basePath} query={query} block={b} terms={fixtures.categories} />,
+    results: (
+      <CollectionResults
+        basePath={basePath}
+        query={query}
+        block={b}
+        result={result}
+        columns={listingColumns(b.layout, query.pageSize)}
+      />
+    ),
   }
 }
 
 /**
  * The listing block. In the app the filter bar and results come from the URL
  * and the CMS; here they are computed from the fixtures so every state is a
- * story: default, filtered, searched, sorted, a later page, empty and loading.
+ * story: default, filtered, searched, sorted, a later page, empty and loading,
+ * plus the three other layouts (list, featured, compact).
  */
 const meta = {
   title: "Blocks/Collection",
@@ -67,7 +78,33 @@ export const WithoutSearch: Story = {
     }
   })(),
 }
-export const Themed: Story = { args: { ...filled(""), block: { ...block, theme: "dark" } } }
+/** Rows with a thumbnail, category, date and excerpt; the excerpt hides in narrow containers. */
+export const List: Story = { args: filled("", { layout: "list" }) }
+/** The newest item large with image and text side by side, the rest as cards. */
+export const Featured: Story = { args: filled("", { layout: "featured" }) }
+/** Title and date only, for publication libraries and long archives. */
+export const Compact: Story = {
+  args: filled("", { layout: "compact", pageSize: 12, title: "Publications", description: undefined }),
+}
+export const LoadingList: Story = {
+  args: {
+    ...filled("", { layout: "list" }),
+    results: <CollectionSkeleton count={block.pageSize} layout="list" />,
+  },
+}
+export const LoadingFeatured: Story = {
+  args: {
+    ...filled("", { layout: "featured" }),
+    results: (
+      <CollectionSkeleton
+        count={block.pageSize}
+        layout="featured"
+        columns={listingColumns("featured", block.pageSize ?? 12)}
+      />
+    ),
+  },
+}
+export const Themed: Story = { args: filled("", { theme: "dark" }) }
 export const NoHost: Story = {
   args: { block },
   parameters: { docs: { description: { story: "What the block renders when nothing fills its slots." } } },
