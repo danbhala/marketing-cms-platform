@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_feature
+    - paragraphs.paragraphs_type.card
+    - paragraphs.paragraphs_type.nav_group
+  module:
+    - entity_reference_revisions
+id: paragraph.nav_group.field_feature
+field_name: field_feature
+entity_type: paragraph
+bundle: nav_group
+label: Feature
+description: Optional featured card at the end of the mega menu panel.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      card: card
+    negate: 0
+    target_bundles_drag_drop:
+      card:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

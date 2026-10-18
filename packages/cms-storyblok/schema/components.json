@@ -309,9 +309,71 @@
           ],
           "maximum": 2
         },
-        "footerColumns": {
+        "utilityLinks": {
           "type": "bloks",
           "pos": 7,
+          "display_name": "Utility links",
+          "description": "Small links in a bar above the header, e.g. contact, locations, sign in.",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "navLink"
+          ]
+        },
+        "footerHeading": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Footer heading",
+          "description": "Heading of the band at the top of the footer. The band shows when set."
+        },
+        "footerText": {
+          "type": "textarea",
+          "pos": 9,
+          "display_name": "Footer text",
+          "description": "Supporting line under the footer band heading."
+        },
+        "footerActions": {
+          "type": "bloks",
+          "pos": 10,
+          "display_name": "Footer actions",
+          "description": "Buttons in the footer band.",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "action"
+          ],
+          "maximum": 2
+        },
+        "footerSignupEndpoint": {
+          "type": "multilink",
+          "pos": 11,
+          "display_name": "Footer signup endpoint",
+          "description": "Email sign-up in the footer band posts here as JSON ({ email }). Leave empty for no sign-up.",
+          "allow_target_blank": true
+        },
+        "footerSignupLabel": {
+          "type": "text",
+          "pos": 12,
+          "display_name": "Footer signup label",
+          "description": "Sign-up button label. Defaults to Subscribe."
+        },
+        "footerTagline": {
+          "type": "textarea",
+          "pos": 13,
+          "display_name": "Footer tagline",
+          "description": "Short description under the logo in the footer."
+        },
+        "contactDetails": {
+          "type": "richtext",
+          "pos": 14,
+          "display_name": "Contact details",
+          "description": "Address, phone and email, shown in the footer's split layout."
+        },
+        "footerColumns": {
+          "type": "bloks",
+          "pos": 15,
           "display_name": "Footer columns",
           "required": true,
           "restrict_type": "",
@@ -320,14 +382,26 @@
             "footerColumn"
           ]
         },
+        "legalLinks": {
+          "type": "bloks",
+          "pos": 16,
+          "display_name": "Legal links",
+          "description": "Privacy, terms, cookies. Shown on the footer's bottom row.",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "navLink"
+          ]
+        },
         "footerNote": {
           "type": "text",
-          "pos": 8,
+          "pos": 17,
           "display_name": "Footer note"
         },
         "socialLinks": {
           "type": "bloks",
-          "pos": 9,
+          "pos": 18,
           "display_name": "Social links",
           "required": true,
           "restrict_type": "",
@@ -6813,9 +6887,36 @@
       }
     },
     {
+      "name": "navColumn",
+      "display_name": "Navigation column",
+      "description": "A titled column of links inside a mega menu panel.",
+      "is_root": false,
+      "is_nestable": true,
+      "preview_field": "title",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Title",
+          "required": true
+        },
+        "links": {
+          "type": "bloks",
+          "pos": 1,
+          "display_name": "Links",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "navLink"
+          ]
+        }
+      }
+    },
+    {
       "name": "navGroup",
       "display_name": "Navigation group",
-      "description": "A top-level navigation entry. With links it renders as a dropdown.",
+      "description": "A top-level navigation entry. With links it opens a dropdown; with columns it opens a mega menu panel.",
       "is_root": false,
       "is_nestable": true,
       "preview_field": "label",
@@ -6842,6 +6943,32 @@
           "component_whitelist": [
             "navLink"
           ]
+        },
+        "columns": {
+          "type": "bloks",
+          "pos": 3,
+          "display_name": "Columns",
+          "description": "Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown.",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "navColumn"
+          ],
+          "maximum": 4
+        },
+        "feature": {
+          "type": "bloks",
+          "pos": 4,
+          "display_name": "Feature",
+          "description": "Optional featured card at the end of the mega menu panel.",
+          "required": true,
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "card"
+          ],
+          "maximum": 1
         }
       }
     },

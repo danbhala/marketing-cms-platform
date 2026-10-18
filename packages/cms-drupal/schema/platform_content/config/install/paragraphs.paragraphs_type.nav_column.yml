@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: nav_column
+label: Navigation column
+icon_uuid: null
+icon_default: null
+description: A titled column of links inside a mega menu panel.
+behavior_plugins: {  }

@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_nav_group_columns
+    - paragraphs.paragraphs_type.nav_column
+    - paragraphs.paragraphs_type.nav_group
+  module:
+    - entity_reference_revisions
+id: paragraph.nav_group.field_nav_group_columns
+field_name: field_nav_group_columns
+entity_type: paragraph
+bundle: nav_group
+label: Columns
+description: 'Titled columns of links. When set, the group opens a mega menu panel instead of a dropdown.'
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      nav_column: nav_column
+    negate: 0
+    target_bundles_drag_drop:
+      nav_column:
+        enabled: true
+        weight: 0
+field_type: entity_reference_revisions

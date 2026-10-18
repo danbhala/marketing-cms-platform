@@ -14,7 +14,7 @@ describe("schema generator", () => {
   it("emits one content type per item, block and document, dependencies first", () => {
     const expected = [...allItems, ...allBlocks, ...allDocuments].map((d) => d.type)
     expect(contentTypes.map((ct) => ct.id)).toEqual(expected)
-    expect(contentTypes).toHaveLength(43)
+    expect(contentTypes).toHaveLength(44)
   })
 
   it("marks required fields and picks a Symbol display field", () => {

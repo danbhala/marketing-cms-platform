@@ -22,6 +22,7 @@ from .blocks import (
     FooterColumnItem,
     ImageSerializer,
     NavGroupItem,
+    NavLinkItem,
     SocialLinkItem,
 )
 
@@ -136,11 +137,20 @@ class SiteSettings(BaseGenericSetting):
     announcement_link_label = models.CharField(max_length=255, blank=True, verbose_name="Announcement link label")
     navigation = StreamField([("nav_group", NavGroupItem())], blank=True, verbose_name="Navigation")
     header_actions = StreamField([("action", ActionItem())], blank=True, max_num=2, verbose_name="Header actions")
+    utility_links = StreamField([("nav_link", NavLinkItem())], blank=True, verbose_name="Utility links", help_text="Small links in a bar above the header, e.g. contact, locations, sign in.")
+    footer_heading = models.CharField(max_length=255, blank=True, verbose_name="Footer heading", help_text="Heading of the band at the top of the footer. The band shows when set.")
+    footer_text = models.TextField(blank=True, verbose_name="Footer text", help_text="Supporting line under the footer band heading.")
+    footer_actions = StreamField([("action", ActionItem())], blank=True, max_num=2, verbose_name="Footer actions", help_text="Buttons in the footer band.")
+    footer_signup_endpoint = models.CharField(max_length=2048, blank=True, verbose_name="Footer signup endpoint", help_text="Email sign-up in the footer band posts here as JSON ({ email }). Leave empty for no sign-up.")
+    footer_signup_label = models.CharField(max_length=255, blank=True, verbose_name="Footer signup label", help_text="Sign-up button label. Defaults to Subscribe.")
+    footer_tagline = models.TextField(blank=True, verbose_name="Footer tagline", help_text="Short description under the logo in the footer.")
+    contact_details = RichTextField(blank=True, verbose_name="Contact details", help_text="Address, phone and email, shown in the footer's split layout.")
     footer_columns = StreamField([("footer_column", FooterColumnItem())], blank=True, verbose_name="Footer columns")
+    legal_links = StreamField([("nav_link", NavLinkItem())], blank=True, verbose_name="Legal links", help_text="Privacy, terms, cookies. Shown on the footer's bottom row.")
     footer_note = models.CharField(max_length=255, blank=True, verbose_name="Footer note")
     social_links = StreamField([("social_link", SocialLinkItem())], blank=True, verbose_name="Social links")
 
-    panels = [FieldPanel("site_name"), FieldPanel("logo"), FieldPanel("announcement_text"), FieldPanel("announcement_href"), FieldPanel("announcement_link_label"), FieldPanel("navigation"), FieldPanel("header_actions"), FieldPanel("footer_columns"), FieldPanel("footer_note"), FieldPanel("social_links")]
+    panels = [FieldPanel("site_name"), FieldPanel("logo"), FieldPanel("announcement_text"), FieldPanel("announcement_href"), FieldPanel("announcement_link_label"), FieldPanel("navigation"), FieldPanel("header_actions"), FieldPanel("utility_links"), FieldPanel("footer_heading"), FieldPanel("footer_text"), FieldPanel("footer_actions"), FieldPanel("footer_signup_endpoint"), FieldPanel("footer_signup_label"), FieldPanel("footer_tagline"), FieldPanel("contact_details"), FieldPanel("footer_columns"), FieldPanel("legal_links"), FieldPanel("footer_note"), FieldPanel("social_links")]
 
     api_fields = [
         APIField("site_name"),
@@ -150,7 +160,16 @@ class SiteSettings(BaseGenericSetting):
         APIField("announcement_link_label"),
         APIField("navigation"),
         APIField("header_actions"),
+        APIField("utility_links"),
+        APIField("footer_heading"),
+        APIField("footer_text"),
+        APIField("footer_actions"),
+        APIField("footer_signup_endpoint"),
+        APIField("footer_signup_label"),
+        APIField("footer_tagline"),
+        APIField("contact_details"),
         APIField("footer_columns"),
+        APIField("legal_links"),
         APIField("footer_note"),
         APIField("social_links"),
     ]

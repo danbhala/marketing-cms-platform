@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_footer_heading
+    - node.type.site_settings
+id: node.site_settings.field_footer_heading
+field_name: field_footer_heading
+entity_type: node
+bundle: site_settings
+label: Footer heading
+description: Heading of the band at the top of the footer. The band shows when set.
+required: false
+translatable: true
+default_value: [  ]
+default_value_callback: ''
+settings: {  }
+field_type: string

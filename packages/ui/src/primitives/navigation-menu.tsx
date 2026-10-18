@@ -6,10 +6,11 @@ import { ChevronDownIcon } from "lucide-react"
 
 function NavigationMenu({
   align = "start",
+  collisionPadding,
   className,
   children,
   ...props
-}: NavigationMenuPrimitive.Root.Props & Pick<NavigationMenuPrimitive.Positioner.Props, "align">) {
+}: NavigationMenuPrimitive.Root.Props & Pick<NavigationMenuPrimitive.Positioner.Props, "align" | "collisionPadding">) {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
@@ -17,7 +18,7 @@ function NavigationMenu({
       {...props}
     >
       {children}
-      <NavigationMenuPositioner align={align} />
+      <NavigationMenuPositioner align={align} collisionPadding={collisionPadding} />
     </NavigationMenuPrimitive.Root>
   )
 }
