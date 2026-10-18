@@ -102,4 +102,6 @@ export interface SiteConfig {
   siteUrl: string
   /** Theme class applied to <html> when the page has none. */
   defaultTheme?: ThemeName
+  /** Keep the whole site out of search engines (demo and staging deployments). */
+  noIndex?: boolean
 }

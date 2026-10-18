@@ -10,6 +10,7 @@ export const siteConfig: SiteConfig = {
   locales: ["en"],
   defaultLocale: "en",
   siteUrl: process.env.SITE_URL ?? "http://localhost:3000",
+  noIndex: process.env.SITE_NOINDEX === "true",
 }
 
 const providers: Record<string, () => Promise<CmsAdapter>> = {

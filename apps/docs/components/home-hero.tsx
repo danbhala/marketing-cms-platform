@@ -88,6 +88,12 @@ export function HomeHero() {
           >
             Edit {showcase.name} in the studio
           </Link>
+          <a
+            href="https://marketing-cms-platform-demo.vercel.app"
+            className="hover:bg-fd-accent inline-flex h-10 items-center rounded-lg border px-4 text-sm font-medium"
+          >
+            See the live demo
+          </a>
         </div>
       </div>
 

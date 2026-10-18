@@ -11,6 +11,8 @@ import "../globals.css"
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
+  // SITE_NOINDEX=true keeps demo and staging deployments out of search engines.
+  ...(siteConfig.noIndex ? { robots: { index: false, follow: false } } : {}),
 }
 
 export function generateStaticParams() {
