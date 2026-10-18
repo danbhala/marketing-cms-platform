@@ -77,6 +77,20 @@ export function generateComponents(): StoryblokComponentsFile {
   return { components: [...definitions.map(toComponent), textItem] }
 }
 
+/**
+ * Folders for the Block Library, by component name. Storyblok stores a
+ * group as `component_group_uuid`, so `cms:push` creates the groups and
+ * links components by these names.
+ */
+export function componentGroups(): Record<string, string[]> {
+  const names = (definitions: readonly AnyDefinition[]) => definitions.map((d) => d.type)
+  return {
+    "Content types": names(allDocuments),
+    "Page blocks": names(allBlocks),
+    "Nested items": [...names(allItems), TEXT_ITEM_COMPONENT],
+  }
+}
+
 export function toComponent(definition: AnyDefinition): StoryblokComponent {
   const skip = omittedFields(definition)
   const schema: Record<string, StoryblokFieldSchema> = {}
