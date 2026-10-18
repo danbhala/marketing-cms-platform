@@ -27,6 +27,11 @@ const sections = [
     text: "Edit fonts, colours, radius and rhythm live on a real site; copy the CSS.",
   },
   {
+    href: "/schema",
+    title: "Schema studio",
+    text: "Design a block with the field builders and watch six CMS schemas appear beside it.",
+  },
+  {
     href: "/docs/showcases",
     title: "Showcases",
     text: "Six brands on the same blocks: fonts, colours, radius and photography, all from CSS variables.",
@@ -53,9 +58,9 @@ export default function HomePage() {
           <span className="text-fd-muted-foreground text-xs font-medium tracking-wide uppercase">Documentation</span>
           <h2 className="text-2xl font-semibold tracking-tight text-balance">Where to go next</h2>
           <p className="text-fd-muted-foreground max-w-2xl">
-            Eight pages cover the platform end to end: how the pieces fit together, what each block does, how a site
-            gets its brand, and how each CMS plugs in. Start with Getting started if this is your first look, or jump to
-            the part you are working on.
+            Nine pages cover the platform end to end: how the pieces fit together, what each block does, how a site gets
+            its brand, and how each CMS plugs in. Start with Getting started if this is your first look, or jump to the
+            part you are working on.
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -9,8 +9,10 @@ import {
   fieldStorages,
   humanize,
   mediaBundlesFor,
+  namingFor,
   referenceTargetFor,
   type DrupalEntityType,
+  type DrupalNaming,
   type FieldStorage,
 } from "./naming"
 import { toYaml, type YamlValue } from "./yaml"
@@ -43,36 +45,59 @@ export type ModuleFiles = Record<string, string>
 const INSTALL = "config/install"
 
 export function generateModule(): ModuleFiles {
+  const all: AnyDefinition[] = [...allDocuments, ...allBlocks, ...allItems]
+  const naming = namingFor([])
+  return { [`${MODULE_NAME}.info.yml`]: toYaml(infoFile()), ...configFor(all, naming, fieldStorages(naming)) }
+}
+
+/**
+ * The config a set of definitions that are not in the model would add to it:
+ * their bundle, their field instances and form display, and only the field
+ * storages the model does not already have. Field names are resolved against
+ * the whole model (see `namingFor`), so the output is what `generateModule`
+ * would contain once the definitions were added. Used by the docs' schema
+ * studio; the generated module itself never calls this.
+ */
+export function generateModuleFor(extra: readonly AnyDefinition[]): ModuleFiles {
+  const naming = namingFor(extra)
+  const existing = fieldStorages(namingFor([]))
+  const added = new Map([...naming.storages].filter(([key]) => !existing.has(key)))
+  return configFor(extra, naming, added)
+}
+
+function configFor(
+  definitions: readonly AnyDefinition[],
+  naming: DrupalNaming,
+  storages: Map<string, FieldStorage>
+): ModuleFiles {
   const files: ModuleFiles = {}
   const emit = (name: string, config: Record<string, YamlValue>) => {
     files[`${INSTALL}/${name}.yml`] = toYaml(config)
   }
 
-  files[`${MODULE_NAME}.info.yml`] = toYaml(infoFile())
-
-  for (const definition of [...allBlocks, ...allItems])
-    emit(`paragraphs.paragraphs_type.${bundleFor(definition)}`, paragraphType(definition))
-  for (const definition of allDocuments) {
-    if (entityTypeFor(definition) === "taxonomy_term")
+  for (const definition of definitions) {
+    if (definition.kind !== "document")
+      emit(`paragraphs.paragraphs_type.${bundleFor(definition)}`, paragraphType(definition))
+    else if (entityTypeFor(definition) === "taxonomy_term")
       emit(`taxonomy.vocabulary.${bundleFor(definition)}`, vocabulary(definition))
     else emit(`node.type.${bundleFor(definition)}`, nodeType(definition))
   }
 
-  for (const [key, storage] of fieldStorages()) {
+  for (const [key, storage] of storages) {
     const [entityType, name] = key.split(".") as [DrupalEntityType, string]
     emit(`field.storage.${entityType}.${name}`, fieldStorage(entityType, name, storage))
   }
 
-  for (const definition of [...allDocuments, ...allBlocks, ...allItems]) {
+  for (const definition of definitions) {
     const entityType = entityTypeFor(definition)
     const bundle = bundleFor(definition)
     const base = baseFields[definition.type] ?? {}
     for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
       if (base[name]) continue
-      const machine = fieldNameFor(definition, name)
-      emit(`field.field.${entityType}.${bundle}.${machine}`, fieldInstance(definition, name, field, machine))
+      const machine = fieldNameFor(definition, name, naming)
+      emit(`field.field.${entityType}.${bundle}.${machine}`, fieldInstance(definition, name, field, machine, naming))
     }
-    emit(`core.entity_form_display.${entityType}.${bundle}.default`, formDisplay(definition))
+    emit(`core.entity_form_display.${entityType}.${bundle}.default`, formDisplay(definition, naming))
   }
 
   return files
@@ -191,11 +216,12 @@ function fieldInstance(
   definition: AnyDefinition,
   name: string,
   field: Field,
-  machine: string
+  machine: string,
+  naming: DrupalNaming
 ): Record<string, YamlValue> {
   const entityType = entityTypeFor(definition)
   const bundle = bundleFor(definition)
-  const storage = fieldStorages().get(`${entityType}.${machine}`)!
+  const storage = fieldStorages(naming).get(`${entityType}.${machine}`)!
   const config = [`field.storage.${entityType}.${machine}`, bundleConfig(entityType, bundle)]
   const modules = new Set<string>()
   let settings: YamlValue = {}
@@ -342,7 +368,7 @@ function widgetFor(field: Field): Widget {
   }
 }
 
-function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
+function formDisplay(definition: AnyDefinition, naming: DrupalNaming): Record<string, YamlValue> {
   const entityType = entityTypeFor(definition)
   const bundle = bundleFor(definition)
   const base = baseFields[definition.type] ?? {}
@@ -362,7 +388,7 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
   }
   for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
     if (base[name]) continue
-    const machine = fieldNameFor(definition, name)
+    const machine = fieldNameFor(definition, name, naming)
     const widget = widgetFor(field)
     if (widget.module) modules.add(widget.module)
     config.push(`field.field.${entityType}.${bundle}.${machine}`)
@@ -408,4 +434,13 @@ function formDisplay(definition: AnyDefinition): Record<string, YamlValue> {
   }
 }
 
-export { bundleFor, fieldNameFor, includesFor, resourceTypeFor, definitionForResourceType, snake } from "./naming"
+export {
+  bundleFor,
+  fieldNameFor,
+  includesFor,
+  namingFor,
+  resourceTypeFor,
+  definitionForResourceType,
+  snake,
+  type DrupalNaming,
+} from "./naming"

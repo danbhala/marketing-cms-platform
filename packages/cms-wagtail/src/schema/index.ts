@@ -3,7 +3,15 @@ import { allBlocks, allDocuments, allItems } from "@platform/content-model"
 
 import { APP_LABEL, WAGTAIL_VERSION, humanize, pythonClassName, snake, streamName } from "../naming"
 import type { ReferenceField } from "@platform/content-model"
-import { renderApiPy, renderAppsPy, renderBlocksPy, renderInitPy, renderModelsPy, renderSignalsPy } from "./python"
+import {
+  renderApiPy,
+  renderAppsPy,
+  renderBlocksPy,
+  renderInitPy,
+  renderModelsPy,
+  renderSignalsPy,
+  renderStructBlocks,
+} from "./python"
 
 /**
  * Derives a Wagtail app from the content model. The output is Python source
@@ -230,4 +238,4 @@ export function renderFiles(schema: WagtailSchema): Record<string, string> {
   }
 }
 
-export { renderApiPy, renderAppsPy, renderBlocksPy, renderInitPy, renderModelsPy, renderSignalsPy }
+export { renderApiPy, renderAppsPy, renderBlocksPy, renderInitPy, renderModelsPy, renderSignalsPy, renderStructBlocks }

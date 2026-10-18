@@ -1,0 +1,11 @@
+/*
+ * Fumadocs' light muted text (hsl 0 0% 45%) measures 4.3:1 on the light
+ * background, under WCAG AA for the small labels the studio is made of; a
+ * step darker passes. The dark theme already passes and is left alone.
+ */
+.schema-studio {
+  --color-fd-muted-foreground: hsl(0, 0%, 38%);
+}
+.dark .schema-studio {
+  --color-fd-muted-foreground: hsla(0, 0%, 70%, 0.8);
+}

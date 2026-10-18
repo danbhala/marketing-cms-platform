@@ -293,6 +293,7 @@ export {
   OptimizelyTransformError,
 } from "./transform"
 export { collectionQuery, taxonomyQuery, byKeysQuery, selection } from "./graph-queries"
-export { buildContentTypes, contentTypeKey, describeAllContentTypes, definitionForTypename } from "./schema"
+export { contentTypeKey, describeAllContentTypes, definitionForTypename } from "./schema"
+export { buildContentTypes } from "./schema/registry"
 export type { GraphLike } from "./graph-types"
 export type { OptimizelyPreviewContext } from "./preview"
