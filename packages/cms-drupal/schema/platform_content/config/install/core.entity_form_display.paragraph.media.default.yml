@@ -11,6 +11,7 @@ dependencies:
     - field.field.paragraph.media.field_heading_animation
     - field.field.paragraph.media.field_media
     - field.field.paragraph.media.field_media_width
+    - field.field.paragraph.media.field_scroll_effect
     - field.field.paragraph.media.field_spacing
     - field.field.paragraph.media.field_theme
     - paragraphs.paragraphs_type.media
@@ -43,21 +44,27 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_theme:
+  field_scroll_effect:
     type: options_select
     weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_spacing:
+  field_theme:
     type: options_select
     weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_spacing:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_anchor:
     type: string_textfield
-    weight: 5
+    weight: 6
     region: content
     settings:
       size: 60
@@ -65,32 +72,32 @@ content:
     third_party_settings: {  }
   field_animation:
     type: options_select
-    weight: 6
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
   field_animation_stagger:
     type: boolean_checkbox
-    weight: 7
+    weight: 8
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_heading_animation:
     type: options_select
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
   field_animation_duration:
     type: options_select
-    weight: 9
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   field_animation_delay:
     type: options_select
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }

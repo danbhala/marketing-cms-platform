@@ -1,7 +1,8 @@
 import type * as React from "react"
 
-import type { Stat } from "@platform/content-model"
+import type { AnimationDelay, AnimationDuration, Stat } from "@platform/content-model"
 import { editAttrs, fieldAttrs } from "@platform/cms-core/edit"
+import { CountUp } from "@platform/animation"
 
 import { Text } from "../atoms/text"
 import { cn } from "../lib/utils"
@@ -11,10 +12,12 @@ export interface StatItemProps extends React.ComponentProps<"div"> {
   item: Stat
   /** Text alignment inside the cell. */
   align?: "start" | "center"
+  /** Count the value up from zero when it scrolls into view (the Stats block's `countUp` field). */
+  countUp?: { duration?: AnimationDuration | null; delay?: AnimationDelay | null } | null
 }
 
 /** A headline number with its label, used by the Stats block. */
-function StatItem({ item, align = "center", className, ...props }: StatItemProps) {
+function StatItem({ item, align = "center", countUp, className, ...props }: StatItemProps) {
   return (
     <div
       data-slot="stat-item"
@@ -23,7 +26,7 @@ function StatItem({ item, align = "center", className, ...props }: StatItemProps
       {...props}
     >
       <p className="font-heading heading-style text-4xl section-sm:text-5xl" {...fieldAttrs(item, "value")}>
-        {item.value}
+        {countUp ? <CountUp value={item.value} duration={countUp.duration ?? undefined} delay={countUp.delay ?? undefined} /> : item.value}
       </p>
       <Text size="sm" weight="medium" {...fieldAttrs(item, "label")}>
         {item.label}

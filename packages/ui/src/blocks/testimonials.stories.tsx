@@ -25,3 +25,15 @@ export const Featured: Story = {
 export const Dark: Story = {
   args: { block: { ...fixtures.testimonialsBlock, ...{ theme: 'dark' } } },
 }
+
+/** `layout: carousel` is a scroll-snap carousel: swipe or use the buttons and dots; one card per view on phones, three on desktop. */
+export const CarouselLayout: Story = {
+  name: "Carousel",
+  args: { block: { ...fixtures.testimonialsBlock, ...{ layout: 'carousel', testimonials: [...fixtures.testimonials, ...fixtures.testimonials.map((t) => ({ ...t, id: `${t.id}-b` }))] } } },
+}
+
+/** `layout: marquee` scrolls the quote cards endlessly, pausing on hover and focus. */
+export const MarqueeLayout: Story = {
+  name: "Marquee",
+  args: { block: { ...fixtures.testimonialsBlock, ...{ layout: 'marquee', marqueeSpeed: 'slow' } } },
+}

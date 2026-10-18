@@ -10,6 +10,7 @@ import { Faq } from "./faq"
 import { FeatureGrid } from "./feature-grid"
 import { FeatureSplit } from "./feature-split"
 import { FormBlock } from "./form-block"
+import { Gallery } from "./gallery"
 import { Hero } from "./hero"
 import { LogoCloud } from "./logo-cloud"
 import { MediaBlock } from "./media-block"
@@ -51,6 +52,7 @@ export const blockComponents: BlockComponentMap = {
   tabs: Tabs,
   richText: RichTextBlock,
   media: MediaBlock,
+  gallery: Gallery,
   form: FormBlock,
 }
 
@@ -71,4 +73,5 @@ export { Steps, type StepsProps } from "./steps"
 export { Tabs, type TabsProps } from "./tabs"
 export { RichTextBlock, type RichTextBlockProps } from "./rich-text-block"
 export { MediaBlock, type MediaBlockProps } from "./media-block"
+export { Gallery, type GalleryProps } from "./gallery"
 export { FormBlock, type FormBlockProps } from "./form-block"

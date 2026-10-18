@@ -11,6 +11,8 @@ import type {
   FeatureItem,
   FeatureSplitBlock,
   FormBlock,
+  GalleryBlock,
+  GalleryItem,
   HeroBlock,
   Logo,
   LogoCloudBlock,
@@ -29,7 +31,7 @@ import type {
   Testimonial,
   TestimonialsBlock,
 } from "../types"
-import { placeholderAvatar, placeholderLogo, placeholderMedia } from "./placeholder"
+import { placeholderAvatar, placeholderLogo, placeholderMedia, placeholderPhoto } from "./placeholder"
 
 /**
  * Sample content in the canonical shape. One set of fixtures feeds Storybook
@@ -148,6 +150,23 @@ export const cards: Card[] = [
   { id: "card-2", type: "card", eyebrow: "Case study", title: "How Northwind cut churn by 18%", excerpt: "Versioned funnels revealed a drop-off nobody had noticed in the onboarding flow.", meta: "5 min read", image: placeholderMedia(800, 450, "Case study"), href: "/blog/northwind" },
   { id: "card-3", type: "card", eyebrow: "Changelog", title: "October release: cohorts and alerts", excerpt: "Build cohorts from any property and get a Slack message when a metric moves.", meta: "3 min read", image: placeholderMedia(800, 450, "Changelog"), href: "/blog/october" },
 ]
+
+/** Eight photos in mixed orientations so masonry and featured layouts have something to arrange. */
+export const galleryItems: GalleryItem[] = [
+  { w: 1200, h: 800, caption: "The Berlin office, opening week" },
+  { w: 800, h: 1000, caption: "Design review on the roof" },
+  { w: 1200, h: 800, caption: "Launch day in the war room" },
+  { w: 1000, h: 1000, caption: "Our first customer summit" },
+  { w: 1200, h: 800, caption: "The data team's wall of funnels" },
+  { w: 800, h: 1000, caption: "Late night before the October release" },
+  { w: 1200, h: 800, caption: "Hack week demos" },
+  { w: 1200, h: 800, caption: "The whole company, Lisbon offsite" },
+].map(({ w, h, caption }, i) => ({
+  id: `gal-${i + 1}`,
+  type: "galleryItem",
+  media: placeholderPhoto(w, h, caption, i),
+  caption,
+}))
 
 export const people: Person[] = [
   { id: "person-1", type: "person", name: "Amara Okafor", role: "Co-founder & CEO", bio: "Previously led analytics at a payments company.", image: placeholderAvatar("Amara Okafor") },
@@ -364,6 +383,18 @@ export const mediaBlock: MediaBlock = {
   width: "contained",
 }
 
+export const galleryBlock: GalleryBlock = {
+  id: "blk-gallery",
+  type: "gallery",
+  eyebrow: "Life at Metrica",
+  title: "A year in pictures",
+  description: "Offsites, launches and the odd late night.",
+  items: galleryItems,
+  layout: "grid",
+  columns: "4",
+  lightbox: true,
+}
+
 export const formBlock: FormBlock = {
   id: "blk-form",
   type: "form",
@@ -416,6 +447,7 @@ export const allBlockFixtures = {
   tabs: tabsBlock,
   richText: richTextBlock,
   media: mediaBlock,
+  gallery: galleryBlock,
   form: formBlock,
 } as const
 
@@ -521,6 +553,7 @@ export const aboutPage: Page = {
     { ...heroBlock, id: "about-hero", eyebrow: "About", title: "We think analytics should be boring and correct", description: "Metrica was started by two people who were tired of arguing about numbers.", actions: [], media: undefined, layout: "centered" },
     { ...statsBlock, id: "about-stats", title: undefined },
     teamGridBlock,
+    { ...galleryBlock, id: "about-gallery", layout: "featured" },
     { ...richTextBlock, id: "about-story" },
     ctaBlock,
   ],
