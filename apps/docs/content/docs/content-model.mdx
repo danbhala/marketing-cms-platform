@@ -5,18 +5,18 @@ description: "The field DSL, the canonical shapes for media and rich text, and t
 
 ## Field kinds
 
-| Kind                               | Canonical value      | Notes                                                       |
-| ---------------------------------- | -------------------- | ----------------------------------------------------------- |
-| `text`, `textarea`, `link`, `icon` | `string`             | `icon` is a lucide icon name in kebab-case (`shield-check`) |
-| `textList`                         | `string[]`           | Simple lists (bullet points, plan features)                 |
-| `number` / `boolean`               | `number` / `boolean` |                                                             |
-| `select`                           | one of `options`     | Options are validated; `defaultValue` applies when empty    |
-| `media`                            | `Media`              | `{ kind: "image" \| "video", url, alt, width?, height? }`   |
-| `richText`                         | `RichText`           | Portable JSON AST, see below                                |
-| `date`                             | `string`             | ISO 8601 (`2026-10-14` or a full timestamp)                 |
-| `reference`                        | referenced document  | `field.reference(category, { multiple })`; resolved inline  |
-| `items`                            | nested items `[]`    | Ordered list of one or more item types; `min`/`max`         |
-| `blocks`                           | nested blocks `[]`   | Only on `page`                                              |
+| Kind                               | Canonical value      | Notes                                                        |
+| ---------------------------------- | -------------------- | ------------------------------------------------------------ |
+| `text`, `textarea`, `link`, `icon` | `string`             | `icon` is a lucide icon name in kebab-case (`shield-check`)  |
+| `textList`                         | `string[]`           | Simple lists (bullet points, plan features)                  |
+| `number` / `boolean`               | `number` / `boolean` |                                                              |
+| `select`                           | one of `options`     | Options are validated; `defaultValue` applies when empty     |
+| `media`                            | `Media`              | `{ kind: "image" \| "video", url, alt, width?, height? }`    |
+| `richText`                         | `RichText`           | Portable JSON AST, see below                                 |
+| `date`                             | `string`             | ISO 8601 (`2026-10-14` or a full timestamp)                  |
+| `reference`                        | referenced document  | `field.reference([category], { multiple })`; resolved inline |
+| `items`                            | nested items `[]`    | Ordered list of one or more item types; `min`/`max`          |
+| `blocks`                           | nested blocks `[]`   | On `page` and `article`                                      |
 
 Every node (document, block, item) has `id` and `type`, and in draft mode may carry `$edit`.
 
@@ -47,4 +47,4 @@ Items are the repeatable units inside blocks (an `action`, a `featureItem`, a `p
 
 ## Validation and fixtures
 
-`schemaFor(definition)` returns a zod schema; adapters validate every transformed entry and throw with the entry id and field on failure. `@platform/content-model/fixtures` exports sample content for every block, six page compositions and site settings; Storybook, the local adapter, tests and these docs all use it.
+`schemaFor(definition)` returns a zod schema; adapters validate every transformed entry and throw with the entry id and field on failure. `@platform/content-model/fixtures` exports sample content for every block, seven page compositions and site settings; Storybook, the local adapter, tests and these docs all use it.

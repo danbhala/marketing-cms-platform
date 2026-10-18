@@ -8,13 +8,14 @@ description: Run the repo's checks and capture screenshots before handing work o
 From the repo root, in this order; all must pass:
 
 ```sh
+pnpm format:check         # prettier at 120 columns; `pnpm format` fixes
 pnpm lint
 pnpm typecheck
 pnpm test                 # UI stories run in Chromium; export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH if Playwright has no browser
 pnpm build                # both apps; CMS_PROVIDER defaults to local
 ```
 
-Per package: `pnpm --filter @platform/<name> test`. The Next apps use `next typegen` for route and page prop types; run it if `PageProps` or `Route` types are missing.
+Per package: `pnpm --filter @platform/<name> test`. If `turbo run` cannot spawn processes in the sandbox, run the same tasks with `pnpm -r --workspace-concurrency=2 <task>`. The Next apps use `next typegen` for route and page prop types; run it if `PageProps` or `Route` types are missing.
 
 Screenshots (the owner wants to see progress, and the docs embed them):
 

@@ -55,7 +55,7 @@ Article pages emit schema.org `NewsArticle` JSON-LD (headline, date, description
 
 News is the only listable type in the repo. To list something else, say `caseStudy`:
 
-1. In `@platform/content-model`, define the document with `routable: true` and the fields a card needs (`title`, `path`, `publishedAt`, `excerpt`, `image`, a `reference` for the taxonomy). Add it to `allDocuments` and `listableDocuments`, and export its `Summary` type from `listing.ts`.
+1. In `@platform/content-model`, define the document with `routable: true` and the fields a card needs (`title`, `path`, `publishedAt`, `excerpt`, `image`, a `reference` for the taxonomy). Add it to `allDocuments` and `listableDocuments`, export its `Summary` type from `types.ts` and add it to the `CollectionItem` union in `listing.ts`.
 2. Add `"caseStudy"` to the `source` options of the `collection` and `latestNews` blocks.
 3. In each adapter, handle the new type in `getDocument`, `getCollection`, `getTaxonomy`, `getPaths` and the webhook mapping. The local adapter's `queryArticles` is the reference.
 4. If the card needs different fields, extend `CollectionItem` and `toCard` in `packages/ui/src/molecules/collection-results.tsx`.

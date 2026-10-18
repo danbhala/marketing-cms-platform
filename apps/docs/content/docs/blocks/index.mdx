@@ -1,6 +1,6 @@
 ---
 title: Block explorer
-description: "The 17 marketing blocks, each with its fields, variants, a live preview and the schema every CMS gets."
+description: "The 20 marketing blocks, each with its fields, variants, a live preview and the schema every CMS gets."
 ---
 
 A page is an ordered list of blocks. Each block is defined once in the content model, rendered by one component in `@platform/ui`, and exposed to editors in every CMS with the same fields. Every block also carries the shared presentation fields `theme`, `spacing`, `anchor` and the five [animation](/docs/animation) fields.
@@ -8,11 +8,11 @@ A page is an ordered list of blocks. Each block is defined once in the content m
 | Block                                            | Type              | Summary                                                                                                                                |
 | ------------------------------------------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | [Hero](/docs/blocks/hero)                        | `hero`            | Full-width opener with eyebrow, title, description, up to three actions and media. Layouts: centered, split, splitReverse, background. |
-| [Logo cloud](/docs/blocks/logoCloud)             | `logoCloud`       | A row or grid of customer logos with an optional one-line title.                                                                       |
+| [Logo cloud](/docs/blocks/logoCloud)             | `logoCloud`       | A row, grid or scrolling marquee of customer logos with an optional one-line title.                                                    |
 | [Feature grid](/docs/blocks/featureGrid)         | `featureGrid`     | Heading plus a 2–4 column grid of icon/title/description features, plain or as cards.                                                  |
 | [Feature split](/docs/blocks/featureSplit)       | `featureSplit`    | Copy on one side, media on the other, with rich text, bullet list and actions.                                                         |
 | [Stats](/docs/blocks/stats)                      | `stats`           | A row of big numbers with labels and descriptions.                                                                                     |
-| [Testimonials](/docs/blocks/testimonials)        | `testimonials`    | Quote cards in a grid, or one large featured quote.                                                                                    |
+| [Testimonials](/docs/blocks/testimonials)        | `testimonials`    | Quote cards in a grid, one large featured quote, a swipeable carousel or a scrolling marquee.                                          |
 | [Pricing table](/docs/blocks/pricing)            | `pricing`         | Two to four plan cards; the highlighted plan is emphasised.                                                                            |
 | [Comparison table](/docs/blocks/comparisonTable) | `comparisonTable` | Feature-by-plan matrix; yes/no become icons.                                                                                           |
 | [FAQ](/docs/blocks/faq)                          | `faq`             | Accordion of questions with rich-text answers, single column or split.                                                                 |
@@ -24,6 +24,9 @@ A page is an ordered list of blocks. Each block is defined once in the content m
 | [Rich text](/docs/blocks/richText)               | `richText`        | Long-form copy from the CMS rich-text editor.                                                                                          |
 | [Media](/docs/blocks/media)                      | `media`           | A single image or video with a caption, contained or edge to edge.                                                                     |
 | [Form](/docs/blocks/form)                        | `form`            | Newsletter or contact form built from CMS-defined fields; posts JSON to an endpoint.                                                   |
+| [Gallery](/docs/blocks/gallery)                  | `gallery`         | Photos and videos in a grid, masonry, featured, stage or scroll-driven strip layout, with an optional lightbox.                        |
+| [Collection](/docs/blocks/collection)            | `collection`      | Paginated, filterable listing of a document type, driven by the URL's search params.                                                   |
+| [Latest news](/docs/blocks/latestNews)           | `latestNews`      | The newest three, four or six articles, optionally from one category, with a 'see all' link.                                           |
 
 <Screenshot
   name="templates-pages--landing"
@@ -33,6 +36,6 @@ A page is an ordered list of blocks. Each block is defined once in the content m
 
 ## Page compositions
 
-Pages differ only by their blocks. The fixtures include six compositions used throughout Storybook and the local adapter: landing, pricing, product feature, about, article and contact.
+Pages differ only by their blocks. The fixtures include seven compositions used throughout Storybook and the local adapter: landing, pricing, product feature, about, article, contact and news.
 
 <StorybookEmbed story="templates-pages--landing" height={720} />
