@@ -64,7 +64,10 @@
 .grid-fit {
   grid-template-columns: repeat(
     auto-fill,
-    minmax(min(100%, max(var(--card-min), (100% - (var(--grid-cols) - 1) * var(--block-grid-gap)) / var(--grid-cols))), 1fr)
+    minmax(
+      min(100%, max(var(--card-min), (100% - (var(--grid-cols) - 1) * var(--block-grid-gap)) / var(--grid-cols))),
+      1fr
+    )
   );
 }
 

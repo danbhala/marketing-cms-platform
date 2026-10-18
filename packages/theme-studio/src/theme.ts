@@ -243,7 +243,10 @@ export function decodeTheme(encoded: string): Theme | null {
 }
 
 const spaceFromSection = (section: number) =>
-  nearestStep(Object.fromEntries(spaceSteps.map((s) => [s, spaceScales[s].section[1]])) as Record<SpaceStep, number>, section)
+  nearestStep(
+    Object.fromEntries(spaceSteps.map((s) => [s, spaceScales[s].section[1]])) as Record<SpaceStep, number>,
+    section
+  )
 
 // --- Palette generator -------------------------------------------------------
 

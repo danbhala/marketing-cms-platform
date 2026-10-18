@@ -90,7 +90,9 @@ function Grid({ columns, align, min, fit, className, style, ...props }: GridProp
       />
     )
   }
-  return <div data-slot="grid" className={cn(gridVariants({ columns, align, min }), className)} style={style} {...props} />
+  return (
+    <div data-slot="grid" className={cn(gridVariants({ columns, align, min }), className)} style={style} {...props} />
+  )
 }
 
 export { Grid, gridFit, gridVariants, Stack, stackVariants }

@@ -3,7 +3,12 @@
 import * as React from "react"
 import { animate, useInView, useReducedMotion } from "motion/react"
 
-import { resolveCountUp, type AnimationDelay, type AnimationDuration, type LiveAnimationFields } from "@platform/content-model"
+import {
+  resolveCountUp,
+  type AnimationDelay,
+  type AnimationDuration,
+  type LiveAnimationFields,
+} from "@platform/content-model"
 
 import { useAnimationDefaults, useAnimationVersion } from "./live"
 import { delaySeconds, durationSeconds, revealViewport } from "./presets"
@@ -35,7 +40,15 @@ function subscribeNever() {
   return () => {}
 }
 
-function CountUp({ value, duration: givenDuration, delay: givenDelay, live: fields, locale, className, ...props }: CountUpProps) {
+function CountUp({
+  value,
+  duration: givenDuration,
+  delay: givenDelay,
+  live: fields,
+  locale,
+  className,
+  ...props
+}: CountUpProps) {
   // Live mode resolves the block's fields here; `null` means counting is off.
   const defaults = useAnimationDefaults()
   const version = useAnimationVersion()

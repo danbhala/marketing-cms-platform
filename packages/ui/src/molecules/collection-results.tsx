@@ -70,7 +70,12 @@ function ListingItems({ items, layout = "grid", columns = "3", className, style,
         {...props}
       >
         {items.map((card) => (
-          <li key={card.id} className={cn(layout === "list" ? "py-[calc(var(--block-grid-gap)*0.75)] first:pt-0 last:pb-0" : "py-3 first:pt-0")}>
+          <li
+            key={card.id}
+            className={cn(
+              layout === "list" ? "py-[calc(var(--block-grid-gap)*0.75)] first:pt-0 last:pb-0" : "py-3 first:pt-0"
+            )}
+          >
             <ContentCard item={card} variant={variant} />
           </li>
         ))}
@@ -214,7 +219,12 @@ function CollectionSkeleton({
                 )}
               >
                 <Skeleton className={cn("aspect-3/2 w-full rounded-none", feature && "section-md:aspect-auto")} />
-                <div className={cn("flex flex-col gap-3 p-(--card-inset)", feature && "section-md:p-[calc(var(--card-inset)*5/3)]")}>
+                <div
+                  className={cn(
+                    "flex flex-col gap-3 p-(--card-inset)",
+                    feature && "section-md:p-[calc(var(--card-inset)*5/3)]"
+                  )}
+                >
                   <Skeleton className="h-3 w-16" />
                   <Skeleton className={cn("w-4/5", feature ? "h-7" : "h-5")} />
                   <Skeleton className="h-4 w-full" />
