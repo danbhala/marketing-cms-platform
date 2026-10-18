@@ -126,8 +126,8 @@ export function ContrastBadge({ a, b }: { a: Oklch; b: Oklch }) {
     grade === "fail"
       ? "bg-red-500/15 text-red-700 dark:text-red-300"
       : grade === "AA large"
-        ? "bg-amber-500/15 text-amber-700 dark:text-amber-300"
-        : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+        ? "bg-amber-500/15 text-amber-800 dark:text-amber-300"
+        : "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300"
   return (
     <span
       className={`rounded px-1.5 py-0.5 text-[10px] font-medium tabular-nums ${tone}`}
@@ -157,45 +157,46 @@ export function ColorField({
   const hex = oklchToHex(value)
   const [l, c, h] = value
   return (
-    <details className="group bg-fd-card open:bg-fd-muted/40 rounded-md border">
-      <summary className="flex cursor-pointer list-none items-center gap-2 px-2 py-1.5 text-sm">
-        <span className="relative size-6 shrink-0 overflow-hidden rounded border" style={{ background: hex }}>
-          <input
-            id={id}
-            type="color"
-            value={hex}
-            aria-label={`${label} colour`}
-            onChange={(e) => {
-              const next = hexToOklch(e.target.value)
-              if (next) onChange(next)
-            }}
-            onClick={(e) => e.stopPropagation()}
-            className="absolute inset-0 size-full cursor-pointer opacity-0"
-          />
-        </span>
-        <span className="flex-1 truncate">{label}</span>
-        {against ? <ContrastBadge a={value} b={against} /> : null}
-        <span className="text-fd-muted-foreground font-mono text-[11px]">{hex}</span>
-      </summary>
-      <div className="flex flex-col gap-2 border-t px-2 py-2">
-        <Field label="Lightness" hint={l.toFixed(3)}>
-          <Range value={l} min={0} max={1} step={0.005} onChange={(v) => onChange([v, c, h])} />
-        </Field>
-        <Field label="Chroma" hint={c.toFixed(3)}>
-          <Range value={c} min={0} max={0.37} step={0.002} onChange={(v) => onChange([l, v, h])} />
-        </Field>
-        <Field label="Hue" hint={`${Math.round(h)}°`}>
-          <Range
-            value={h}
-            min={0}
-            max={360}
-            step={1}
-            onChange={(v) => onChange([l, c, v])}
-            className="hue-range w-full"
-          />
-        </Field>
-        <code className="text-fd-muted-foreground text-[11px]">{formatOklch(value)}</code>
-      </div>
-    </details>
+    <div className="relative">
+      {/* The colour input sits beside the disclosure, over the swatch, so no control nests inside the summary. */}
+      <input
+        id={id}
+        type="color"
+        value={hex}
+        aria-label={`${label} colour`}
+        onChange={(e) => {
+          const next = hexToOklch(e.target.value)
+          if (next) onChange(next)
+        }}
+        className="absolute top-1.5 left-2 z-10 size-6 cursor-pointer rounded border opacity-0 focus-visible:opacity-100"
+      />
+      <details className="group bg-fd-card open:bg-fd-muted/40 rounded-md border">
+        <summary className="flex cursor-pointer list-none items-center gap-2 px-2 py-1.5 text-sm">
+          <span aria-hidden className="size-6 shrink-0 rounded border" style={{ background: hex }} />
+          <span className="flex-1 truncate">{label}</span>
+          {against ? <ContrastBadge a={value} b={against} /> : null}
+          <span className="text-fd-muted-foreground font-mono text-[11px]">{hex}</span>
+        </summary>
+        <div className="flex flex-col gap-2 border-t px-2 py-2">
+          <Field label="Lightness" hint={l.toFixed(3)}>
+            <Range value={l} min={0} max={1} step={0.005} onChange={(v) => onChange([v, c, h])} />
+          </Field>
+          <Field label="Chroma" hint={c.toFixed(3)}>
+            <Range value={c} min={0} max={0.37} step={0.002} onChange={(v) => onChange([l, v, h])} />
+          </Field>
+          <Field label="Hue" hint={`${Math.round(h)}°`}>
+            <Range
+              value={h}
+              min={0}
+              max={360}
+              step={1}
+              onChange={(v) => onChange([l, c, v])}
+              className="hue-range w-full"
+            />
+          </Field>
+          <code className="text-fd-muted-foreground text-[11px]">{formatOklch(value)}</code>
+        </div>
+      </details>
+    </div>
   )
 }

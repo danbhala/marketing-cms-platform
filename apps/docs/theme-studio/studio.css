@@ -1,3 +1,15 @@
+/*
+ * Fumadocs' light muted text measures 4.3:1 on the light background, under
+ * WCAG AA for the small labels the studio is made of; a step darker passes.
+ * The dark theme already passes and is left alone.
+ */
+.theme-studio {
+  --color-fd-muted-foreground: hsl(0, 0%, 38%);
+}
+.dark .theme-studio {
+  --color-fd-muted-foreground: hsla(0, 0%, 70%, 0.8);
+}
+
 /* The hue slider shows the hue wheel it moves through. */
 .hue-range {
   appearance: none;
