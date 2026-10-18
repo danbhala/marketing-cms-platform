@@ -10,6 +10,7 @@ export function baseOptions(): BaseLayoutProps {
     links: [
       { text: "Docs", url: "/docs" },
       { text: "Theme studio", url: "/theme" },
+      { text: "Schema studio", url: "/schema" },
       { text: "Storybook", url: storybookUrl(), external: true },
       {
         text: "Demo site",

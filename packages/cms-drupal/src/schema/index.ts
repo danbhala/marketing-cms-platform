@@ -61,7 +61,11 @@ export function generateModuleFor(extra: readonly AnyDefinition[]): ModuleFiles 
   return configFor(extra, naming, added)
 }
 
-function configFor(definitions: readonly AnyDefinition[], naming: DrupalNaming, storages: Map<string, FieldStorage>): ModuleFiles {
+function configFor(
+  definitions: readonly AnyDefinition[],
+  naming: DrupalNaming,
+  storages: Map<string, FieldStorage>
+): ModuleFiles {
   const files: ModuleFiles = {}
   const emit = (name: string, config: Record<string, YamlValue>) => {
     files[`${INSTALL}/${name}.yml`] = toYaml(config)
@@ -174,11 +178,20 @@ function fieldStorage(entityType: DrupalEntityType, name: string, storage: Field
   }
 }
 
-function fieldInstance(definition: AnyDefinition, name: string, field: Field, machine: string, naming: DrupalNaming): Record<string, YamlValue> {
+function fieldInstance(
+  definition: AnyDefinition,
+  name: string,
+  field: Field,
+  machine: string,
+  naming: DrupalNaming
+): Record<string, YamlValue> {
   const entityType = entityTypeFor(definition)
   const bundle = bundleFor(definition)
   const storage = fieldStorages(naming).get(`${entityType}.${machine}`)!
-  const config = [`field.storage.${entityType}.${machine}`, entityType === "node" ? `node.type.${bundle}` : `paragraphs.paragraphs_type.${bundle}`]
+  const config = [
+    `field.storage.${entityType}.${machine}`,
+    entityType === "node" ? `node.type.${bundle}` : `paragraphs.paragraphs_type.${bundle}`,
+  ]
   const modules = new Set<string>()
   let settings: YamlValue = {}
   let defaultValue: YamlValue = []
@@ -360,4 +373,13 @@ function formDisplay(definition: AnyDefinition, naming: DrupalNaming): Record<st
   }
 }
 
-export { bundleFor, fieldNameFor, includesFor, namingFor, resourceTypeFor, definitionForResourceType, snake, type DrupalNaming } from "./naming"
+export {
+  bundleFor,
+  fieldNameFor,
+  includesFor,
+  namingFor,
+  resourceTypeFor,
+  definitionForResourceType,
+  snake,
+  type DrupalNaming,
+} from "./naming"
