@@ -1,4 +1,4 @@
-import type { ArticleSummary, CollectionBlock } from "./types"
+import type { ArticleSummary, CollectionBlock, LatestNewsBlock } from "./types"
 
 /**
  * The query a listing answers. It is the parsed, normalised form of a URL's
@@ -39,6 +39,17 @@ export function defaultListingQuery(block: Pick<CollectionBlock, "source" | "pag
     pageSize: block.pageSize && block.pageSize > 0 ? Math.floor(block.pageSize) : listingDefaults.pageSize,
     sort: block.sort ?? listingDefaults.sort,
     filters: {},
+  }
+}
+
+/** The query behind a latest-news block: newest first, one page of `count`, optionally one category. */
+export function latestNewsQuery(block: Pick<LatestNewsBlock, "source" | "category" | "count">): ListingQuery {
+  return {
+    source: block.source ?? "article",
+    page: 1,
+    pageSize: Number(block.count ?? "3"),
+    sort: "newest",
+    filters: block.category ? { category: [block.category.slug] } : {},
   }
 }
 

@@ -2,6 +2,9 @@ import { defineDocument, field } from "../fields"
 import { themeNames } from "../themes"
 import { allBlocks } from "./blocks"
 import { action, footerColumn, navGroup, socialLink } from "./items"
+import { category } from "./taxonomy"
+
+export { category }
 
 export const page = defineDocument("page", {
   label: "Page",
@@ -18,20 +21,6 @@ export const page = defineDocument("page", {
     }),
     theme: field.select(themeNames, { description: "Theme applied to the whole page." }),
     blocks: field.blocks(allBlocks),
-  },
-})
-
-/**
- * A taxonomy term. Articles reference categories; the collection block
- * filters by them. Terms are not pages: they have a slug for URLs, not a path.
- */
-export const category = defineDocument("category", {
-  label: "Category",
-  taxonomy: true,
-  fields: {
-    title: field.text({ required: true }),
-    slug: field.text({ required: true, description: "URL-safe key used in listing filters, e.g. product-news." }),
-    description: field.textarea(),
   },
 })
 

@@ -44,6 +44,7 @@ export type MediaBlock = InferContent<typeof defs.mediaBlock>
 export type GalleryBlock = InferContent<typeof defs.gallery>
 export type FormBlock = InferContent<typeof defs.form>
 export type CollectionBlock = InferContent<typeof defs.collection>
+export type LatestNewsBlock = InferContent<typeof defs.latestNews>
 
 export type Block =
   | HeroBlock
@@ -65,6 +66,7 @@ export type Block =
   | GalleryBlock
   | FormBlock
   | CollectionBlock
+  | LatestNewsBlock
 
 export type BlockType = Block["type"]
 

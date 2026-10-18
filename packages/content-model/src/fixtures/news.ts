@@ -1,6 +1,6 @@
 import { richTextFromParagraphs } from "../primitives"
 import type { CollectionResult, ListingQuery } from "../listing"
-import type { Article, ArticleSummary, Category, CollectionBlock, Page } from "../types"
+import type { Article, ArticleSummary, Category, CollectionBlock, LatestNewsBlock, Page } from "../types"
 import { placeholderMedia } from "./placeholder"
 
 /**
@@ -291,6 +291,17 @@ function comparator(sort: ListingQuery["sort"]): (a: Article, b: Article) => num
 }
 
 /** First page of the default listing, for stories and tests. */
+export const latestNewsBlock: LatestNewsBlock = {
+  id: "blk-latest-news",
+  type: "latestNews",
+  eyebrow: "News",
+  title: "What we are shipping",
+  description: "Three recent stories from the team.",
+  source: "article",
+  count: "3",
+  actions: [{ id: "latest-news-all", type: "action", label: "See all news", href: "/news", variant: "outline" }],
+}
+
 export const collectionResult: CollectionResult = {
   items: articles.slice(0, 9).map(toSummary),
   total: articles.length,
