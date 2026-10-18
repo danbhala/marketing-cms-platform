@@ -108,4 +108,5 @@ export const blockLabels: Record<WallTile["type"], string> = {
   gallery: "Gallery",
   form: "Form",
   collection: "Collection",
+  latestNews: "Latest news",
 }

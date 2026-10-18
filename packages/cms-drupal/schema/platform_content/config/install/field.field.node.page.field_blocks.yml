@@ -14,6 +14,7 @@ dependencies:
     - paragraphs.paragraphs_type.form
     - paragraphs.paragraphs_type.gallery
     - paragraphs.paragraphs_type.hero
+    - paragraphs.paragraphs_type.latest_news
     - paragraphs.paragraphs_type.logo_cloud
     - paragraphs.paragraphs_type.media
     - paragraphs.paragraphs_type.pricing
@@ -58,6 +59,7 @@ settings:
       gallery: gallery
       form: form
       collection: collection
+      latest_news: latest_news
     negate: 0
     target_bundles_drag_drop:
       hero:
@@ -117,4 +119,7 @@ settings:
       collection:
         enabled: true
         weight: 18
+      latest_news:
+        enabled: true
+        weight: 19
 field_type: entity_reference_revisions

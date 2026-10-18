@@ -12,6 +12,7 @@ from wagtail.blocks.list_block import ListValue
 from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.snippets.blocks import SnippetChooserBlock
 
 
 def absolute_url(url, context=None):
@@ -74,6 +75,19 @@ class APIPageChooserBlock(blocks.PageChooserBlock):
         if value is None:
             return None
         return {"id": value.pk, "title": value.title, "url": value.url}
+
+
+class APISnippetChooserBlock(SnippetChooserBlock):
+    """Returns the snippet's fields inline (with "meta.type" naming its model) instead of its primary key."""
+
+    def get_api_representation(self, value, context=None):
+        if value is None:
+            return None
+        data = {"id": value.pk, "meta": {"type": f"{value._meta.app_label}.{value.__class__.__name__}"}}
+        for field in value._meta.fields:
+            if field.name != "id":
+                data[field.name] = getattr(value, field.name)
+        return data
 
 
 class ItemListBlock(blocks.ListBlock):
@@ -796,6 +810,29 @@ class CollectionSection(blocks.StructBlock):
         label = "Collection"
 
 
+class LatestNewsSection(blocks.StructBlock):
+    """The newest few items of a document type, for a home page or landing page, with a link to the full listing."""
+
+    eyebrow = blocks.CharBlock(required=False, label="Eyebrow")
+    title = blocks.CharBlock(required=False, label="Title")
+    description = blocks.TextBlock(required=False, label="Description")
+    source = blocks.ChoiceBlock(choices=[("article", "Article")], required=False, default="article", label="Source", help_text="Which document type to show.")
+    category = APISnippetChooserBlock("platform_cms.Category", required=False, label="Category", help_text="Only show items in this category. Empty shows every category.")
+    count = blocks.ChoiceBlock(choices=[("3", "3"), ("4", "4"), ("6", "6")], required=False, default="3", label="Count", help_text="How many items; the grid always fills.")
+    actions = ItemListBlock(ActionItem(), max_num=1, default=[], label="Actions", help_text="The \"see all\" link. Left empty, it links to the page that lists this type.")
+    theme = blocks.ChoiceBlock(choices=[("light", "Light"), ("dark", "Dark"), ("brand", "Brand"), ("muted", "Muted"), ("blue", "Blue"), ("green", "Green"), ("orange", "Orange"), ("rose", "Rose"), ("violet", "Violet")], required=False, label="Theme", help_text="Applies a theme class to this block only.")
+    spacing = blocks.ChoiceBlock(choices=[("none", "None"), ("sm", "Sm"), ("md", "Md"), ("lg", "Lg")], required=False, default="md", label="Spacing")
+    anchor = blocks.CharBlock(required=False, label="Anchor", help_text="Optional id for in-page links, e.g. 'pricing'.")
+    animation = blocks.ChoiceBlock(choices=[("none", "None"), ("fadeUp", "Fade up"), ("fadeIn", "Fade in"), ("scaleIn", "Scale in"), ("slideFromLeft", "Slide from left"), ("slideFromRight", "Slide from right"), ("blurIn", "Blur in")], required=False, default="none", label="Animation", help_text="Entrance animation played once when the block scrolls into view.")
+    animation_stagger = blocks.BooleanBlock(required=False, label="Stagger items", help_text="Reveal the block's items one after another instead of all at once.")
+    heading_animation = blocks.ChoiceBlock(choices=[("none", "None"), ("words", "Words"), ("characters", "Characters"), ("lines", "Lines"), ("typewriter", "Typewriter"), ("scramble", "Scramble")], required=False, default="none", label="Heading animation", help_text="Reveals the block title by words, characters or lines, types it out, or scrambles it into place.")
+    animation_duration = blocks.ChoiceBlock(choices=[("fast", "Fast"), ("normal", "Normal"), ("slow", "Slow")], required=False, default="normal", label="Animation duration")
+    animation_delay = blocks.ChoiceBlock(choices=[("none", "None"), ("short", "Short"), ("medium", "Medium"), ("long", "Long")], required=False, default="none", label="Animation delay")
+
+    class Meta:
+        label = "Latest news"
+
+
 class ContentStreamBlock(blocks.StreamBlock):
     """Every block a page can contain. The stream child names are the canonical block types in snake_case."""
 
@@ -818,3 +855,4 @@ class ContentStreamBlock(blocks.StreamBlock):
     gallery = GallerySection()
     form = FormSection()
     collection = CollectionSection()
+    latest_news = LatestNewsSection()

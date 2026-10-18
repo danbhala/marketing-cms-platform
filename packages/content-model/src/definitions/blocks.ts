@@ -331,18 +331,24 @@ export const collection = defineBlock("collection", {
 /** Every block a page can contain. Add new blocks here. */
 export const latestNews = defineBlock("latestNews", {
   label: "Latest news",
-  description: "The newest few items of a document type, for a home page or landing page, with a link to the full listing.",
+  description:
+    "The newest few items of a document type, for a home page or landing page, with a link to the full listing.",
   fields: {
     ...heading,
     source: field.select(["article"] as const, {
       defaultValue: "article",
       description: "Which document type to show.",
     }),
-    category: field.reference([category], { description: "Only show items in this category. Empty shows every category." }),
-    count: field.select(["3", "4", "6"] as const, { defaultValue: "3", description: "How many items; the grid always fills." }),
+    category: field.reference([category], {
+      description: "Only show items in this category. Empty shows every category.",
+    }),
+    count: field.select(["3", "4", "6"] as const, {
+      defaultValue: "3",
+      description: "How many items; the grid always fills.",
+    }),
     actions: field.items([action], {
       max: 1,
-      description: "The \"see all\" link. Left empty, it links to the page that lists this type.",
+      description: 'The "see all" link. Left empty, it links to the page that lists this type.',
     }),
     ...presentation,
   },

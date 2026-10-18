@@ -62,6 +62,24 @@ export async function getPublishedCollection(
   return result
 }
 
+/**
+ * The path of the page that lists a document type: the first published page
+ * with a `collection` block of that `source`, or null. The latest-news block
+ * links there when the editor leaves its action empty. One cached scan per
+ * locale, invalidated with the paths list and with any page.
+ */
+export async function getPublishedListingPath(locale: string, source: ListingQuery["source"]): Promise<string | null> {
+  "use cache"
+  cacheLife("max")
+  cacheTag(tags.paths(locale), tags.type("page"))
+  for (const path of await getPublishedPaths(locale)) {
+    const doc = await getPublishedDocument(locale, path)
+    if (doc?.type === "page" && doc.blocks.some((block) => block.type === "collection" && block.source === source))
+      return path
+  }
+  return null
+}
+
 /** Taxonomy terms for filter chips. Invalidated when any term of the type changes. */
 export async function getPublishedTaxonomy(locale: string, type: string): Promise<Category[]> {
   "use cache"

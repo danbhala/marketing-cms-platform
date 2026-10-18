@@ -141,6 +141,12 @@ function tsType(f: Field): string {
       return "boolean"
     case "media":
       return "Media"
+    case "date":
+      return "string"
+    case "reference": {
+      const target = f.of.map((d: AnyDefinition) => pascal(d.type)).join(" | ")
+      return f.multiple ? `Array<${target}>` : target
+    }
     case "select":
       return f.options.map(quote).join(" | ")
     case "items":

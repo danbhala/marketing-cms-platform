@@ -10,6 +10,7 @@ import { ArticleTemplate, PageTemplate } from "@platform/ui/templates"
 
 import { getAdapter, siteConfig } from "@/cms.config"
 import { createCollectionBlock } from "@/components/collection-block"
+import { createLatestNewsBlock } from "@/components/latest-news-block"
 import { PreviewBridge } from "@/components/preview-bridge"
 import { getBreadcrumbs } from "@/lib/breadcrumbs"
 import { getPublishedDocument, getPublishedPaths, getPublishedSettings } from "@/lib/cms"
@@ -35,6 +36,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { locale, slug } = await params
+  if (!siteConfig.locales.includes(locale)) return {}
   const path = slugToPath(slug)
   const doc = await getPublishedDocument(locale, path)
   if (!doc) return {}
@@ -75,6 +77,9 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 
 export default async function CmsPage({ params, searchParams }: Props) {
   const { locale, slug } = await params
+  // proxy.ts redirects bare paths, but files it skips (favicon.ico) still
+  // land here with the file name as the locale.
+  if (!siteConfig.locales.includes(locale)) notFound()
   const path = slugToPath(slug)
   const { isEnabled: draft } = await draftMode()
 
@@ -98,8 +103,8 @@ export default async function CmsPage({ params, searchParams }: Props) {
   const breadcrumbs = await getBreadcrumbs(locale, path, doc.title)
   const bridge = draft ? <PreviewBridge provider={siteConfig.provider} ctx={preview} locale={locale} /> : null
 
-  // The collection block needs this request's URL; everything else in the
-  // registry is static, so only that entry is bound per request.
+  // The listing blocks need this request's locale and URL; everything else
+  // in the registry is static, so only those entries are bound per request.
   const components = {
     ...registry.components,
     collection: createCollectionBlock({
@@ -108,6 +113,7 @@ export default async function CmsPage({ params, searchParams }: Props) {
       searchParams,
       draft: draftCtx,
     }),
+    latestNews: createLatestNewsBlock({ locale, draft: draftCtx }),
   }
 
   if (doc.type === "article") {

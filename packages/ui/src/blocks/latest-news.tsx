@@ -28,7 +28,15 @@ function LatestNews({ block, index, items = [], listingHref, className, ...props
     block.actions.length > 0
       ? block.actions
       : listingHref
-        ? [{ id: `${block.id}-all`, type: "action" as const, label: "See all", href: listingHref, variant: "outline" as const }]
+        ? [
+            {
+              id: `${block.id}-all`,
+              type: "action" as const,
+              label: "See all",
+              href: listingHref,
+              variant: "outline" as const,
+            },
+          ]
         : []
   const columns = block.count === "4" ? "4" : "3"
   return (

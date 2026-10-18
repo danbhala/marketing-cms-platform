@@ -25,7 +25,7 @@ Published reads live in `lib/cms.ts` under `'use cache'` with tags from `@platfo
 
 ## Listings
 
-A `collection` block on any page lists articles. `components/collection-block.tsx` binds it to the request: the filter bar and results await `searchParams` inside their own Suspense boundaries and read `getPublishedCollection`, which is cached per query and tagged `cms:collection:{locale}:article`. The docs page "Listing pages" has the URL contract.
+A `collection` block on any page lists articles. `components/collection-block.tsx` binds it to the request: the filter bar and results await `searchParams` inside their own Suspense boundaries and read `getPublishedCollection`, which is cached per query and tagged `cms:collection:{locale}:article`. `components/latest-news-block.tsx` does the same for the `latestNews` block. The docs page "Listing pages" has the URL contract.
 
 ## Adding a CMS
 

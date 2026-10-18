@@ -747,7 +747,9 @@ describe("schema generator", () => {
     expect(files["platform_cms/signals.py"]).toContain("@receiver(page_published, sender=ArticlePage)")
     expect(files["platform_cms/signals.py"]).toContain("@receiver(post_delete, sender=Category)")
     expect(files["platform_cms/blocks.py"]).toContain("    collection = CollectionSection()")
-    expect(files["platform_cms/blocks.py"]).not.toContain("SnippetChooserBlock")
+    expect(files["platform_cms/blocks.py"]).toContain(
+      'category = APISnippetChooserBlock("platform_cms.Category", required=False'
+    )
   })
 
   it("maps field kinds to Wagtail blocks and model fields", () => {

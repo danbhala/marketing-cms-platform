@@ -6446,6 +6446,328 @@
     ]
   },
   {
+    "id": "latestNews",
+    "name": "Latest news",
+    "description": "The newest few items of a document type, for a home page or landing page, with a link to the full listing.",
+    "displayField": "eyebrow",
+    "fields": [
+      {
+        "id": "eyebrow",
+        "name": "Eyebrow",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine"
+        }
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "multipleLine"
+        }
+      },
+      {
+        "id": "source",
+        "name": "Source",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "article"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "article"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Which document type to show."
+          }
+        }
+      },
+      {
+        "id": "category",
+        "name": "Category",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "category"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "editor": {
+          "widgetId": "entryLinkEditor",
+          "settings": {
+            "helpText": "Only show items in this category. Empty shows every category."
+          }
+        }
+      },
+      {
+        "id": "count",
+        "name": "Count",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "3",
+              "4",
+              "6"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "3"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "How many items; the grid always fills."
+          }
+        }
+      },
+      {
+        "id": "actions",
+        "name": "Actions",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "size": {
+              "max": 1
+            }
+          }
+        ],
+        "items": {
+          "type": "Link",
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "action"
+              ]
+            }
+          ]
+        },
+        "editor": {
+          "widgetId": "entryLinksEditor",
+          "settings": {
+            "helpText": "The \"see all\" link. Left empty, it links to the page that lists this type."
+          }
+        }
+      },
+      {
+        "id": "theme",
+        "name": "Theme",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "light",
+              "dark",
+              "brand",
+              "muted",
+              "blue",
+              "green",
+              "orange",
+              "rose",
+              "violet"
+            ]
+          }
+        ],
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Applies a theme class to this block only."
+          }
+        }
+      },
+      {
+        "id": "spacing",
+        "name": "Spacing",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "sm",
+              "md",
+              "lg"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "md"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "anchor",
+        "name": "Anchor",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "singleLine",
+          "settings": {
+            "helpText": "Optional id for in-page links, e.g. 'pricing'."
+          }
+        }
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "fadeUp",
+              "fadeIn",
+              "scaleIn",
+              "slideFromLeft",
+              "slideFromRight",
+              "blurIn"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Entrance animation played once when the block scrolls into view."
+          }
+        }
+      },
+      {
+        "id": "animationStagger",
+        "name": "Stagger items",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "editor": {
+          "widgetId": "boolean",
+          "settings": {
+            "helpText": "Reveal the block's items one after another instead of all at once."
+          }
+        }
+      },
+      {
+        "id": "headingAnimation",
+        "name": "Heading animation",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "words",
+              "characters",
+              "lines",
+              "typewriter",
+              "scramble"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown",
+          "settings": {
+            "helpText": "Reveals the block title by words, characters or lines, types it out, or scrambles it into place."
+          }
+        }
+      },
+      {
+        "id": "animationDuration",
+        "name": "Animation duration",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "fast",
+              "normal",
+              "slow"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "normal"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      },
+      {
+        "id": "animationDelay",
+        "name": "Animation delay",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "short",
+              "medium",
+              "long"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "none"
+        },
+        "editor": {
+          "widgetId": "dropdown"
+        }
+      }
+    ]
+  },
+  {
     "id": "page",
     "name": "Page",
     "displayField": "title",
@@ -6615,7 +6937,8 @@
                 "media",
                 "gallery",
                 "form",
-                "collection"
+                "collection",
+                "latestNews"
               ]
             }
           ]
@@ -6824,7 +7147,8 @@
                 "media",
                 "gallery",
                 "form",
-                "collection"
+                "collection",
+                "latestNews"
               ]
             }
           ]

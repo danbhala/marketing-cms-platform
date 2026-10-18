@@ -6277,6 +6277,310 @@ export const schemaTypes = [
     },
   },
   {
+    name: "latestNews",
+    title: "Latest news",
+    type: "object",
+    description: "The newest few items of a document type, for a home page or landing page, with a link to the full listing.",
+    fields: [
+      {
+        name: "eyebrow",
+        title: "Eyebrow",
+        type: "string",
+      },
+      {
+        name: "title",
+        title: "Title",
+        type: "string",
+      },
+      {
+        name: "description",
+        title: "Description",
+        type: "text",
+        rows: 3,
+      },
+      {
+        name: "source",
+        title: "Source",
+        type: "string",
+        description: "Which document type to show.",
+        options: {
+          list: [
+            {
+              title: "Article",
+              value: "article",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "article",
+      },
+      {
+        name: "category",
+        title: "Category",
+        type: "reference",
+        description: "Only show items in this category. Empty shows every category.",
+        to: [
+          {
+            type: "category",
+          },
+        ],
+      },
+      {
+        name: "count",
+        title: "Count",
+        type: "string",
+        description: "How many items; the grid always fills.",
+        options: {
+          list: [
+            {
+              title: "3",
+              value: "3",
+            },
+            {
+              title: "4",
+              value: "4",
+            },
+            {
+              title: "6",
+              value: "6",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "3",
+      },
+      {
+        name: "actions",
+        title: "Actions",
+        type: "array",
+        description: "The \"see all\" link. Left empty, it links to the page that lists this type.",
+        of: [
+          {
+            type: "action",
+          },
+        ],
+        validation: (rule: SanityRule) => rule.max(1),
+      },
+      {
+        name: "theme",
+        title: "Theme",
+        type: "string",
+        description: "Applies a theme class to this block only.",
+        options: {
+          list: [
+            {
+              title: "Light",
+              value: "light",
+            },
+            {
+              title: "Dark",
+              value: "dark",
+            },
+            {
+              title: "Brand",
+              value: "brand",
+            },
+            {
+              title: "Muted",
+              value: "muted",
+            },
+            {
+              title: "Blue",
+              value: "blue",
+            },
+            {
+              title: "Green",
+              value: "green",
+            },
+            {
+              title: "Orange",
+              value: "orange",
+            },
+            {
+              title: "Rose",
+              value: "rose",
+            },
+            {
+              title: "Violet",
+              value: "violet",
+            },
+          ],
+          layout: "dropdown",
+        },
+      },
+      {
+        name: "spacing",
+        title: "Spacing",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Sm",
+              value: "sm",
+            },
+            {
+              title: "Md",
+              value: "md",
+            },
+            {
+              title: "Lg",
+              value: "lg",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "md",
+      },
+      {
+        name: "anchor",
+        title: "Anchor",
+        type: "string",
+        description: "Optional id for in-page links, e.g. 'pricing'.",
+      },
+      {
+        name: "animation",
+        title: "Animation",
+        type: "string",
+        description: "Entrance animation played once when the block scrolls into view.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Fade Up",
+              value: "fadeUp",
+            },
+            {
+              title: "Fade In",
+              value: "fadeIn",
+            },
+            {
+              title: "Scale In",
+              value: "scaleIn",
+            },
+            {
+              title: "Slide From Left",
+              value: "slideFromLeft",
+            },
+            {
+              title: "Slide From Right",
+              value: "slideFromRight",
+            },
+            {
+              title: "Blur In",
+              value: "blurIn",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationStagger",
+        title: "Stagger items",
+        type: "boolean",
+        description: "Reveal the block's items one after another instead of all at once.",
+      },
+      {
+        name: "headingAnimation",
+        title: "Heading animation",
+        type: "string",
+        description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Words",
+              value: "words",
+            },
+            {
+              title: "Characters",
+              value: "characters",
+            },
+            {
+              title: "Lines",
+              value: "lines",
+            },
+            {
+              title: "Typewriter",
+              value: "typewriter",
+            },
+            {
+              title: "Scramble",
+              value: "scramble",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+      {
+        name: "animationDuration",
+        title: "Animation Duration",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "Fast",
+              value: "fast",
+            },
+            {
+              title: "Normal",
+              value: "normal",
+            },
+            {
+              title: "Slow",
+              value: "slow",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "normal",
+      },
+      {
+        name: "animationDelay",
+        title: "Animation Delay",
+        type: "string",
+        options: {
+          list: [
+            {
+              title: "None",
+              value: "none",
+            },
+            {
+              title: "Short",
+              value: "short",
+            },
+            {
+              title: "Medium",
+              value: "medium",
+            },
+            {
+              title: "Long",
+              value: "long",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "none",
+      },
+    ],
+    preview: {
+      select: {
+        title: "eyebrow",
+      },
+    },
+  },
+  {
     name: "page",
     title: "Page",
     type: "document",
@@ -6434,6 +6738,9 @@ export const schemaTypes = [
           {
             type: "collection",
           },
+          {
+            type: "latestNews",
+          },
         ],
       },
     ],
@@ -6578,6 +6885,9 @@ export const schemaTypes = [
           },
           {
             type: "collection",
+          },
+          {
+            type: "latestNews",
           },
         ],
       },

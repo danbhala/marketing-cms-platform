@@ -15,8 +15,10 @@ import { PageTemplate, type PageTemplateProps } from "./page-template"
 export interface ArticleTemplateProps extends Omit<PageTemplateProps, "page" | "children"> {
   article: Article
   settings: SiteSettings
-  /** BCP 47 locale for the date. */
+  /** BCP 47 locale for the date and the article's URL in the structured data. */
   locale?: string
+  /** Emit schema.org `NewsArticle` JSON-LD. On by default. */
+  structuredData?: boolean
 }
 
 /**
@@ -24,10 +26,28 @@ export interface ArticleTemplateProps extends Omit<PageTemplateProps, "page" | "
  * followed by any blocks the editor added. Reuses the page template so site
  * chrome, breadcrumbs and block rendering stay in one place.
  */
-function ArticleTemplate({ article, settings, locale = "en", ...props }: ArticleTemplateProps) {
+function ArticleTemplate({ article, settings, locale = "en", structuredData = true, ...props }: ArticleTemplateProps) {
+  const siteUrl = props.siteUrl ?? ""
+  const jsonLd = structuredData
+    ? {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        headline: article.title,
+        datePublished: article.publishedAt,
+        mainEntityOfPage: `${siteUrl}/${locale}${article.path}`,
+        ...(article.excerpt ? { description: article.excerpt } : {}),
+        ...(article.image ? { image: [article.image.url] } : {}),
+        ...(article.category ? { articleSection: article.category.title } : {}),
+        ...(article.tags?.length ? { keywords: article.tags.map((tag) => tag.title).join(", ") } : {}),
+        ...(settings.siteName ? { publisher: { "@type": "Organization", name: settings.siteName } } : {}),
+      }
+    : null
   return (
     <PageTemplate page={{ blocks: article.blocks, $edit: article.$edit }} settings={settings} {...props}>
       <article data-slot="article" className="py-(--section-space-sm)">
+        {jsonLd ? (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        ) : null}
         <Container className="flex flex-col gap-8">
           <header className="flex max-w-(--container-md) flex-col gap-4">
             {article.category ? <Eyebrow {...fieldAttrs(article, "category")}>{article.category.title}</Eyebrow> : null}

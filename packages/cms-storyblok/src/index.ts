@@ -1,6 +1,6 @@
 import type { CmsAdapter, FetchContext } from "@platform/cms-core"
 import type { Field, ListingQuery } from "@platform/content-model"
-import { article as articleDefinition, listableDocuments } from "@platform/content-model"
+import { article as articleDefinition, listableDocuments, page as pageDefinition } from "@platform/content-model"
 
 import { createStoryblokApi, type StoryblokApi, type StoryQuery } from "./client"
 import { createPreviewHandlers, resolvePreviewPath } from "./preview"
@@ -58,6 +58,9 @@ const listingSort: Record<ListingQuery["sort"], string> = {
 }
 
 const articleRelations = relationsFor(articleDefinition)
+const summaryRelations = relationsFor(articleDefinition, false)
+const pageRelations = relationsFor(pageDefinition)
+const documentRelations = [...new Set([...pageRelations, ...articleRelations])]
 
 export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): CmsAdapter {
   const env = typeof process !== "undefined" ? process.env : ({} as NodeJS.ProcessEnv)
@@ -95,7 +98,7 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
     async getPage(path, ctx) {
       const slug = pathToSlug(path, homeSlug)
       if (slug === siteSettingsSlug) return null
-      const story = await getApi().getStory(slug, query(ctx))
+      const story = await getApi().getStory(slug, { ...query(ctx), resolveRelations: pageRelations })
       if (!story || story.content?.component !== "page") return null
       return storyToPage(story, transformOptions(ctx))
     },
@@ -103,7 +106,7 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
     async getDocument(path, ctx) {
       const slug = pathToSlug(path, homeSlug)
       if (slug === siteSettingsSlug) return null
-      const story = await getApi().getStory(slug, { ...query(ctx), resolveRelations: articleRelations })
+      const story = await getApi().getStory(slug, { ...query(ctx), resolveRelations: documentRelations })
       switch (story?.content?.component) {
         case "page":
           return storyToPage(story, transformOptions(ctx))
@@ -138,7 +141,7 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
           page: listing.page,
           per_page: listing.pageSize,
         },
-        { ...query(ctx), resolveRelations: articleRelations }
+        { ...query(ctx), resolveRelations: summaryRelations }
       )
       const items = stories.map((story) => toSummary(storyToArticle(story, transformOptions(ctx))))
       return { items, total, page: listing.page, pageSize: listing.pageSize }

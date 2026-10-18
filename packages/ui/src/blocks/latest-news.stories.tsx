@@ -25,7 +25,12 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
 export const OneCategory: Story = {
-  args: filled({ ...fixtures.latestNewsBlock, title: "Engineering notes", category: fixtures.categories[2], count: "4" }),
+  args: filled({
+    ...fixtures.latestNewsBlock,
+    title: "Engineering notes",
+    category: fixtures.categories[2],
+    count: "4",
+  }),
 }
 export const Six: Story = { args: filled({ ...fixtures.latestNewsBlock, count: "6" }) }
 /** No action on the block: the host passes the listing page's path and the block adds a "See all" link. */

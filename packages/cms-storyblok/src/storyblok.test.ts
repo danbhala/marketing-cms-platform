@@ -183,9 +183,9 @@ describe("transform: page", () => {
     await adapter.getPage("/", draft)
     await adapter.getPage("/", { locale: "de", draft: false })
     expect(calls).toEqual([
-      { slug: "home", version: "published", language: undefined },
-      { slug: "home", version: "draft", language: undefined },
-      { slug: "home", version: "published", language: "de" },
+      { slug: "home", version: "published", language: undefined, resolveRelations: ["latestNews.category"] },
+      { slug: "home", version: "draft", language: undefined, resolveRelations: ["latestNews.category"] },
+      { slug: "home", version: "published", language: "de", resolveRelations: ["latestNews.category"] },
     ])
   })
 
@@ -228,7 +228,8 @@ describe("listings", () => {
     expect(calls[1]).toMatchObject({
       slug: "news/cohorts-and-alerts-are-live",
       version: "published",
-      resolveRelations: ["article.category", "article.tags"],
+      // The page's block references come first, then the article's own.
+      resolveRelations: ["latestNews.category", "article.category", "article.tags"],
     })
     expect(await adapter.getDocument("/site-settings", published)).toBeNull()
     expect(await adapter.getDocument("/nope", published)).toBeNull()

@@ -2362,6 +2362,107 @@
       ]
     },
     {
+      "name": "latestNews",
+      "kind": "block",
+      "python": "LatestNewsSection",
+      "base": "StructBlock",
+      "stream": "latest_news",
+      "label": "Latest news",
+      "description": "The newest few items of a document type, for a home page or landing page, with a link to the full listing.",
+      "fields": [
+        {
+          "name": "eyebrow",
+          "python": "eyebrow",
+          "definition": "blocks.CharBlock(required=False, label=\"Eyebrow\")",
+          "required": false
+        },
+        {
+          "name": "title",
+          "python": "title",
+          "definition": "blocks.CharBlock(required=False, label=\"Title\")",
+          "required": false
+        },
+        {
+          "name": "description",
+          "python": "description",
+          "definition": "blocks.TextBlock(required=False, label=\"Description\")",
+          "required": false
+        },
+        {
+          "name": "source",
+          "python": "source",
+          "definition": "blocks.ChoiceBlock(choices=[(\"article\", \"Article\")], required=False, default=\"article\", label=\"Source\", help_text=\"Which document type to show.\")",
+          "required": false
+        },
+        {
+          "name": "category",
+          "python": "category",
+          "definition": "APISnippetChooserBlock(\"platform_cms.Category\", required=False, label=\"Category\", help_text=\"Only show items in this category. Empty shows every category.\")",
+          "required": false
+        },
+        {
+          "name": "count",
+          "python": "count",
+          "definition": "blocks.ChoiceBlock(choices=[(\"3\", \"3\"), (\"4\", \"4\"), (\"6\", \"6\")], required=False, default=\"3\", label=\"Count\", help_text=\"How many items; the grid always fills.\")",
+          "required": false
+        },
+        {
+          "name": "actions",
+          "python": "actions",
+          "definition": "ItemListBlock(ActionItem(), max_num=1, default=[], label=\"Actions\", help_text=\"The \\\"see all\\\" link. Left empty, it links to the page that lists this type.\")",
+          "required": true
+        },
+        {
+          "name": "theme",
+          "python": "theme",
+          "definition": "blocks.ChoiceBlock(choices=[(\"light\", \"Light\"), (\"dark\", \"Dark\"), (\"brand\", \"Brand\"), (\"muted\", \"Muted\"), (\"blue\", \"Blue\"), (\"green\", \"Green\"), (\"orange\", \"Orange\"), (\"rose\", \"Rose\"), (\"violet\", \"Violet\")], required=False, label=\"Theme\", help_text=\"Applies a theme class to this block only.\")",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "python": "spacing",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"sm\", \"Sm\"), (\"md\", \"Md\"), (\"lg\", \"Lg\")], required=False, default=\"md\", label=\"Spacing\")",
+          "required": false
+        },
+        {
+          "name": "anchor",
+          "python": "anchor",
+          "definition": "blocks.CharBlock(required=False, label=\"Anchor\", help_text=\"Optional id for in-page links, e.g. 'pricing'.\")",
+          "required": false
+        },
+        {
+          "name": "animation",
+          "python": "animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"fadeUp\", \"Fade up\"), (\"fadeIn\", \"Fade in\"), (\"scaleIn\", \"Scale in\"), (\"slideFromLeft\", \"Slide from left\"), (\"slideFromRight\", \"Slide from right\"), (\"blurIn\", \"Blur in\")], required=False, default=\"none\", label=\"Animation\", help_text=\"Entrance animation played once when the block scrolls into view.\")",
+          "required": false
+        },
+        {
+          "name": "animationStagger",
+          "python": "animation_stagger",
+          "definition": "blocks.BooleanBlock(required=False, label=\"Stagger items\", help_text=\"Reveal the block's items one after another instead of all at once.\")",
+          "required": false
+        },
+        {
+          "name": "headingAnimation",
+          "python": "heading_animation",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"words\", \"Words\"), (\"characters\", \"Characters\"), (\"lines\", \"Lines\"), (\"typewriter\", \"Typewriter\"), (\"scramble\", \"Scramble\")], required=False, default=\"none\", label=\"Heading animation\", help_text=\"Reveals the block title by words, characters or lines, types it out, or scrambles it into place.\")",
+          "required": false
+        },
+        {
+          "name": "animationDuration",
+          "python": "animation_duration",
+          "definition": "blocks.ChoiceBlock(choices=[(\"fast\", \"Fast\"), (\"normal\", \"Normal\"), (\"slow\", \"Slow\")], required=False, default=\"normal\", label=\"Animation duration\")",
+          "required": false
+        },
+        {
+          "name": "animationDelay",
+          "python": "animation_delay",
+          "definition": "blocks.ChoiceBlock(choices=[(\"none\", \"None\"), (\"short\", \"Short\"), (\"medium\", \"Medium\"), (\"long\", \"Long\")], required=False, default=\"none\", label=\"Animation delay\")",
+          "required": false
+        }
+      ]
+    },
+    {
       "name": "page",
       "kind": "document",
       "python": "ContentPage",

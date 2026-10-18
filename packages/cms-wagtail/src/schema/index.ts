@@ -160,8 +160,8 @@ export function blockField(name: string, field: Field): string {
       return `blocks.DateBlock(${req}, ${common})`
     case "reference":
       if (field.multiple)
-        return `blocks.ListBlock(SnippetChooserBlock(${referenceTarget(field)}), default=[], ${common})`
-      return `SnippetChooserBlock(${referenceTarget(field)}, ${req}, ${common})`
+        return `blocks.ListBlock(APISnippetChooserBlock(${referenceTarget(field)}), default=[], ${common})`
+      return `APISnippetChooserBlock(${referenceTarget(field)}, ${req}, ${common})`
     case "select":
       return `blocks.ChoiceBlock(choices=${choices(field.options)}, ${req}${field.defaultValue ? `, default=${py(field.defaultValue)}` : ""}, ${common})`
     case "textList":

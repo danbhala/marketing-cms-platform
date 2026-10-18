@@ -113,11 +113,24 @@ export function toSummary(article: Article): ArticleSummary {
   return { id, type, title, path, publishedAt, excerpt, image, category, tags, ...($edit ? { $edit } : {}) }
 }
 
-/** `resolve_relations` entries for a document's reference fields, e.g. `article.category`. */
-export function relationsFor(definition: AnyDocumentDefinition): string[] {
-  return Object.entries(definition.fields as Record<string, Field>)
-    .filter(([, field]) => field.kind === "reference")
-    .map(([name]) => `${definition.type}.${name}`)
+/**
+ * `resolve_relations` entries for every reference field a document can
+ * contain, including those inside its blocks and items, e.g.
+ * `article.category` or `latestNews.category`. Entries are `component.field`,
+ * so nesting depth does not matter. `nested: false` stops at the document's
+ * own fields, which is all a listing summary needs.
+ */
+export function relationsFor(definition: AnyDefinition, nested = true): string[] {
+  const out = new Set<string>()
+  const walk = (def: AnyDefinition) => {
+    for (const [name, field] of Object.entries(def.fields as Record<string, Field>)) {
+      if (field.kind === "reference") out.add(`${def.type}.${name}`)
+      if (nested && (field.kind === "items" || field.kind === "blocks"))
+        for (const child of field.of as AnyDefinition[]) walk(child)
+    }
+  }
+  walk(definition)
+  return [...out]
 }
 
 /**

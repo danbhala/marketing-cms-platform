@@ -156,20 +156,35 @@ export async function resolveReferences(
   fetchByKeys: (definition: AnyDefinition, keys: string[]) => Promise<GraphItem[]>
 ): Promise<void> {
   const pending = new Map<AnyDefinition, Map<string, GraphContentReference[]>>()
-  for (const [name, field] of Object.entries(definition.fields as Record<string, Field>)) {
-    if (field.kind !== "reference") continue
-    for (const item of items) {
-      const raw = item[name]
-      for (const ref of Array.isArray(raw) ? raw : [raw]) {
-        if (!isReference(ref) || resolved(ref, field)) continue
-        for (const target of field.of) {
-          const byKey = pending.get(target) ?? new Map<string, GraphContentReference[]>()
-          byKey.set(ref.key!, [...(byKey.get(ref.key!) ?? []), ref])
-          pending.set(target, byKey)
+  // Walks into content areas (blocks, items) so a reference on a block of a page is resolved too.
+  const collect = (nodes: GraphItem[], def: AnyDefinition) => {
+    for (const [name, field] of Object.entries(def.fields as Record<string, Field>)) {
+      if (field.kind === "items" || field.kind === "blocks") {
+        for (const node of nodes) {
+          const children = (Array.isArray(node[name]) ? node[name] : []) as GraphItem[]
+          for (const child of field.of as AnyDefinition[])
+            collect(
+              children.filter((c) => isGraphItem(c) && definitionForTypename(c.__typename) === child),
+              child
+            )
+        }
+        continue
+      }
+      if (field.kind !== "reference") continue
+      for (const node of nodes) {
+        const raw = node[name]
+        for (const ref of Array.isArray(raw) ? raw : [raw]) {
+          if (!isReference(ref) || resolved(ref, field)) continue
+          for (const target of field.of) {
+            const byKey = pending.get(target) ?? new Map<string, GraphContentReference[]>()
+            byKey.set(ref.key!, [...(byKey.get(ref.key!) ?? []), ref])
+            pending.set(target, byKey)
+          }
         }
       }
     }
   }
+  collect(items, definition)
   for (const [target, byKey] of pending) {
     const found = await fetchByKeys(target, [...byKey.keys()])
     for (const doc of found) {

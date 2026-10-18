@@ -63,7 +63,7 @@ export function renderStructBlocks(types: readonly WagtailTypeSchema[]): string 
 export function renderBlocksPy(schema: WagtailSchema): string {
   const streamChildren = blocks(schema)
   const usesSnippets = schema.types.some(
-    (t) => t.base === "StructBlock" && t.fields.some((f) => f.definition.includes("SnippetChooserBlock("))
+    (t) => t.base === "StructBlock" && t.fields.some((f) => f.definition.includes("APISnippetChooserBlock("))
   )
   const parts: string[] = [
     header(
@@ -140,7 +140,24 @@ class APIPageChooserBlock(blocks.PageChooserBlock):
         return {"id": value.pk, "title": value.title, "url": value.url}
 
 
-class ItemListBlock(blocks.ListBlock):
+${
+  usesSnippets
+    ? `class APISnippetChooserBlock(SnippetChooserBlock):
+    """Returns the snippet's fields inline (with "meta.type" naming its model) instead of its primary key."""
+
+    def get_api_representation(self, value, context=None):
+        if value is None:
+            return None
+        data = {"id": value.pk, "meta": {"type": f"{value._meta.app_label}.{value.__class__.__name__}"}}
+        for field in value._meta.fields:
+            if field.name != "id":
+                data[field.name] = getattr(value, field.name)
+        return data
+
+
+`
+    : ""
+}class ItemListBlock(blocks.ListBlock):
     """
     A ListBlock whose API output is the stored form, {"type": "item", "value": ..., "id": ...}.
     ListBlock.get_api_representation returns bare values, which would lose the ids the

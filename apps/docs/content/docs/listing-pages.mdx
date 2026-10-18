@@ -45,12 +45,18 @@ So when a story is published, edited or unpublished the adapter's webhook mappin
 
 On Vercel, change the three functions to `'use cache: remote'` so every serverless instance shares one cache entry per query; the tags are the same. The default `'use cache'` is right for self-hosting and local development.
 
+## Latest news on other pages
+
+The `latestNews` block shows the newest three, four or six items, optionally from one `category` (a reference, so editors pick a term), with a "see all" action. It reuses the cards, the section header and `getPublishedCollection`, so it is invalidated by the same `cms:collection` tag as the listing. With no action set, the app links to the first page that has a `collection` block of the same `source` (`getPublishedListingPath`, cached per locale).
+
+Article pages emit schema.org `NewsArticle` JSON-LD (headline, date, description, image, section, keywords, publisher) from `ArticleTemplate`; pass `structuredData={false}` to turn it off.
+
 ## Adding another listable type
 
 News is the only listable type in the repo. To list something else, say `caseStudy`:
 
 1. In `@platform/content-model`, define the document with `routable: true` and the fields a card needs (`title`, `path`, `publishedAt`, `excerpt`, `image`, a `reference` for the taxonomy). Add it to `allDocuments` and `listableDocuments`, and export its `Summary` type from `listing.ts`.
-2. Add `"caseStudy"` to the `collection` block's `source` options.
+2. Add `"caseStudy"` to the `source` options of the `collection` and `latestNews` blocks.
 3. In each adapter, handle the new type in `getDocument`, `getCollection`, `getTaxonomy`, `getPaths` and the webhook mapping. The local adapter's `queryArticles` is the reference.
 4. If the card needs different fields, extend `CollectionItem` and `toCard` in `packages/ui/src/molecules/collection-results.tsx`.
 
