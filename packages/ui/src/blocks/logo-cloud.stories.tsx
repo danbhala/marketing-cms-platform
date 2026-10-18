@@ -22,7 +22,7 @@ export const Grid: Story = {
   args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "grid", grayscale: false } } },
 }
 
-/** `layout: marquee` scrolls the logos endlessly. It pauses on hover and focus, has a pause button, and renders a static row for reduced motion. */
+/** `layout: marquee` scrolls the logos endlessly. It pauses on hover and focus, has a pause button, can be dragged or swiped (a flick carries on and slows down), and renders a static row for reduced motion. */
 export const Marquee: Story = {
   args: { block: { ...fixtures.logoCloudBlock, ...{ layout: "marquee", marqueeSpeed: "normal" } } },
 }
