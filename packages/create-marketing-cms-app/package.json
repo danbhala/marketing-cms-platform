@@ -1,0 +1,21 @@
+{
+  "name": "create-marketing-cms-app",
+  "version": "0.1.0",
+  "description": "Scaffold a Next.js marketing site wired to a headless CMS. Every file is yours to edit.",
+  "type": "module",
+  "bin": {
+    "create-marketing-cms-app": "./index.mjs"
+  },
+  "files": [
+    "index.mjs"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danbhala/marketing-cms-platform.git",
+    "directory": "packages/create-marketing-cms-app"
+  }
+}

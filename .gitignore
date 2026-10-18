@@ -5,6 +5,7 @@ node_modules
 dist
 storybook-static
 apps/docs/public/storybook
+apps/docs/public/r
 coverage
 *.tsbuildinfo
 .env

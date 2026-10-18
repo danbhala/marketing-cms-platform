@@ -12,7 +12,7 @@ description: "Routes, configuration and the two files that know about CMSs."
 | `lib/cms.ts`                           | `'use cache'` reads for published content with cache tags.                                                                                                          |
 | `components/collection-block.tsx`      | Binds the `collection` block to the request: filter bar and results each await `searchParams` inside their own Suspense boundary.                                   |
 | `components/latest-news-block.tsx`     | Binds the `latestNews` block to the adapter: reads the newest articles (optionally one category) through the same cached collection read the listing uses.          |
-| `lib/breadcrumbs.ts`                   | Builds the breadcrumb trail from the URL and ancestor page titles.                                                                                                  |
+| `lib/breadcrumb-trail.ts`              | Builds the breadcrumb trail from the URL and ancestor page titles.                                                                                                  |
 | `app/[locale]/layout.tsx`              | Root layout: `<html>` with the default theme, `UiProvider` (next/link, next/image), Suspense.                                                                       |
 | `app/[locale]/[[...slug]]/page.tsx`    | Every CMS page and article. `generateStaticParams` from the adapter's paths; metadata from the document's SEO fields and, on listing pages, the query.              |
 | `app/api/preview`, `/api/preview/exit` | Enter/leave Draft Mode.                                                                                                                                             |
