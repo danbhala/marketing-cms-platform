@@ -20,18 +20,28 @@ export default function HomePage() {
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-14 px-6 py-12 lg:py-16">
       <HomeHero />
       <BlockWall />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {sections.map((section) => (
-          <Link
-            key={section.href}
-            href={section.href}
-            className="flex flex-col gap-2 rounded-xl border bg-fd-card p-5 transition-colors hover:bg-fd-accent"
-          >
-            <span className="font-medium">{section.title}</span>
-            <span className="text-sm text-fd-muted-foreground">{section.text}</span>
-          </Link>
-        ))}
-      </div>
+      <section className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <span className="text-xs font-medium tracking-wide text-fd-muted-foreground uppercase">Documentation</span>
+          <h2 className="text-2xl font-semibold tracking-tight text-balance">Where to go next</h2>
+          <p className="max-w-2xl text-fd-muted-foreground">
+            Eight pages cover the platform end to end: how the pieces fit together, what each block does, how a site gets its brand, and how each CMS plugs in.
+            Start with Getting started if this is your first look, or jump to the part you are working on.
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {sections.map((section) => (
+            <Link
+              key={section.href}
+              href={section.href}
+              className="flex flex-col gap-2 rounded-xl border bg-fd-card p-5 transition-colors hover:bg-fd-accent"
+            >
+              <span className="font-medium">{section.title}</span>
+              <span className="text-sm text-fd-muted-foreground">{section.text}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
     </main>
   )
 }
