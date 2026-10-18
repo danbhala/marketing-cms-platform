@@ -4,10 +4,8 @@ import type { Card, LatestNewsBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"
-import { gridVariants } from "../atoms/layout"
 import { ActionGroup } from "../molecules/action-group"
-import { ContentCard } from "../molecules/content-card"
-import { cn } from "../lib/utils"
+import { listingColumns, ListingItems } from "../molecules/collection-results"
 import { SectionHeader } from "../molecules/section-header"
 import { BlockItem, BlockSection, type BlockComponentProps } from "./block-section"
 
@@ -19,8 +17,8 @@ export interface LatestNewsProps extends BlockComponentProps<LatestNewsBlock> {
 }
 
 /**
- * The newest few items of a document type with a link to the full listing.
- * The block is static; the host app resolves `items` from the same cached
+ * The newest few items of a document type with a link to the full listing,
+ * in the same four layouts as the collection block. The block is static; the host app resolves `items` from the same cached
  * collection read the listing uses, so a published story shows up here too.
  */
 function LatestNews({ block, index, items = [], listingHref, className, ...props }: LatestNewsProps) {
@@ -38,7 +36,7 @@ function LatestNews({ block, index, items = [], listingHref, className, ...props
             },
           ]
         : []
-  const columns = block.count === "4" ? "4" : "3"
+  const layout = block.layout ?? "grid"
   return (
     <BlockSection block={block} className={className} {...props}>
       <Container className="flex flex-col gap-(--block-header-gap)">
@@ -54,13 +52,12 @@ function LatestNews({ block, index, items = [], listingHref, className, ...props
           />
         </BlockItem>
         {items.length > 0 ? (
-          <ul className={cn(gridVariants({ columns }), "list-none p-0")} {...fieldAttrs(block, "category")}>
-            {items.map((card) => (
-              <li key={card.id} className="flex">
-                <ContentCard item={card} className="w-full" />
-              </li>
-            ))}
-          </ul>
+          <ListingItems
+            items={items}
+            layout={layout}
+            columns={listingColumns(layout, items.length)}
+            {...fieldAttrs(block, "category")}
+          />
         ) : null}
       </Container>
     </BlockSection>

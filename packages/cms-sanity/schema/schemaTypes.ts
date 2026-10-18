@@ -6670,6 +6670,34 @@ export const schemaTypes = [
         initialValue: "article",
       },
       {
+        name: "layout",
+        title: "Layout",
+        type: "string",
+        description: "grid: cards. list: rows with a thumbnail. featured: the newest item large, the rest as cards. compact: title and date only.",
+        options: {
+          list: [
+            {
+              title: "Grid",
+              value: "grid",
+            },
+            {
+              title: "List",
+              value: "list",
+            },
+            {
+              title: "Featured",
+              value: "featured",
+            },
+            {
+              title: "Compact",
+              value: "compact",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "grid",
+      },
+      {
         name: "pageSize",
         title: "Page Size",
         type: "number",
@@ -7056,6 +7084,34 @@ export const schemaTypes = [
           layout: "dropdown",
         },
         initialValue: "3",
+      },
+      {
+        name: "layout",
+        title: "Layout",
+        type: "string",
+        description: "Same layouts as the collection block. featured shows the newest item large.",
+        options: {
+          list: [
+            {
+              title: "Grid",
+              value: "grid",
+            },
+            {
+              title: "List",
+              value: "list",
+            },
+            {
+              title: "Featured",
+              value: "featured",
+            },
+            {
+              title: "Compact",
+              value: "compact",
+            },
+          ],
+          layout: "dropdown",
+        },
+        initialValue: "grid",
       },
       {
         name: "actions",

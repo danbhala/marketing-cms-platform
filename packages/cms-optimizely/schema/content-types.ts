@@ -3687,18 +3687,32 @@ export const CollectionBlockContentType = contentType({
       format: "selectOne",
       enum: [{ value: "article", displayName: "Article" }],
     },
+    layout: {
+      displayName: "Layout",
+      description: "grid: cards. list: rows with a thumbnail. featured: the newest item large, the rest as cards. compact: title and date only.",
+      group: "Content",
+      sortOrder: 50,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "grid", displayName: "Grid" },
+        { value: "list", displayName: "List" },
+        { value: "featured", displayName: "Featured" },
+        { value: "compact", displayName: "Compact" },
+      ],
+    },
     pageSize: {
       displayName: "Page Size",
       description: "Items per page. Defaults to 12.",
       group: "Content",
-      sortOrder: 50,
+      sortOrder: 60,
       type: "float",
     },
     filters: {
       displayName: "Filters",
       description: "Taxonomy shown as filter chips.",
       group: "Content",
-      sortOrder: 60,
+      sortOrder: 70,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3710,14 +3724,14 @@ export const CollectionBlockContentType = contentType({
       displayName: "Search",
       description: "Show a search box. Searches use the CMS's own search and are never cached.",
       group: "Content",
-      sortOrder: 70,
+      sortOrder: 80,
       type: "boolean",
     },
     sort: {
       displayName: "Sort",
       description: "Default order; visitors can change it.",
       group: "Content",
-      sortOrder: 80,
+      sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3730,7 +3744,7 @@ export const CollectionBlockContentType = contentType({
       displayName: "Empty Message",
       description: "Shown when no items match.",
       group: "Content",
-      sortOrder: 90,
+      sortOrder: 100,
       type: "string",
       format: "shortString",
     },
@@ -3738,7 +3752,7 @@ export const CollectionBlockContentType = contentType({
       displayName: "Theme",
       description: "Applies a theme class to this block only.",
       group: "Settings",
-      sortOrder: 100,
+      sortOrder: 110,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3756,7 +3770,7 @@ export const CollectionBlockContentType = contentType({
     spacing: {
       displayName: "Spacing",
       group: "Settings",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3770,7 +3784,7 @@ export const CollectionBlockContentType = contentType({
       displayName: "Anchor",
       description: "Optional id for in-page links, e.g. 'pricing'.",
       group: "Settings",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "shortString",
     },
@@ -3778,7 +3792,7 @@ export const CollectionBlockContentType = contentType({
       displayName: "Animation",
       description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
-      sortOrder: 130,
+      sortOrder: 140,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3796,7 +3810,7 @@ export const CollectionBlockContentType = contentType({
       displayName: "Stagger items",
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
-      sortOrder: 140,
+      sortOrder: 150,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3809,7 +3823,7 @@ export const CollectionBlockContentType = contentType({
       displayName: "Heading animation",
       description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
       group: "Content",
-      sortOrder: 150,
+      sortOrder: 160,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3825,7 +3839,7 @@ export const CollectionBlockContentType = contentType({
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 160,
+      sortOrder: 170,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3838,7 +3852,7 @@ export const CollectionBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 170,
+      sortOrder: 180,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3929,11 +3943,25 @@ export const LatestNewsBlockContentType = contentType({
         { value: "6", displayName: "6" },
       ],
     },
+    layout: {
+      displayName: "Layout",
+      description: "Same layouts as the collection block. featured shows the newest item large.",
+      group: "Content",
+      sortOrder: 70,
+      type: "string",
+      format: "selectOne",
+      enum: [
+        { value: "grid", displayName: "Grid" },
+        { value: "list", displayName: "List" },
+        { value: "featured", displayName: "Featured" },
+        { value: "compact", displayName: "Compact" },
+      ],
+    },
     actions: {
       displayName: "Actions",
       description: "The \"see all\" link. Left empty, it links to the page that lists this type.",
       group: "Content",
-      sortOrder: 70,
+      sortOrder: 80,
       type: "array",
       items: {
         type: "content",
@@ -3945,7 +3973,7 @@ export const LatestNewsBlockContentType = contentType({
       displayName: "Theme",
       description: "Applies a theme class to this block only.",
       group: "Settings",
-      sortOrder: 80,
+      sortOrder: 90,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3963,7 +3991,7 @@ export const LatestNewsBlockContentType = contentType({
     spacing: {
       displayName: "Spacing",
       group: "Settings",
-      sortOrder: 90,
+      sortOrder: 100,
       type: "string",
       format: "selectOne",
       enum: [
@@ -3977,7 +4005,7 @@ export const LatestNewsBlockContentType = contentType({
       displayName: "Anchor",
       description: "Optional id for in-page links, e.g. 'pricing'.",
       group: "Settings",
-      sortOrder: 100,
+      sortOrder: 110,
       type: "string",
       format: "shortString",
     },
@@ -3985,7 +4013,7 @@ export const LatestNewsBlockContentType = contentType({
       displayName: "Animation",
       description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
       group: "Content",
-      sortOrder: 110,
+      sortOrder: 120,
       type: "string",
       format: "selectOne",
       enum: [
@@ -4003,7 +4031,7 @@ export const LatestNewsBlockContentType = contentType({
       displayName: "Stagger items",
       description: "Reveal the block's items one after another instead of all at once.",
       group: "Content",
-      sortOrder: 120,
+      sortOrder: 130,
       type: "string",
       format: "selectOne",
       enum: [
@@ -4016,7 +4044,7 @@ export const LatestNewsBlockContentType = contentType({
       displayName: "Heading animation",
       description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
       group: "Content",
-      sortOrder: 130,
+      sortOrder: 140,
       type: "string",
       format: "selectOne",
       enum: [
@@ -4032,7 +4060,7 @@ export const LatestNewsBlockContentType = contentType({
     animationDuration: {
       displayName: "Animation Duration",
       group: "Content",
-      sortOrder: 140,
+      sortOrder: 150,
       type: "string",
       format: "selectOne",
       enum: [
@@ -4045,7 +4073,7 @@ export const LatestNewsBlockContentType = contentType({
     animationDelay: {
       displayName: "Animation Delay",
       group: "Content",
-      sortOrder: 150,
+      sortOrder: 160,
       type: "string",
       format: "selectOne",
       enum: [
