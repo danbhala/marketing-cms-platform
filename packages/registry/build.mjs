@@ -44,6 +44,7 @@ const appSkip = new Set([
   "vercel.json",
   "next-env.d.ts",
   "components/theme-editor.tsx",
+  "scripts/storyblok-import-demo.ts", // loads the demo content, which stays in the monorepo
 ])
 const appSkipDirs = new Set(["content", "public"])
 
@@ -58,7 +59,17 @@ const transforms = {
       'import { enableLiveAnimation, themeClassName } from "@platform/content-model"',
       'import { themeClassName } from "@platform/content-model"',
     ],
+    // The demo's fonts become shadcn's defaults (Geist), wired up as in its Next.js template.
     [/\/\/ The brand's fonts[^\n]*\n(import "@fontsource[^\n]*\n)+/, ""],
+    ['import type { Metadata } from "next"\n', 'import type { Metadata } from "next"\nimport { Geist, Geist_Mono } from "next/font/google"\n'],
+    [
+      'import "../globals.css"\n',
+      'import "../globals.css"\n\n// shadcn\'s default fonts; app/brand.css maps them to --font-sans and --font-mono.\nconst geist = Geist({ subsets: ["latin"], variable: "--font-geist" })\nconst geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })\n',
+    ],
+    [
+      "className={themeClassName(siteConfig.defaultTheme)}",
+      "className={`${themeClassName(siteConfig.defaultTheme)} ${geist.variable} ${geistMono.variable}`}",
+    ],
     [
       'import { siteConfig, themeEditor } from "@/cms.config"\nimport { ThemeEditor } from "@/components/theme-editor"\n',
       'import { siteConfig } from "@/cms.config"\n',
