@@ -1,10 +1,12 @@
 import { stegaClean } from "@sanity/client/stega"
 
+import { normalizePath } from "@platform/cms-core/tags"
 import type { AnyDefinition, AnyDocumentDefinition, EditAttrs, Editable, Field, Media } from "@platform/content-model"
 import { schemaFor } from "@platform/content-model"
 
 import type { ResolvedSanityConfig } from "./config"
 import { createEditTarget, keyed, type EditTarget } from "./edit"
+import { isSlugField } from "./model"
 import { portableTextToRichText } from "./rich-text"
 
 /**
@@ -43,6 +45,25 @@ export const publishedId = (id: string): string => id.replace(/^drafts\./, "").r
 const isLogicText = (definition: AnyDefinition, name: string) =>
   name === "anchor" || (definition.type === "formField" && name === "name")
 
+/** Accepts "2026-10-18" and ISO date-times as stored; anything else Date can parse becomes UTC ISO. */
+export function toIsoDate(value: string): string {
+  if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?$/.test(value)) return value
+  const time = Date.parse(value)
+  return Number.isNaN(time) ? value : new Date(time).toISOString()
+}
+
+/** The `data-sanity` target for a document root, only in edit mode. */
+function documentTarget(id: string, type: string, options: TransformOptions): EditTarget | null {
+  if (!options.edit) return null
+  return createEditTarget({
+    id,
+    type,
+    studioUrl: options.config.studioUrl || undefined,
+    projectId: options.config.projectId || undefined,
+    dataset: options.config.dataset || undefined,
+  })
+}
+
 export function transformDocument<T extends Editable>(
   raw: unknown,
   definition: AnyDocumentDefinition,
@@ -50,15 +71,7 @@ export function transformDocument<T extends Editable>(
 ): T | null {
   if (!isRecord(raw)) return null
   const id = str(raw._id) ? publishedId(raw._id as string) : definition.singleton ? definition.type : ""
-  const target = options.edit
-    ? createEditTarget({
-        id,
-        type: definition.type,
-        studioUrl: options.config.studioUrl || undefined,
-        projectId: options.config.projectId || undefined,
-        dataset: options.config.dataset || undefined,
-      })
-    : null
+  const target = documentTarget(id, definition.type, options)
   const rootField = Object.entries(definition.fields as Record<string, Field>).find(
     ([, f]) => f.kind === "blocks" || f.kind === "items"
   )?.[0]
@@ -139,13 +152,20 @@ function convertField(
     case "text":
     case "textarea": {
       const text = str(value)
-      return text === undefined ? undefined : isLogicText(definition, name) ? stegaClean(text) : text
+      if (text === undefined) return undefined
+      // Slug-backed fields are URLs or filter keys: cleaned, and a path gets its leading slash.
+      if (isSlugField(definition, name)) return name === "path" ? normalizePath(stegaClean(text)) : stegaClean(text)
+      return isLogicText(definition, name) ? stegaClean(text) : text
     }
     case "link":
     case "icon":
     case "select": {
       const text = str(value)
       return text === undefined ? undefined : stegaClean(text)
+    }
+    case "date": {
+      const text = str(value)
+      return text === undefined ? undefined : toIsoDate(stegaClean(text))
     }
     case "number":
       return typeof value === "number" ? value : undefined
@@ -164,6 +184,21 @@ function convertField(
     }
     case "media":
       return toMedia(value, options.config)
+    case "reference": {
+      // Dereferenced documents (`->` in the projection); each is a root of its own for edit attributes.
+      const list = Array.isArray(value) ? value : [value]
+      const docs: unknown[] = []
+      for (const item of list) {
+        if (!isRecord(item)) continue
+        const type = str(item._type)
+        const child = type ? field.of.find((d) => d.type === stegaClean(type)) : undefined
+        if (!child) continue
+        const id = str(item._id) ? publishedId(item._id as string) : ""
+        docs.push(buildNode(item, child, id, documentTarget(id, child.type, options), undefined, options))
+      }
+      if (!field.multiple) return docs[0]
+      return Array.isArray(value) || field.required ? docs : undefined
+    }
     case "items":
     case "blocks": {
       if (!Array.isArray(value)) return []

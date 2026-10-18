@@ -12,6 +12,8 @@ dependencies:
   - 'drupal:path'
   - 'drupal:media'
   - 'drupal:media_library'
+  - 'drupal:datetime'
+  - 'drupal:taxonomy'
   - 'drupal:jsonapi'
   - 'paragraphs:paragraphs'
   - 'entity_reference_revisions:entity_reference_revisions'

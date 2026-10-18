@@ -21,6 +21,10 @@ function describe(field: Field): string {
       return "number"
     case "boolean":
       return "boolean"
+    case "date":
+      return "string (ISO 8601)"
+    case "reference":
+      return `${field.of.map((d) => d.type).join(" | ")}${field.multiple ? "[]" : ""}`
     default:
       return "string"
   }

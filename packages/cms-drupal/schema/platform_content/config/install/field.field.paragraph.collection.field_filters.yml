@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_filters
+    - paragraphs.paragraphs_type.collection
+  module:
+    - options
+id: paragraph.collection.field_filters
+field_name: field_filters
+entity_type: paragraph
+bundle: collection
+label: Filters
+description: Taxonomy shown as filter chips.
+required: false
+translatable: true
+default_value:
+  - value: category
+default_value_callback: ''
+settings: {  }
+field_type: list_string

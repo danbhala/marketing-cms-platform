@@ -3,12 +3,73 @@ import { describe, expect, it } from "vitest"
 import { page as pageDefinition, schemaFor, siteSettings as settingsDefinition } from "@platform/content-model"
 import type { FaqBlock, FeatureSplitBlock, HeroBlock, MediaBlock } from "@platform/content-model"
 
+import { articleItem, categoryItems } from "./__fixtures__/article"
 import { brokenPageItem, homePageItem, pricingPageItem } from "./__fixtures__/page"
 import { siteSettingsItem } from "./__fixtures__/settings"
 import { withEditAttrs } from "./edit"
-import { OptimizelyTransformError, pathFromUrl, toMedia, transformPage, transformSiteSettings } from "./transform"
+import {
+  OptimizelyTransformError,
+  pathFromUrl,
+  toIsoDate,
+  toMedia,
+  transformArticle,
+  transformCategory,
+  transformPage,
+  transformSiteSettings,
+} from "./transform"
 
 const en = { locale: "en" }
+
+describe("transformArticle", () => {
+  const resolved = {
+    ...articleItem,
+    category: { key: "cat-product", item: categoryItems[0] },
+    tags: [{ key: "cat-events", item: categoryItems[2] }],
+  }
+
+  it("maps dates, resolved references and the path from the URL", () => {
+    const article = transformArticle(resolved, en)
+    expect(article).toMatchObject({
+      id: "article-1",
+      type: "article",
+      path: "/news/cohorts-and-alerts-are-live",
+      publishedAt: "2026-10-14T00:00:00Z",
+      category: { id: "cat-product", type: "category", title: "Product news", slug: "product-news" },
+      tags: [{ id: "cat-events", type: "category", slug: "events" }],
+      blocks: [],
+    })
+    expect(article.body.children[0]).toMatchObject({ type: "paragraph" })
+    expect(transformCategory(categoryItems[1]!, en)).toEqual({
+      id: "cat-company",
+      type: "category",
+      title: "Company",
+      slug: "company",
+      description: "Hiring, funding and the occasional office dog.",
+    })
+  })
+
+  it("drops unresolved and foreign references and leaves empty ones out", () => {
+    const article = transformArticle(
+      { ...resolved, category: { key: "cat-product" }, tags: [{ key: "x", item: { __typename: "HeroBlock" } }] },
+      en
+    )
+    expect(article.category).toBeUndefined()
+    expect(article.tags).toEqual([])
+    const bare = transformArticle({ ...resolved, category: null, tags: null, publishedAt: "2026-10-14" }, en)
+    expect(bare).not.toHaveProperty("category")
+    expect(bare).not.toHaveProperty("tags")
+    expect(bare.publishedAt).toBe("2026-10-14")
+    expect(() => transformArticle({ ...resolved, publishedAt: null }, en)).toThrow(OptimizelyTransformError)
+    expect(() => transformArticle(homePageItem, en)).toThrow(/expected ArticlePage/)
+  })
+
+  it("normalises dates to ISO strings, keeping date-only values", () => {
+    expect(toIsoDate("2026-10-18")).toBe("2026-10-18")
+    expect(toIsoDate("2026-10-18T09:00:00+02:00")).toBe("2026-10-18T09:00:00+02:00")
+    expect(toIsoDate("18 Oct 2026 09:00:00 GMT")).toBe("2026-10-18T09:00:00.000Z")
+    expect(toIsoDate("not a date")).toBe("not a date")
+  })
+})
 
 describe("transformPage", () => {
   const page = transformPage(homePageItem, en)

@@ -19,6 +19,8 @@
     "richText",
     "media",
     "gallery",
-    "form"
+    "form",
+    "collection",
+    "latestNews"
   ]
 }

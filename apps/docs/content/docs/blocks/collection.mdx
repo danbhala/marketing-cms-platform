@@ -1,0 +1,24 @@
+---
+title: Collection
+description: "A filterable, searchable, paginated listing of one document type, driven by the URL."
+---
+
+The block lists `article` documents with category chips, an optional search box, a sort select and numbered pagination. Every state is a URL; see [Listing pages](/docs/listing-pages) for the URL contract, rendering and caching.
+
+<StorybookEmbed story="blocks-collection--default" height={900} />
+
+## Fields
+
+<BlockReference type="collection" />
+
+## Variants
+
+<StorybookEmbed story="blocks-collection--filtered" viewMode="docs" height={720} />
+
+## Schema in each CMS
+
+<SchemaCompare type="collection" />
+
+## Source
+
+`packages/ui/src/blocks/collection.tsx` · stories in `collection.stories.tsx` · filter bar, results and pagination in `packages/ui/src/molecules/` · request binding in `apps/web/components/collection-block.tsx`.

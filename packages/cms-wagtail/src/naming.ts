@@ -39,7 +39,9 @@ export const APP_LABEL = "platform_cms"
  * Python class name for a definition. Blocks are page sections and items are
  * nested structs; the suffixes keep them apart from Wagtail's own classes
  * (`richText` → `RichTextSection`, not Wagtail's `RichTextBlock`; `media` →
- * `MediaSection`) and from each other.
+ * `MediaSection`) and from each other. Routable documents are page models
+ * (`page` → `ContentPage`, `article` → `ArticlePage`); the rest (settings,
+ * taxonomy snippets) keep their name.
  */
 export function pythonClassName(definition: AnyDefinition): string {
   const base = pascal(definition.type)

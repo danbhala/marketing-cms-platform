@@ -31,6 +31,7 @@ import type {
   Testimonial,
   TestimonialsBlock,
 } from "../types"
+import { collectionBlock, latestNewsBlock, newsPage } from "./news"
 import { placeholderAvatar, placeholderLogo, placeholderMedia, placeholderPhoto } from "./placeholder"
 
 /**
@@ -698,6 +699,8 @@ export const allBlockFixtures = {
   media: mediaBlock,
   gallery: galleryBlock,
   form: formBlock,
+  collection: collectionBlock,
+  latestNews: latestNewsBlock,
 } as const
 
 // ---------------------------------------------------------------------------
@@ -820,6 +823,7 @@ export const landingPage: Page = {
     featureGridBlock,
     featureSplitBlock,
     statsBlock,
+    latestNewsBlock,
     testimonialsBlock,
     pricingBlock,
     faqBlock,
@@ -939,4 +943,4 @@ export const featurePage: Page = {
   ],
 }
 
-export const allPages: Page[] = [landingPage, pricingPage, aboutPage, articlePage, contactPage, featurePage]
+export const allPages: Page[] = [landingPage, pricingPage, aboutPage, articlePage, contactPage, featurePage, newsPage]

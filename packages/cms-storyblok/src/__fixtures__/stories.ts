@@ -524,3 +524,82 @@ export const webhookMoved = {
   story_id: 612345680,
   full_slug: "plans/pricing",
 }
+
+/** Taxonomy terms: the story slug is the term slug, the content holds title and description. */
+const categoryStory = (id: number, uuid: string, slug: string, title: string, description: string) =>
+  ({
+    ...homeStory,
+    id,
+    uuid,
+    name: title,
+    slug,
+    full_slug: `categories/${slug}`,
+    is_startpage: false,
+    content: blok(id, "category", `${slug}-root`, { title, description }),
+  }) as unknown as ISbStoryData
+
+export const categoryProduct = categoryStory(
+  700000001,
+  "a1000000-0000-4000-8000-000000000001",
+  "product-news",
+  "Product news",
+  "Releases, improvements and deprecations."
+)
+export const categoryEvents = categoryStory(
+  700000002,
+  "a1000000-0000-4000-8000-000000000002",
+  "events",
+  "Events",
+  "Talks, webinars and meetups."
+)
+
+export const ARTICLE_STORY_ID = 800000001
+
+/** An article with its relations already expanded by `resolve_relations`, as storyblok-js-client leaves them. */
+export const articleStory = {
+  ...homeStory,
+  id: ARTICLE_STORY_ID,
+  uuid: "b1000000-0000-4000-8000-000000000001",
+  name: "Cohorts and alerts are live",
+  slug: "cohorts-and-alerts-are-live",
+  full_slug: "news/cohorts-and-alerts-are-live",
+  is_startpage: false,
+  content: blok(ARTICLE_STORY_ID, "article", "article-root", {
+    title: "Cohorts and alerts are live",
+    publishedAt: "2026-10-14 09:30",
+    excerpt: "Build cohorts from any property and get a message the moment a metric moves.",
+    image: asset(`https://a.storyblok.com/f/${SPACE_ID}/1200x675/0a1b2c3d4e/cohorts.png`, "Cohorts"),
+    category: categoryProduct,
+    tags: [categoryEvents],
+    body: {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "Cohorts are live." }] }],
+    },
+    blocks: [],
+    seoTitle: "",
+    seoDescription: "",
+    noIndex: false,
+  }),
+} as unknown as ISbStoryData
+
+/** Unresolved relation (a bare UUID), date without time and no tags. */
+export const articleStoryUnresolved = {
+  ...articleStory,
+  id: 800000002,
+  uuid: "b1000000-0000-4000-8000-000000000002",
+  name: "Metrica raises a Series B",
+  slug: "metrica-raises-a-series-b",
+  full_slug: "news/metrica-raises-a-series-b",
+  content: blok(800000002, "article", "article-2-root", {
+    title: "Metrica raises a Series B",
+    publishedAt: "2026-10-09",
+    excerpt: "",
+    category: categoryProduct.uuid,
+    tags: [],
+    body: {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "We are hiring." }] }],
+    },
+    blocks: [],
+  }),
+} as unknown as ISbStoryData
