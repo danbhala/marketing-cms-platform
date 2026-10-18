@@ -30,7 +30,8 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
-      - run: pnpm build
+      # The Storyblok example needs a live space to build; its own Vercel project builds it.
+      - run: pnpm build --filter=!example-storyblok
       - run: pnpm build-storybook
       # Scaffold a site with create-marketing-cms-app from a local registry.
       - run: node packages/registry/smoke.mjs

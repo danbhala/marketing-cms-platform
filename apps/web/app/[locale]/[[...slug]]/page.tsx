@@ -33,7 +33,8 @@ export async function generateStaticParams() {
   for (const locale of siteConfig.locales) {
     for (const path of await getPublishedPaths(locale)) params.push({ locale, slug: pathToSlug(path) })
   }
-  return params
+  // Cache Components rejects an empty list, which a new CMS space with nothing published yet returns.
+  return params.length ? params : [{ locale: siteConfig.defaultLocale, slug: [] }]
 }
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {

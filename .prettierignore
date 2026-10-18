@@ -9,3 +9,4 @@ packages/*/schema/
 **/__snapshots__/
 apps/docs/public/
 .claude/skills/
+apps/example-storyblok/

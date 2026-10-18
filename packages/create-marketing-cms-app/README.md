@@ -16,4 +16,4 @@ npx create-marketing-cms-app my-site --storyblok
 | `--registry <url>`            | Install from another registry (default: the platform docs site).         |
 | `-y`, `--yes`                 | No prompts.                                                              |
 
-It runs the official `create-next-app` with the options the site depends on, then `shadcn init` (Base UI, nova), points `components.json` at the platform registry and installs `@marketing-cms/site-<cms>`. Then fill in `.env.local`, run `npm run cms:push` to create the blocks in your space, and `npm run dev`.
+It runs the official `create-next-app` with the options the site depends on, then `shadcn init` (Base UI, nova), points `components.json` at the platform registry and installs `@marketing-cms/site-<cms>`. Then fill in `.env.local`, run `npm run cms:push` to create the blocks (filed into Block Library folders) and an unpublished Site settings story in your space, and `npm run dev`.

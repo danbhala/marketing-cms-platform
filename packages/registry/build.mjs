@@ -28,10 +28,10 @@ const packageTargets = {
   "@platform/cms-storyblok": "lib/cms-storyblok",
 }
 
-// Tests, stories, docs and local build output (next dev writes AGENTS.md).
+// Tests, stories, docs and local build output (next dev writes AGENTS.md, turbo writes .turbo/).
 const skipFile = (name) =>
   /\.(test|stories)\.tsx?$/.test(name) || /\.(mdx|tsbuildinfo)$/.test(name) || name === "AGENTS.md"
-const skipDir = new Set(["node_modules", "__fixtures__", "__snapshots__", "fixtures", "docs", ".next"])
+const skipDir = new Set(["node_modules", "__fixtures__", "__snapshots__", "fixtures", "docs", ".next", ".turbo"])
 
 /** apps/web files that are demo-only or replaced by the template's own. */
 const appSkip = new Set([
@@ -45,6 +45,7 @@ const appSkip = new Set([
   "vercel.json",
   "next-env.d.ts",
   "components/theme-editor.tsx",
+  "scripts/storyblok-import-demo.ts", // loads the demo content, which stays in the monorepo
 ])
 const appSkipDirs = new Set(["content", "public"])
 
@@ -59,7 +60,17 @@ const transforms = {
       'import { enableLiveAnimation, themeClassName } from "@platform/content-model"',
       'import { themeClassName } from "@platform/content-model"',
     ],
+    // The demo's fonts become shadcn's defaults (Geist), wired up as in its Next.js template.
     [/\/\/ The brand's fonts[^\n]*\n(import "@fontsource[^\n]*\n)+/, ""],
+    ['import type { Metadata } from "next"\n', 'import type { Metadata } from "next"\nimport { Geist, Geist_Mono } from "next/font/google"\n'],
+    [
+      'import "../globals.css"\n',
+      'import "../globals.css"\n\n// shadcn\'s default fonts; app/brand.css maps them to --font-sans and --font-mono.\nconst geist = Geist({ subsets: ["latin"], variable: "--font-geist" })\nconst geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })\n',
+    ],
+    [
+      "className={themeClassName(siteConfig.defaultTheme)}",
+      "className={`${themeClassName(siteConfig.defaultTheme)} ${geist.variable} ${geistMono.variable}`}",
+    ],
     [
       'import { siteConfig, themeEditor } from "@/cms.config"\nimport { ThemeEditor } from "@/components/theme-editor"\n',
       'import { siteConfig } from "@/cms.config"\n',
@@ -127,6 +138,9 @@ function resolvePlatform(spec, from) {
     .slice("./src/".length)
     .replace(/\.(ts|tsx)$/, "")
     .replace(/(^|\/)index$/, "")
+  // A bare `@/components` resolves to shadcn's components.json before the
+  // folder's index, so that root keeps an explicit `/index`.
+  if (!path && base === "components") return "@/components/index"
   return "@/" + [base, path].filter(Boolean).join("/")
 }
 

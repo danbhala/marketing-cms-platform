@@ -2,22 +2,28 @@
 /**
  * End-to-end check of the scaffolder: builds the registry, serves it on
  * localhost, runs create-marketing-cms-app into a temp directory, then
- * checks every file landed unchanged and that the site lints and compiles.
+ * checks every file landed unchanged, that the site lints and compiles, and
+ * that apps/example-storyblok is exactly what the CLI produces.
  *
- *   node packages/registry/smoke.mjs [--keep]
+ *   node packages/registry/smoke.mjs [--keep] [--update-example]
+ *
+ * --update-example rewrites apps/example-storyblok from the fresh scaffold
+ * (run it after changing the CLI, the registry or any copied source).
  */
 import { execFileSync, spawn } from "node:child_process"
-import { mkdtempSync, readFileSync, rmSync } from "node:fs"
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
 import { createServer } from "node:http"
 import { tmpdir } from "node:os"
-import { dirname, join } from "node:path"
+import { dirname, join, relative } from "node:path"
 import { fileURLToPath } from "node:url"
 
 const here = dirname(fileURLToPath(import.meta.url))
+const example = join(here, "../../apps/example-storyblok")
 const work = mkdtempSync(join(tmpdir(), "marketing-cms-smoke-"))
 const registryDir = join(work, "r")
-const site = join(work, "my-site")
+const site = join(work, "example-storyblok")
 const keep = process.argv.includes("--keep")
+const updateExample = process.argv.includes("--update-example")
 
 const run = (cmd, args, cwd) => execFileSync(cmd, args, { cwd, stdio: "inherit" })
 
@@ -34,6 +40,18 @@ const server = createServer((req, res) => {
 })
 await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve))
 const registry = `http://127.0.0.1:${server.address().port}`
+
+/** What the example commits: the scaffold minus installs, builds, secrets and npm's lockfile (pnpm locks it here). */
+const skip = new Set(["node_modules", ".next", ".turbo", ".git", ".env.local", "package-lock.json", "next-env.d.ts"])
+const ignored = (name) => skip.has(name) || name.endsWith(".tsbuildinfo")
+function files(dir) {
+  if (!existsSync(dir)) return []
+  return readdirSync(dir, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => relative(dir, join(entry.parentPath, entry.name)))
+    .filter((path) => !path.split("/").some(ignored))
+    .sort()
+}
 
 try {
   // Async spawn: the server answers on this process's event loop.
@@ -59,6 +77,34 @@ try {
   })
   if (changed.length) throw new Error(`Files changed on install: ${changed.map((f) => f.target).join(", ")}`)
   console.log(`\n✓ ${item.files.length} files installed unchanged`)
+
+  // The example points at the published registry, not this run's localhost one.
+  const cli = readFileSync(join(here, "../create-marketing-cms-app/index.mjs"), "utf8")
+  const published = /DEFAULT_REGISTRY = "([^"]+)"/.exec(cli)[1]
+  const config = join(site, "components.json")
+  writeFileSync(config, readFileSync(config, "utf8").replace(registry, published))
+
+  if (updateExample) {
+    rmSync(example, { recursive: true, force: true })
+    for (const path of files(site)) cpSync(join(site, path), join(example, path))
+    console.log(`\n✓ Wrote apps/example-storyblok; run pnpm install to update the lockfile`)
+  } else {
+    const fresh = files(site)
+    const committed = files(example)
+    const drift = [
+      ...fresh.filter((path) => !committed.includes(path)).map((path) => `missing ${path}`),
+      ...committed.filter((path) => !fresh.includes(path)).map((path) => `extra ${path}`),
+      ...fresh
+        .filter((path) => committed.includes(path))
+        .filter((path) => !readFileSync(join(site, path)).equals(readFileSync(join(example, path))))
+        .map((path) => `changed ${path}`),
+    ]
+    if (drift.length)
+      throw new Error(
+        `apps/example-storyblok is not what the CLI produces (run node packages/registry/smoke.mjs --update-example):\n  ${drift.join("\n  ")}`
+      )
+    console.log(`✓ apps/example-storyblok matches the CLI output (${fresh.length} files)`)
+  }
 
   run("npx", ["eslint", "."], site)
   run("npx", ["next", "typegen"], site)

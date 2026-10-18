@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "demo:storyblok": "node --experimental-strip-types --import @platform/content-model/strip-types scripts/storyblok-import-demo.ts"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
