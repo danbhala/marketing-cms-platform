@@ -1,6 +1,8 @@
 import { withThemeByClassName } from "@storybook/addon-themes"
 import type { Preview, ReactRenderer } from "@storybook/react-vite"
 
+import { baseAnimationDefaults, defineAnimation, type AnimationDefaults } from "@platform/content-model"
+
 import "../src/styles/globals.css"
 
 /**
@@ -31,6 +33,12 @@ const preview: Preview = {
     },
   },
   decorators: [
+    // Stories render with the platform's animation defaults (everything off)
+    // unless they set `parameters.animation`, the site config a block inherits.
+    (Story, { parameters }) => {
+      defineAnimation((parameters.animation as Partial<AnimationDefaults> | undefined) ?? baseAnimationDefaults)
+      return <Story />
+    },
     // Blocks and molecules size themselves by their `section` container
     // (see src/styles/globals.css), so stories rendered outside a Section
     // still get one that is as wide as the viewport.

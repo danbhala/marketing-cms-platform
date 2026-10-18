@@ -2,13 +2,22 @@ langcode: en
 status: true
 dependencies:
   module:
+    - options
     - paragraphs
 id: paragraph.field_magnetic
 field_name: field_magnetic
 entity_type: paragraph
-type: boolean
-settings: {  }
-module: core
+type: list_string
+settings:
+  allowed_values:
+    - value: inherit
+      label: Inherit
+    - value: 'on'
+      label: 'On'
+    - value: 'off'
+      label: 'Off'
+  allowed_values_function: ''
+module: options
 locked: false
 cardinality: 1
 translatable: true

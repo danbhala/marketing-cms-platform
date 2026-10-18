@@ -26,7 +26,7 @@ export const Muted: Story = {
 
 /** `countUp` counts each price from zero when the block scrolls into view; the currency symbol stays as written. */
 export const CountUp: Story = {
-  args: { block: { ...fixtures.pricingBlock, ...{ countUp: true } } },
+  args: { block: { ...fixtures.pricingBlock, ...{ countUp: "on" } } },
   play: async () => {
     await new Promise((resolve) => setTimeout(resolve, 1800))
   },

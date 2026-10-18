@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react"
 
+import { baseAnimationDefaults, easeCurve, type AnimationDefaults } from "@platform/content-model"
+
 import { clampToGamut, formatOklch, type Oklch } from "./color"
 import { fontById } from "./fonts"
 
@@ -37,6 +39,8 @@ export interface Theme {
   container: number
   scheme: "light" | "dark"
   colors: Record<ColorToken, Oklch>
+  /** The site's animation treatment: what `defineAnimation()` gets in the project's animation.config.ts. */
+  motion: AnimationDefaults
 }
 
 export const defaultTheme: Theme = {
@@ -46,6 +50,7 @@ export const defaultTheme: Theme = {
   rhythm: { section: 1, gap: 1 },
   container: 80,
   scheme: "light",
+  motion: baseAnimationDefaults,
   colors: {
     background: [1, 0, 0],
     foreground: [0.145, 0, 0],
@@ -123,6 +128,41 @@ export function themeToCss(theme: Theme, selector = ":root"): string {
   return `${imports ? imports + "\n\n" : ""}${selector} {\n${body}\n}\n`
 }
 
+/**
+ * The project's `animation.config.ts`: every default spelled out so the file
+ * reads as documentation. Named curves stay named; a custom one is printed as
+ * its four numbers.
+ */
+export function themeToAnimationConfig(theme: Theme): string {
+  const m = theme.motion
+  const ease = typeof m.ease === "string" ? `"${m.ease}"` : `[${easeCurve(m.ease).join(", ")}]`
+  return [
+    'import { defineAnimation } from "@platform/content-model"',
+    "",
+    "/**",
+    " * The site's animation treatment. Every block inherits these unless an editor",
+    " * changes a field on that block; editors never see this file. Named curves",
+    " * are `gentle`, `brisk` and `smooth`, or pass your own `[x1, y1, x2, y2]`.",
+    " *",
+    " * Imported for its side effect from app/[locale]/layout.tsx (server bundle)",
+    " * and components/ui-provider.tsx (client bundle), so both resolve fields the",
+    " * same way. Scroll effects are per block only; see the docs' Animation page.",
+    " */",
+    "export const animation = defineAnimation({",
+    `  animation: "${m.animation}",`,
+    `  stagger: ${m.stagger},`,
+    `  headingAnimation: "${m.headingAnimation}",`,
+    `  duration: "${m.duration}",`,
+    `  delay: "${m.delay}",`,
+    `  ease: ${ease},`,
+    `  countUp: ${m.countUp},`,
+    `  magnetic: ${m.magnetic},`,
+    `  marqueeSpeed: "${m.marqueeSpeed}",`,
+    "})",
+    "",
+  ].join("\n")
+}
+
 // --- URL state --------------------------------------------------------------
 
 const toBase64Url = (s: string) =>
@@ -144,6 +184,7 @@ export function decodeTheme(encoded: string): Theme | null {
       fonts: { ...defaultTheme.fonts, ...parsed.fonts },
       heading: { ...defaultTheme.heading, ...parsed.heading },
       rhythm: { ...defaultTheme.rhythm, ...parsed.rhythm },
+      motion: { ...defaultTheme.motion, ...parsed.motion },
       colors: { ...defaultTheme.colors, ...parsed.colors },
     }
   } catch {
@@ -243,6 +284,15 @@ export function randomTheme(pick = Math.random): Theme {
     rhythm: { section: choose([0.7, 1, 1, 1.3]), gap: 1 },
     container: 80,
     scheme,
+    motion: {
+      ...baseAnimationDefaults,
+      animation: choose(["fadeUp", "fadeIn", "scaleIn", "blurIn"]),
+      stagger: pick() < 0.7,
+      headingAnimation: choose(["none", "none", "words", "lines"]),
+      duration: choose(["fast", "normal", "slow"]),
+      ease: choose(["gentle", "brisk", "smooth"]),
+      countUp: pick() < 0.6,
+    },
     colors: generatePalette({
       hue: Math.floor(pick() * 360),
       chroma,

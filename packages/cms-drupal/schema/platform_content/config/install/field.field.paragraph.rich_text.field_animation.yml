@@ -11,11 +11,11 @@ field_name: field_animation
 entity_type: paragraph
 bundle: rich_text
 label: Animation
-description: Entrance animation played once when the block scrolls into view.
+description: Entrance animation played once when the block scrolls into view. Inherit follows the site setting.
 required: false
 translatable: true
 default_value:
-  - value: none
+  - value: inherit
 default_value_callback: ''
 settings: {  }
 field_type: list_string

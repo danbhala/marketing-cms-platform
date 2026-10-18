@@ -58,10 +58,25 @@
       },
       "magnetic": {
         "displayName": "Magnetic",
-        "description": "Pull the button towards the pointer on hover (mouse only).",
+        "description": "Pull the button towards the pointer on hover (mouse only). Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 50,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       }
     }
   },
@@ -925,12 +940,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 110,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -966,7 +985,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 120,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -976,6 +1010,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1010,6 +1048,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -1030,6 +1072,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1103,6 +1149,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "slow",
             "displayName": "Slow"
@@ -1204,12 +1254,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1245,7 +1299,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 100,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -1255,6 +1324,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1289,6 +1362,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -1309,6 +1386,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1485,12 +1566,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 100,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1526,7 +1611,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 110,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -1536,6 +1636,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1570,6 +1674,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -1590,6 +1698,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1767,12 +1879,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 110,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1808,7 +1924,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 120,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -1818,6 +1949,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1852,6 +1987,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -1872,6 +2011,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -1955,7 +2098,22 @@
         "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
         "group": "Content",
         "sortOrder": 60,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "theme": {
         "displayName": "Theme",
@@ -2038,12 +2196,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 100,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2079,7 +2241,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 110,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -2089,6 +2266,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2123,6 +2304,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -2143,6 +2328,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2234,6 +2423,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "slow",
             "displayName": "Slow"
           },
@@ -2328,12 +2521,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 100,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2369,7 +2566,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 110,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -2379,6 +2591,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2413,6 +2629,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -2433,6 +2653,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2496,7 +2720,22 @@
         "description": "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
         "group": "Content",
         "sortOrder": 50,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "theme": {
         "displayName": "Theme",
@@ -2579,12 +2818,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2620,7 +2863,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 100,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -2630,6 +2888,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2664,6 +2926,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -2684,6 +2950,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2834,12 +3104,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2875,7 +3149,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 100,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -2885,6 +3174,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -2919,6 +3212,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -2939,6 +3236,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3094,12 +3395,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3135,7 +3440,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 100,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -3145,6 +3465,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3179,6 +3503,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -3199,6 +3527,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3356,12 +3688,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3397,7 +3733,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 100,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -3407,6 +3758,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3441,6 +3796,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -3461,6 +3820,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3633,12 +3996,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 100,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3674,7 +4041,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 110,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -3684,6 +4066,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3718,6 +4104,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -3738,6 +4128,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3893,12 +4287,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3934,7 +4332,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 100,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -3944,6 +4357,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -3978,6 +4395,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -3998,6 +4419,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4153,12 +4578,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 90,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4194,7 +4623,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 100,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -4204,6 +4648,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4238,6 +4686,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -4258,6 +4710,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4396,12 +4852,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 80,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4437,7 +4897,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 90,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -4447,6 +4922,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4481,6 +4960,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -4501,6 +4984,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4631,12 +5118,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 60,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4672,7 +5163,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 70,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -4682,6 +5188,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4716,6 +5226,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -4736,6 +5250,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4904,12 +5422,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 80,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4945,7 +5467,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 90,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -4955,6 +5492,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -4989,6 +5530,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -5009,6 +5554,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5212,12 +5761,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 120,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5253,7 +5806,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 130,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -5263,6 +5831,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5297,6 +5869,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -5317,6 +5893,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5503,12 +6083,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 130,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5544,7 +6128,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 140,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -5554,6 +6153,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5588,6 +6191,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -5608,6 +6215,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5810,12 +6421,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 130,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5851,7 +6466,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 140,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -5861,6 +6491,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -5895,6 +6529,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -5915,6 +6553,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -6131,12 +6773,16 @@
       },
       "animation": {
         "displayName": "Animation",
-        "description": "Entrance animation played once when the block scrolls into view.",
+        "description": "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
         "group": "Content",
         "sortOrder": 110,
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -6172,7 +6818,22 @@
         "description": "Reveal the block's items one after another instead of all at once.",
         "group": "Content",
         "sortOrder": 120,
-        "type": "boolean"
+        "type": "string",
+        "format": "selectOne",
+        "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
+            "value": "on",
+            "displayName": "On"
+          },
+          {
+            "value": "off",
+            "displayName": "Off"
+          }
+        ]
       },
       "headingAnimation": {
         "displayName": "Heading animation",
@@ -6182,6 +6843,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"
@@ -6216,6 +6881,10 @@
         "format": "selectOne",
         "enum": [
           {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
+          {
             "value": "fast",
             "displayName": "Fast"
           },
@@ -6236,6 +6905,10 @@
         "type": "string",
         "format": "selectOne",
         "enum": [
+          {
+            "value": "inherit",
+            "displayName": "Inherit"
+          },
           {
             "value": "none",
             "displayName": "None"

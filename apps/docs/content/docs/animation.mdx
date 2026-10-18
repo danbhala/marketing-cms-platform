@@ -1,9 +1,32 @@
 ---
 title: Animation
-description: "Entrance and heading animation presets every block can switch on from the CMS: off by default, staggered items, split-text headings, duration and delay, reduced-motion aware."
+description: "One site-wide animation treatment set in code, inherited by every block and overridable per block from the CMS: entrance presets, staggered items, split-text headings, timing and easing, reduced-motion aware."
 ---
 
-Every block has five animation fields next to `theme`, `spacing` and `anchor`: a preset for the block, a stagger switch, a heading effect for its title, and the duration and delay both use. They are off by default; a page is static until an editor picks a preset on a block.
+Animation is decided once per site, in code, and inherited by every block. Every block also has five animation fields next to `theme`, `spacing` and `anchor`: a preset, a stagger switch, a heading effect for its title, and the duration and delay both use. Each defaults to **Inherit**, so a page follows the site setting until an editor changes one block, and an editor can switch a block off with `none`.
+
+## Site defaults
+
+The production team sets the treatment in the app's `animation.config.ts` with `defineAnimation()`; editors never see it. Omitted keys keep the platform defaults, which are everything off:
+
+```ts
+// apps/web/animation.config.ts
+import { defineAnimation } from "@platform/content-model"
+
+export const animation = defineAnimation({
+  animation: "fadeUp", // entrance preset
+  stagger: true, // items one after another
+  headingAnimation: "none", // words | characters | lines | typewriter | scramble
+  duration: "normal", // fast | normal | slow
+  delay: "none", // none | short | medium | long
+  ease: "gentle", // gentle | brisk | smooth, or [x1, y1, x2, y2]
+  countUp: true, // Stats and Pricing numbers
+  magnetic: false, // buttons follow the mouse
+  marqueeSpeed: "normal", // Logo cloud and Testimonials marquee layouts
+})
+```
+
+The file is imported for its side effect from the root layout and from the client-side `UiProvider` wrapper, so the server and browser bundles resolve fields the same way. `ease` is site-only: the three named curves all settle without overshooting (`gentle` is expo-out, `brisk` cubic-out, `smooth` cubic-in-out), and a custom `[x1, y1, x2, y2]` is any `cubic-bezier()`; keep the y values within 0 to 1 to avoid a bounce. Scroll effects have no site default because they change what a block looks like. The [theme studio](/theme) has a Motion tab that writes this file for you, and each showcase preset carries its own treatment.
 
 <AnimationDemo />
 
@@ -14,13 +37,15 @@ Every block has five animation fields next to `theme`, `spacing` and `anchor`: a
 
 ## Fields
 
-| Field               | Options                                                                      | Default  |
-| ------------------- | ---------------------------------------------------------------------------- | -------- |
-| `animation`         | `none` `fadeUp` `fadeIn` `scaleIn` `slideFromLeft` `slideFromRight` `blurIn` | `none`   |
-| `animationStagger`  | boolean: reveal the block's items one after another                          | off      |
-| `headingAnimation`  | `none` `words` `characters` `lines` `typewriter` `scramble`                  | `none`   |
-| `animationDuration` | `fast` 0.35s · `normal` 0.6s · `slow` 0.9s                                   | `normal` |
-| `animationDelay`    | `none` · `short` 0.15s · `medium` 0.3s · `long` 0.6s                         | `none`   |
+| Field               | Options                                                                                | Default   |
+| ------------------- | -------------------------------------------------------------------------------------- | --------- |
+| `animation`         | `inherit` `none` `fadeUp` `fadeIn` `scaleIn` `slideFromLeft` `slideFromRight` `blurIn` | `inherit` |
+| `animationStagger`  | `inherit` `on` `off`: reveal the block's items one after another                       | `inherit` |
+| `headingAnimation`  | `inherit` `none` `words` `characters` `lines` `typewriter` `scramble`                  | `inherit` |
+| `animationDuration` | `inherit` · `fast` 0.35s · `normal` 0.6s · `slow` 0.9s                                 | `inherit` |
+| `animationDelay`    | `inherit` · `none` · `short` 0.15s · `medium` 0.3s · `long` 0.6s                       | `inherit` |
+
+`countUp` (Stats, Pricing), `marqueeSpeed` (Logo cloud, Testimonials) and `magnetic` (actions) inherit the same way.
 
 A block reveals once, when its top edge passes the bottom 10% of the viewport, and never animates out. With `animationStagger` on, the heading and each item (cards, stats, plans, people, steps, logos; a hero's eyebrow, title, description, actions and media) start a fraction of the duration apart. Blocks with one body (rich text, media, FAQ, tabs, comparison table, form) ignore the stagger flag and animate as a whole.
 
@@ -44,14 +69,14 @@ Like `theme`, the fields come from the shared `presentation` set in the content 
 
 [Motion+](https://motion.dev/plus) is a paid, token-gated package, which does not fit a library whose code is copied into each client's project. The effects it sells that marketing sites actually use are small layers over primitives in the open-source `motion` package, so they live in `@platform/animation` next to the heading effects and switch on from block fields:
 
-| Field                                 | On                       | Motion+ equivalent                    | How it is built                                                                                                                                                          |
-| ------------------------------------- | ------------------------ | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `countUp`                             | Stats, Pricing           | `AnimateNumber`                       | `animate(0, n)` with `Intl.NumberFormat`, keeping the text around the number ("$", "%", "+"). Starts when the block is in view; the server renders the final value.      |
-| `layout: marquee` + `marqueeSpeed`    | Logo cloud, Testimonials | `Ticker`                              | Two copies of the items on a motion value that wraps after one copy's width. Pauses on hover and focus, has a pause button, and renders a static row for reduced motion. |
-| `scrollEffect`                        | Hero, Media              | Motion UI's parallax and zoom heroes  | `useScroll` progress through the viewport mapped to `y`, `scale` or `opacity` with `useTransform`.                                                                       |
-| `layout: carousel`                    | Testimonials             | `Carousel`                            | CSS scroll snap does the sliding and swiping; script adds buttons, dots and the active slide. No infinite loop.                                                          |
-| `magnetic` on an action               | Any CTA                  | `Cursor` (magnetic snap)              | Pointer offset into a spring. Mouse only; touch, keyboard and reduced motion get a still button.                                                                         |
-| [Gallery block](/docs/blocks/gallery) |                          | `Gallery`, Motion UI gallery sections | Tile layouts, a stage with crossfade (`AnimatePresence`), a scroll-driven strip, and a lightbox that morphs from the tile (`layoutId`).                                  |
+| Field                                          | On                       | Motion+ equivalent                    | How it is built                                                                                                                                                          |
+| ---------------------------------------------- | ------------------------ | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `countUp` (`inherit` `on` `off`)               | Stats, Pricing           | `AnimateNumber`                       | `animate(0, n)` with `Intl.NumberFormat`, keeping the text around the number ("$", "%", "+"). Starts when the block is in view; the server renders the final value.      |
+| `layout: marquee` + `marqueeSpeed`             | Logo cloud, Testimonials | `Ticker`                              | Two copies of the items on a motion value that wraps after one copy's width. Pauses on hover and focus, has a pause button, and renders a static row for reduced motion. |
+| `scrollEffect`                                 | Hero, Media              | Motion UI's parallax and zoom heroes  | `useScroll` progress through the viewport mapped to `y`, `scale` or `opacity` with `useTransform`.                                                                       |
+| `layout: carousel`                             | Testimonials             | `Carousel`                            | CSS scroll snap does the sliding and swiping; script adds buttons, dots and the active slide. No infinite loop.                                                          |
+| `magnetic` on an action (`inherit` `on` `off`) | Any CTA                  | `Cursor` (magnetic snap)              | Pointer offset into a spring. Mouse only; touch, keyboard and reduced motion get a still button.                                                                         |
+| [Gallery block](/docs/blocks/gallery)          |                          | `Gallery`, Motion UI gallery sections | Tile layouts, a stage with crossfade (`AnimatePresence`), a scroll-driven strip, and a lightbox that morphs from the tile (`layoutId`).                                  |
 
 Every one of these keeps the page readable without JavaScript, respects `prefers-reduced-motion`, and has a keyboard path: the marquee and stage can be paused, scroll regions are focusable, and the strip scrolls the page to any tile that takes focus.
 
@@ -60,8 +85,8 @@ Every one of these keeps the page readable without JavaScript, respects `prefers
 ## How it works
 
 - **One package.** `@platform/animation` (`packages/animation`) holds the presets, `Reveal`, `RevealItem` and `SplitText`, and is the only package that imports [Motion](https://motion.dev) (`motion/react`, the library formerly known as Framer Motion), in its small build: `m` components plus the `domAnimation` feature bundle, no gestures, drag or layout animation. Copy or replace that package and the rest of the system is untouched.
-- **Zero cost when off.** `BlockSection` renders a plain `<section>` unless the block has a preset, and `Heading` renders plain text unless it has a heading effect. Only then do they render the client components, so pages without animation ship none of Motion's JavaScript.
-- **One place to tune.** Block presets are Motion variants in `packages/animation/src/presets.ts`, heading effects in `text-presets.ts`; they only touch `opacity`, transforms and `filter`, which the browser composites off the main thread. Change a curve or distance there and every block follows.
+- **Zero cost when off.** `BlockSection` renders a plain `<section>` unless the block resolves to a preset, and `Heading` renders plain text unless it resolves to a heading effect. Only then do they render the client components, so pages without animation ship none of Motion's JavaScript.
+- **One place to tune.** Timing and easing come from `animation.config.ts`. The presets themselves are Motion variants in `packages/animation/src/presets.ts`, heading effects in `text-presets.ts`; they only touch `opacity`, transforms and `filter`, which the browser composites off the main thread. Change a distance there and every block follows.
 - **Reduced motion.** `Reveal` wraps its block in `MotionConfig reducedMotion="user"`: people who ask their OS for less motion get the opacity fade without the movement.
 - **Server rendering.** The hidden start state is rendered on the server, so a block is invisible until the script runs. Leave animation off on anything that must be readable without JavaScript, and prefer it below the fold.
 

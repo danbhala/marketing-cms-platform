@@ -15,7 +15,7 @@ description: 'Reveals the block title by words, characters or lines, types it ou
 required: false
 translatable: true
 default_value:
-  - value: none
+  - value: inherit
 default_value_callback: ''
 settings: {  }
 field_type: list_string

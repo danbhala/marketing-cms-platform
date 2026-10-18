@@ -12,6 +12,7 @@ import {
   type HeroBlock,
   type Page,
 } from "./index"
+import * as animation from "./animation"
 
 describe("definitions", () => {
   it("have unique type names across items, blocks and documents", () => {
@@ -91,5 +92,28 @@ describe("rich text helpers", () => {
   it("round-trips paragraphs to plain text", () => {
     const doc = richTextFromParagraphs("One", "Two")
     expect(richTextToPlainText(doc)).toBe("One\n\nTwo")
+  })
+})
+
+describe("animation defaults", () => {
+  const { animationSettings, countUpSetting, defineAnimation, baseAnimationDefaults, magneticSetting } = animation
+
+  it("blocks inherit the site defaults and 'none' opts out", () => {
+    const site = defineAnimation({ animation: "fadeUp", stagger: true, ease: [0.2, 0, 0, 1] })
+    expect(animationSettings({})).toEqual({
+      preset: "fadeUp",
+      stagger: true,
+      duration: "normal",
+      delay: "none",
+      ease: [0.2, 0, 0, 1],
+    })
+    expect(animationSettings({ animation: "inherit", animationStagger: "off" })?.stagger).toBe(false)
+    expect(animationSettings({ animation: "none" })).toBeNull()
+    expect(animationSettings({ animation: "scaleIn" }, baseAnimationDefaults)?.ease).toEqual([0.16, 1, 0.3, 1])
+    expect(site.countUp).toBe(false)
+    expect(countUpSetting({ countUp: "on", animationDelay: "short" })).toEqual({ duration: "normal", delay: "short" })
+    expect(magneticSetting({ magnetic: "inherit" })).toBe(false)
+    defineAnimation({})
+    expect(animationSettings({})).toBeNull()
   })
 })

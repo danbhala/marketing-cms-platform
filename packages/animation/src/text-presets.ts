@@ -1,7 +1,7 @@
 import type { HeadingAnimation, TextAnimationSettings } from "@platform/content-model"
 import { stagger, type Variants } from "motion/react"
 
-import { delaySeconds, durationSeconds, revealEase } from "./presets"
+import { delaySeconds, durationSeconds } from "./presets"
 
 /**
  * Heading effects: how `SplitText` splits a title and animates each piece.
@@ -63,7 +63,7 @@ const specs: Record<
  * leave the start delay out.
  */
 export function textVariants(
-  { preset, duration, delay }: TextAnimationSettings,
+  { preset, duration, delay, ease }: TextAnimationSettings,
   { pieces = 1, lines = 1, inheritDelay = false } = {}
 ): TextVariants {
   if (preset === "scramble") throw new Error("scramble is driven by ScrambleText, not variants")
@@ -72,7 +72,9 @@ export function textVariants(
   const startDelay = inheritDelay ? 0 : delaySeconds[delay]
   const pieceSeconds = round(seconds * spec.piece)
   const gap = round(seconds * spec.gap)
-  const transition = spec.step ? { duration: 0 } : { duration: pieceSeconds, ease: revealEase }
+  const transition = spec.step
+    ? { duration: 0 }
+    : { duration: pieceSeconds, ease: [...ease] as [number, number, number, number] }
   const visible = { opacity: 1, y: 0 }
   if (spec.byLine) {
     return {

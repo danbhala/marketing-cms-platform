@@ -1,4 +1,4 @@
-import type { PricingBlock } from "@platform/content-model"
+import { countUpSetting, type PricingBlock } from "@platform/content-model"
 import { fieldAttrs } from "@platform/cms-core/edit"
 
 import { Container } from "../atoms/container"
@@ -12,6 +12,7 @@ export type PricingProps = BlockComponentProps<PricingBlock>
 
 /** Two to four plan cards; the `highlighted` plan is emphasised. */
 function Pricing({ block, index, className, ...props }: PricingProps) {
+  const countUp = countUpSetting(block)
   const count = block.plans.length
   const columns = count >= 4 ? "4" : count === 3 ? "3" : count === 2 ? "2" : "1"
   return (
@@ -29,10 +30,7 @@ function Pricing({ block, index, className, ...props }: PricingProps) {
         <Grid columns={columns} align="stretch" {...fieldAttrs(block, "plans")}>
           {block.plans.map((plan) => (
             <BlockItem key={plan.id} block={block}>
-              <PriceCard
-                plan={plan}
-                countUp={block.countUp ? { duration: block.animationDuration, delay: block.animationDelay } : null}
-              />
+              <PriceCard plan={plan} countUp={countUp} />
             </BlockItem>
           ))}
         </Grid>

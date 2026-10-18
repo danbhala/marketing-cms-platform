@@ -1,6 +1,6 @@
 # web
 
-The marketing site. It knows nothing about any CMS: `cms.config.ts` picks an adapter from `CMS_PROVIDER` and `cms.bridges.ts` lists the live-edit bridges; everything else goes through the `CmsAdapter` contract. An ESLint rule fails the build if any other file imports a `@platform/cms-*` package.
+The marketing site. It knows nothing about any CMS: `cms.config.ts` picks an adapter from `CMS_PROVIDER` and `cms.bridges.ts` lists the live-edit bridges; everything else goes through the `CmsAdapter` contract. `animation.config.ts` sets the site-wide animation treatment that every block inherits (see [Animation](https://marketing-cms-platform.vercel.app/docs/animation)). An ESLint rule fails the build if any other file imports a `@platform/cms-*` package.
 
 ## Run
 

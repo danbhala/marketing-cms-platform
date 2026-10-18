@@ -1,10 +1,11 @@
 import {
-  animationDelays,
-  animationDurations,
-  animationPresets,
-  headingAnimations,
-  marqueeSpeeds,
+  animationDelayOptions,
+  animationDurationOptions,
+  animationOptions,
+  headingAnimationOptions,
+  marqueeSpeedOptions,
   scrollEffects,
+  toggleOptions,
 } from "../animation"
 import { defineBlock, field } from "../fields"
 import { category } from "./taxonomy"
@@ -29,27 +30,29 @@ import {
 
 /**
  * Presentation fields every block gets, so any block can be themed, anchored
- * or animated. Animation is off unless an editor picks a preset.
+ * or animated. The animation fields default to "inherit": the site's
+ * `defineAnimation()` config decides, and an editor only changes one block.
  */
 export const presentation = {
   theme: field.select(themeNames, { description: "Applies a theme class to this block only." }),
   spacing: field.select(["none", "sm", "md", "lg"] as const, { defaultValue: "md" }),
   anchor: field.text({ description: "Optional id for in-page links, e.g. 'pricing'." }),
-  animation: field.select(animationPresets, {
-    defaultValue: "none",
-    description: "Entrance animation played once when the block scrolls into view.",
+  animation: field.select(animationOptions, {
+    defaultValue: "inherit",
+    description: "Entrance animation played once when the block scrolls into view. Inherit follows the site setting.",
   }),
-  animationStagger: field.boolean({
+  animationStagger: field.select(toggleOptions, {
+    defaultValue: "inherit",
     label: "Stagger items",
     description: "Reveal the block's items one after another instead of all at once.",
   }),
-  headingAnimation: field.select(headingAnimations, {
-    defaultValue: "none",
+  headingAnimation: field.select(headingAnimationOptions, {
+    defaultValue: "inherit",
     label: "Heading animation",
     description: "Reveals the block title by words, characters or lines, types it out, or scrambles it into place.",
   }),
-  animationDuration: field.select(animationDurations, { defaultValue: "normal" }),
-  animationDelay: field.select(animationDelays, { defaultValue: "none" }),
+  animationDuration: field.select(animationDurationOptions, { defaultValue: "inherit" }),
+  animationDelay: field.select(animationDelayOptions, { defaultValue: "inherit" }),
 }
 
 /** The shared heading slot: eyebrow, title and description. */
@@ -69,14 +72,15 @@ const scrollEffect = field.select(scrollEffects, {
 })
 
 /** Speed of a scrolling strip (logo cloud and testimonials marquee layouts). */
-const marqueeSpeed = field.select(marqueeSpeeds, {
-  defaultValue: "normal",
+const marqueeSpeed = field.select(marqueeSpeedOptions, {
+  defaultValue: "inherit",
   label: "Marquee speed",
   description: "Only used by the marquee layout.",
 })
 
 /** Count numbers up from zero when the block scrolls into view. */
-const countUp = field.boolean({
+const countUp = field.select(toggleOptions, {
+  defaultValue: "inherit",
   label: "Count up",
   description: "Animate numbers from zero when the block scrolls into view. Text around the number stays as written.",
 })

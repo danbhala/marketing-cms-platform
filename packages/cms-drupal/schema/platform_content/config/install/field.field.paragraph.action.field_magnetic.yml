@@ -4,17 +4,18 @@ dependencies:
   config:
     - field.storage.paragraph.field_magnetic
     - paragraphs.paragraphs_type.action
+  module:
+    - options
 id: paragraph.action.field_magnetic
 field_name: field_magnetic
 entity_type: paragraph
 bundle: action
 label: Magnetic
-description: 'Pull the button towards the pointer on hover (mouse only).'
+description: 'Pull the button towards the pointer on hover (mouse only). Inherit follows the site setting.'
 required: false
 translatable: true
-default_value: [  ]
+default_value:
+  - value: inherit
 default_value_callback: ''
-settings:
-  on_label: 'On'
-  off_label: 'Off'
-field_type: boolean
+settings: {  }
+field_type: list_string

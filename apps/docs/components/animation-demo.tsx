@@ -69,7 +69,7 @@ export function AnimationDemo() {
     ...allBlockFixtures[entry.type],
     ...entry.patch,
     animation: preset,
-    animationStagger: stagger,
+    animationStagger: stagger ? "on" : "off",
     headingAnimation: heading,
     animationDuration: duration,
     animationDelay: delay,

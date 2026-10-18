@@ -1,6 +1,6 @@
 import type * as React from "react"
 
-import type { Action } from "@platform/content-model"
+import { magneticSetting, type Action } from "@platform/content-model"
 import { editAttrs } from "@platform/cms-core/edit"
 
 import { Button, type ButtonSize } from "../atoms/button"
@@ -39,7 +39,7 @@ function ActionGroup({ actions, size = "lg", align = "start", stackOnMobile, cla
           href={action.href}
           size={size}
           variant={action.variant ?? (index === 0 ? "default" : "outline")}
-          magnetic={action.magnetic ?? false}
+          magnetic={magneticSetting(action)}
           {...editAttrs(action)}
         >
           {action.icon ? <Icon name={action.icon} data-icon="inline-start" /> : null}
