@@ -39,7 +39,7 @@ export function HomeHero() {
   }
 
   return (
-    <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+    <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] xl:gap-16">
       <div className="flex flex-col gap-5">
         <h1 className="text-4xl font-semibold tracking-tight text-balance lg:text-5xl">
           One marketing front-end, any CMS

@@ -50,7 +50,7 @@ const sections = [
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-14 px-6 py-12 lg:py-16">
+    <main className="mx-auto flex w-full max-w-(--fd-layout-width) flex-1 flex-col gap-16 px-4 py-12 lg:gap-24 lg:py-20 xl:gap-32 xl:py-28">
       <HomeHero />
       <BlockWall />
       <section className="flex flex-col gap-6">
