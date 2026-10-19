@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { demoUrl } from "@/lib/demo"
 import { storybookUrl } from "@/lib/storybook"
 
 const links = [
@@ -8,7 +9,7 @@ const links = [
   { href: "/theme", label: "Theme studio" },
   { href: "/schema", label: "Schema studio" },
   { href: storybookUrl(), label: "Storybook" },
-  { href: "https://marketing-cms-platform-demo.vercel.app", label: "Demo site" },
+  { href: demoUrl, label: "Demo site" },
   { href: "https://github.com/danbhala/marketing-cms-platform", label: "GitHub" },
 ]
 
@@ -21,7 +22,7 @@ const links = [
 export function SiteFooter() {
   return (
     <footer className="border-t [--color-fd-muted-foreground:hsl(0_0%_38%)] dark:[--color-fd-muted-foreground:hsla(0,0%,70%,0.8)]">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10 sm:flex-row sm:items-start sm:justify-between">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 px-4 py-10 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex flex-col gap-1">
           <Link href="/" className="font-semibold">
             Marketing CMS Platform

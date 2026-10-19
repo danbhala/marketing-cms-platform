@@ -23,6 +23,7 @@ import {
   type StudioType,
 } from "./model"
 import { modelToPrompt } from "./prompt"
+import { buildSpec, segments, specToHtml, specToJira, specToMarkdown, type Spec } from "./spec"
 import { deleteDesign, saveDesign, useSavedDesigns } from "./saved"
 import { shareUrl, useModel } from "./store"
 
@@ -33,8 +34,8 @@ import { shareUrl, useModel } from "./store"
  * by the adapters' own generators (see generate.ts), nothing is mocked.
  */
 
-type Tab = "map" | CmsId
-type MobileView = "build" | "map" | "code"
+type Tab = "map" | "spec" | CmsId
+type MobileView = "build" | "map" | "spec" | "code"
 /** -1 is the block; otherwise an index into model.items. */
 type Editing = number
 
@@ -48,6 +49,7 @@ export function SchemaStudio() {
   const [mobile, setMobile] = useState<MobileView>("build")
   const [mobileCode, setMobileCode] = useState<"canonical" | CmsId>("canonical")
   const [saveName, setSaveName] = useState<string | null>(null)
+  const [specShared, setSpecShared] = useState(false)
   const saved = useSavedDesigns()
   const wide = useIsWide()
 
@@ -128,6 +130,14 @@ export function SchemaStudio() {
   )
 
   const map = <MapTable gen={gen} definition={definition} selected={selected} onSelect={setSelected} />
+  const spec = (
+    <SpecPanel
+      spec={buildSpec(gen.definitions, { presentation: specShared })}
+      withLink={() => buildSpec(gen.definitions, { presentation: specShared, shareUrl: shareUrl(model) })}
+      shared={model.presentation ? specShared : null}
+      setShared={setSpecShared}
+    />
+  )
 
   const cmsPanel = (id: CmsId) => {
     const out = gen.cms[id]
@@ -153,7 +163,7 @@ export function SchemaStudio() {
 
   const outputTabs = (
     <nav className="flex overflow-x-auto border-b text-xs" aria-label="Output">
-      {(["map", ...cmsIds] as Tab[]).map((t) => (
+      {(["map", "spec", ...cmsIds] as Tab[]).map((t) => (
         <button
           key={t}
           type="button"
@@ -161,7 +171,7 @@ export function SchemaStudio() {
           aria-pressed={tab === t}
           className={`shrink-0 px-3 py-2 ${tab === t ? "border-fd-primary border-b-2 font-medium" : "text-fd-muted-foreground hover:text-fd-foreground"}`}
         >
-          {t === "map" ? "Map" : cmsLabels[t]}
+          {t === "map" ? "Map" : t === "spec" ? "Spec" : cmsLabels[t]}
         </button>
       ))}
     </nav>
@@ -285,6 +295,8 @@ export function SchemaStudio() {
                   <Heading>Six schemas from one definition</Heading>
                   {map}
                 </>
+              ) : tab === "spec" ? (
+                spec
               ) : (
                 cmsPanel(tab)
               )}
@@ -300,6 +312,7 @@ export function SchemaStudio() {
               options={[
                 { value: "build", label: "Build" },
                 { value: "map", label: "Map" },
+                { value: "spec", label: "Spec" },
                 { value: "code", label: "Code" },
               ]}
             />
@@ -312,6 +325,7 @@ export function SchemaStudio() {
                 {map}
               </>
             ) : null}
+            {mobile === "spec" ? spec : null}
             {mobile === "code" ? (
               <>
                 <nav className="-mx-3 -mt-3 flex overflow-x-auto border-b text-xs" aria-label="Code">
@@ -767,6 +781,131 @@ function MapTable({
 }
 
 // ---------------------------------------------------------------------------
+// Spec
+// ---------------------------------------------------------------------------
+
+/** The build spec, previewed as it will paste, with one copy button per destination. */
+function SpecPanel({
+  spec,
+  withLink,
+  shared,
+  setShared,
+}: {
+  spec: Spec
+  withLink: () => Spec
+  /** null when the block has no presentation fields to list. */
+  shared: boolean | null
+  setShared: (v: boolean) => void
+}) {
+  let n = 0
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <CopyButton
+          label="Copy for Confluence or Jira"
+          getHtml={() => specToHtml(withLink())}
+          getText={() => specToMarkdown(withLink())}
+          primary
+          small
+        />
+        <CopyButton label="Copy Markdown" getText={() => specToMarkdown(withLink())} small />
+        <CopyButton label="Copy Jira markup" getText={() => specToJira(withLink())} small />
+      </div>
+      {shared !== null ? (
+        <Toggle
+          checked={shared}
+          onChange={setShared}
+          label="Include the shared settings (theme, spacing, anchor, animation)"
+        />
+      ) : null}
+      <p className="text-fd-muted-foreground text-xs">
+        The first button copies formatted text that pastes as headings and tables in Confluence and Jira. Use Jira
+        markup for Jira Data Center or a wiki-markup field, and Markdown for anything else.
+      </p>
+      <article className="bg-fd-card flex flex-col gap-3 rounded-md border p-3 text-sm leading-6 sm:p-4">
+        <h2 className="text-lg font-semibold">
+          <Inline text={spec.title} />
+        </h2>
+        <p className="text-fd-muted-foreground text-xs italic">{spec.note}</p>
+        <SpecHeading>Summary</SpecHeading>
+        {spec.summary.map((p) => (
+          <p key={p} className="max-w-prose">
+            <Inline text={p} />
+          </p>
+        ))}
+        {spec.tables.map((t) => (
+          <section key={t.heading} className="flex flex-col gap-2">
+            <SpecHeading>{t.heading}</SpecHeading>
+            {t.intro ? <p className="text-fd-muted-foreground">{t.intro}</p> : null}
+            <div className="overflow-x-auto rounded-md border">
+              <table className="w-full min-w-[40rem] text-xs">
+                <thead>
+                  <tr className="bg-fd-muted/40 border-b text-left">
+                    {["Field", "API name", "Type", "Required", "Rules", "Notes"].map((h) => (
+                      <th key={h} scope="col" className="px-2 py-1.5 font-medium">
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {t.rows.map((r) => (
+                    <tr key={r.name} className="border-b align-top last:border-0">
+                      <th scope="row" className="px-2 py-1.5 text-left font-medium">
+                        {r.label}
+                      </th>
+                      <td className="px-2 py-1.5 font-mono">{r.name}</td>
+                      <td className="px-2 py-1.5">{r.type}</td>
+                      <td className="px-2 py-1.5">{r.required}</td>
+                      <td className="px-2 py-1.5">
+                        <Inline text={r.rules} />
+                      </td>
+                      <td className="px-2 py-1.5">
+                        <Inline text={r.notes} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ))}
+        <SpecHeading>Acceptance criteria</SpecHeading>
+        {spec.criteria.map((c) => (
+          <section key={c.heading} className="flex flex-col gap-1">
+            <h4 className="font-medium">{c.heading}</h4>
+            <ul className="flex max-w-prose flex-col gap-1">
+              {c.items.map((item) => (
+                <li key={item}>
+                  <span className="text-fd-muted-foreground font-mono text-xs">AC{++n}.</span> <Inline text={item} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </article>
+    </div>
+  )
+}
+
+function SpecHeading({ children }: { children: React.ReactNode }) {
+  return <h3 className="mt-2 text-base font-semibold">{children}</h3>
+}
+
+/** Text with backtick-wrapped values shown as code. */
+function Inline({ text }: { text: string }) {
+  return segments(text).map((s, i) =>
+    s.code ? (
+      <code key={i} className="bg-fd-muted rounded px-1 font-mono text-[0.9em]">
+        {s.value}
+      </code>
+    ) : (
+      s.value
+    )
+  )
+}
+
+// ---------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------
 
@@ -879,11 +1018,14 @@ function IconButton({
 function CopyButton({
   label,
   getText,
+  getHtml,
   primary,
   small,
 }: {
   label: string
   getText: () => string
+  /** Also puts rich text on the clipboard, so editors such as Confluence paste formatted content. */
+  getHtml?: () => string
   primary?: boolean
   small?: boolean
 }) {
@@ -893,7 +1035,14 @@ function CopyButton({
       type="button"
       onClick={async () => {
         try {
-          await navigator.clipboard.writeText(getText())
+          if (getHtml && typeof ClipboardItem !== "undefined")
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                "text/html": new Blob([getHtml()], { type: "text/html" }),
+                "text/plain": new Blob([getText()], { type: "text/plain" }),
+              }),
+            ])
+          else await navigator.clipboard.writeText(getText())
           setState("done")
         } catch {
           setState("failed")
