@@ -81,6 +81,7 @@ export function ThemeStudio() {
           <Select
             value={preset}
             onChange={applyPreset}
+            label="Preset"
             className="bg-fd-background h-8 min-w-0 flex-1 rounded-md border px-2 text-sm md:flex-none"
           >
             <option value="custom" disabled>
@@ -95,6 +96,7 @@ export function ThemeStudio() {
           <Select
             value={content}
             onChange={setContent}
+            label="Preview content"
             className="bg-fd-background h-8 min-w-0 flex-1 rounded-md border px-2 text-sm md:flex-none"
           >
             {showcases.map((s) => (

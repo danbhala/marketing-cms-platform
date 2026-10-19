@@ -69,7 +69,7 @@ export function ShowcaseGallery() {
                   style={{
                     background: `var(--${token})`,
                     color:
-                      token === "background" || token === "muted" || token === "secondary"
+                      token === "background" || token === "muted" || token === "secondary" || token === "border"
                         ? "var(--foreground)"
                         : token === "foreground"
                           ? "var(--background)"

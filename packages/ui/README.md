@@ -30,6 +30,8 @@ Blocks respond to the width of their section, not the viewport. `Section`, `Site
 
 `node scripts/audit-responsive.mjs <storybook-static> <outDir>` renders every story at phone, tablet and desktop widths, saves the PNGs and reports elements that overflow the viewport.
 
+`node scripts/audit-a11y.mjs <baseUrl> <outDir> /path,/path --dark docs|class|hash:<t>` runs axe (WCAG 2.2 A and AA) on running pages at phone and desktop widths in light and dark, saves screenshots and writes `report.json`. Use `docs` for the docs site and a theme studio hash for the demo site, which has no dark mode of its own.
+
 ## Commands
 
 ```sh

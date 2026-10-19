@@ -20,15 +20,46 @@
   --studio-primary-foreground: var(--color-fd-primary-foreground);
 }
 /*
- * Fumadocs' light muted text measures 4.3:1 on the light background, under
- * WCAG AA for the small labels the studio is made of; a step darker passes.
- * The dark theme already passes and is left alone.
+ * Fumadocs' light muted text measures 4.0-4.3:1 on its grey sidebar, cards
+ * and code blocks, under WCAG AA; a step darker passes everywhere. The dark
+ * theme already passes and is left alone.
  */
-.studio-chrome {
+:root:not(.dark) {
   --color-fd-muted-foreground: hsl(0, 0%, 38%);
 }
-.dark .studio-chrome {
-  --color-fd-muted-foreground: hsla(0, 0%, 70%, 0.8);
+
+/*
+ * A clear keyboard focus on the docs chrome and the studio's own controls
+ * (WCAG 2.4.7); Fumadocs' default is a faint background change. Block
+ * previews keep their own focus ring.
+ */
+:is(#nd-nav, #nd-sidebar, #nd-subnav, #nd-toc, .studio-chrome > header, .studio-chrome aside)
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-fd-foreground);
+  outline-offset: 2px;
+}
+
+/*
+ * Shiki's github-light/github-dark themes have a few token colours under 4.5:1
+ * on Fumadocs' code block background: comments, strings, keywords and
+ * constants. These swap in the darker (lighter, in dark mode) GitHub Primer
+ * shades. The !important beats the inline --shiki-* variable on each token; client-side
+ * highlighting (DynamicCodeBlock) writes the style with a space after the colon.
+ */
+.shiki span:is([style*="--shiki-light:#6A737D" i], [style*="--shiki-light: #6A737D" i]) {
+  --shiki-light: #59636e !important;
+}
+.shiki span:is([style*="--shiki-light:#22863A" i], [style*="--shiki-light: #22863A" i]) {
+  --shiki-light: #116329 !important;
+}
+.shiki span:is([style*="--shiki-light:#D73A49" i], [style*="--shiki-light: #D73A49" i]) {
+  --shiki-light: #c4202e !important;
+}
+.shiki span:is([style*="--shiki-light:#E36209" i], [style*="--shiki-light: #E36209" i]) {
+  --shiki-light: #a04100 !important;
+}
+.shiki span:is([style*="--shiki-dark:#6A737D" i], [style*="--shiki-dark: #6A737D" i]) {
+  --shiki-dark: #959da5 !important;
 }
 
 /* Home hero: the demo site eases between brands instead of snapping. */
