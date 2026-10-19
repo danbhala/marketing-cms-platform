@@ -5,7 +5,7 @@ import { HomeHero } from "@/components/home-hero"
 import "@platform/theme-studio/fonts-load"
 
 const sections = [
-  { href: "/docs", title: "Getting started", text: "Install, run the demo site on the local adapter, open Storybook." },
+  { href: "/docs", title: "Getting started", text: "Start a client site with the CLI, or run the platform itself." },
   {
     href: "/docs/architecture",
     title: "Architecture",

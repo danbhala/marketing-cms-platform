@@ -1,0 +1,77 @@
+---
+title: Work on the platform
+description: "Run the monorepo: the demo site on the local adapter, Storybook, draft mode and the commands."
+---
+
+This repo is where the platform itself is built: a pnpm + Turborepo workspace. Client sites don't fork it; they start from [the CLI](/docs/new-site). Everything here runs locally with no CMS account: the `local` adapter serves the same sample content the Storybook stories and these docs use. A hosted copy of the demo site, on that adapter, is at [marketing-cms-platform-demo.vercel.app](https://marketing-cms-platform-demo.vercel.app).
+
+<Steps>
+<Step>
+### Install
+
+```bash
+pnpm install
+```
+
+Requires Node 22+ and pnpm 12 (`npm i -g pnpm@12`).
+
+</Step>
+<Step>
+### Run the marketing site
+
+```bash
+cd apps/web
+cp .env.example .env.local   # CMS_PROVIDER=local by default
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). You are redirected to `/en`, the default locale.
+
+</Step>
+<Step>
+### Open Storybook
+
+```bash
+pnpm --filter @platform/ui storybook
+```
+
+Every atom, molecule, block and page composition, with a theme switcher in the toolbar. See [Blocks](/docs/blocks) for the explorer in these docs.
+
+</Step>
+<Step>
+### Try draft mode
+
+Visit [`/api/preview?secret=change-me&path=/pricing&mode=edit`](http://localhost:3000/api/preview?secret=change-me&path=/pricing&mode=edit). Hover any element to see the CMS field it maps to. This is the same `$edit` plumbing the CMS adapters use for click-to-edit.
+
+<Screenshot name="app-draft-mode-edit-overlay" alt="Draft mode on the pricing page with the edit overlay highlighting the block title" height={800} />
+</Step>
+<Step>
+### Point it at a CMS
+
+Set `CMS_PROVIDER` to `contentful`, `storyblok`, `optimizely`, `sanity`, `drupal` or `wagtail`, add that CMS's credentials from `.env.example`, and push the generated schema with `pnpm --filter @platform/cms-<name> schema:generate`. Nothing in `apps/web` changes. See [CMS adapters](/docs/cms).
+
+</Step>
+</Steps>
+
+## Repository layout
+
+| Path                                                                                     | Package                        | Purpose                                                                          |
+| ---------------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------- |
+| `packages/content-model`                                                                 | `@platform/content-model`      | The field DSL, every block/item/document definition, types, validators, fixtures |
+| `packages/ui`                                                                            | `@platform/ui`                 | shadcn primitives, atoms, molecules, 20 blocks, templates, Storybook             |
+| `packages/cms-core`                                                                      | `@platform/cms-core`           | The adapter contract, `$edit` helpers, cache tag scheme                          |
+| `packages/cms-local`                                                                     | `@platform/cms-local`          | Reference adapter backed by fixtures                                             |
+| `packages/cms-contentful` …`-storyblok` …`-optimizely` …`-sanity` …`-drupal` …`-wagtail` | `@platform/cms-*`              | One adapter per CMS: schema generator, transform, preview, webhook, bridge       |
+| `packages/component-registry`                                                            | `@platform/component-registry` | Block type → component map                                                       |
+| `apps/web`                                                                               |                                | The CMS-agnostic Next.js site                                                    |
+| `apps/docs`                                                                              |                                | This site                                                                        |
+
+## Commands
+
+```bash
+pnpm build        # every package and app, via Turborepo
+pnpm test         # unit tests + Storybook browser tests
+pnpm lint         # ESLint, incl. the rule that keeps CMS SDKs out of apps/web and packages/ui
+pnpm typecheck
+pnpm schema:generate   # regenerate every CMS schema from the content model
+```
