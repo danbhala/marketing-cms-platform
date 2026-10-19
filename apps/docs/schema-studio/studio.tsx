@@ -49,7 +49,6 @@ export function SchemaStudio() {
   const [mobile, setMobile] = useState<MobileView>("build")
   const [mobileCode, setMobileCode] = useState<"canonical" | CmsId>("canonical")
   const [saveName, setSaveName] = useState<string | null>(null)
-  const [specShared, setSpecShared] = useState(false)
   const saved = useSavedDesigns()
   const wide = useIsWide()
 
@@ -132,10 +131,8 @@ export function SchemaStudio() {
   const map = <MapTable gen={gen} definition={definition} selected={selected} onSelect={setSelected} />
   const spec = (
     <SpecPanel
-      spec={buildSpec(gen.definitions, { presentation: specShared })}
-      withLink={() => buildSpec(gen.definitions, { presentation: specShared, shareUrl: shareUrl(model) })}
-      shared={model.presentation ? specShared : null}
-      setShared={setSpecShared}
+      spec={buildSpec(gen.definitions, { presentation: model.presentation })}
+      withLink={() => buildSpec(gen.definitions, { presentation: model.presentation, shareUrl: shareUrl(model) })}
     />
   )
 
@@ -451,6 +448,20 @@ function Builder({
 
   return (
     <div className="flex flex-col gap-4 text-sm">
+      <label className="bg-fd-card flex cursor-pointer items-start gap-2.5 rounded-md border p-3">
+        <input
+          type="checkbox"
+          checked={model.presentation}
+          onChange={(e) => patchModel((m) => ({ ...m, presentation: e.target.checked }))}
+          className="accent-fd-primary mt-0.5 size-4 shrink-0"
+        />
+        <span className="flex flex-col gap-0.5">
+          <span className="font-medium">Include shared presentation fields</span>
+          <span className="text-fd-muted-foreground text-xs">
+            Theme, spacing, anchor and animation. Adds them to the definition, the map, every CMS schema and the spec.
+          </span>
+        </span>
+      </label>
       <nav className="flex flex-wrap gap-1 text-xs" aria-label="Types">
         <TypeTab active={editing === -1} onClick={() => setEditing(-1)}>
           Block: {model.block.type}
@@ -483,13 +494,7 @@ function Builder({
         <Field label="Description">
           <Input value={type.description ?? ""} onChange={(v) => patchType((t) => (t.description = v || undefined))} />
         </Field>
-        {editing === -1 ? (
-          <Toggle
-            checked={model.presentation}
-            onChange={(v) => patchModel((m) => ({ ...m, presentation: v }))}
-            label="Include the shared presentation fields (theme, spacing, anchor, animation)"
-          />
-        ) : (
+        {editing === -1 ? null : (
           <button
             type="button"
             onClick={() => removeItemType(editing)}
@@ -785,18 +790,7 @@ function MapTable({
 // ---------------------------------------------------------------------------
 
 /** The build spec, previewed as it will paste, with one copy button per destination. */
-function SpecPanel({
-  spec,
-  withLink,
-  shared,
-  setShared,
-}: {
-  spec: Spec
-  withLink: () => Spec
-  /** null when the block has no presentation fields to list. */
-  shared: boolean | null
-  setShared: (v: boolean) => void
-}) {
+function SpecPanel({ spec, withLink }: { spec: Spec; withLink: () => Spec }) {
   let n = 0
   return (
     <div className="flex flex-col gap-3">
@@ -811,13 +805,6 @@ function SpecPanel({
         <CopyButton label="Copy Markdown" getText={() => specToMarkdown(withLink())} small />
         <CopyButton label="Copy Jira markup" getText={() => specToJira(withLink())} small />
       </div>
-      {shared !== null ? (
-        <Toggle
-          checked={shared}
-          onChange={setShared}
-          label="Include the shared settings (theme, spacing, anchor, animation)"
-        />
-      ) : null}
       <p className="text-fd-muted-foreground text-xs">
         The first button copies formatted text that pastes as headings and tables in Confluence and Jira. Use Jira
         markup for Jira Data Center or a wiki-markup field, and Markdown for anything else.
