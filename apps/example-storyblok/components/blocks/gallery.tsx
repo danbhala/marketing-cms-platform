@@ -147,7 +147,7 @@ function Tile({ item, index, ratio, onOpen, caption, className, ...props }: Tile
         draggable={false}
         className={cn(
           ratio === "auto" && "w-full",
-          "size-full transition-transform duration-500 ease-out group-hover/tile:scale-[1.03]"
+          "size-full transition-transform duration-500 ease-out motion-safe:group-hover/tile:scale-[1.03]"
         )}
       />
     </SharedLayout>
