@@ -497,6 +497,13 @@ describe("preview", () => {
     expect(entry).toEqual({ ok: true, path: "/", context: { mode: "edit", storyId: String(HOME_STORY_ID) } })
   })
 
+  it("sends Open published links to the live page without a token or Draft Mode", async () => {
+    const open = (id: string) =>
+      adapter.preview.enter(new Request(`https://site.test/api/preview?path=/home&_storyblok_published=${id}`))
+    expect(await open(String(HOME_STORY_ID))).toEqual({ ok: true, path: "/", draft: false })
+    expect(await open("404")).toMatchObject({ ok: false, status: 404 })
+  })
+
   it("rejects forged, expired and foreign-space editor tokens", async () => {
     expect(await adapter.preview.enter(new Request(editorUrl(now, "deadbeef")))).toMatchObject({
       ok: false,

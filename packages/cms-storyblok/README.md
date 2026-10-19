@@ -46,6 +46,8 @@ In Storyblok, Settings → Visual Editor, set the preview URL to
 validates `_storyblok_tk[token]` as `sha1("<space_id>:<preview token>:<timestamp>")` with a one-hour window, resolves the story id
 to its path through the draft API, and the app enables Draft Mode and redirects to that path with the editor query string intact.
 Hand-made previews use `/api/preview?secret=<PREVIEW_SECRET>&path=/pricing`; only on-site paths are accepted.
+The editor's "Open published" link (`_storyblok_published=<story id>`, no token) redirects to the published page
+without Draft Mode.
 
 In draft mode the adapter reads `version=draft` and, when the page is inside the Visual Editor (`_storyblok` present), attaches
 `$edit.self` = `storyblokEditable(blok)` (`data-blok-c`, `data-blok-uid`) to every document, block and item. Storyblok targets
