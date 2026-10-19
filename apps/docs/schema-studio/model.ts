@@ -311,14 +311,14 @@ export function fromBlock(d: AnyBlockDefinition): StudioModel {
       label: `My ${d.label.toLowerCase()}`,
     },
     items: [],
-    presentation: hasPresentation,
+    presentation: false,
   }
 }
 
 export const blankModel: StudioModel = {
   block: { type: "myBlock", label: "My block", fields: [{ name: "title", kind: "text", required: true }] },
   items: [],
-  presentation: true,
+  presentation: false,
 }
 
 /** The sample the studio opens with: eight fields covering most kinds and one nested item type. */
@@ -348,7 +348,7 @@ export const sampleModel: StudioModel = {
       ],
     },
   ],
-  presentation: true,
+  presentation: false,
 }
 
 export interface Preset {

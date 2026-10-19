@@ -20,7 +20,9 @@ export function modelToPrompt(model: StudioModel, canonical: string, { shareUrl 
     '1. Add the definitions from the "Definition" section to the content model.',
     "   - In the monorepo: `packages/content-model/src/definitions/blocks.ts` for the block and `items.ts` for item types; add the block to `allBlocks` and item types to `allItems`.",
     "   - In a project that copied the platform code: the same files under its `content-model` folder.",
-    `   The block spreads \`presentation\`, the shared theme/spacing/anchor/animation fields every block has; keep that.`,
+    model.presentation
+      ? `   The block spreads \`presentation\`, the shared theme/spacing/anchor/animation fields; keep that.`
+      : "   The block leaves out `presentation`, the shared theme/spacing/anchor/animation fields; keep it that way.",
     "",
     `2. Export the content type: \`export type ${pascal} = InferContent<typeof ${block.type}>\` in \`types.ts\`${items.length ? `, and the same for ${items.map((i) => i.type).join(", ")}` : ""}, and add \`${pascal}\` to the \`Block\` union.`,
     "",

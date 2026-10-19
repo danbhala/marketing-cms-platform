@@ -225,7 +225,7 @@ function hasMedia(defs: AnyDefinition[]): boolean {
 
 export interface SpecOptions {
   shareUrl?: string
-  /** List the shared presentation settings (theme, spacing, animation...). Off by default: they rarely need speccing. */
+  /** List the shared presentation settings (theme, spacing, animation...); the studio passes its own checkbox. */
   presentation?: boolean
 }
 
