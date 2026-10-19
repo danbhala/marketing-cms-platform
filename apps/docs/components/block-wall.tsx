@@ -28,7 +28,7 @@ export function BlockWall() {
           pause, open one to see its fields, variants and CMS schemas.
         </p>
       </div>
-      <div className="home-wall -mx-6 flex flex-col gap-3 py-1">
+      <div className="home-wall -mx-4 flex flex-col gap-3 py-1">
         {wallRows.map((row, i) => (
           <div
             key={i}
