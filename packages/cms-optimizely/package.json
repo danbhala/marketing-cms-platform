@@ -18,8 +18,7 @@
   "dependencies": {
     "@platform/cms-core": "workspace:*",
     "@platform/content-model": "workspace:*",
-    "@optimizely/cms-sdk": "catalog:",
-    "zod": "catalog:"
+    "@optimizely/cms-sdk": "catalog:"
   },
   "devDependencies": {
     "@platform/eslint-config": "workspace:*",

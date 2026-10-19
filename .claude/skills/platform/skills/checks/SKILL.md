@@ -12,7 +12,8 @@ pnpm format:check         # prettier at 120 columns; `pnpm format` fixes
 pnpm lint
 pnpm typecheck
 pnpm test                 # UI stories run in Chromium; export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH if Playwright has no browser
-pnpm build                # both apps; CMS_PROVIDER defaults to local
+pnpm build --filter=!example-storyblok   # CMS_PROVIDER defaults to local; the example needs a live space
+node packages/registry/smoke.mjs         # the scaffolded site must match apps/example-storyblok
 ```
 
 Per package: `pnpm --filter @platform/<name> test`. If `turbo run` cannot spawn processes in the sandbox, run the same tasks with `pnpm -r --workspace-concurrency=2 <task>`. The Next apps use `next typegen` for route and page prop types; run it if `PageProps` or `Route` types are missing.
@@ -27,4 +28,4 @@ node packages/ui/scripts/screenshot-docs.mjs http://localhost:3001 apps/docs/pub
 
 Story ids come from `packages/ui/storybook-static/index.json` (e.g. `blocks-hero--split`, `templates-pages--landing@390`).
 
-Before a PR: commit generated `packages/cms-*/schema/` files, keep the app free of `@platform/cms-*` imports outside `cms.config.ts` and `cms.bridges.ts` (ESLint enforces it), and write the PR description as "Before / After / How".
+Before a PR: commit generated `packages/cms-*/schema/` files, keep CMS SDK imports out of the app outside `cms.config.ts` and `cms.bridges.ts` (ESLint's `noCmsImports` enforces it), run `node packages/registry/smoke.mjs --update-example` when the CLI or copied source changes, and write the PR description as "Before / After / How".

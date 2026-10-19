@@ -25,7 +25,7 @@ pnpm dev                 # http://localhost:3001
 
 ## Theme studio and showcases
 
-`/theme` is the theme studio: `theme-studio/theme.ts` holds the editable model (fonts, heading treatment, corners, whitespace, card size, content width, 13 colours) and derives every CSS variable from it, `color.ts` does the OKLCH maths, `presets.ts` the named presets, `store.ts` keeps the state in the URL hash. `/showcase/<slug>` renders a fictional brand with the real `PageTemplate` and its preset; content lives in `showcases/`, fonts come from the Fontsource catalogue in `theme-studio/fonts.ts` (add a package in both `fonts.ts` and `fonts-load.ts`), photos in `public/showcases` (see `CREDITS.md` there). Screenshot showcases with `screenshot-docs.mjs` and rename to `public/screenshots/showcase-<slug>.png`.
+`/theme` is the theme studio: `packages/theme-studio/src/theme.ts` holds the editable model (fonts, heading treatment, corners, whitespace, card size, content width, 13 colours) and derives every CSS variable from it, `color.ts` does the OKLCH maths, `presets.ts` the named presets, `store.ts` keeps the state in the URL hash. `/showcase/<slug>` renders a fictional brand with the real `PageTemplate` and its preset; content lives in `showcases/`, fonts come from the Fontsource catalogue in `packages/theme-studio/src/fonts.ts` (add the package to `packages/theme-studio/package.json` and to both `fonts.ts` and `fonts-load.ts`), photos in `public/showcases` (see `CREDITS.md` there). Screenshot showcases with `screenshot-docs.mjs` and rename to `public/screenshots/showcase-<slug>.png`.
 
 ## Schema studio
 

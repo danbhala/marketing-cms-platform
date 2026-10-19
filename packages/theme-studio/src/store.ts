@@ -19,7 +19,7 @@ let current: Theme | undefined
 const listeners = new Set<() => void>()
 let timer: ReturnType<typeof setTimeout> | undefined
 
-export function readThemeFromHash(): Theme | null {
+function readThemeFromHash(): Theme | null {
   if (typeof window === "undefined") return null
   const m = window.location.hash.match(/[#&]t=([A-Za-z0-9_-]+)/)
   return m?.[1] ? decodeTheme(m[1]) : null

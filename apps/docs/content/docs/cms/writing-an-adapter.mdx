@@ -13,7 +13,7 @@ Copy a real adapter such as `packages/cms-storyblok` as `packages/cms-<name>`. K
 <Step>
 ### Implement `CmsAdapter`
 
-`getPage`, `getDocument`, `getCollection`, `getTaxonomy`, `getSiteSettings`, `getPaths`, `resolvePreviewPath`, `webhook.verify/toEvent`, `preview.enter/context/frameAncestors/bridge`. Read drafts when `ctx.draft` is true and attach `$edit` then only. Validate every transformed entry with `schemaFor(definition)`. `getCollection` takes a parsed `ListingQuery` (page, page size, sort, filter slugs, optional `q`) and must return the total count; `getPaths` includes articles.
+`getPage`, `getDocument`, `getCollection`, `getTaxonomy`, `getSiteSettings`, `getPaths`, optionally `getTranslatedPaths` (per-locale slugs for hreflang), `resolvePreviewPath`, `webhook.verify/toEvent`, `preview.enter/context/frameAncestors/bridge`. Read drafts when `ctx.draft` is true and attach `$edit` then only. Validate every transformed entry with `schemaFor(definition)`. `getCollection` takes a parsed `ListingQuery` (page, page size, sort, filter slugs, optional `q`) and must return the total count; `getPaths` includes articles.
 
 </Step>
 <Step>

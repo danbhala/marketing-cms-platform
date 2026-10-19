@@ -17,8 +17,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@platform/content-model": "workspace:*",
-    "zod": "catalog:"
+    "@platform/content-model": "workspace:*"
   },
   "peerDependencies": {
     "next": "catalog:",

@@ -5,13 +5,13 @@ description: "Conventions, checks and how the pieces are tested."
 
 ## Checks
 
-| Command             | What runs                                                                                                       |
-| ------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `pnpm format:check` | Prettier at 120 columns (`pnpm format` rewrites)                                                                |
-| `pnpm lint`         | ESLint 10 flat config; `noCmsImports` keeps SDKs out of `apps/web` and `packages/ui`                            |
-| `pnpm typecheck`    | TypeScript 6 per package                                                                                        |
-| `pnpm test`         | Vitest: unit projects, plus the Storybook browser project (Playwright/Chromium) which runs every story with axe |
-| `pnpm build`        | Turborepo build of every package and app                                                                        |
+| Command                                  | What runs                                                                                                                                        |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `pnpm format:check`                      | Prettier at 120 columns (`pnpm format` rewrites)                                                                                                 |
+| `pnpm lint`                              | ESLint 10 flat config; `noCmsImports` keeps SDKs out of `apps/web` and `packages/ui`                                                             |
+| `pnpm typecheck`                         | TypeScript 6 per package                                                                                                                         |
+| `pnpm test`                              | Vitest: unit projects, plus the Storybook browser project (Playwright/Chromium) which runs every story with axe                                  |
+| `pnpm build --filter=!example-storyblok` | Turborepo build of every package and app except the Storyblok example, which needs a live space; CI also runs `node packages/registry/smoke.mjs` |
 
 ## Conventions
 

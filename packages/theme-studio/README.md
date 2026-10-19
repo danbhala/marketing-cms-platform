@@ -2,7 +2,9 @@
 
 The theme studio's engine and UI, shared by the docs app (`/theme`, showcase pages) and the demo site.
 
-- `theme`: the `Theme` shape, `themeToVars`, `themeToCss`, URL hash encoding, `useThemeOverride`, and the stepped controls' tables (`spaceSteps`/`spaceVars` for Whitespace, `cardSizes`, `radiusSteps`, `widthSteps`).
+- `theme`: the `Theme` shape, `themeToVars`, `themeToCss`, `encodeTheme`/`decodeTheme`, and the stepped controls' tables (`spaceSteps`/`spaceVars` for Whitespace, `cardSizes`, `radiusSteps`, `widthSteps`).
+- `store`: the theme kept in the URL hash, `useTheme`, `useThemeOverride`, `shareUrl`.
+- `color`: OKLCH maths and contrast. `prompt`: `themeToPrompt`, the Copy prompt text.
 - `presets`, `fonts`, `fonts-load`: starting themes and the self-hosted font list.
 - `panels`, `controls`: the studio's tabs and inputs.
 - `theme-editor`: the floating "Edit theme" pill and drawer: a bottom sheet on phones (peek, half, full), an overlay on tablets, docked from 64rem with the page narrowed beside it. Pass `preset` so the preset row (`preset-strip`) starts on it.

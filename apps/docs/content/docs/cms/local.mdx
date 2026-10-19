@@ -9,10 +9,10 @@ It is also the behavioural reference for the other adapters: the same tests (pag
 
 ```bash
 # enter draft mode
-open "http://localhost:3000/api/preview?secret=change-me&path=/pricing&mode=edit"
+open "http://localhost:3000/api/preview?secret=change-me&path=/about&mode=edit"
 # revalidate a page
 curl -X POST localhost:3000/api/revalidate -H "x-revalidate-secret: change-me" \
-  -H "content-type: application/json" -d '{"paths":["/pricing"]}'
+  -H "content-type: application/json" -d '{"paths":["/about"]}'
 ```
 
-<Screenshot name="app-draft-mode-edit-overlay" alt="The local bridge outlining the pricing block title" height={800} />
+<Screenshot name="app-draft-mode-edit-overlay" alt="The local bridge outlining a block title" height={800} />

@@ -6,7 +6,7 @@ A Next.js marketing site made with `create-marketing-cms-app`. Every block, temp
 
 1. Fill in `.env.local`: `STORYBLOK_SPACE_ID`, `STORYBLOK_REGION`, a preview and a public access token (Settings → Access tokens) and a personal access token as `STORYBLOK_MANAGEMENT_TOKEN`.
 2. `npm run cms:push` creates every block and field in the space, filed into Block Library folders, plus an unpublished Site settings story.
-3. Create a page story with the slug `home`, fill in Site settings, publish both, then `npm run dev` and open http://localhost:3000/en.
+3. Create a page story with the slug `home`, fill in Site settings, publish both, then `npm run dev` and open http://localhost:3000 (add `/<locale>` on a multilingual site).
 
 Run `npm run cms:push` again whenever you add or change a block.
 

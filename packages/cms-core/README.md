@@ -4,10 +4,11 @@ The contract between the app and any CMS. It has no SDK dependencies; adapters i
 
 | Import                       | Contents                                                                                                                                                     |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `@platform/cms-core`         | `CmsAdapter`, `ContentContext`, `PreviewEntry`, `PreviewBridgeProps`, `SiteConfig`, `WebhookEvent`.                                                          |
+| `@platform/cms-core`         | `CmsAdapter`, `FetchContext`, `PreviewEntry`, `PreviewBridgeProps`, `SiteConfig`, `WebhookEvent`.                                                            |
 | `@platform/cms-core/tags`    | `tags.page(locale, path)`, `tags.entry(id)`, `tags.type(t)`, `tags.global(locale)`, `tags.paths(locale)`, `tags.collection(locale, source)`, `uniqueTags()`. |
 | `@platform/cms-core/listing` | `parseListingQuery(searchParams, block)`, `listingHref`, `withChange`, `toSearchParams`, `isDefaultQuery`: the URL contract for the `collection` block.      |
 | `@platform/cms-core/edit`    | `editAttrs(node)` and `fieldAttrs(node, field)` to spread `$edit` metadata onto elements.                                                                    |
+| `@platform/cms-core/locale`  | `localePath`, `localizeHref`, `LocaleConfig`: locale-prefixed URLs.                                                                                          |
 
 ## The adapter
 
@@ -20,6 +21,7 @@ interface CmsAdapter {
   getTaxonomy(type, ctx): Promise<Category[]>
   getSiteSettings(ctx): Promise<SiteSettings | null>
   getPaths(locale): Promise<string[]>
+  getTranslatedPaths?(path, ctx): Promise<Record<string, string>> // optional: per-locale slugs
   resolvePreviewPath(searchParams): Promise<string | null>
   webhook: { verify(request); toEvent(payload) }
   preview: { enter(request); context(searchParams, draft); frameAncestors; bridge }

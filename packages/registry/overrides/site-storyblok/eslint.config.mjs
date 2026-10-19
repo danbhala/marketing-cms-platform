@@ -16,6 +16,20 @@ const eslintConfig = defineConfig([
     files: ["lib/cms-*/bridge.tsx"],
     rules: { "@next/next/no-html-link-for-pages": "off" },
   },
+  {
+    // `Image` here is the platform's own component: alt comes from the CMS media record (`media.alt`),
+    // not an `alt` prop, so Next's rule that treats every `Image` as next/image does not apply.
+    rules: { "jsx-a11y/alt-text": ["warn", { elements: ["img"], img: [] }] },
+  },
+  {
+    // Same convention as the platform: a leading underscore marks a deliberately unused name.
+    rules: { "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }] },
+  },
+  {
+    // The provider's plain <img> is the fallback when no host Image is passed; the app passes next/image.
+    files: ["components/lib/ui-provider.tsx"],
+    rules: { "@next/next/no-img-element": "off" },
+  },
   globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
 ])
 

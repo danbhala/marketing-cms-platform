@@ -55,7 +55,6 @@ export interface ChromeConfig {
   footer?: FooterOptions
 }
 
-/** Every visible string in the header and footer, so hosts can localise them in one place. */
 /** One language the current page is published in, for the language switcher. */
 export interface LanguageOption {
   /** BCP 47 locale, used for `hreflang` and `lang`. */
@@ -67,6 +66,7 @@ export interface LanguageOption {
   current?: boolean
 }
 
+/** Every visible string in the header and footer, so hosts can localise them in one place. */
 export interface ChromeLabels {
   skipToContent: string
   mainNavigation: string

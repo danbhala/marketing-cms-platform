@@ -17,3 +17,7 @@ next-env.d.ts
 *storybook.log
 .claude/worktrees/
 __pycache__/
+
+# Written by `next dev`; apps/example-storyblok/AGENTS.md is CLI output and stays tracked
+apps/web/AGENTS.md
+apps/docs/AGENTS.md

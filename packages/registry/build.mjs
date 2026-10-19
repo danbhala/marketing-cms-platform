@@ -208,7 +208,6 @@ function buildSite({ name, cms, title, description, envVars, docs }) {
   for (const rel of overridden) add(rel, read(join(overrides, rel)), `overrides/${rel}`)
 
   for (const pkg of ["next", "react", "react-dom"]) deps.add(pkg)
-  for (const pkg of ["react", "react-dom", "next"]) if (!deps.has(pkg)) throw new Error(pkg)
 
   return {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -247,7 +246,7 @@ const sites = [
       STORYBLOK_TRANSLATED_SLUGS: "false",
       STORYBLOK_MANAGEMENT_TOKEN: "",
     },
-    docs: "Fill in the STORYBLOK_* values in .env.local, run `npm run cms:push` to create the blocks in your space, then `npm run dev` and open /en.",
+    docs: "Fill in the STORYBLOK_* values in .env.local, run `npm run cms:push` to create the blocks in your space, then `npm run dev` and open http://localhost:3000 (add /<locale> on a multilingual site).",
   },
 ]
 

@@ -7,15 +7,16 @@ content type and their `full_slug` is the URL; site settings is one story at
 
 ## Environment
 
-| Variable                   | Purpose                                                                                                                |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `STORYBLOK_PREVIEW_TOKEN`  | Preview-scoped access token (Settings → Access tokens). Required; reads drafts and, by default, published content too. |
-| `STORYBLOK_REGION`         | `eu` (default), `us`, `ca`, `ap` or `cn`.                                                                              |
-| `PREVIEW_SECRET`           | Shared secret for hand-opened previews: `/api/preview?secret=…&path=/pricing`.                                         |
-| `REVALIDATE_SECRET`        | Fallback webhook secret when `STORYBLOK_WEBHOOK_SECRET` is unset.                                                      |
-| `STORYBLOK_PUBLIC_TOKEN`   | Optional public token for published reads.                                                                             |
-| `STORYBLOK_SPACE_ID`       | Optional; when set, Visual Editor tokens from any other space are rejected.                                            |
-| `STORYBLOK_WEBHOOK_SECRET` | Optional; the secret typed into the webhook in Storyblok.                                                              |
+| Variable                     | Purpose                                                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `STORYBLOK_PREVIEW_TOKEN`    | Preview-scoped access token (Settings → Access tokens). Required; reads drafts and, by default, published content too. |
+| `STORYBLOK_REGION`           | `eu` (default), `us`, `ca`, `ap` or `cn`.                                                                              |
+| `PREVIEW_SECRET`             | Shared secret for hand-opened previews: `/api/preview?secret=…&path=/pricing`.                                         |
+| `REVALIDATE_SECRET`          | Fallback webhook secret when `STORYBLOK_WEBHOOK_SECRET` is unset.                                                      |
+| `STORYBLOK_PUBLIC_TOKEN`     | Optional public token for published reads.                                                                             |
+| `STORYBLOK_SPACE_ID`         | Optional; when set, Visual Editor tokens from any other space are rejected.                                            |
+| `STORYBLOK_WEBHOOK_SECRET`   | Optional; the secret typed into the webhook in Storyblok.                                                              |
+| `STORYBLOK_TRANSLATED_SLUGS` | `true` when the space uses translatable slugs (`/fr/a-propos`), so hreflang links each translation. Default `false`.   |
 
 Everything can also be passed explicitly: `createStoryblokAdapter({ previewToken, homeSlug: "home", siteSettingsSlug: "site-settings", locales: ["en"] })`.
 The SDK client is created on first read, so importing the package without credentials is safe.
