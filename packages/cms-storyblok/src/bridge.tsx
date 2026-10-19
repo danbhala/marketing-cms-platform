@@ -8,15 +8,17 @@ import type { ISbEventPayload } from "@storyblok/js"
 
 import type { PreviewBridgeProps } from "@platform/cms-core"
 
+import { forgetLiveEdit, liveEdit } from "./live-edit"
+import { documentRelations } from "./relations"
+
 /**
  * Loads Storyblok's preview bridge (bundled with `@storyblok/js`, so no CDN
- * script) when the page runs inside the Visual Editor and asks Next.js to
- * re-render the server tree on every editor event. Blocks render as Server
- * Components, so instead of patching client state with the `input` payload
- * we `router.refresh()`: the page refetches the draft (Draft Mode bypasses
- * every cache) and the editor's click-to-edit outlines reattach to the new
- * `data-blok-*` attributes. `input` fires per keystroke, hence the debounce;
- * the refresh shows what Storyblok has autosaved, which trails by a moment.
+ * script) when the page runs inside the Visual Editor. Blocks render as Server
+ * Components, so each keystroke (`input`) sends the unsaved story to the
+ * `liveEdit` Server Action, which keeps it for draft reads and re-renders the
+ * page in the same response. Save and publish drop that copy and re-render
+ * from the draft API. The editor's click-to-edit outlines reattach to the new
+ * `data-blok-*` attributes after each render.
  */
 export default function StoryblokPreviewBridge({ ctx }: PreviewBridgeProps) {
   const router = useRouter()
@@ -26,18 +28,25 @@ export default function StoryblokPreviewBridge({ ctx }: PreviewBridgeProps) {
     if (!inEditor) return
     let cancelled = false
     let timer: ReturnType<typeof setTimeout> | undefined
-    const refresh = (delay: number) => {
+    const later = (delay: number, run: () => void) => {
       clearTimeout(timer)
-      timer = setTimeout(() => router.refresh(), delay)
+      timer = setTimeout(() => React.startTransition(run), delay)
     }
 
     loadStoryblokBridge()
       .then(() => {
         if (cancelled || typeof window.StoryblokBridge !== "function") return
-        const bridge = new window.StoryblokBridge({ preventClicks: false })
+        const bridge = new window.StoryblokBridge({
+          preventClicks: false,
+          resolveRelations: documentRelations,
+          resolveLinks: "url",
+        })
         bridge.on(["input", "published", "change"], (event?: ISbEventPayload) => {
           if (!event) return
-          refresh(event.action === "input" ? 400 : 0)
+          const story = event.story
+          if (event.action === "input" && story) later(150, () => void liveEdit(story))
+          else if (event.storyId != null) later(0, () => void forgetLiveEdit(Number(event.storyId)))
+          else later(0, () => router.refresh())
         })
       })
       .catch((error: unknown) => {

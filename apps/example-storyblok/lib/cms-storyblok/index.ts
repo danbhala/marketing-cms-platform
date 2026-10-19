@@ -1,10 +1,12 @@
 import type { CmsAdapter, FetchContext } from "@/lib/cms-core"
 import type { Field, ListingQuery } from "@/lib/content-model"
 import type { ISbStoryData } from "storyblok-js-client"
-import { article as articleDefinition, listableDocuments, page as pageDefinition } from "@/lib/content-model"
+import { article as articleDefinition, listableDocuments } from "@/lib/content-model"
 
 import { createStoryblokApi, type StoryblokApi, type StoryQuery } from "./client"
+import { liveStory } from "./live-store"
 import { createPreviewHandlers, resolvePreviewPath } from "./preview"
+import { documentRelations, pageRelations } from "./relations"
 import {
   pathToSlug,
   relationsFor,
@@ -64,10 +66,7 @@ const listingSort: Record<ListingQuery["sort"], string> = {
   title: "content.title:asc",
 }
 
-const articleRelations = relationsFor(articleDefinition)
 const summaryRelations = relationsFor(articleDefinition, false)
-const pageRelations = relationsFor(pageDefinition)
-const documentRelations = [...new Set([...pageRelations, ...articleRelations])]
 
 export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): CmsAdapter {
   const env = typeof process !== "undefined" ? process.env : ({} as NodeJS.ProcessEnv)
@@ -78,15 +77,17 @@ export function createStoryblokAdapter(options: StoryblokAdapterOptions = {}): C
   const locales = options.locales ?? [defaultLocale]
   const translatedSlugs = options.translatedSlugs ?? env.STORYBLOK_TRANSLATED_SLUGS === "true"
 
-  let api: StoryblokApi | undefined = options.api
+  let api: StoryblokApi | undefined = options.api && withLiveEdits(options.api)
   const getApi = (): StoryblokApi => {
     if (api) return api
     if (!previewToken) throw new Error("@platform/cms-storyblok: set STORYBLOK_PREVIEW_TOKEN (or pass previewToken)")
-    api = createStoryblokApi({
-      previewToken,
-      publicToken: options.publicToken ?? env.STORYBLOK_PUBLIC_TOKEN,
-      region: options.region ?? env.STORYBLOK_REGION ?? "eu",
-    })
+    api = withLiveEdits(
+      createStoryblokApi({
+        previewToken,
+        publicToken: options.publicToken ?? env.STORYBLOK_PUBLIC_TOKEN,
+        region: options.region ?? env.STORYBLOK_REGION ?? "eu",
+      })
+    )
     return api
   }
 
@@ -252,3 +253,14 @@ export { assetToMedia } from "./media"
 export { generateComponents } from "./schema"
 export { signWebhookBody, SIGNATURE_HEADER } from "./webhook"
 export { verifyEditorToken } from "./preview"
+
+/** Draft reads of one story show the Visual Editor's unsaved copy when there is one (see `live-store.ts`). */
+function withLiveEdits(api: StoryblokApi): StoryblokApi {
+  return {
+    ...api,
+    getStory: async (slugOrId, query) => {
+      const story = await api.getStory(slugOrId, query)
+      return story && query.version === "draft" ? liveStory(story) : story
+    },
+  }
+}

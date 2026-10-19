@@ -55,9 +55,11 @@ whole bloks, so `$edit.fields` is empty and `fieldAttrs()` returns `{}`. The sit
 ### Bridge
 
 `@platform/cms-storyblok/bridge` is a client component rendered only in Draft Mode. It loads the bundled preview bridge
-(`loadStoryblokBridge` from `@storyblok/js`) when inside the editor and calls `router.refresh()` on `input` (debounced), `change`
-and `published`, so the server tree re-renders with the latest draft and the editor's click-to-edit outlines reattach.
-`input` events contain unsaved edits; the refresh shows what Storyblok has autosaved, so live typing trails by a moment.
+(`loadStoryblokBridge` from `@storyblok/js`) when inside the editor. Each `input` event (a keystroke, unsaved) goes to the
+`liveEdit` Server Action (`src/live-edit.ts`), which keeps the story in memory for draft reads and re-renders the page in
+the same response, so typing shows straight away, on serverless too. `change` and `published` drop that copy and
+re-render from the draft API. The bridge resolves the same relations as the adapter, so unsaved stories have the same
+shape as fetched ones.
 
 ## Webhook
 

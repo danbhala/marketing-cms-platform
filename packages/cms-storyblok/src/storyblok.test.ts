@@ -31,6 +31,7 @@ import {
   webhookSettings,
 } from "./__fixtures__/stories"
 import type { StoryblokApi, StoryListQuery, StoryQuery } from "./client"
+import { forgetLiveStory, rememberLiveStory } from "./live-store"
 import { createStoryblokAdapter, richTextToAst, signWebhookBody, storyToArticle, storyToPage } from "./index"
 import { generateComponents } from "./schema"
 
@@ -459,6 +460,20 @@ describe("$edit", () => {
     const preview = await adapter.getPage("/", { locale: "en", draft: true, preview: { mode: "preview" } })
     expect(preview?.$edit).toBeUndefined()
     expect(preview?.blocks[0]?.$edit).toBeUndefined()
+  })
+})
+
+describe("live editing", () => {
+  it("renders the editor's unsaved story on draft reads only, until it is forgotten", async () => {
+    const hero = { ...homeStory.content.blocks[0], title: "Typed, not saved" }
+    rememberLiveStory({
+      ...homeStory,
+      content: { ...homeStory.content, blocks: [hero, ...homeStory.content.blocks.slice(1)] },
+    })
+    expect(((await adapter.getPage("/", draft))?.blocks[0] as HeroBlock).title).toBe("Typed, not saved")
+    expect(((await adapter.getPage("/", published))?.blocks[0] as HeroBlock).title).not.toBe("Typed, not saved")
+    forgetLiveStory(homeStory.id)
+    expect(((await adapter.getPage("/", draft))?.blocks[0] as HeroBlock).title).not.toBe("Typed, not saved")
   })
 })
 
