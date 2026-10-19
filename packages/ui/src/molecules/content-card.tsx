@@ -112,7 +112,7 @@ function ContentCard({ item, variant = "card", className, ...props }: ContentCar
           radius={shape === "row" ? "lg" : "none"}
           sizes={imageSizes[shape]}
           className={cn(
-            "transition-transform duration-300 group-hover/card:[&_img]:scale-105",
+            "[&_img]:transition-transform [&_img]:duration-500 [&_img]:ease-out motion-safe:group-hover/card:[&_img]:scale-105",
             shape === "feature" && "section-md:aspect-auto section-md:h-full section-md:min-h-80"
           )}
           {...fieldAttrs(item, "image")}

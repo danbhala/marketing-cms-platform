@@ -5,6 +5,7 @@ import Link from "next/link"
 import { BlockList, SiteHeader } from "@platform/ui/templates"
 
 import { demoBlocks, demoSettings } from "@/home/demo-site"
+import { demoUrl } from "@/lib/demo"
 import { showcases } from "@/showcases"
 import { fontById } from "@platform/theme-studio/fonts"
 import { encodeTheme, themeToStyle, themeToVars } from "@platform/theme-studio/theme"
@@ -39,7 +40,7 @@ export function HomeHero() {
   }
 
   return (
-    <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+    <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] xl:gap-16">
       <div className="flex flex-col gap-5">
         <h1 className="text-4xl font-semibold tracking-tight text-balance lg:text-5xl">
           One marketing front-end, any CMS
@@ -89,7 +90,7 @@ export function HomeHero() {
             Edit {showcase.name} in the studio
           </Link>
           <a
-            href="https://marketing-cms-platform-demo.vercel.app"
+            href={demoUrl}
             className="hover:bg-fd-accent inline-flex h-10 items-center rounded-lg border px-4 text-sm font-medium"
           >
             See the live demo

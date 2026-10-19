@@ -1,5 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared"
 
+import { demoUrl } from "./demo"
 import { storybookUrl } from "./storybook"
 
 /** Shared nav for the home and docs layouts. */
@@ -12,11 +13,7 @@ export function baseOptions(): BaseLayoutProps {
       { text: "Theme studio", url: "/theme" },
       { text: "Schema studio", url: "/schema" },
       { text: "Storybook", url: storybookUrl(), external: true },
-      {
-        text: "Demo site",
-        url: process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000",
-        external: true,
-      },
+      { text: "Demo site", url: demoUrl, external: true },
     ],
   }
 }
