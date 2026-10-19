@@ -61,6 +61,7 @@
     "@vitejs/plugin-react": "catalog:",
     "@vitest/browser-playwright": "catalog:",
     "@vitest/coverage-v8": "catalog:",
+    "axe-core": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-storybook": "catalog:",
     "jsdom": "catalog:",

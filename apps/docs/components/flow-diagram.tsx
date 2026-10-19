@@ -6,7 +6,11 @@ import { Fragment } from "react"
  */
 export function FlowDiagram({ columns }: { columns: { title?: string; nodes: string[] }[] }) {
   return (
-    <div className="not-prose bg-fd-card my-6 flex items-center gap-2 overflow-x-auto rounded-xl border p-4 text-sm">
+    // tabIndex lets keyboard users scroll a diagram wider than the screen.
+    <div
+      tabIndex={0}
+      className="not-prose bg-fd-card my-6 flex items-center gap-2 overflow-x-auto rounded-xl border p-4 text-sm"
+    >
       {columns.map((column, i) => (
         <Fragment key={i}>
           {i > 0 ? <span className="text-fd-muted-foreground shrink-0">→</span> : null}

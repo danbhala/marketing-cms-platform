@@ -28,9 +28,16 @@ function Tabs({ block, index, className, ...props }: TabsProps) {
           source={block}
         />
         <TabsPrimitive defaultValue={first.id} className="items-center gap-8" {...fieldAttrs(block, "tabs")}>
+          {/* Inactive tabs at 75% foreground keep 4.5:1 on the muted list in every theme; the primitive's 60% and its
+              dark: muted-foreground (which also fires in a light section on a dark page) fall short. */}
           <TabsList className="h-auto flex-wrap justify-center">
             {block.tabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id} className="px-4 py-2 text-sm" {...fieldAttrs(tab, "label")}>
+              <TabsTrigger
+                key={tab.id}
+                value={tab.id}
+                className="px-4 py-2 text-sm text-foreground/75 dark:text-foreground/75"
+                {...fieldAttrs(tab, "label")}
+              >
                 {tab.label}
               </TabsTrigger>
             ))}
