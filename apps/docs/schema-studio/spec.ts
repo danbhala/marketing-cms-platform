@@ -1,7 +1,7 @@
 import type { AnyDefinition, Field } from "@platform/content-model"
 
 import { cmsLabels, cmsIds, fieldNames } from "./generate"
-import { humanize, presentationFieldNames, type Definitions } from "./model"
+import { humanize, type Definitions } from "./model"
 
 /**
  * A build spec for the block, written for business analysts and developers:
@@ -271,10 +271,7 @@ export function buildSpec(definitions: Definitions, { shareUrl, presentation = f
           {
             heading: "Shared presentation settings",
             intro: "Every block has these. They are handled by the platform, not by this block's code.",
-            rows: rowsOf(
-              block,
-              names.presentation.filter((n) => presentationFieldNames.includes(n))
-            ),
+            rows: rowsOf(block, names.presentation),
           },
         ]
       : []),

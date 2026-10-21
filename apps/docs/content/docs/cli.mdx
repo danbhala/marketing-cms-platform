@@ -35,7 +35,7 @@ npx create-marketing-cms-app [directory] --storyblok [options] [-- create-next-a
 5. `shadcn add @marketing-cms/site-storyblok --overwrite`, which copies in the site and writes `.env.local`.
 6. Adds `typedRoutes` and Storyblok's image host to `next.config.ts`.
 7. Writes the languages into `siteConfig` in `cms.config.ts`.
-8. Adds the `cms:push` script to `package.json`.
+8. Adds the `cms:push` script, and a `typecheck` that runs `next typegen` first, to `package.json`.
 
 ## Languages
 
@@ -52,6 +52,7 @@ Change them later in `cms.config.ts`. For several languages, also add them in St
 
 | Variable                              | Needed for                                                        |
 | ------------------------------------- | ----------------------------------------------------------------- |
+| `CMS_PROVIDER`                        | Which adapter `cms.config.ts` loads (`storyblok`)                 |
 | `STORYBLOK_SPACE_ID`                  | `cms:push`, and rejecting editor tokens from other spaces         |
 | `STORYBLOK_PREVIEW_TOKEN`             | Every read                                                        |
 | `STORYBLOK_MANAGEMENT_TOKEN`          | `cms:push` only (a personal access token; keep it off the host)   |

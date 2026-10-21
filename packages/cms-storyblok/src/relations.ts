@@ -4,5 +4,5 @@ import { relationsFor } from "./transform"
 
 /** `component.field` pairs Storyblok expands inline for pages and articles. */
 export const pageRelations = relationsFor(page)
-export const articleRelations = relationsFor(article)
+const articleRelations = relationsFor(article)
 export const documentRelations = [...new Set([...pageRelations, ...articleRelations])]
