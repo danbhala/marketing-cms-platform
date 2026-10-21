@@ -69,7 +69,7 @@ const transforms = {
     ],
     [
       "className={themeClassName(siteConfig.defaultTheme)}",
-      "className={`${themeClassName(siteConfig.defaultTheme)} ${geist.variable} ${geistMono.variable}`}",
+      'className={[themeClassName(siteConfig.defaultTheme), geist.variable, geistMono.variable].filter(Boolean).join(" ")}',
     ],
     [
       'import { siteConfig, themeEditor } from "@/cms.config"\nimport { ThemeEditor } from "@/components/theme-editor"\n',

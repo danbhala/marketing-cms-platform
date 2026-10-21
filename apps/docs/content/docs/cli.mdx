@@ -1,0 +1,67 @@
+---
+title: CLI reference
+description: "Every option of create-marketing-cms-app, and what it does to the project."
+---
+
+```sh
+npx create-marketing-cms-app [directory] --storyblok [options] [-- create-next-app options]
+```
+
+<Callout type="warn">
+  Not on npm yet. Until it is, run `node packages/create-marketing-cms-app/index.mjs` from a clone of this repo with the
+  same arguments.
+</Callout>
+
+## Options
+
+| Option                        | Effect                                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| `[directory]`                 | Where to create the site. Asked when left out (default `my-site`); must not exist yet.           |
+| `--storyblok`                 | Use Storyblok, the only CMS in this version. Same as `--cms storyblok`.                          |
+| `--languages <list>`          | Comma-separated locales, e.g. `en` or `en,fr,de`. Asked when left out.                           |
+| `--default-language <locale>` | The default language when there are several. Defaults to the first.                              |
+| `--use-<pm>`                  | `npm`, `pnpm`, `yarn` or `bun`. Passed to create-next-app and used to run shadcn.                |
+| `--registry <url>`            | Install from another registry. Default: this site's `/r`; `MARKETING_CMS_REGISTRY` sets it too.  |
+| `-y`, `--yes`                 | No questions: one language (`en`) unless `--languages` is given, and create-next-app's defaults. |
+| `-- <args>`                   | Anything after `--` goes to create-next-app as is.                                               |
+| `-h`, `--help`                | Print the options.                                                                               |
+
+## What it runs
+
+1. `create-next-app@16.4.2` with `--typescript --app --tailwind --eslint --react-compiler --cache-components --no-src-dir --import-alias "@/*"`. The version is pinned to the Next.js release the registry is tested against.
+2. `shadcn@4.22.1 init --base base --preset nova`.
+3. Removes create-next-app's starter page and root layout and shadcn's starter button and `cn` helper; the site brings its own.
+4. Points `components.json` at the registry as `@marketing-cms` and sets the `ui` alias to `components/primitives`.
+5. `shadcn add @marketing-cms/site-storyblok --overwrite`, which copies in the site and writes `.env.local`.
+6. Adds `typedRoutes` and Storyblok's image host to `next.config.ts`.
+7. Writes the languages into `siteConfig` in `cms.config.ts`.
+8. Adds the `cms:push` script to `package.json`.
+
+## Languages
+
+| Answer                | `locales`      | `localePrefix` | URLs                                        |
+| --------------------- | -------------- | -------------- | ------------------------------------------- |
+| One language, `en-GB` | `["en-GB"]`    | `"as-needed"`  | `/about`; `/en-GB/about` redirects there    |
+| `en,fr`, default `en` | `["en", "fr"]` | `"always"`     | `/en/about`, `/fr/about`; `/` goes to `/en` |
+
+Change them later in `cms.config.ts`. For several languages, also add them in Storyblok under Settings → Internationalization; the default locale is the space's default language. [Languages](/docs/nextjs-app#languages) covers hreflang, the switcher and translated URLs.
+
+## Environment
+
+`.env.local` gets every variable the site reads:
+
+| Variable                              | Needed for                                                        |
+| ------------------------------------- | ----------------------------------------------------------------- |
+| `STORYBLOK_SPACE_ID`                  | `cms:push`, and rejecting editor tokens from other spaces         |
+| `STORYBLOK_PREVIEW_TOKEN`             | Every read                                                        |
+| `STORYBLOK_MANAGEMENT_TOKEN`          | `cms:push` only (a personal access token; keep it off the host)   |
+| `STORYBLOK_REGION`                    | `eu` (default), `us`, `ca`, `ap` or `cn`                          |
+| `STORYBLOK_PUBLIC_TOKEN`              | Optional public token for published reads                         |
+| `STORYBLOK_WEBHOOK_SECRET`            | The revalidation webhook                                          |
+| `STORYBLOK_TRANSLATED_SLUGS`          | `true` with the Translatable Slugs app                            |
+| `SITE_URL`, `SITE_NOINDEX`            | Canonical URLs and the sitemap; `true` keeps a site out of search |
+| `PREVIEW_SECRET`, `REVALIDATE_SECRET` | Hand-made preview links and the revalidate endpoint               |
+
+## `npm run cms:push`
+
+Creates or updates every component in the space from `lib/content-model`, files them into Block Library folders, and creates the Site settings story if it's missing. `-- --dry-run` prints the components instead. It reads `.env.local`, so run it from the project root.

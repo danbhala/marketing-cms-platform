@@ -15,13 +15,18 @@ export async function GET(request: Request) {
   const entry = await adapter.preview.enter(request)
   if (!entry.ok) return new Response(entry.message, { status: entry.status })
 
-  ;(await draftMode()).enable()
-
   const url = new URL(request.url)
-  url.searchParams.delete("secret")
-  url.searchParams.delete("path")
   // Editors name the locale differently (Optimizely sends `loc`); the app only needs the segment.
   const locale = url.searchParams.get("locale") ?? url.searchParams.get("loc") ?? siteConfig.defaultLocale
+  if (entry.draft === false) {
+    ;(await draftMode()).disable()
+    redirect(localePath(locale, entry.path) as Route)
+  }
+
+  ;(await draftMode()).enable()
+
+  url.searchParams.delete("secret")
+  url.searchParams.delete("path")
   const query = url.searchParams.toString()
   redirect(`${localePath(locale, entry.path)}${query ? `?${query}` : ""}` as Route)
 }

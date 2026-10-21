@@ -32,7 +32,7 @@ export function generateStaticParams() {
 export default async function RootLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params
   return (
-    <html lang={locale} className={`${themeClassName(siteConfig.defaultTheme)} ${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang={locale} className={[themeClassName(siteConfig.defaultTheme), geist.variable, geistMono.variable].filter(Boolean).join(" ")} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <UiProvider
           locale={locale}

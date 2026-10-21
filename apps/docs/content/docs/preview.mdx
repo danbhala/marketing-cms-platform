@@ -15,7 +15,7 @@ description: "Draft Mode, the $edit metadata contract, and the per-CMS bridges t
 1. The CMS opens the preview URL, `/api/preview?…`, in its editor iframe.
 2. The adapter's `preview.enter(request)` validates the request (secret, token or editor session) and returns the on-site path. The app enables Draft Mode and redirects there, keeping the CMS's query string.
 3. The page detects Draft Mode, asks the adapter for drafts with `ctx.draft = true` and the parsed preview context, and renders the CMS bridge (a client component loaded with `next/dynamic` only in draft).
-4. On save, the bridge calls `router.refresh()`; the page re-renders with the new draft.
+4. On save, the bridge calls `router.refresh()`; the page re-renders with the new draft. Storyblok also renders unsaved typing: its bridge sends each edit to a Server Action that re-renders the page with it.
 
 ## `$edit`: one contract for every editor
 

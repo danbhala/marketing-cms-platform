@@ -53,6 +53,19 @@ function files(dir) {
     .sort()
 }
 
+/**
+ * npm writes the newest matching version into package.json at install time,
+ * so dependency versions drift with every release; compare package names only.
+ */
+function comparable(file, path) {
+  const content = readFileSync(file, "utf8")
+  if (path !== "package.json") return content
+  const pkg = JSON.parse(content)
+  for (const key of ["dependencies", "devDependencies"])
+    if (pkg[key]) pkg[key] = Object.fromEntries(Object.keys(pkg[key]).map((name) => [name, "*"]))
+  return JSON.stringify(pkg)
+}
+
 try {
   // Async spawn: the server answers on this process's event loop.
   await new Promise((resolve, reject) => {
@@ -96,7 +109,7 @@ try {
       ...committed.filter((path) => !fresh.includes(path)).map((path) => `extra ${path}`),
       ...fresh
         .filter((path) => committed.includes(path))
-        .filter((path) => !readFileSync(join(site, path)).equals(readFileSync(join(example, path))))
+        .filter((path) => comparable(join(site, path), path) !== comparable(join(example, path), path))
         .map((path) => `changed ${path}`),
     ]
     if (drift.length)

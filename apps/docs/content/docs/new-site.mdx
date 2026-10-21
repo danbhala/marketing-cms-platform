@@ -1,28 +1,135 @@
 ---
 title: Start a new site
-description: "One command copies the platform into a plain Next.js project that your team owns."
+description: "Step by step: from an empty folder to a Storyblok-driven site your team owns, running locally and live-editable."
 ---
+
+The command copies the platform into a plain Next.js project. Nothing comes from the platform as a package: blocks, templates, the content model, the Storyblok adapter and the routes are all source files in your repo. The [CLI reference](/docs/cli) lists every option.
+
+## Before you start
+
+- Node.js 22 or later.
+- A Storyblok space. A new, empty one is best: the push step creates its blocks and fields.
+- Three values from Storyblok, used in step 3:
+  - **Space ID**: Settings → Space.
+  - **Preview token**: Settings → Access Tokens, access level _Preview_.
+  - **Personal access token**: My Account → Personal access tokens. This one can change the space's schema, so keep it out of the repo and out of production.
+
+<Callout type="warn">
+  `create-marketing-cms-app` is not on npm yet. Until it is, run it from a clone of this repo: `node
+  marketing-cms-platform/packages/create-marketing-cms-app/index.mjs my-site --storyblok`. Everything below is the same.
+</Callout>
+
+<Steps>
+<Step>
+
+### Create the project
 
 ```sh
 npx create-marketing-cms-app my-site --storyblok
 ```
 
-The command runs the official [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) (its own prompts still apply; TypeScript, App Router, Tailwind, ESLint, React Compiler and Cache Components are fixed because the site depends on them), adds shadcn with `shadcn init`, then installs the `site-storyblok` item from this site's registry (`/r/site-storyblok.json`). Nothing is installed as a platform package: blocks, templates, the content model, the Storyblok adapter and the routes are all copied in as source.
+It runs three tools in turn, each printing its own output:
 
-It asks whether the site is in more than one language, which languages, and which is the default; the answers go into `locales` and `defaultLocale` in `cms.config.ts`. A one-language site gets `localePrefix: "as-needed"`, so its URLs have no locale (`/about`, and `/en-GB/about` redirects there); a multilingual one keeps the locale in every URL (`/fr/about`). `<html lang>` is the page's locale either way. Pass `--languages en,fr --default-language en` to skip the questions, and anything after `--` straight to create-next-app.
+1. The official [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app). TypeScript, App Router, Tailwind, ESLint, React Compiler, Cache Components, no `src/` and the `@/*` alias are fixed because the site depends on them; any question it still asks is yours to answer.
+2. `shadcn init`, which adds `components.json` and the base styles.
+3. `shadcn add @marketing-cms/site-storyblok`, which copies in the site from this docs site's registry.
 
-Storyblok is the only CMS in this version.
+</Step>
+<Step>
 
-## Then
+### Answer the language questions
+
+```txt
+Will the site be in more than one language? y/N
+Site language? A locale like en or en-GB (en)
+```
+
+Answer **no** for a one-language site and give its locale. The locale sets `<html lang>` and the CMS's default language, but stays out of the URL: pages live at `/about`.
+
+Answer **yes** to list the languages (`en,fr,de`) and pick the default. Every URL then starts with its locale (`/fr/about`), and pages get hreflang links and a language switcher. See [Languages](/docs/nextjs-app#languages).
+
+The answers go into `siteConfig` in `cms.config.ts`, where you can change them later. To skip the questions, pass `--languages en,fr --default-language en`.
+
+</Step>
+<Step>
+
+### Add your Storyblok keys
 
 ```sh
 cd my-site
-# in .env.local: STORYBLOK_SPACE_ID, STORYBLOK_PREVIEW_TOKEN, STORYBLOK_MANAGEMENT_TOKEN (a personal access token)
-npm run cms:push   # creates every block and field in the space from lib/content-model
-npm run dev        # http://localhost:3000 (/<default-language> on a multilingual site)
 ```
 
-Run `cms:push` again after changing a definition.
+Open `.env.local`. It already lists every variable; fill in these three:
+
+```sh title=".env.local"
+STORYBLOK_SPACE_ID=123456
+STORYBLOK_PREVIEW_TOKEN=…
+STORYBLOK_MANAGEMENT_TOKEN=… # the personal access token
+```
+
+If the space isn't in the EU, set `STORYBLOK_REGION` to `us`, `ca`, `ap` or `cn`. Change `PREVIEW_SECRET` and `REVALIDATE_SECRET` from `change-me` to long random strings.
+
+</Step>
+<Step>
+
+### Push the content model
+
+```sh
+npm run cms:push
+```
+
+This creates every block and field in your space from `lib/content-model`, filed into Block Library folders (content types, page blocks, nested items). It also creates an unpublished **Site settings** story. Run it again whenever you add or change a block; `npm run cms:push -- --dry-run` prints the changes without making them.
+
+</Step>
+<Step>
+
+### Add the first content
+
+In Storyblok's Content section:
+
+1. Open **Site settings**, fill in the site name, navigation and footer, and publish it.
+2. Create a story named **Home** with slug `home` and content type **Page**. Add a Hero block or two and publish it.
+
+Other pages are Page stories too: the story's full slug is its URL, so `about` serves `/about` and `destinations/cornwall` serves `/destinations/cornwall`.
+
+</Step>
+<Step>
+
+### Run it
+
+```sh
+npm run dev
+```
+
+Open [localhost:3000](http://localhost:3000). A multilingual site redirects to `/en` (or your default locale).
+
+</Step>
+<Step>
+
+### Turn on live editing
+
+Storyblok's Visual Editor loads your site in a frame and needs HTTPS, so run the dev server with a local certificate:
+
+```sh
+npm run dev -- --experimental-https
+```
+
+In Storyblok, go to Settings → Visual Editor and set the preview URL to `https://localhost:3000/api/preview?`. Open a story and the editor shows the page with every block selectable; edits appear as you type. [Preview & visual editing](/docs/preview) covers how it works.
+
+</Step>
+<Step>
+
+### Deploy
+
+Deploy to Vercel (or any Next.js host) with the same environment variables, leaving out `STORYBLOK_MANAGEMENT_TOKEN`. Set `SITE_URL` to the live URL, and `SITE_NOINDEX=true` on anything that isn't production.
+
+Then point Storyblok at the live site:
+
+- Settings → Visual Editor: add `https://your-site/api/preview?` as a preview URL.
+- Settings → Webhooks: add a story webhook to `https://your-site/api/revalidate` with a secret, and set that secret as `STORYBLOK_WEBHOOK_SECRET`. Published changes then refresh only the pages they touch.
+
+</Step>
+</Steps>
 
 ## What lands where
 
@@ -35,9 +142,12 @@ Run `cms:push` again after changing a definition.
 | `lib/cms-storyblok/`                                      | `@platform/cms-storyblok`      |
 | `lib/animation/`                                          | `@platform/animation`          |
 | `lib/component-registry/`                                 | `@platform/component-registry` |
+| `scripts/storyblok-push.ts`                               | the registry (`cms:push`)      |
 
-`next.config.ts` stays create-next-app's own, with `typedRoutes` and the CMS's image host added. `components.json` points the `ui` alias at `components/primitives`, so `npx shadcn add <component>` lands next to the site's own primitives. The demo content, the theme editor and the other CMS adapters stay in the monorepo.
+`next.config.ts` stays create-next-app's own, with `typedRoutes` and Storyblok's image host added. `components.json` points the `ui` alias at `components/primitives`, so `npx shadcn add <component>` lands next to the site's own primitives. The demo content, the theme editor and the other CMS adapters stay in the monorepo.
 
-## Maintaining the registry
+## Next
 
-`packages/registry/build.mjs` builds the registry from the monorepo on every docs deploy, rewriting `@platform/*` imports to `@/…` paths. `node packages/registry/smoke.mjs` scaffolds a site from a local copy of the registry and checks it lints and compiles; CI runs it on every pull request.
+- [Add a block](/docs/customising/new-block): a definition, a component, then `npm run cms:push`.
+- [Theming](/docs/theming): colours, type and spacing in `app/brand.css`.
+- [Header and footer](/docs/header-and-footer): layouts in `chrome.config.ts`.

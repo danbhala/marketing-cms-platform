@@ -31,6 +31,7 @@ import {
   webhookSettings,
 } from "./__fixtures__/stories"
 import type { StoryblokApi, StoryListQuery, StoryQuery } from "./client"
+import { forgetLiveStory, rememberLiveStory } from "./live-store"
 import { createStoryblokAdapter, richTextToAst, signWebhookBody, storyToArticle, storyToPage } from "./index"
 import { generateComponents } from "./schema"
 
@@ -462,6 +463,20 @@ describe("$edit", () => {
   })
 })
 
+describe("live editing", () => {
+  it("renders the editor's unsaved story on draft reads only, until it is forgotten", async () => {
+    const hero = { ...homeStory.content.blocks[0], title: "Typed, not saved" }
+    rememberLiveStory({
+      ...homeStory,
+      content: { ...homeStory.content, blocks: [hero, ...homeStory.content.blocks.slice(1)] },
+    })
+    expect(((await adapter.getPage("/", draft))?.blocks[0] as HeroBlock).title).toBe("Typed, not saved")
+    expect(((await adapter.getPage("/", published))?.blocks[0] as HeroBlock).title).not.toBe("Typed, not saved")
+    forgetLiveStory(homeStory.id)
+    expect(((await adapter.getPage("/", draft))?.blocks[0] as HeroBlock).title).not.toBe("Typed, not saved")
+  })
+})
+
 describe("preview", () => {
   const now = Math.floor(Date.now() / 1000)
   const editorUrl = (timestamp: number, token?: string, spaceId = SPACE_ID) => {
@@ -480,6 +495,13 @@ describe("preview", () => {
   it("accepts a valid Visual Editor token and resolves the story path", async () => {
     const entry = await adapter.preview.enter(new Request(editorUrl(now)))
     expect(entry).toEqual({ ok: true, path: "/", context: { mode: "edit", storyId: String(HOME_STORY_ID) } })
+  })
+
+  it("sends Open published links to the live page without a token or Draft Mode", async () => {
+    const open = (id: string) =>
+      adapter.preview.enter(new Request(`https://site.test/api/preview?path=/home&_storyblok_published=${id}`))
+    expect(await open(String(HOME_STORY_ID))).toEqual({ ok: true, path: "/", draft: false })
+    expect(await open("404")).toMatchObject({ ok: false, status: 404 })
   })
 
   it("rejects forged, expired and foreign-space editor tokens", async () => {

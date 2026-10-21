@@ -13,7 +13,8 @@ import { storyPath } from "./transform"
  * (seconds) is valid for one hour. Validating that proves the request came
  * from an editor of this space, so no shared secret has to be typed into the
  * Storyblok UI. A `secret` query param is accepted as well for previews
- * opened by hand or from other tools.
+ * opened by hand or from other tools. "Open published" links carry only
+ * `_storyblok_published=<story id>`; they go to the live page, not Draft Mode.
  */
 export interface PreviewOptions {
   previewToken: string
@@ -97,6 +98,13 @@ export function createPreviewHandlers(options: PreviewOptions): PreviewHandlers 
   return {
     async enter(request): Promise<PreviewEntry> {
       const { searchParams } = new URL(request.url)
+      // "Open published" in the Visual Editor: a public link, so no token and no Draft Mode.
+      const published = searchParams.get("_storyblok_published")
+      if (published && !searchParams.has("_storyblok")) {
+        const story = /^\d+$/.test(published) ? await options.api().getStory(published, { version: "published" }) : null
+        if (!story) return { ok: false, status: 404, message: "Story not published" }
+        return { ok: true, path: storyPath(story.full_slug, options.homeSlug), draft: false }
+      }
       const editor = readEditorToken(searchParams)
       const secret = searchParams.get("secret")
       const authorised =

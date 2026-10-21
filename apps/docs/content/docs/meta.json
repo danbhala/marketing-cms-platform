@@ -3,6 +3,7 @@
   "pages": [
     "index",
     "new-site",
+    "cli",
     "architecture",
     "content-model",
     "blocks",
@@ -16,6 +17,7 @@
     "preview",
     "cms",
     "nextjs-app",
+    "platform-repo",
     "contributing"
   ]
 }
