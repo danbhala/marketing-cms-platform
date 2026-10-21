@@ -24,7 +24,6 @@ catalog:
   "@storybook/addon-vitest": ^10.6.2
   "@storybook/react-vite": ^10.6.2
   "@storyblok/js": ^6.3.4
-  "@storyblok/react": ^7.3.1
   "@storyblok/richtext": ^5.3.3
   "@tailwindcss/postcss": ^4.3.3
   "@tailwindcss/vite": ^4.3.3

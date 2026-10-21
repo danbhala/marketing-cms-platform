@@ -76,6 +76,7 @@ interface CmsAdapter {
   getTaxonomy(type, ctx): Promise<Category[]>
   getSiteSettings(ctx): Promise<SiteSettings | null>
   getPaths(locale): Promise<string[]>
+  getTranslatedPaths?(path, ctx): Promise<Record<string, string>> // optional
   resolvePreviewPath(searchParams): Promise<string | null>
   webhook: { verify(request); toEvent(payload) }
   preview: { enter(request); context(searchParams, draft); frameAncestors; bridge }

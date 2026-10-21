@@ -3,7 +3,7 @@ title: Work on the platform
 description: "Run the monorepo: the demo site on the local adapter, Storybook, draft mode and the commands."
 ---
 
-This repo is where the platform itself is built: a pnpm + Turborepo workspace. Client sites don't fork it; they start from [the CLI](/docs/new-site). Everything here runs locally with no CMS account: the `local` adapter serves the same sample content the Storybook stories and these docs use. A hosted copy of the demo site, on that adapter, is at [marketing-cms-platform-demo.vercel.app](https://marketing-cms-platform-demo.vercel.app).
+This repo is where the platform itself is built: a pnpm + Turborepo workspace. Client sites don't fork it; they start from [the CLI](/docs/new-site). Everything here runs locally with no CMS account: the `local` adapter serves Harbor & Co, a fictional demo site written in the canonical shape (`apps/web/content`); Storybook and these docs use the shared fixtures. A hosted copy of the demo site, on that adapter, is at [marketing-cms-platform-demo.vercel.app](https://marketing-cms-platform-demo.vercel.app).
 
 <Steps>
 <Step>
@@ -13,7 +13,7 @@ This repo is where the platform itself is built: a pnpm + Turborepo workspace. C
 pnpm install
 ```
 
-Requires Node 22+ and pnpm 12 (`npm i -g pnpm@12`).
+Requires Node 22.15+ and pnpm 12 (`npm i -g pnpm@12`).
 
 </Step>
 <Step>
@@ -41,9 +41,9 @@ Every atom, molecule, block and page composition, with a theme switcher in the t
 <Step>
 ### Try draft mode
 
-Visit [`/api/preview?secret=change-me&path=/pricing&mode=edit`](http://localhost:3000/api/preview?secret=change-me&path=/pricing&mode=edit). Hover any element to see the CMS field it maps to. This is the same `$edit` plumbing the CMS adapters use for click-to-edit.
+Visit [`/api/preview?secret=change-me&path=/about&mode=edit`](http://localhost:3000/api/preview?secret=change-me&path=/about&mode=edit). Hover any element to see the CMS field it maps to. This is the same `$edit` plumbing the CMS adapters use for click-to-edit.
 
-<Screenshot name="app-draft-mode-edit-overlay" alt="Draft mode on the pricing page with the edit overlay highlighting the block title" height={800} />
+<Screenshot name="app-draft-mode-edit-overlay" alt="Draft mode with the edit overlay highlighting a block title" height={800} />
 </Step>
 <Step>
 ### Point it at a CMS
@@ -63,13 +63,17 @@ Set `CMS_PROVIDER` to `contentful`, `storyblok`, `optimizely`, `sanity`, `drupal
 | `packages/cms-local`                                                                     | `@platform/cms-local`          | Reference adapter backed by fixtures                                             |
 | `packages/cms-contentful` …`-storyblok` …`-optimizely` …`-sanity` …`-drupal` …`-wagtail` | `@platform/cms-*`              | One adapter per CMS: schema generator, transform, preview, webhook, bridge       |
 | `packages/component-registry`                                                            | `@platform/component-registry` | Block type → component map                                                       |
+| `packages/theme-studio`                                                                  | `@platform/theme-studio`       | Theme model, CSS export, presets, the Edit theme drawer                          |
+| `packages/registry`                                                                      | `@platform/registry`           | Builds the shadcn registry the CLI installs from                                 |
+| `packages/create-marketing-cms-app`                                                      | `create-marketing-cms-app`     | The CLI that scaffolds a client site                                             |
 | `apps/web`                                                                               |                                | The CMS-agnostic Next.js site                                                    |
 | `apps/docs`                                                                              |                                | This site                                                                        |
+| `apps/example-storyblok`                                                                 |                                | The CLI's output, committed as is and checked in CI                              |
 
 ## Commands
 
 ```bash
-pnpm build        # every package and app, via Turborepo
+pnpm build --filter=!example-storyblok   # every package and app; the Storyblok example needs a live space
 pnpm test         # unit tests + Storybook browser tests
 pnpm lint         # ESLint, incl. the rule that keeps CMS SDKs out of apps/web and packages/ui
 pnpm typecheck

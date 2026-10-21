@@ -19,7 +19,6 @@
     "@platform/cms-core": "workspace:*",
     "@platform/content-model": "workspace:*",
     "@storyblok/js": "catalog:",
-    "@storyblok/react": "catalog:",
     "@storyblok/richtext": "catalog:",
     "storyblok-js-client": "catalog:",
     "zod": "catalog:"

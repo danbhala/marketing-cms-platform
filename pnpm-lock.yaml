@@ -197,9 +197,6 @@ catalogs:
     '@storyblok/js':
       specifier: ^6.3.4
       version: 6.3.4
-    '@storyblok/react':
-      specifier: ^7.3.1
-      version: 7.3.1
     '@storyblok/richtext':
       specifier: ^5.3.3
       version: 5.3.3
@@ -711,9 +708,6 @@ importers:
       '@platform/content-model':
         specifier: workspace:*
         version: link:../content-model
-      zod:
-        specifier: 'catalog:'
-        version: 4.6.7
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -831,9 +825,6 @@ importers:
       '@platform/content-model':
         specifier: workspace:*
         version: link:../content-model
-      zod:
-        specifier: 'catalog:'
-        version: 4.6.7
     devDependencies:
       '@platform/eslint-config':
         specifier: workspace:*
@@ -935,9 +926,6 @@ importers:
       '@storyblok/js':
         specifier: 'catalog:'
         version: 6.3.4(@floating-ui/dom@1.8.0)
-      '@storyblok/react':
-        specifier: 'catalog:'
-        version: 7.3.1(@floating-ui/dom@1.8.0)(next@16.4.2(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@storyblok/richtext':
         specifier: 'catalog:'
         version: 5.3.3(@floating-ui/dom@1.8.0)
@@ -4607,16 +4595,6 @@ packages:
 
   '@storyblok/preview-bridge@2.5.0':
     resolution: {integrity: sha512-/j2D8NpBBKeoXHvv9Txyh//6mTyr6OJYJxheTd6x1YbZ2LrDkppaxgSKJdEylWPPawFQPOzR3+Y2nyKUAeuKGA==}
-
-  '@storyblok/react@7.3.1':
-    resolution: {integrity: sha512-0D1jgnSWEv4mQ9tP6R26dTN9xx44PgjyxmiyFHnZUXY6ryPeuo+usqOevWlTBT0B0id5lB1M5+Yq4GDFhSrL3A==}
-    peerDependencies:
-      next: ^13 || ^14 || ^15 || ^16
-      react: ^17 || ^18 || ^19
-      react-dom: ^17 || ^18 || ^19
-    peerDependenciesMeta:
-      next:
-        optional: true
 
   '@storyblok/richtext@5.3.3':
     resolution: {integrity: sha512-p33JAwLxarQDibrSNtQGhs9Goo1IFiNRMwcxphtZlSXnJiiTRrKfrFy7Pj9WIqO/FVmdsJXyYBDK1thLU1Yzdw==}
@@ -14195,19 +14173,6 @@ snapshots:
   '@storyblok/preview-bridge@2.5.0':
     dependencies:
       pure-parse: 0.0.0-beta.8
-
-  '@storyblok/react@7.3.1(@floating-ui/dom@1.8.0)(next@16.4.2(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
-    dependencies:
-      '@storyblok/js': 6.3.4(@floating-ui/dom@1.8.0)
-      '@storyblok/richtext': 5.3.3(@floating-ui/dom@1.8.0)
-      react: 19.3.1
-      react-dom: 19.3.1(react@19.3.1)
-    optionalDependencies:
-      next: 16.4.2(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-    transitivePeerDependencies:
-      - '@floating-ui/dom'
-      - bufferutil
-      - utf-8-validate
 
   '@storyblok/richtext@5.3.3(@floating-ui/dom@1.8.0)':
     dependencies:

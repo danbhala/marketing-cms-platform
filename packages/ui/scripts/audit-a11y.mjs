@@ -3,7 +3,7 @@ import { createRequire } from "node:module"
 import { join } from "node:path"
 import { chromium } from "playwright"
 
-// Usage: node scripts/audit-a11y.mjs <baseUrl> <outDir> <path,path,...> [--widths 390,1280] [--themes light,dark] [--dark docs|class]
+// Usage: node scripts/audit-a11y.mjs <baseUrl> <outDir> <path,path,...> [--widths 390,1280] [--themes light,dark] [--dark docs|class|hash:<t>]
 // Runs axe (WCAG 2.2 A/AA rules) on each page at each width and theme with
 // reduced motion on, saves a screenshot and writes <outDir>/report.json.
 // Dark mode: "docs" sets next-themes' localStorage key, "class" adds .dark to <html>,

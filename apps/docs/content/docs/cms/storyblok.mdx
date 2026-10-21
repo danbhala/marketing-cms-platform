@@ -25,7 +25,7 @@ The generated files are committed under `packages/cms-storyblok/schema/` so diff
 
 Settings → Visual Editor: preview URL `https://your-site/api/preview?`. The editor appends `_storyblok`, `_storyblok_tk[...]` and `_storyblok_lang`; the adapter validates the token (`sha1(space_id:preview_token:timestamp)`, one-hour window), resolves the story id to its path, and the app enters Draft Mode. Hand-made previews: `/api/preview?secret=<PREVIEW_SECRET>&path=/pricing`.
 
-Inside the editor every document, block and item carries `storyblokEditable()` attributes (`data-blok-c`, `data-blok-uid`); Storyblok targets whole bloks, so there are no field-level attributes. The bridge loads `@storyblok/js`'s preview bridge and refreshes the page on `input`, `change` and `published`.
+Inside the editor every document, block and item carries `storyblokEditable()` attributes (`data-blok-c`, `data-blok-uid`); Storyblok targets whole bloks, so there are no field-level attributes. The bridge loads `@storyblok/js`'s preview bridge. Each `input` sends the unsaved story to the `liveEdit` Server Action, which re-renders the page with it; `change` and `published` drop that copy and re-render from the draft API. The editor's **Open published** link (`_storyblok_published`) goes to the live page, without Draft Mode.
 
 See [Preview & visual editing](/docs/preview) for the shared flow.
 

@@ -1,6 +1,6 @@
 # web
 
-The marketing site. It knows nothing about any CMS: `cms.config.ts` picks an adapter from `CMS_PROVIDER` and `cms.bridges.ts` lists the live-edit bridges; everything else goes through the `CmsAdapter` contract. `animation.config.ts` sets the site-wide animation treatment that every block inherits (see [Animation](https://marketing-cms-platform.vercel.app/docs/animation)), and `chrome.config.ts` picks the header and footer layouts (see [Header and footer](https://marketing-cms-platform.vercel.app/docs/header-and-footer)). An ESLint rule fails the build if any other file imports a `@platform/cms-*` package.
+The marketing site. It knows nothing about any CMS: `cms.config.ts` picks an adapter from `CMS_PROVIDER` and `cms.bridges.ts` lists the live-edit bridges; everything else goes through the `CmsAdapter` contract. `animation.config.ts` sets the site-wide animation treatment that every block inherits (see [Animation](https://marketing-cms-platform.vercel.app/docs/animation)), and `chrome.config.ts` picks the header and footer layouts (see [Header and footer](https://marketing-cms-platform.vercel.app/docs/header-and-footer)). An ESLint rule (`noCmsImports`) fails the build if any other file imports a CMS SDK (contentful, `@storyblok/*`, `@sanity/*` and so on).
 
 ## Run
 
